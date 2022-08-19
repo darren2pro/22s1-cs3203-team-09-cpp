@@ -521,7 +521,10 @@ FodyWeavers.xsd
 # Windows Installer files from build outputs
 
 # JetBrains Rider
-.idea/
+
+# Adding idea folder to source control. I use it for CLion. For the others who use CLion too, you can use the same idea config files.
+# .idea/
+
 *.sln.iml
 
 ### VisualStudio Patch ###

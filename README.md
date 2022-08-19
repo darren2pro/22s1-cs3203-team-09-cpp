@@ -2,7 +2,7 @@
 
 > 1. Please fill in this Readme with the required information, and delete this box.
 > 
-> 1. Please rename every reference of `00` (ie. `Team00/Code00`) to your own team number. Since the `.gitignore` is configured to ignore libs, remember to force add the autotester libs back to the repository by running `git add -f Team*/Code*/lib/` after you rename.
+> 1. Add your email, phone number etc, to the team members part of the readme
 
 ## Target Environment
 

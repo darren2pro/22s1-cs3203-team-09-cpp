@@ -19,7 +19,7 @@ public:
 class WrapperFactory {
 public:
     // static method for creating a wrapper
-    static AbstractWrapper *createWrapper();
+    static AbstractWrapper* createWrapper();
 
 private:
     // the following three will prevent the creation of WrapperFactory objects
@@ -30,7 +30,7 @@ private:
     WrapperFactory &operator=(const WrapperFactory &);
 
     // the Wrapper object
-    static AbstractWrapper *wrapper;
+    static AbstractWrapper* wrapper;
 };
 
 #endif

@@ -15,7 +15,7 @@ public:
     * @brief Destructor
     * @details Destructor
     */
-    virtual ~Parser();
+    virtual ~Parser() = 0;
 
     /**
      * @brief Parses the input program into tokens

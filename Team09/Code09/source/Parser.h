@@ -7,7 +7,7 @@ using namespace std;
 
 /**
  * @brief Parser abstract class
- * @details Parser abstract class which parses the input program into tokens
+ * @details Parser abstract class which parses the input program into tokens, and then generates the AST.
  */
 class Parser {
 public:

@@ -14,11 +14,15 @@
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\SimpleParser.cpp" />
+    <ClCompile Include="..\source\SimpleToken.cpp" />
+    <ClCompile Include="..\source\SimpleTokenizer.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\PKB.h" />
+    <ClInclude Include="..\source\SimpleToken.h" />
+    <ClInclude Include="..\source\SimpleTokenizer.h" />
     <ClInclude Include="..\source\TNode.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

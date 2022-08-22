@@ -13,7 +13,7 @@ namespace UnitTesting {
             public:
 
             TEST_METHOD(TestTokenize) {
-                std::string str = "procedure computeAverage {\n"
+                const std::string str = "procedure computeAverage {\n"
                                   "    read num1;\n"
                                   "    read num2;\n"
                                   "\n"
@@ -45,6 +45,12 @@ namespace UnitTesting {
                 expectedResult.push_back(SimpleToken("EOF"));
 
                 // TODO: Use your tokenizer to tokenize the above program then compare the result with the expectedResult
+				Parser simpleParser = SimpleParser(str);
+				vector<SimpleToken> result = simpleParser.getTokens();
+				Assert::AreEqual(expectedResult.size(), result.size());
+				for (int i = 0; i < expectedResult.size(); i++) {
+					Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
+				}
             }
     };
 }

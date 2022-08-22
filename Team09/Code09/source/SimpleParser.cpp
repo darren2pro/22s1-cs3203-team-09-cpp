@@ -10,21 +10,12 @@
 
 using namespace std;
 
-/**
- * @brief Parser for the SIMPLE language
- */
-class SimpleParser : public Parser {
-public:
-    SimpleParser() {
-        // TODO: Your constructor code here
-    }
+SimpleParser::SimpleParser(const string program) {
+    SimpleTokenizer tokenizer(program);
+    tokens = tokenizer.tokenize();
+}
 
-    ~SimpleParser() {
-        // TODO: Your destructor code here
-    }
-
-    int Parse(const string program) {
-        // TODO: Your code for parsing SIMPLE program here
-        return 0;
-    }
-};
+int SimpleParser::parse() {
+    // TODO: Create AST from the token vector
+    return 0;
+}

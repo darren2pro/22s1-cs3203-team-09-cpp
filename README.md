@@ -21,6 +21,7 @@ No additional instructions required.
 Name | Mobile | Email | Development OS/Toolchain
 -:|:-:|:-|-|
 Darren Heng | 85119512 | e0518538@u.nus.edu | Windows 10/Visual Studio 2022
+Abualsaud, Rehad Ali S | 88799024 | e0407696@u.nus.edu | Windows 10/Visual Studio 2022
 
 # Additional Notes
 1. Put your test cases inside the correct directory (ie. `Team00/Tests00/`) not inside the scratch test directory (ie. `Team00/Code00/tests/`). The `.gitignore` is configured to prevent this.

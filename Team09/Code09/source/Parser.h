@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include "SimpleToken.h"
+#include <vector>
 
 using namespace std;
 
@@ -11,19 +12,18 @@ using namespace std;
  * @details Parser abstract class which parses the input program into tokens, and then generates the AST.
  */
 class Parser {
-private:
+protected:
     vector<SimpleToken> tokens;
 
 public:
     /**
     * @brief Destructor
-    * @details Destructor
     */
     virtual ~Parser() {};
 	
     /**
      * @brief Parses the input program into tokens
-     * @details Parses the input program into tokens. This is a pure virtual function which must be implemented in the derived class.
+     * @details Parses the input program into tokens, and also creates an AST. This is a pure virtual function which must be implemented in the derived class.
      * @return 0 if successful, -1 otherwise
      */
     virtual int parse() = 0;

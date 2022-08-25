@@ -19,5 +19,18 @@ public:
 
     ~SimpleTokenizer();
 
+    /**
+     * @brief Tokenizes the program into a vector of tokens
+     * @return The vector of tokens contained in the program
+     */
     vector<SimpleToken> tokenize() const;
+
+    /**
+     * @brief Tokenizes a word
+     * @details A word may not be a token if the sticky terminals are not space-separated from the symbols. E.g. a+b is a word, not a token.
+     * Hence I need to tokenize the word into a vector of tokens using this function.
+     * @param word
+     * @return A vector of tokens obtained from this word
+     */
+    vector<SimpleToken> tokenizeWord(string word) const;
 };

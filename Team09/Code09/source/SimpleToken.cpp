@@ -2,17 +2,16 @@
 
 using namespace std;
 
-SimpleToken::~SimpleToken() {
-}
-
-SimpleToken::SimpleToken(const string value) {
+SimpleToken::SimpleToken(string value) {
     this->value = value;
 }
 
+SimpleToken::~SimpleToken() { }
+
 string SimpleToken::getType() const {
-    return string();
+    return this->type;
 }
 
 string SimpleToken::getValue() const {
-    return string();
+    return this->value;
 }

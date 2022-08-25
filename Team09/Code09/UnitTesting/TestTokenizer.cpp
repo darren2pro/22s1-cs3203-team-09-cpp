@@ -14,14 +14,14 @@ namespace UnitTesting {
 
             TEST_METHOD(TestTokenize) {
                 const std::string str = "procedure computeAverage {\n"
-                                  "    read num1;\n"
-                                  "    read num2;\n"
-                                  "\n"
-                                  "    sum = num1 + num2;\n"
-                                  "\n"
-                                  "    print sum;\n"
-                                  "}";
-				Logger::WriteMessage(("Program to test:\n" + str).c_str());
+                                        "    read num1;\n"
+                                        "    read num2;\n"
+                                        "\n"
+                                        "    sum = num1 + num2;\n"
+                                        "\n"
+                                        "    print sum;\n"
+                                        "}";
+                Logger::WriteMessage(("Program to test:\n" + str).c_str());
                 vector<SimpleToken> expectedResult;
                 expectedResult.push_back(SimpleToken("procedure"));
                 expectedResult.push_back(SimpleToken("computeAverage"));
@@ -42,15 +42,14 @@ namespace UnitTesting {
                 expectedResult.push_back(SimpleToken("sum"));
                 expectedResult.push_back(SimpleToken(";"));
                 expectedResult.push_back(SimpleToken("}"));
-                expectedResult.push_back(SimpleToken("EOF"));
 
-                // TODO: Use your tokenizer to tokenize the above program then compare the result with the expectedResult
-				Parser simpleParser = SimpleParser(str);
-				vector<SimpleToken> result = simpleParser.getTokens();
-				Assert::AreEqual(expectedResult.size(), result.size());
-				for (int i = 0; i < expectedResult.size(); i++) {
-					Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
-				}
+                SimpleParser simpleParser(str);
+                Parser* parser = &simpleParser;
+                vector<SimpleToken> result = parser->getTokens();
+                Assert::AreEqual(expectedResult.size(), result.size());
+                for (int i = 0; i < expectedResult.size(); i++) {
+                    Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
+                }
             }
     };
 }

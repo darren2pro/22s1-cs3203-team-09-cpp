@@ -6,7 +6,7 @@ using namespace std;
 
 class SimpleToken {
 private:
-/**
+    /**
      * @brief The token type
      */
     string type;
@@ -19,10 +19,9 @@ public:
     /**
      * @brief Constructor
      * @details Constructor
-     * @param type The token type
      * @param value The token value
      */
-    explicit SimpleToken(const string value);
+    explicit SimpleToken(string value);
 
     /**
      * @brief Destructor

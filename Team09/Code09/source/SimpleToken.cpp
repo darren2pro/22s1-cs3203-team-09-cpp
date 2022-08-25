@@ -6,7 +6,7 @@ SimpleToken::SimpleToken(string value) {
     this->value = value;
 }
 
-SimpleToken::~SimpleToken() { }
+SimpleToken::~SimpleToken() {}
 
 string SimpleToken::getType() const {
     return this->type;

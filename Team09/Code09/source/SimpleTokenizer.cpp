@@ -15,16 +15,16 @@ SimpleTokenizer::SimpleTokenizer(const string program) {
 SimpleTokenizer::~SimpleTokenizer() {
 }
 
-vector <SimpleToken> SimpleTokenizer::tokenizeWord(string word) const {
+vector<SimpleToken> SimpleTokenizer::tokenizeWord(string word) const {
     char stickyTerminals[12] = {'+', '-', '*', '/', '=', '(', ')', '{', '}', ';', ',', '\0'};
-    vector <SimpleToken> tokens;
+    vector<SimpleToken> tokens;
     string tokenValue = "";
     for (int i = 0; i < word.length(); i++) {
         const char currentChar = word[i];
         if (strchr(stickyTerminals, currentChar) != NULL) {
             if (tokenValue.length() > 0) {
                 tokens.push_back(SimpleToken(tokenValue));
-                tokenValue = "";
+                tokenValue.clear();
             }
             tokens.push_back(SimpleToken(string(1, currentChar)));
         } else {
@@ -37,14 +37,14 @@ vector <SimpleToken> SimpleTokenizer::tokenizeWord(string word) const {
     return tokens;
 }
 
-vector <SimpleToken> SimpleTokenizer::tokenize() const {
+vector<SimpleToken> SimpleTokenizer::tokenize() const {
     char delimiters[5] = {' ', '\n', '\t', '\r', '\0'};
-    vector <SimpleToken> tokens;
+    vector<SimpleToken> tokens;
     string word;
     for (int i = 0; i < this->program.length(); i++) {
         if (strchr(delimiters, this->program[i]) != NULL) {
             if (word.length() > 0) {
-                vector <SimpleToken> tokenizedWords = SimpleTokenizer::tokenizeWord(word);
+                vector<SimpleToken> tokenizedWords = SimpleTokenizer::tokenizeWord(word);
                 tokens.insert(tokens.end(), tokenizedWords.begin(), tokenizedWords.end());
                 word.clear();
             }
@@ -53,7 +53,7 @@ vector <SimpleToken> SimpleTokenizer::tokenize() const {
         }
     }
     if (word.length() > 0) {
-        vector <SimpleToken> tokenizedWords = SimpleTokenizer::tokenizeWord(word);
+        vector<SimpleToken> tokenizedWords = SimpleTokenizer::tokenizeWord(word);
         tokens.insert(tokens.end(), tokenizedWords.begin(), tokenizedWords.end());
     }
     return tokens;

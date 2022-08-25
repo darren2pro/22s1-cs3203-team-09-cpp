@@ -20,7 +20,7 @@ public:
     * @brief Destructor
     */
     virtual ~Parser() {};
-	
+
     /**
      * @brief Parses the input program into tokens
      * @details Parses the input program into tokens, and also creates an AST. This is a pure virtual function which must be implemented in the derived class.
@@ -40,5 +40,6 @@ public:
 class SimpleParser : public Parser {
 public:
     explicit SimpleParser(const string program);
+
     int parse() override;
 };

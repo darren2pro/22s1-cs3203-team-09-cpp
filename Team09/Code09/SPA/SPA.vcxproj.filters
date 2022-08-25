@@ -24,13 +24,13 @@
     <ClCompile Include="..\source\TNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\SimpleParser.cpp">
+    <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\SimpleToken.cpp">
+    <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\SimpleTokenizer.cpp">
+    <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,13 +41,13 @@
     <ClInclude Include="..\source\TNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Parser.h">
+    <ClInclude Include="..\source\SourceProcessor\Parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\SimpleToken.h">
+    <ClInclude Include="..\source\SourceProcessor\SimpleToken.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\SimpleTokenizer.h">
+    <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

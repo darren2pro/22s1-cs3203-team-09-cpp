@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "PKB.h"
-#include "TNode.h"
 #include "Parser.h"
 #include "SimpleTokenizer.h"
 

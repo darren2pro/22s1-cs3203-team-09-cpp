@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "Parser.h"
 #include <vector>
-#include <SimpleToken.h>
+#include "SourceProcessor/SimpleToken.h"
+#include <SourceProcessor/Parser.h>
 
 #define TEST_MY_TOKENIZER(traitValue) TEST_METHOD_ATTRIBUTE(L"MyTokenizer", traitValue)
 

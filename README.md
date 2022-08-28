@@ -1,9 +1,5 @@
 # Team 09
 
-> 1. Please fill in this Readme with the required information, and delete this box.
-> 
-> 1. Add your email, phone number etc, to the team members part of the readme
-
 ## Target Environment
 
 Item | Version
@@ -21,6 +17,11 @@ No additional instructions required.
 Name | Mobile | Email | Development OS/Toolchain
 -:|:-:|:-|-|
 Darren Heng | 85119512 | e0518538@u.nus.edu | Windows 10/Visual Studio 2022
+Abualsaud, Rehad Ali S | 88799024 | e0407696@u.nus.edu | Windows 10/Visual Studio 2022
+Zhang Cheng Chuan | 98330465 | e0543837@u.nus.edu | Windows 10/Visual Studio 2022
+Yousef, Lulu Saud A | 87680109 | e0407695@u.nus.edu | Windows 10/Visual Studio 2022
+Sharmaine Cheong Shi Min | 81125112 | e0417626@u.nus.edu | Windows 11/Visual Studio 2022
+Chow Rui Yan | 87973452 | e0560122@u.nus.edu | Windows 11/Visual Studio 2022
 
 # Additional Notes
 1. Put your test cases inside the correct directory (ie. `Team00/Tests00/`) not inside the scratch test directory (ie. `Team00/Code00/tests/`). The `.gitignore` is configured to prevent this.

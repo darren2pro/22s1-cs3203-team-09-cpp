@@ -16,7 +16,7 @@ SimpleTokenizer::~SimpleTokenizer() {
 }
 
 vector<SimpleToken> SimpleTokenizer::tokenizeWord(string word) const {
-    char stickyTerminals[12] = {'+', '-', '*', '/', '=', '(', ')', '{', '}', ';', ',', '\0'};
+    char stickyTerminals[] = {'+', '-', '*', '/', '=', '(', ')', '{', '}', ';', ',', '%', '<', '>', '\0'};
     vector<SimpleToken> tokens;
     string tokenValue = "";
     for (int i = 0; i < word.length(); i++) {

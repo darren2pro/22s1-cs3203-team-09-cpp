@@ -76,7 +76,8 @@ target_wrapper.*
 CMakeLists.txt.user*
 
 # QtCreator 4.8< compilation database
-compile_commands.json
+# Intentionally commented out because I want to add my compilation database to source control
+# compile_commands.json
 
 # QtCreator local machine specific files for imported projects
 *creator.user*

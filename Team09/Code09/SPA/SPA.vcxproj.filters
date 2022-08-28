@@ -36,6 +36,9 @@
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,10 @@ class SimpleAstBuilder {
 private:
     Parser::SOURCE_CODE_TOKENS tokens;
 
+    int currentTokenIndex;
+
+    int lineNo;
+
 public:
     explicit SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS tokens);
 

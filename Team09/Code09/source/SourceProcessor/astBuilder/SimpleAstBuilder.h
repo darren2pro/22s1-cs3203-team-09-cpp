@@ -11,7 +11,7 @@ private:
 
     int currentTokenIndex;
 
-    int lineNo;
+    int currentLineNo;
 
 public:
     explicit SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS tokens);
@@ -19,4 +19,13 @@ public:
     ~SimpleAstBuilder();
 
     int build();
+
+    /**
+     * @brief Deals with the building of the AST for a single procedure block.
+     * @details This method will create the necessary nodes for the procedure block and then call other methods
+     * as per needed for the statements in the procedure block.
+     */
+    void handleProcedure();
+
+    void handleProcedureStatement();
 };

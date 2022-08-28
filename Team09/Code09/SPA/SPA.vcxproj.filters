@@ -33,6 +33,9 @@
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\validation\SimpleSourceValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\validation\SimpleSourceValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

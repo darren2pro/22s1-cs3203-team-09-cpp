@@ -13,18 +13,18 @@
   <ItemGroup>
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\validation\SimpleSourceValidator.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h" />
     <ClInclude Include="..\source\SourceProcessor\Parser.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleToken.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h" />
-    <ClInclude Include="..\source\SourceProcessor\validation\SimpleSourceValidator.h" />
     <ClInclude Include="..\source\TNode.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

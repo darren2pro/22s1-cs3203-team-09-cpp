@@ -5,7 +5,7 @@
 
 #include "Parser.h"
 #include "SimpleTokenizer.h"
-#include "validation/SimpleSourceValidator.h"
+#include "astBuilder/SimpleAstBuilder.h"
 
 using namespace std;
 
@@ -15,14 +15,8 @@ SimpleParser::SimpleParser(const string program) {
 }
 
 int SimpleParser::parse() {
-    // TODO: Validate the source program, then create the AST
-    // validate tokens
-    SimpleSourceValidator validator(tokens);
-    if (validator.validate()) {
-        // create AST
-        SimpleASTBuilder builder(tokens);
-        return builder.build();
-    } else {
-        return -1;
-    }
+    // TODO: Validate the source program and create the AST at the same time
+    SimpleAstBuilder builder(tokens);
+    builder.build();
+    return -1;
 }

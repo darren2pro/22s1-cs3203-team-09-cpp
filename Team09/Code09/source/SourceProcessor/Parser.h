@@ -22,7 +22,7 @@ public:
 
     /**
      * @brief Parses the source code tokens into an abstract syntax tree
-     * @details Parses the input source to validate that it is syntactically correct, and create an AST.
+     * @details Parses the input source to build that it is syntactically correct, and create an AST.
      * This is a pure virtual function which must be implemented in the derived class.
      * @return 0 if successful, -1 otherwise
      */

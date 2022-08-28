@@ -2,9 +2,9 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "SimpleTokenizer.h"
 #include "SimpleToken.h"
-#include "Parser.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ SimpleTokenizer::~SimpleTokenizer() {
 }
 
 Parser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenizeWord(string word) const {
-    char stickyTerminals[12] = {'+', '-', '*', '/', '=', '(', ')', '{', '}', ';', ',', '\0'};
+    char stickyTerminals[] = {'+', '-', '*', '/', '=', '(', ')', '{', '}', ';', ',', '%', '<', '>', '\0'};
     Parser::SOURCE_CODE_TOKENS tokens;
     string tokenValue = "";
     for (int i = 0; i < word.length(); i++) {
@@ -37,14 +37,14 @@ Parser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenizeWord(string word) const {
     return tokens;
 }
 
-Parser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenize() const {
+vector<SimpleToken> SimpleTokenizer::tokenize() const {
     char delimiters[5] = {' ', '\n', '\t', '\r', '\0'};
-    Parser::SOURCE_CODE_TOKENS tokens;
+    vector<SimpleToken> tokens;
     string word;
     for (int i = 0; i < this->program.length(); i++) {
         if (strchr(delimiters, this->program[i]) != NULL) {
             if (word.length() > 0) {
-                Parser::SOURCE_CODE_TOKENS tokenizedWords = SimpleTokenizer::tokenizeWord(word);
+                vector<SimpleToken> tokenizedWords = SimpleTokenizer::tokenizeWord(word);
                 tokens.insert(tokens.end(), tokenizedWords.begin(), tokenizedWords.end());
                 word.clear();
             }
@@ -53,7 +53,7 @@ Parser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenize() const {
         }
     }
     if (word.length() > 0) {
-        Parser::SOURCE_CODE_TOKENS tokenizedWords = SimpleTokenizer::tokenizeWord(word);
+        vector<SimpleToken> tokenizedWords = SimpleTokenizer::tokenizeWord(word);
         tokens.insert(tokens.end(), tokenizedWords.begin(), tokenizedWords.end());
     }
     return tokens;

@@ -44,8 +44,10 @@ void SimpleAstBuilder::handleProcedure() {
         throw SimpleInvalidSyntaxException(message);
     }
     currentTokenIndex++;
+    TNode::PROCEDURE_NODE_PTR procedureNode = make_shared<ProcedureNode>(procedureToken.getValue());
+    programNode->addProcedure(procedureNode);
     while (tokens[currentTokenIndex] != SimpleToken::TokenType::CLOSE_BRACES) {
-        handleProcedureStatement();
+        handleProcedureStatement(procedureNode);
     }
 //    while (currentTokenIndex < tokens.size()) {
 //        const SimpleToken currentToken = tokens[currentTokenIndex];
@@ -57,33 +59,49 @@ void SimpleAstBuilder::handleProcedure() {
 //    }
 }
 
-void SimpleAstBuilder::handleProcedureStatement() {
-const SimpleToken currentToken = tokens[currentTokenIndex];
-    if (currentToken.getType() == SimpleToken::TokenType::WORD) {
-        currentTokenIndex++;
-        const SimpleToken equalToken = tokens[currentTokenIndex];
-        if (equalToken.getType() != SimpleToken::TokenType::EQUAL) {
+void SimpleAstBuilder::handleProcedureStatement(TNode::PROCEDURE_NODE_PTR procedureNode) {
+    const SimpleToken currentToken = tokens[currentTokenIndex];
+    const SimpleToken::TokenType tokenType = currentToken.getType();
+    switch (tokenType) {
+        case SimpleToken::TokenType::WORD:
+            // If it is a word then it is a variable assignment
+            handleAssignmentStatement(procedureNode);
+            break;
+//        case SimpleToken::TokenType::IF:
+//            handleIfStatement();
+//            break;
+//        case SimpleToken::TokenType::WHILE:
+//            handleWhileStatement();
+//            break;
+//        case SimpleToken::TokenType::CALL:
+//            handleCallStatement();
+//            break;
+        default:
             char* message = new char[100];
-            sprintf(message, "Expected equal token. Got %s", equalToken.getValue().c_str());
+            sprintf(message, "Expected procedure statement. Got %s", currentToken.getValue().c_str());
             throw SimpleInvalidSyntaxException(message);
-        }
-        currentTokenIndex++;
-        const SimpleToken valueToken = tokens[currentTokenIndex];
-        if (valueToken.getType() != SimpleToken::TokenType::WORD) {
-            char* message = new char[100];
-            sprintf(message, "Expected value token. Got %s", valueToken.getValue().c_str());
-            throw SimpleInvalidSyntaxException(message);
-        }
-        currentTokenIndex++;
-    } else if (currentToken.getType() == SimpleToken::TokenType::OPEN_BRACES) {
-        currentTokenIndex++;
-        while (tokens[currentTokenIndex] != SimpleToken::TokenType::CLOSE_BRACES) {
-            handleStatement();
-        }
-        currentTokenIndex++;
-    } else {
+    }
+}
+
+void SimpleAstBuilder::handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR procedureNode) {
+    const SimpleToken variableToken = tokens[currentTokenIndex];
+    currentTokenIndex++;
+    const SimpleToken equalToken = tokens[currentTokenIndex];
+    if (equalToken.getType() != SimpleToken::TokenType::EQUALS) {
         char* message = new char[100];
-        sprintf(message, "Expected procedure statement. Got %s", currentToken.getValue().c_str());
+        sprintf(message, "Expected equals token. Got %s", equalToken.getValue().c_str());
         throw SimpleInvalidSyntaxException(message);
     }
+    const AssignmentNode assignmentNode = make_shared<AssignmentNode>();
+    procedureNode->addStatement(assignmentNode);
+    assignmentNode->setVariableName(variableToken.getValue());
+    handleExpression(assignmentNode);
+
+//    const SimpleToken valueToken = tokens[currentTokenIndex];
+//    if (valueToken.getType() != SimpleToken::TokenType::WORD) {
+//        char* message = new char[100];
+//        sprintf(message, "Expected value token. Got %s", valueToken.getValue().c_str());
+//        throw SimpleInvalidSyntaxException(message);
+//    }
+//    currentTokenIndex++;
 }

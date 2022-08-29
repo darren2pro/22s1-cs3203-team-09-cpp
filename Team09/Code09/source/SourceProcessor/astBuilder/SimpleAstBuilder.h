@@ -31,5 +31,7 @@ public:
      */
     void handleProcedure();
 
-    void handleProcedureStatement();
+    void handleProcedureStatement(TNode::PROCEDURE_NODE_PTR procedureNode);
+
+    void handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR procedureNode);
 };

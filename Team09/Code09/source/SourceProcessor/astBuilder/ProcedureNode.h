@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TNode.h"
+#include "StmtLstNode.h"
 
 using namespace std;
 
@@ -8,7 +9,9 @@ class ProcedureNode : public TNode {
 private:
     string name;
 
-    STATEMENT_PTR_LST statementList;
+    StmtLstNode* statementListNode;
+
+    void initializeStatementLst();
 
 public:
     explicit ProcedureNode(string name);

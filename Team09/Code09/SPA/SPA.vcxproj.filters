@@ -60,6 +60,9 @@
     <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp">
       <Filter>Source Files\SourceProcessor\exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\StmtLstNode.cpp">
+      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h">
       <Filter>Header Files\SourceProcessor\exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\StmtLstNode.h">
+      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

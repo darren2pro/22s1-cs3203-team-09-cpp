@@ -12,7 +12,6 @@ class StatementNode;
 
 class TNode {
 protected:
-    typedef shared_ptr<ProcedureNode> PROCEDURE_NODE_PTR;
     typedef vector<shared_ptr<ProcedureNode>> PROCEDURE_PTR_LST;
 
     // TODO: Change from TNode to StatementNode
@@ -25,4 +24,5 @@ public:
     virtual string toString() = 0;
 
     typedef shared_ptr<ProgramNode> PROGRAM_NODE_PTR;
+    typedef shared_ptr<ProcedureNode> PROCEDURE_NODE_PTR;
 };

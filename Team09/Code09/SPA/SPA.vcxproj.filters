@@ -31,6 +31,18 @@
     <Filter Include="Source Files\QPS\Validator">
       <UniqueIdentifier>{cd03f582-6a67-4afd-a557-eb24dbbd14f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\QPS\Executor\Pattern">
+      <UniqueIdentifier>{e2e2b2bd-1855-4b76-8583-dcb76379fe45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\QPS\Executor\Relationship">
+      <UniqueIdentifier>{acdcbf8c-1ae4-4e2c-a4df-c2eac74efc16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QPS\Executor\Relationship">
+      <UniqueIdentifier>{75c80e65-189b-4b4f-b2b2-691d32de91c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QPS\Executor\Pattern">
+      <UniqueIdentifier>{7eee5baf-e821-48d8-8e75-88913a048857}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\DesignExtractor.cpp">
@@ -69,8 +81,17 @@
     <ClCompile Include="QueryBuilder.cpp">
       <Filter>Source Files\QPS\Validator</Filter>
     </ClCompile>
-    <ClCompile Include="QueryEvaluator.cpp">
+    <ClCompile Include="QueryExecutor.cpp">
       <Filter>Source Files\QPS\Executor</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternEvaluator.h">
+      <Filter>Header Files\QPS\Executor\Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternEvaluator.cpp">
+      <Filter>Source Files\QPS\Executor\Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="RelationshipEvaluator.cpp">
+      <Filter>Source Files\QPS\Executor\Relationship</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,8 +119,23 @@
     <ClInclude Include="QueryValidator.h">
       <Filter>Header Files\QPS\Validator</Filter>
     </ClInclude>
-    <ClInclude Include="QueryEvaluator.h">
+    <ClInclude Include="QueryExecutor.h">
       <Filter>Header Files\QPS\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="RelationshipEvaluator.h">
+      <Filter>Header Files\QPS\Executor\Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowsEvaluator.h">
+      <Filter>Header Files\QPS\Executor\Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="ParentEvaluator.h">
+      <Filter>Header Files\QPS\Executor\Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="FollowsStarEvaluator.h">
+      <Filter>Header Files\QPS\Executor\Relationship</Filter>
+    </ClInclude>
+    <ClInclude Include="ParentStarEvaluator.h">
+      <Filter>Header Files\QPS\Executor\Relationship</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

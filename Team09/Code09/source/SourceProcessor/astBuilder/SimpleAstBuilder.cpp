@@ -8,13 +8,13 @@ SimpleAstBuilder::SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS tokens) {
     this->tokens = tokens;
     this->currentTokenIndex = 0;
     this->currentLineNo = 1;
+    this->programNode = make_shared<ProgramNode>();
 }
 
 SimpleAstBuilder::~SimpleAstBuilder() {
 }
 
 int SimpleAstBuilder::build() {
-    ProgramNode programNode();
     while (currentTokenIndex < tokens.size()) {
         const SimpleToken currentToken = tokens[currentTokenIndex];
         if (currentToken.getType() != SimpleToken::TokenType::PROCEDURE) {

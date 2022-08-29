@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Parser.h"
+#include "ProgramNode.h"
 
 /**
  * @brief The SimpleAstBuilder class which validates the input source program.
@@ -12,6 +13,9 @@ private:
     int currentTokenIndex;
 
     int currentLineNo;
+
+    // shared pointer of program node
+    TNode::PROGRAM_NODE_PTR programNode;
 
 public:
     explicit SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS tokens);

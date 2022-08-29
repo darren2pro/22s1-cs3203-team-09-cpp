@@ -2,6 +2,14 @@
 
 using namespace std;
 
-class ProcedureNode : public TNode {
+ProcedureNode::ProcedureNode(string name) {
+    this->name = name;
+}
 
-};
+string ProcedureNode::toString() {
+    return std::string();
+}
+
+void ProcedureNode::addStatement(STATEMENT_NODE_PTR statement) {
+
+}

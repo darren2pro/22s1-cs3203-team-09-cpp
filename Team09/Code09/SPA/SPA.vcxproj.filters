@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\QPS">
+      <UniqueIdentifier>{37b8f489-8ffa-4d3a-bf6a-b3772d83cd23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QPS">
+      <UniqueIdentifier>{f5608f5a-d15e-4e8e-979b-c53583e142bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\QPS\Executor">
+      <UniqueIdentifier>{be3c4111-1277-41ee-8d4c-810791ade001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\QPS\Validator">
+      <UniqueIdentifier>{2c4de286-2108-472b-afb4-0b6eb7612690}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QPS\Executor">
+      <UniqueIdentifier>{7b3761f3-3b02-4546-a100-0c58cf57c206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QPS\Validator">
+      <UniqueIdentifier>{cd03f582-6a67-4afd-a557-eb24dbbd14f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\DesignExtractor.cpp">
@@ -33,6 +51,27 @@
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Query.cpp">
+      <Filter>Source Files\QPS</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryLexer.h">
+      <Filter>Header Files\QPS\Validator</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryLexer.cpp">
+      <Filter>Source Files\QPS\Validator</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryParser.cpp">
+      <Filter>Source Files\QPS\Validator</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryValidator.cpp">
+      <Filter>Source Files\QPS\Validator</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryBuilder.cpp">
+      <Filter>Source Files\QPS\Validator</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryEvaluator.cpp">
+      <Filter>Source Files\QPS\Executor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -49,6 +88,18 @@
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Query.h">
+      <Filter>Header Files\QPS</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryParser.h">
+      <Filter>Header Files\QPS\Validator</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryValidator.h">
+      <Filter>Header Files\QPS\Validator</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryEvaluator.h">
+      <Filter>Header Files\QPS\Executor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

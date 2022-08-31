@@ -1,6 +1,7 @@
 #include "SimpleAstBuilder.h"
 #include "../exceptions/SimpleInvalidSyntaxException.h"
 #include "ProgramNode.h"
+#include "AssignmentNode.h"
 
 using namespace std;
 
@@ -67,15 +68,6 @@ void SimpleAstBuilder::handleProcedureStatement(TNode::PROCEDURE_NODE_PTR proced
             // If it is a word then it is a variable assignment
             handleAssignmentStatement(procedureNode);
             break;
-//        case SimpleToken::TokenType::IF:
-//            handleIfStatement();
-//            break;
-//        case SimpleToken::TokenType::WHILE:
-//            handleWhileStatement();
-//            break;
-//        case SimpleToken::TokenType::CALL:
-//            handleCallStatement();
-//            break;
         default:
             char* message = new char[100];
             sprintf(message, "Expected procedure statement. Got %s", currentToken.getValue().c_str());
@@ -92,16 +84,40 @@ void SimpleAstBuilder::handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR proce
         sprintf(message, "Expected equals token. Got %s", equalToken.getValue().c_str());
         throw SimpleInvalidSyntaxException(message);
     }
-    const AssignmentNode assignmentNode = make_shared<AssignmentNode>();
+    TNode::ASSIGNMENT_NODE_PTR assignmentNode = make_shared<AssignmentNode>();
     procedureNode->addStatement(assignmentNode);
     assignmentNode->setVariableName(variableToken.getValue());
-    handleExpression(assignmentNode);
+    handleAssignmentExpression(assignmentNode);
+}
 
-//    const SimpleToken valueToken = tokens[currentTokenIndex];
-//    if (valueToken.getType() != SimpleToken::TokenType::WORD) {
-//        char* message = new char[100];
-//        sprintf(message, "Expected value token. Got %s", valueToken.getValue().c_str());
-//        throw SimpleInvalidSyntaxException(message);
-//    }
-//    currentTokenIndex++;
+void SimpleAstBuilder::handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR assignmentNode) {
+    const SimpleToken currentToken = tokens[currentTokenIndex];
+    const SimpleToken::TokenType tokenType = currentToken.getType();
+    while (tokenType != SimpleToken::TokenType::SEMICOLON) {
+        switch (tokenType) {
+            case SimpleToken::TokenType::WORD:
+                node->addVariable(currentToken.getValue());
+                break;
+            case SimpleToken::TokenType::NUMBER:
+                node->addNumber(currentToken.getValue());
+                break;
+            case SimpleToken::TokenType::PLUS:
+                node->addOperator(currentToken.getValue());
+                break;
+            case SimpleToken::TokenType::MINUS:
+                node->addOperator(currentToken.getValue());
+                break;
+            case SimpleToken::TokenType::MULTIPLY:
+                node->addOperator(currentToken.getValue());
+                break;
+            case SimpleToken::TokenType::DIVIDE:
+                node->addOperator(currentToken.getValue());
+                break;
+            default:
+                char* message = new char[100];
+                sprintf(message, "Expected assignment expression. Got %s", currentToken.getValue().c_str());
+                throw SimpleInvalidSyntaxException(message);
+        }
+        currentTokenIndex++;
+    }
 }

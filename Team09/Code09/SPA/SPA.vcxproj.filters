@@ -63,6 +63,18 @@
     <ClCompile Include="..\source\SourceProcessor\astBuilder\StmtLstNode.cpp">
       <Filter>Source Files\SourceProcessor\astBuilder</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp">
+      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp">
+      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\PlusNode.cpp">
+      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\VariableNode.cpp">
+      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -96,6 +108,18 @@
       <Filter>Header Files\SourceProcessor\exceptions</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\astBuilder\StmtLstNode.h">
+      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\AssignmentNode.h">
+      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\ConstantNode.h">
+      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\PlusNode.h">
+      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\VariableNode.h">
       <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
   </ItemGroup>

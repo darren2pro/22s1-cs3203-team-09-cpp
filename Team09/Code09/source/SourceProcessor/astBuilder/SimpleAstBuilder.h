@@ -2,6 +2,7 @@
 
 #include "../Parser.h"
 #include "ProgramNode.h"
+#include "AssignmentNode.h"
 
 /**
  * @brief The SimpleAstBuilder class which validates the input source program.
@@ -34,4 +35,6 @@ public:
     void handleProcedureStatement(TNode::PROCEDURE_NODE_PTR procedureNode);
 
     void handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR procedureNode);
+
+    void handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR assignmentNode);
 };

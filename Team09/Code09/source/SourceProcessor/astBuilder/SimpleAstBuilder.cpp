@@ -1,6 +1,7 @@
 #include "SimpleAstBuilder.h"
 #include "../exceptions/SimpleInvalidSyntaxException.h"
 #include "ProgramNode.h"
+#include "ProcedureNode.h"
 #include "AssignmentNode.h"
 #include "ConstantNode.h"
 #include "PlusNode.h"
@@ -50,7 +51,7 @@ void SimpleAstBuilder::handleProcedure() {
     currentTokenIndex++;
     TNode::PROCEDURE_NODE_PTR procedureNode = make_shared<ProcedureNode>(procedureToken.getValue());
     programNode->addProcedure(procedureNode);
-    while (tokens[currentTokenIndex] != SimpleToken::TokenType::CLOSE_BRACES) {
+    while (tokens[currentTokenIndex].getType() != SimpleToken::TokenType::CLOSE_BRACES) {
         handleProcedureStatement(procedureNode);
     }
 }

@@ -2,6 +2,9 @@
 #include "../exceptions/SimpleInvalidSyntaxException.h"
 #include "ProgramNode.h"
 #include "AssignmentNode.h"
+#include "ConstantNode.h"
+#include "PlusNode.h"
+#include "VariableNode.h"
 
 using namespace std;
 
@@ -50,14 +53,6 @@ void SimpleAstBuilder::handleProcedure() {
     while (tokens[currentTokenIndex] != SimpleToken::TokenType::CLOSE_BRACES) {
         handleProcedureStatement(procedureNode);
     }
-//    while (currentTokenIndex < tokens.size()) {
-//        const SimpleToken currentToken = tokens[currentTokenIndex];
-//        if (currentToken.getType() == SimpleToken::TokenType::RIGHT_CURLY) {
-//            currentTokenIndex++;
-//            break;
-//        }
-//        handleStatement();
-//    }
 }
 
 void SimpleAstBuilder::handleProcedureStatement(TNode::PROCEDURE_NODE_PTR procedureNode) {
@@ -85,33 +80,32 @@ void SimpleAstBuilder::handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR proce
         throw SimpleInvalidSyntaxException(message);
     }
     TNode::ASSIGNMENT_NODE_PTR assignmentNode = make_shared<AssignmentNode>();
+    TNode::VARIABLE_NODE_PTR variableNode = make_shared<VariableNode>(variableToken.getValue());
+    assignmentNode->addAssignedVariable(variableNode);
     procedureNode->addStatement(assignmentNode);
-    assignmentNode->setVariableName(variableToken.getValue());
     handleAssignmentExpression(assignmentNode);
 }
 
 void SimpleAstBuilder::handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR assignmentNode) {
     const SimpleToken currentToken = tokens[currentTokenIndex];
     const SimpleToken::TokenType tokenType = currentToken.getType();
+    const TNode::PLUS_NODE_PTR assignmentExpressionRootNode = make_shared<PlusNode>();
+    assignmentNode->addPlus(assignmentExpressionRootNode);
+    // TODO: Need to improve this to build the expression subtree correctly. I think we have to build from bottom up
     while (tokenType != SimpleToken::TokenType::SEMICOLON) {
         switch (tokenType) {
-            case SimpleToken::TokenType::WORD:
-                node->addVariable(currentToken.getValue());
+            case SimpleToken::TokenType::WORD: {
+                TNode::VARIABLE_NODE_PTR variableNode = make_shared<VariableNode>(currentToken.getValue());
+                assignmentExpressionRootNode->setLeftSubtree(variableNode);
+            }
                 break;
-            case SimpleToken::TokenType::NUMBER:
-                node->addNumber(currentToken.getValue());
+            case SimpleToken::TokenType::NUMBER: {
+                TNode::CONSTANT_NODE_PTR constantNode = make_shared<ConstantNode>(currentToken.getValue());
+                assignmentExpressionRootNode->setRightSubtree(constantNode);
+            }
                 break;
             case SimpleToken::TokenType::PLUS:
-                node->addOperator(currentToken.getValue());
-                break;
-            case SimpleToken::TokenType::MINUS:
-                node->addOperator(currentToken.getValue());
-                break;
-            case SimpleToken::TokenType::MULTIPLY:
-                node->addOperator(currentToken.getValue());
-                break;
-            case SimpleToken::TokenType::DIVIDE:
-                node->addOperator(currentToken.getValue());
+                // To be edited
                 break;
             default:
                 char* message = new char[100];

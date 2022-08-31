@@ -1,6 +1,8 @@
 #pragma once
 
 #include "TNode.h"
+#include <string>
+#include <memory>
 
 using namespace std;
 

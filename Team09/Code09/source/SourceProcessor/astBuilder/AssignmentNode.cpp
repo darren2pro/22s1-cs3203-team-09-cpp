@@ -4,7 +4,7 @@ string AssignmentNode::toString() {
     return std::string();
 }
 
-void AssignmentNode::addVariable(TNode::VARIABLE_NODE_PTR variableNode) {
+void AssignmentNode::addAssignedVariable(TNode::VARIABLE_NODE_PTR variableNode) {
     this->variableNode = variableNode;
 }
 

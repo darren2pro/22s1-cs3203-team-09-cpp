@@ -9,7 +9,7 @@ class ProcedureNode : public TNode {
 private:
     string name;
 
-    StmtLstNode* statementListNode;
+    STMT_LST_NODE_PTR statementListNode;
 
     void initializeStatementLst();
 

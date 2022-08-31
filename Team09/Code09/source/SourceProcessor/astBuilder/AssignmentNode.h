@@ -14,7 +14,7 @@ private:
 public:
     string toString() override;
 
-    void addVariable(VARIABLE_NODE_PTR variableNode);
+    void addAssignedVariable(VARIABLE_NODE_PTR variableNode);
 
     void addPlus(PLUS_NODE_PTR plusNode);
 };

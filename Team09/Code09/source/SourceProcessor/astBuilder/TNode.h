@@ -30,6 +30,7 @@ public:
 
     typedef shared_ptr<ProgramNode> PROGRAM_NODE_PTR;
     typedef shared_ptr<ProcedureNode> PROCEDURE_NODE_PTR;
+    typedef shared_ptr<StmtLstNode> STMT_LST_NODE_PTR;
     typedef shared_ptr<AssignmentNode> ASSIGNMENT_NODE_PTR;
     typedef shared_ptr<VariableNode> VARIABLE_NODE_PTR;
     typedef shared_ptr<PlusNode> PLUS_NODE_PTR;

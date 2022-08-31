@@ -3,6 +3,8 @@
 #include "../Parser.h"
 #include "ProgramNode.h"
 #include "AssignmentNode.h"
+#include <memory>
+#include <string>
 
 /**
  * @brief The SimpleAstBuilder class which validates the input source program.

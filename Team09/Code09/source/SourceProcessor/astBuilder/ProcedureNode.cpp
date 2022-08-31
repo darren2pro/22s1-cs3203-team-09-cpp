@@ -9,14 +9,14 @@ ProcedureNode::ProcedureNode(string name) {
 }
 
 string ProcedureNode::toString() {
-    return std::string();
+    return string();
 }
 
 void ProcedureNode::addStatement(STATEMENT_NODE_PTR statement) {
-    statementListNode.addStatement(statement);
+    statementListNode->addStatement(statement);
 }
 
 void ProcedureNode::initializeStatementLst() {
-    StmtLstNode* stmtLstNode = make_shared<StmtLstNode>();
+    STMT_LST_NODE_PTR stmtLstNode = make_shared<StmtLstNode>();
     this->statementListNode = stmtLstNode;
 }

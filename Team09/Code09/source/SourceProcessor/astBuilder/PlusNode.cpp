@@ -11,3 +11,7 @@ void PlusNode::setLeftSubtree(TNode::VARIABLE_NODE_PTR leftSubtree) {
 void PlusNode::setRightSubtree(TNode::CONSTANT_NODE_PTR rightSubtree) {
     this->rightSubtree = rightSubtree;
 }
+
+bool PlusNode::isDesignEntity() {
+    return false;
+}

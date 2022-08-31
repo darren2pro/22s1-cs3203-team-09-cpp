@@ -17,4 +17,8 @@ public:
     void addAssignedVariable(VARIABLE_NODE_PTR variableNode);
 
     void addPlus(PLUS_NODE_PTR plusNode);
+
+    bool isDesignEntity() override;
+
+    VARIABLE_NODE_PTR getAssignedVariableNode();
 };

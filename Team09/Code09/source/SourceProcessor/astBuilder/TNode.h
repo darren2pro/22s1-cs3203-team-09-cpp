@@ -7,12 +7,19 @@
 using namespace std;
 
 class ProgramNode;
+
 class ProcedureNode;
+
 class StmtLstNode;
+
 class AssignmentNode;
+
 class PlusNode;
+
 class ConstantNode;
+
 class VariableNode;
+
 class StatementNode;
 
 class TNode {
@@ -24,10 +31,6 @@ protected:
     typedef vector<shared_ptr<TNode>> STATEMENT_PTR_LST;
 
 public:
-    virtual ~TNode() = default;
-
-    virtual string toString() = 0;
-
     typedef shared_ptr<ProgramNode> PROGRAM_NODE_PTR;
     typedef shared_ptr<ProcedureNode> PROCEDURE_NODE_PTR;
     typedef shared_ptr<StmtLstNode> STMT_LST_NODE_PTR;
@@ -35,4 +38,10 @@ public:
     typedef shared_ptr<VariableNode> VARIABLE_NODE_PTR;
     typedef shared_ptr<PlusNode> PLUS_NODE_PTR;
     typedef shared_ptr<ConstantNode> CONSTANT_NODE_PTR;
+
+    virtual ~TNode() = default;
+
+    virtual string toString() = 0;
+
+    virtual bool isDesignEntity() = 0;
 };

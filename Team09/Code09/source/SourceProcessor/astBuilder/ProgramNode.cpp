@@ -9,3 +9,7 @@ string ProgramNode::toString() {
 
 void ProgramNode::addProcedure(PROCEDURE_NODE_PTR procedure) {
 }
+
+bool ProgramNode::isDesignEntity() {
+    return false;
+}

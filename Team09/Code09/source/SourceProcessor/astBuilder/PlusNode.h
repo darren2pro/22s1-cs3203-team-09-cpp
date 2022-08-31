@@ -16,4 +16,6 @@ public:
     void setLeftSubtree(VARIABLE_NODE_PTR leftSubtree);
 
     void setRightSubtree(CONSTANT_NODE_PTR rightSubtree);
+
+    bool isDesignEntity() override;
 };

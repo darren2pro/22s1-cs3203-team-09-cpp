@@ -4,12 +4,14 @@
 
 using namespace std;
 
-class VariableNode {
+class VariableNode : public TNode {
 private:
     string variableName;
 
 public:
     explicit VariableNode(string variableName);
 
-    string toString();
+    string toString() override;
+
+    bool isDesignEntity() override;
 };

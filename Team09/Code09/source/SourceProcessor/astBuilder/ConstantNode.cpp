@@ -7,3 +7,7 @@ ConstantNode::ConstantNode(string value) {
 string ConstantNode::toString() {
     return std::string();
 }
+
+bool ConstantNode::isDesignEntity() {
+    return true;
+}

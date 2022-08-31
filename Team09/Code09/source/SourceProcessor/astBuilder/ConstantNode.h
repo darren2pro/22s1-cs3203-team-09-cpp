@@ -4,12 +4,14 @@
 
 using namespace std;
 
-class ConstantNode {
+class ConstantNode : public TNode {
 private:
     string value;
 
 public:
     explicit ConstantNode(string value);
 
-    string toString();
+    string toString() override;
+
+    bool isDesignEntity() override;
 };

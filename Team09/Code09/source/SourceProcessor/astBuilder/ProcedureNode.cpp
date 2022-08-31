@@ -20,3 +20,7 @@ void ProcedureNode::initializeStatementLst() {
     STMT_LST_NODE_PTR stmtLstNode = make_shared<StmtLstNode>();
     this->statementListNode = stmtLstNode;
 }
+
+bool ProcedureNode::isDesignEntity() {
+    return true;
+}

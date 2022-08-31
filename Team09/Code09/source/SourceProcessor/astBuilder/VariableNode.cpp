@@ -7,3 +7,7 @@ VariableNode::VariableNode(string variableName) {
 string VariableNode::toString() {
     return std::string();
 }
+
+bool VariableNode::isDesignEntity() {
+    return true;
+}

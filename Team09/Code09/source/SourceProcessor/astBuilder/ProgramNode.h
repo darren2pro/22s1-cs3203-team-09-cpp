@@ -14,4 +14,6 @@ public:
     string toString() override;
 
     void addProcedure(PROCEDURE_NODE_PTR procedure);
+
+    bool isDesignEntity() override;
 };

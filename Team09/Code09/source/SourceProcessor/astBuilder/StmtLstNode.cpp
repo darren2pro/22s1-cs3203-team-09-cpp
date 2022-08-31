@@ -10,3 +10,7 @@ string StmtLstNode::toString() {
 void StmtLstNode::addStatement(TNode::STATEMENT_NODE_PTR statement) {
     statementLstPtrs.push_back(statement);
 }
+
+bool StmtLstNode::isDesignEntity() {
+    return false;
+}

@@ -16,4 +16,6 @@ public:
     string toString() override;
 
     void addStatement(STATEMENT_NODE_PTR statement);
+
+    bool isDesignEntity() override;
 };

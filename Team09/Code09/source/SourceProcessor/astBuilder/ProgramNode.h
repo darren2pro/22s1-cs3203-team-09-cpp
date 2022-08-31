@@ -16,4 +16,6 @@ public:
     void addProcedure(PROCEDURE_NODE_PTR procedure);
 
     bool isDesignEntity() override;
+
+    virtual bool isAssignmentNode() override;
 };

@@ -21,4 +21,6 @@ public:
     bool isDesignEntity() override;
 
     VARIABLE_NODE_PTR getAssignedVariableNode();
+
+    virtual bool isAssignmentNode() override;
 };

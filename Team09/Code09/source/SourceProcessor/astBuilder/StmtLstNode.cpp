@@ -14,3 +14,7 @@ void StmtLstNode::addStatement(TNode::STATEMENT_NODE_PTR statement) {
 bool StmtLstNode::isDesignEntity() {
     return false;
 }
+
+bool StmtLstNode::isAssignmentNode() {
+    return false;
+}

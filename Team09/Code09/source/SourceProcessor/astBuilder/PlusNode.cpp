@@ -15,3 +15,7 @@ void PlusNode::setRightSubtree(TNode::CONSTANT_NODE_PTR rightSubtree) {
 bool PlusNode::isDesignEntity() {
     return false;
 }
+
+bool PlusNode::isAssignmentNode() {
+    return false;
+}

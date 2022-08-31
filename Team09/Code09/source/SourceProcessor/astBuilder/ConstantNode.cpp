@@ -11,3 +11,7 @@ string ConstantNode::toString() {
 bool ConstantNode::isDesignEntity() {
     return true;
 }
+
+bool ConstantNode::isAssignmentNode() {
+    return false;
+}

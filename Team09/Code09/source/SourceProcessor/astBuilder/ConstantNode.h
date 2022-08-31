@@ -14,4 +14,6 @@ public:
     string toString() override;
 
     bool isDesignEntity() override;
+
+    virtual bool isAssignmentNode() override;
 };

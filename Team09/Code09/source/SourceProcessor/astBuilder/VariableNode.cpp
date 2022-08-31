@@ -11,3 +11,7 @@ string VariableNode::toString() {
 bool VariableNode::isDesignEntity() {
     return true;
 }
+
+bool VariableNode::isAssignmentNode() {
+    return false;
+}

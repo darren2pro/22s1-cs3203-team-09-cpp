@@ -18,4 +18,6 @@ public:
     void addStatement(STATEMENT_NODE_PTR statement);
 
     bool isDesignEntity() override;
+
+    virtual bool isAssignmentNode() override;
 };

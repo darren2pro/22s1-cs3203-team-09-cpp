@@ -44,4 +44,10 @@ public:
     virtual string toString() = 0;
 
     virtual bool isDesignEntity() = 0;
+
+    /*
+     * TODO: This is poor design. To be changed to visitor pattern in a future sprint.
+     * https://stackoverflow.com/a/500495
+     */
+    virtual bool isAssignmentNode() = 0;
 };

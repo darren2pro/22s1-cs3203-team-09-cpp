@@ -24,3 +24,7 @@ void ProcedureNode::initializeStatementLst() {
 bool ProcedureNode::isDesignEntity() {
     return true;
 }
+
+bool ProcedureNode::isAssignmentNode() {
+    return false;
+}

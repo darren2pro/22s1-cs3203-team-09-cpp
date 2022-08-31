@@ -19,3 +19,7 @@ bool AssignmentNode::isDesignEntity() {
 TNode::VARIABLE_NODE_PTR AssignmentNode::getAssignedVariableNode() {
     return this->variableNode;
 }
+
+bool AssignmentNode::isAssignmentNode() {
+    return true;
+}

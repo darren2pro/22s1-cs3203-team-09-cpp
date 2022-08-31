@@ -18,4 +18,6 @@ public:
     void setRightSubtree(CONSTANT_NODE_PTR rightSubtree);
 
     bool isDesignEntity() override;
+
+    virtual bool isAssignmentNode() override;
 };

@@ -5,9 +5,6 @@
 using namespace std;
 
 class VariableNode : public TNode {
-private:
-    string variableName;
-
 public:
     explicit VariableNode(string variableName);
 
@@ -16,4 +13,6 @@ public:
     bool isDesignEntity() override;
 
     virtual bool isAssignmentNode() override;
+
+    string variableName;
 };

@@ -6,13 +6,6 @@
 using namespace std;
 
 class ProcedureNode : public TNode {
-private:
-    string name;
-
-    STMT_LST_NODE_PTR statementListNode;
-
-    void initializeStatementLst();
-
 public:
     explicit ProcedureNode(string name);
 
@@ -23,4 +16,10 @@ public:
     bool isDesignEntity() override;
 
     virtual bool isAssignmentNode() override;
+
+    string name;
+
+    STMT_LST_NODE_PTR statementListNode;
+
+    void initializeStatementLst();
 };

@@ -7,9 +7,6 @@
 using namespace std;
 
 class StmtLstNode : public TNode {
-private:
-    STATEMENT_PTR_LST statementLstPtrs;
-
 public:
     StmtLstNode();
 
@@ -20,4 +17,6 @@ public:
     bool isDesignEntity() override;
 
     virtual bool isAssignmentNode() override;
+
+    STATEMENT_PTR_LST statementLstPtrs;
 };

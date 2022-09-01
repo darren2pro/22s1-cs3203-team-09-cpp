@@ -5,9 +5,6 @@
 using namespace std;
 
 class ProgramNode : public TNode {
-private:
-    PROCEDURE_PTR_LST procedureList;
-
 public:
     ProgramNode();
 
@@ -18,4 +15,6 @@ public:
     bool isDesignEntity() override;
 
     virtual bool isAssignmentNode() override;
+
+    PROCEDURE_PTR_LST procedureList;
 };

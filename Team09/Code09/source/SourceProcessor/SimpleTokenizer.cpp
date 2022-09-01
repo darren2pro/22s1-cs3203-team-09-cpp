@@ -15,9 +15,9 @@ SimpleTokenizer::SimpleTokenizer(const string program) {
 SimpleTokenizer::~SimpleTokenizer() {
 }
 
-vector<SimpleToken> SimpleTokenizer::tokenizeWord(string word) const {
+Parser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenizeWord(string word) const {
     char stickyTerminals[] = {'+', '-', '*', '/', '=', '(', ')', '{', '}', ';', ',', '%', '<', '>', '\0'};
-    vector<SimpleToken> tokens;
+    Parser::SOURCE_CODE_TOKENS tokens;
     string tokenValue = "";
     for (int i = 0; i < word.length(); i++) {
         const char currentChar = word[i];

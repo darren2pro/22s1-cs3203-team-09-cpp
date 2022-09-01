@@ -1,10 +1,8 @@
-#include<stdio.h>
-#include <iostream>
 #include <string>
-#include <vector>
 
 #include "Parser.h"
 #include "SimpleTokenizer.h"
+#include "astBuilder/SimpleAstBuilder.h"
 
 using namespace std;
 
@@ -14,6 +12,8 @@ SimpleParser::SimpleParser(const string program) {
 }
 
 int SimpleParser::parse() {
-    // TODO: Create AST from the token vector
-    return 0;
+    // TODO: Validate the source program and create the AST at the same time
+    SimpleAstBuilder builder(tokens);
+    builder.build();
+    return -1;
 }

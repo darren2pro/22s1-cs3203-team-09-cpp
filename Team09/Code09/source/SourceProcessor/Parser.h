@@ -12,25 +12,28 @@ using namespace std;
  * @details Parser abstract class which parses the input program into tokens, and then generates the AST.
  */
 class Parser {
-protected:
-    vector<SimpleToken> tokens;
-
 public:
+    typedef vector<SimpleToken> SOURCE_CODE_TOKENS;
+
     /**
-    * @brief Destructor
-    */
+     * @brief Destructor
+     */
     virtual ~Parser() {};
 
     /**
-     * @brief Parses the input program into tokens
-     * @details Parses the input program into tokens, and also creates an AST. This is a pure virtual function which must be implemented in the derived class.
+     * @brief Parses the source code tokens into an abstract syntax tree
+     * @details Parses the input source to build that it is syntactically correct, and create an AST.
+     * This is a pure virtual function which must be implemented in the derived class.
      * @return 0 if successful, -1 otherwise
      */
     virtual int parse() = 0;
 
-    const vector<SimpleToken> &getTokens() const {
+    const SOURCE_CODE_TOKENS &getTokens() const {
         return tokens;
     }
+
+protected:
+    SOURCE_CODE_TOKENS tokens;
 };
 
 // Below are the definitions of the subclasses

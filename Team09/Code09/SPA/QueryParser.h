@@ -3,6 +3,7 @@
 #include <regex>
 #include <vector>
 #include "Query.h"
+#include "Relation.h"
 
 /**
  * A QueryParser class to parse the query.
@@ -47,13 +48,39 @@ public:
 	 */
 	void match(std::regex re);
 
+	/**
+	 * Parses declaration.
+	 * @returns the synonym.
+	 * @throws QueryParserException if an expected token is encountered.
+	 */
 	std::string declaration();
 
+	/**
+	 * Parses declaration.
+	 * @returns the variable in the select statement.
+	 * @throws QueryParserException if an expected token is encountered.
+	 */
 	std::string select();
 
+	/**
+	 * Parses declaration.
+	 * @returns the pattern clause.
+	 * @throws QueryParserException if an expected token is encountered.
+	 */
 	std::vector<std::string> patternClause();
-	
-	std::string suchThatClause();
+
+	/**
+	 * Returns the Relation::Types that is equivalent to the token string.
+	 * @returns a Realtion::Types that is equivalent to the token string.
+	 */
+	Relation::Types getType(std::string token);
+
+	/**
+	 * Parses the such that clause.
+	 * @returns the relation.
+	 * @throws QueryParserException if an expected token is encountered.
+	 */
+	Relation suchThatClause();
 
 	/**
 	 * Parses the query tokens.

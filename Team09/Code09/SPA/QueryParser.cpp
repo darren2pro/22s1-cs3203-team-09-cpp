@@ -1,14 +1,15 @@
 #include <string>
 #include <vector>
 #include "QueryParser.h"
+#include "Relation.h"
 #include "QPSValidatorException.h"
 
-std::regex design_enteties("a");
-std::regex synonym("a");
-std::regex relRef("a");
-std::regex stmtRef("a");
-std::regex entRef("a");
-std::regex expressionSpec("a");
+std::regex design_enteties("stmt|read|print|while|if|assign|variable|constant|procedure");
+std::regex synonym("[a-zA-Z]([a-zA-Z0-9])*");
+std::regex relation("Follows|Follows*|Parent|Parent*|Uses|Modifies");
+std::regex stmtRef("*");
+std::regex entRef("*");
+std::regex expressionSpec("*");
 
 QueryParser::QueryParser(std::vector<std::string> tokens) {
 	query_tokens = tokens;
@@ -97,10 +98,28 @@ std::vector<std::string> QueryParser::patternClause() {
 	return p;
 }
 
-std::string QueryParser::suchThatClause() {
+Relation::Types QueryParser::getType(std::string token) {
+	if (token == "Follows") {
+		return Relation::Types::Follow;
+	} else if (token == "Follows*") {
+		return Relation::Types::FollowStar;
+	} else if (token == "Parent") {
+		return Relation::Types::Parent;
+	} else if (token == "Parent*") {
+		return Relation::Types::ParentStar;
+	} else if (token == "Uses") {
+		return Relation::Types::Uses;
+	} else if (token == "Modifies") {
+		return Relation::Types::Modifies;
+	} else {
+		return Relation::Types::NONE;
+	}
+}
+
+Relation QueryParser::suchThatClause() {
 	match("such that");
-	std::string type = current_token;
-	match(relRef);
+	Relation::Types type = getType(current_token);
+	match(relation);
 	match("(");
 	std::string left_arg = current_token;
 	match(stmtRef);
@@ -109,16 +128,16 @@ std::string QueryParser::suchThatClause() {
 	match(stmtRef);
 	match(")");
 
-	//return Relation(type, left_arg, right_arg);
-	return "S";
+	return Relation(type, left_arg, right_arg);
 }
 
 Query QueryParser::parse() {
 	std::string currentToken;
 	std::vector<std::string> synonyms;
-	std::vector<std::string> target;
-	std::vector<std::string> suchThatCl;
+	std::string target;
+	Relation suchThatCl;
 	std::vector<std::string> patternCl;
+	Query query = Query();
 
 	current_token = getNextToken();
 
@@ -135,19 +154,24 @@ Query QueryParser::parse() {
 	match(";");
 
 	if (index < query_tokens.size()) {
-		target.push_back(select());	// add to result clause? 
+		target = select();	// add to result clause? 
 	}
 
 	// such that and pattern clause
 	while (index < query_tokens.size()) {
 		if (current_token == "such") {
-			suchThatCl.push_back(suchThatClause());
+			suchThatCl = suchThatClause();
 		} else if (current_token == "pattern") {
-			patternCl.push_back(suchThatClause());
+			patternCl = patternClause();
 		} else {
 			throw QueryParserException("Unexpected token");
 		}	
 	}
 
-	return Query(synonyms, target, suchThatCl, patternCl);
+	query.declarations = synonyms;
+	query.relations = suchThatCl;
+	query.patterns = patternCl;
+	query.target = target;
+
+	return query;
 }

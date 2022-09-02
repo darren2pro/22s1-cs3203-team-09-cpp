@@ -18,6 +18,8 @@
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="PatternEvaluator.cpp" />
+    <ClCompile Include="QPSValidatorException.cpp" />
+    <ClCompile Include="Query.cpp" />
     <ClCompile Include="QueryBuilder.cpp" />
     <ClCompile Include="QueryExecutor.cpp" />
     <ClCompile Include="QueryLexer.cpp" />
@@ -38,6 +40,7 @@
     <ClInclude Include="ModifiesEvaluator.h" />
     <ClInclude Include="ParentStarEvaluator.h" />
     <ClInclude Include="ParentEvaluator.h" />
+    <ClInclude Include="QPSValidatorException.h" />
     <ClInclude Include="Query.h" />
     <ClInclude Include="QueryExecutor.h" />
     <ClInclude Include="QueryParser.h" />
@@ -82,6 +85,7 @@
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\Rahaa\Desktop\CS3203\Team09\Code09\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -3,14 +3,27 @@
 #include <vector>
 #include <string>
 
+/**
+ * A QueryLexer class to tokenize the query.
+ */
 class QueryLexer
 {
-public:
+private:
+	/**
+	 * The query string input.
+	 */
 	std::string query_string;
 
+public:
 	QueryLexer(std::string query);
-	bool processNonAlphabetics();
-	bool processAlphabetics();
-	std::vector<std::string> lex(); // Returns the list of relevant strings
+
+	~QueryLexer();
+
+	/**
+	 * Tokenizes the query string.
+	 * @return A vector of tokens.
+	 * @throws QueryLexerException if an unexpected character is encountered.
+	 */
+	std::vector<std::string> lex(); 
 
 };

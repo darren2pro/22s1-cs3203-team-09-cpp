@@ -90,6 +90,9 @@
     <ClCompile Include="Evaluator.cpp">
       <Filter>Source Files\QPS\Executor\Relationship</Filter>
     </ClCompile>
+    <ClCompile Include="QPSValidatorException.cpp">
+      <Filter>Source Files\QPS\Validator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Header Files\QPS</Filter>
+    </ClInclude>
+    <ClInclude Include="QPSValidatorException.h">
+      <Filter>Header Files\QPS\Validator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

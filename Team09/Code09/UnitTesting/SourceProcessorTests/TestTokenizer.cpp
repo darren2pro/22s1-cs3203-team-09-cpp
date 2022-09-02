@@ -2,7 +2,7 @@
 #include "CppUnitTest.h"
 #include <vector>
 #include "SourceProcessor/SimpleToken.h"
-#include <SourceProcessor/Parser.h>
+#include "SourceProcessor/Parser.h"
 
 #define TEST_MY_TOKENIZER(traitValue) TEST_METHOD_ATTRIBUTE(L"MyTokenizer", traitValue)
 
@@ -173,6 +173,45 @@ namespace UnitTesting {
                 for (int i = 0; i < expectedResult.size(); i++) {
                     Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
                 }
+            }
+
+            // Procedure names, variable names and terminals can all be the same.
+            TEST_METHOD(TestTokenizeVariableNameProcedureNameClashWithNonTerminals) {
+                const std::string str = "procedure call { \n"
+                                        "read print;\n"
+                                        "read = 0; \n"
+                                        "}";
+                vector<SimpleToken> expectedResult;
+                expectedResult.push_back(SimpleToken("procedure"));
+                expectedResult.push_back(SimpleToken("call"));
+                expectedResult.push_back(SimpleToken("{"));
+                expectedResult.push_back(SimpleToken("read"));
+                expectedResult.push_back(SimpleToken("print"));
+                expectedResult.push_back(SimpleToken(";"));
+                expectedResult.push_back(SimpleToken("read"));
+                expectedResult.push_back(SimpleToken("="));
+                expectedResult.push_back(SimpleToken("0"));
+                expectedResult.push_back(SimpleToken(";"));
+                expectedResult.push_back(SimpleToken("}"));
+                SimpleParser simpleParser(str);
+                Parser* parser = &simpleParser;
+                vector<SimpleToken> result = parser->getTokens();
+                Assert::AreEqual(expectedResult.size(), result.size());
+                for (int i = 0; i < expectedResult.size(); i++) {
+                    Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
+                }
+                // Now check whether the token types are correct
+                Assert::IsTrue(SimpleToken::TokenType::PROCEDURE == result[0].getType(), L"Wrong token type");
+                Assert::IsTrue(SimpleToken::TokenType::WORD == result[1].getType(), L"Wrong token type");
+                Assert::IsTrue(SimpleToken::TokenType::OPEN_BRACES == result[2].getType());
+                Assert::IsTrue(SimpleToken::TokenType::READ == result[3].getType());
+                Assert::IsTrue(SimpleToken::TokenType::WORD == result[4].getType());
+                Assert::IsTrue(SimpleToken::TokenType::SEMICOLON == result[5].getType());
+                Assert::IsTrue(SimpleToken::TokenType::WORD == result[6].getType());
+                Assert::IsTrue(SimpleToken::TokenType::ASSIGN == result[7].getType());
+                Assert::IsTrue(SimpleToken::TokenType::NUMBER == result[8].getType());
+                Assert::IsTrue(SimpleToken::TokenType::SEMICOLON == result[9].getType());
+                Assert::IsTrue(SimpleToken::TokenType::CLOSE_BRACES == result[10].getType());
             }
     };
 }

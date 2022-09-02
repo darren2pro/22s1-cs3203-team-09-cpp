@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "RelationshipEvaluator.h"
+#include "Evaluator.h"
 
-class FollowsEvaluator : public RelationshipEvaluator {
+class FollowsEvaluator : public Evaluator {
 public:
 	FollowsEvaluator() {}; // Constructor
 

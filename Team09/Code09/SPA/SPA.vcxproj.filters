@@ -31,11 +31,14 @@
     <Filter Include="Header Files\SourceProcessor\exceptions">
       <UniqueIdentifier>{b683d50d-6da1-4773-bfc6-2ae1bd9bf7f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SourceProcessor\designExtractor">
+      <UniqueIdentifier>{9ecf1f1f-907a-4e0d-8dcf-310218b4a530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SourceProcessor\designExtractor">
+      <UniqueIdentifier>{288517c8-b0d5-49f3-a43c-3b803116a7a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\DesignExtractor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\PKB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -74,6 +77,15 @@
     </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\astBuilder\VariableNode.cpp">
       <Filter>Source Files\SourceProcessor\astBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="DesignExtractor.cpp">
+      <Filter>Source Files\SourceProcessor\designExtractor</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityExtraction.cpp">
+      <Filter>Source Files\SourceProcessor\designExtractor</Filter>
+    </ClCompile>
+    <ClCompile Include="RelationshipExtraction.cpp">
+      <Filter>Source Files\SourceProcessor\designExtractor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +133,15 @@
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\astBuilder\VariableNode.h">
       <Filter>Header Files\SourceProcessor\astBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="DesignExtractor.h">
+      <Filter>Header Files\SourceProcessor\designExtractor</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityExtraction.h">
+      <Filter>Header Files\SourceProcessor\designExtractor</Filter>
+    </ClInclude>
+    <ClInclude Include="RelationshipExtraction.h">
+      <Filter>Header Files\SourceProcessor\designExtractor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp" />
@@ -25,6 +24,9 @@
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp" />
+    <ClCompile Include="DesignExtractor.cpp" />
+    <ClCompile Include="EntityExtraction.cpp" />
+    <ClCompile Include="RelationshipExtraction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h" />
@@ -42,6 +44,9 @@
     <ClInclude Include="..\source\SourceProcessor\SimpleToken.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h" />
     <ClInclude Include="..\source\TNode.h" />
+    <ClInclude Include="DesignExtractor.h" />
+    <ClInclude Include="EntityExtraction.h" />
+    <ClInclude Include="RelationshipExtraction.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>
@@ -79,6 +84,7 @@
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\lolwa\source\repos\22s1-win-spa-team-09\Team09\Code09\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

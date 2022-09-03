@@ -25,10 +25,8 @@
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp" />
-    <ClCompile Include="..\source\TNode.cpp" />
     <ClCompile Include="PatternEvaluator.cpp" />
     <ClCompile Include="QPSValidatorException.cpp" />
-    <ClCompile Include="Query.cpp" />
     <ClCompile Include="QueryBuilder.cpp" />
     <ClCompile Include="QueryExecutor.cpp" />
     <ClCompile Include="QueryLexer.cpp" />

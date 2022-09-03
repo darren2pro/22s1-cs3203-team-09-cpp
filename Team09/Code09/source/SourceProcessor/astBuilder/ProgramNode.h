@@ -6,6 +6,8 @@ using namespace std;
 
 class ProgramNode : public TNode {
 public:
+    PROCEDURE_PTR_LST procedureList;
+
     ProgramNode();
 
     string toString() override;
@@ -16,5 +18,7 @@ public:
 
     virtual bool isAssignmentNode() override;
 
-    PROCEDURE_PTR_LST procedureList;
+    PROCEDURE_NODE_PTR getProcedureByIndex(int index);
+
+    size_t getProcedureCount();
 };

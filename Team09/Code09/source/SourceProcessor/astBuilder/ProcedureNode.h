@@ -7,6 +7,10 @@ using namespace std;
 
 class ProcedureNode : public TNode {
 public:
+    string name;
+
+    STMT_LST_NODE_PTR statementListNode;
+
     explicit ProcedureNode(string name);
 
     string toString() override;
@@ -17,9 +21,9 @@ public:
 
     virtual bool isAssignmentNode() override;
 
-    string name;
-
-    STMT_LST_NODE_PTR statementListNode;
-
     void initializeStatementLst();
+
+    ASSIGNMENT_NODE_PTR getStatementByIndex(int index);
+
+    size_t getStatementCount();
 };

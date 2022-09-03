@@ -16,7 +16,7 @@ QueryLexer::~QueryLexer() {
 std::vector<std::string> QueryLexer::lex() {
     std::vector<std::string> tokens;
 	
-    std::regex whitespace("[ \t]+");
+    std::regex whitespace("[ \t\n]+");
     std::regex punctuation("[(),;_]");
     
     std::string str = "";
@@ -32,7 +32,7 @@ std::vector<std::string> QueryLexer::lex() {
             }
         } else if (std::regex_match(std::string(1, currentChar), punctuation)) {
             if (str.length() > 0) {
-                if (str[0] == '"' && (currentChar == '(' || currentChar == ')')) {    // check if it's part of an expression
+                if (str[0] == '"' && (currentChar == '(' || currentChar == ')')) {    // check if it's part of an expression  -- needs fixing
                     str += currentChar;
                 } else {
                     tokens.push_back(str);
@@ -43,11 +43,13 @@ std::vector<std::string> QueryLexer::lex() {
                 tokens.push_back(std::string(1, currentChar));
             }
         } else if (currentChar == '"') {
-            str += currentChar;
             if (str.length() > 0 && str[0] == '"') {
+                str += currentChar;
                 tokens.push_back(str);
                 str.clear();
+                continue;
             }
+            str += currentChar;
         } else if (isalnum(currentChar) || currentChar == '*') {
              str += currentChar;
         } else {

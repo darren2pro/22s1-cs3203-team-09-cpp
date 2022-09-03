@@ -7,7 +7,7 @@
 std::regex design_enteties("stmt|read|print|while|if|assign|variable|constant|procedure");
 std::regex relation("Follows|Follows*|Parent|Parent*|Uses|Modifies");
 std::regex synonym("[a-zA-Z]([a-zA-Z0-9])*");									// synonym: IDENT	--> IDENT: LETTER (LETTER|DIGIT)*
-std::regex stmtRef("*");														// need to fix
+std::regex stmtRef(".*");														// need to fix
 std::regex entRef("[a-zA-Z]([a-zA-Z0-9])*|_|[\"][a-zA-Z]([a-zA-Z0-9])*[\"]");	// endRef: synonym | '_' | '"' IDENT '"'
 std::regex expressionSpec("[\"].*[\"]");										// need to fix
 
@@ -21,6 +21,10 @@ QueryParser::~QueryParser() {
 }
 
 std::string QueryParser::getNextToken() {
+	if (index >= query_tokens.size()) {
+		return "";
+	}
+
 	std::string token = query_tokens[index];
 	index++;
 	return token;
@@ -29,7 +33,8 @@ std::string QueryParser::getNextToken() {
 void QueryParser::match(std::string token) {
 	if (current_token == token) {
 		current_token = getNextToken();
-	} else {
+	}
+	else {
 		throw QueryParserException("Expected " + token + " but found " + current_token);
 	}
 }
@@ -69,7 +74,8 @@ std::vector<std::string> QueryParser::patternClause() {
 	std::string left_arg = current_token;
 	if (current_token == "_") {		// left argument of pattern can only be either a wildcard or entRef
 		match("_");
-	} else {
+	}
+	else {
 		match(entRef);
 	}
 
@@ -78,7 +84,7 @@ std::vector<std::string> QueryParser::patternClause() {
 	std::string right_arg = "";
 
 	if (current_token == "_") {
-		std::string right_arg = current_token;
+		right_arg += current_token;
 		match("_");
 	}
 
@@ -93,8 +99,8 @@ std::vector<std::string> QueryParser::patternClause() {
 	match(")");
 
 	std::vector<std::string> p;
-	p.push_back(syn_assign);
-	p.push_back(syn_assign);
+	p.push_back(left_arg);
+	p.push_back(right_arg);
 	p.push_back(syn_assign);
 	return p;
 }
@@ -102,17 +108,23 @@ std::vector<std::string> QueryParser::patternClause() {
 Relation::Types QueryParser::getType(std::string token) {
 	if (token == "Follows") {
 		return Relation::Types::Follow;
-	} else if (token == "Follows*") {
+	}
+	else if (token == "Follows*") {
 		return Relation::Types::FollowStar;
-	} else if (token == "Parent") {
+	}
+	else if (token == "Parent") {
 		return Relation::Types::Parent;
-	} else if (token == "Parent*") {
+	}
+	else if (token == "Parent*") {
 		return Relation::Types::ParentStar;
-	} else if (token == "Uses") {
+	}
+	else if (token == "Uses") {
 		return Relation::Types::Uses;
-	} else if (token == "Modifies") {
+	}
+	else if (token == "Modifies") {
 		return Relation::Types::Modifies;
-	} else {
+	}
+	else {
 		return Relation::Types::NONE;
 	}
 }
@@ -145,10 +157,11 @@ Query QueryParser::parse() {
 	// parse declarations
 	while (index < query_tokens.size()) {
 		synonyms.push_back(declaration());	// returns a synonym to add to the query list
-		
+
 		if (current_token == ";") {		// end of declarations
 			break;
-		} else {
+		}
+		else {
 			match(",");
 		}
 	}
@@ -164,11 +177,13 @@ Query QueryParser::parse() {
 	while (index < query_tokens.size()) {
 		if (current_token == "such that") {
 			suchThatCl = suchThatClause();
-		} else if (current_token == "pattern") {
+		}
+		else if (current_token == "pattern") {
 			patternCl = patternClause();
-		} else {
+		}
+		else {
 			throw QueryParserException("Unexpected token");
-		}	
+		}
 	}
 
 	query.declarations = synonyms;

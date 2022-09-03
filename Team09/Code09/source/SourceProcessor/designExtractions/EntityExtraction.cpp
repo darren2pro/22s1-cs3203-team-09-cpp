@@ -1,26 +1,22 @@
-#include<stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
-#include "PKB.h"
+#include "../../PKB.h"
 #include "EntityExtraction.h"
 #include "../astBuilder/TNode.h"
-#include "SourceProcessor/astBuilder/ProgramNode.h"
-#include "SourceProcessor/astBuilder/ProcedureNode.h"
-#include "SourceProcessor/astBuilder/AssignmentNode.h"
-
 
 EntityExtraction::EntityExtraction(PKB pkb) {
-	pkbFacade = pkb;
+    pkbFacade = pkb;
 }
 
 EntityExtraction::~EntityExtraction() {}
 
-void EntityExtraction::extractEntities(const std::shared_ptr<ProgramNode> astRoot){
-	for (const auto& proc : astRoot->procedureList) {
-		extractEntities(proc);
-	}
+void EntityExtraction::extractEntities(const TNode::PROGRAM_NODE_PTR astRoot) {
+    // iterate all procedures
+    for (auto proc : astRoot->getProcedures()) {
+        // extract entities from procedure
+        extractEntities(proc);
+    }
 }
+
+/*
 void EntityExtraction::extractEntities(const std::shared_ptr<ProcedureNode> proc) {
 	statementsIterator(proc->StmtList);
 }
@@ -40,3 +36,4 @@ void EntityExtraction::extractEntities(
 
 void EntityExtraction::extractEntities(const std::shared_ptr<PlusNode> plus) {
 }
+ */

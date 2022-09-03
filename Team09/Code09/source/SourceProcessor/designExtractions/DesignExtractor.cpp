@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
-#include "../../PKB.h"
-#include "../astBuilder/TNode.h"
 #include "DesignExtractor.h"
 #include "EntityExtraction.h"
 #include "RelationshipExtraction.h"

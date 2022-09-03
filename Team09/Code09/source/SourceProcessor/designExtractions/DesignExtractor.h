@@ -1,11 +1,11 @@
 #pragma once
 
-#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
-#include "PKB.h"
-#include "Tnode.h"
+#include "../astBuilder/TNode.h"
+#include "../../PKB.h"
+// #include "PKB.h"
 
 class DesignExtractor {
 private:

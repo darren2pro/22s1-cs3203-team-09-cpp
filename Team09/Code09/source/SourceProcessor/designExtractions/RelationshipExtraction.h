@@ -1,18 +1,16 @@
 #pragma once
-#include<stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
-#include "PKB.h"
-#include <SourceProcessor/astBuilder/TNode.h>
+
+#include "../../PKB.h"
+#include "../astBuilder/TNode.h"
 
 class RelationshipExtraction {
 private:
-	PKB pkbFacade;
+    PKB pkbFacade;
 
 public:
-	RelationshipExtraction(PKB pkb);
-	~RelationshipExtraction();
-	void extractRls(PROGRAM_NODE_PTR astRoot);
+    explicit RelationshipExtraction(PKB pkb);
 
+    ~RelationshipExtraction();
+
+    void extractRls(TNode::PROGRAM_NODE_PTR astRoot);
 };

@@ -1,10 +1,4 @@
-#include<stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
-#include "PKB.h"
 #include "RelationshipExtraction.h"
-#include "TNode.h"
 
 RelationshipExtraction::RelationshipExtraction(PKB pkb) {
 	pkbFacade = pkb;
@@ -12,7 +6,6 @@ RelationshipExtraction::RelationshipExtraction(PKB pkb) {
 
 RelationshipExtraction::~RelationshipExtraction() {}
 
-void RelationshipExtraction::extractRls(TNode subtreeRoot) {
-
-
+void RelationshipExtraction::extractRls(TNode::PROGRAM_NODE_PTR astRoot) {
+    // TODO: Implement
 }

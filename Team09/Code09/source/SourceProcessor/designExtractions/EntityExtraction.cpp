@@ -1,6 +1,5 @@
-#include "../../PKB.h"
 #include "EntityExtraction.h"
-#include "../astBuilder/TNode.h"
+#include "../astBuilder/ProgramNode.h"
 
 EntityExtraction::EntityExtraction(PKB pkb) {
     pkbFacade = pkb;
@@ -9,10 +8,10 @@ EntityExtraction::EntityExtraction(PKB pkb) {
 EntityExtraction::~EntityExtraction() {}
 
 void EntityExtraction::extractEntities(const TNode::PROGRAM_NODE_PTR astRoot) {
-    // iterate all procedures
-    for (auto proc : astRoot->getProcedures()) {
+    for (size_t i = 0; i < astRoot->getProcedureCount(); i++) {
+        TNode::PROCEDURE_NODE_PTR proc = astRoot->getProcedureByIndex(i);
         // extract entities from procedure
-        extractEntities(proc);
+        // extractEntities(proc);
     }
 }
 

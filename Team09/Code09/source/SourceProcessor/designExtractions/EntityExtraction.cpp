@@ -4,7 +4,7 @@
 #include <vector>
 #include "PKB.h"
 #include "EntityExtraction.h"
-#include "../source/SourceProcessor/astBuilder/TNode.h"
+#include "../astBuilder/TNode.h"
 #include "SourceProcessor/astBuilder/ProgramNode.h"
 #include "SourceProcessor/astBuilder/ProcedureNode.h"
 #include "SourceProcessor/astBuilder/AssignmentNode.h"

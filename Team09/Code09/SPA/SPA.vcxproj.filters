@@ -78,13 +78,13 @@
     <ClCompile Include="..\source\SourceProcessor\astBuilder\VariableNode.cpp">
       <Filter>Source Files\SourceProcessor\astBuilder</Filter>
     </ClCompile>
-    <ClCompile Include="DesignExtractor.cpp">
+    <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp">
       <Filter>Source Files\SourceProcessor\designExtractor</Filter>
     </ClCompile>
-    <ClCompile Include="EntityExtraction.cpp">
+    <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp">
       <Filter>Source Files\SourceProcessor\designExtractor</Filter>
     </ClCompile>
-    <ClCompile Include="RelationshipExtraction.cpp">
+    <ClCompile Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.cpp">
       <Filter>Source Files\SourceProcessor\designExtractor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,13 +134,13 @@
     <ClInclude Include="..\source\SourceProcessor\astBuilder\VariableNode.h">
       <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
-    <ClInclude Include="DesignExtractor.h">
+    <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h">
       <Filter>Header Files\SourceProcessor\designExtractor</Filter>
     </ClInclude>
-    <ClInclude Include="EntityExtraction.h">
+    <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h">
       <Filter>Header Files\SourceProcessor\designExtractor</Filter>
     </ClInclude>
-    <ClInclude Include="RelationshipExtraction.h">
+    <ClInclude Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.h">
       <Filter>Header Files\SourceProcessor\designExtractor</Filter>
     </ClInclude>
   </ItemGroup>

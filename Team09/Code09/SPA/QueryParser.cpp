@@ -5,11 +5,11 @@
 #include "QPSValidatorException.h"
 
 std::regex design_enteties("stmt|read|print|while|if|assign|variable|constant|procedure");
-std::regex synonym("[a-zA-Z]([a-zA-Z0-9])*");
 std::regex relation("Follows|Follows*|Parent|Parent*|Uses|Modifies");
-std::regex stmtRef("*");
-std::regex entRef("*");
-std::regex expressionSpec("*");
+std::regex synonym("[a-zA-Z]([a-zA-Z0-9])*");									// synonym: IDENT	--> IDENT: LETTER (LETTER|DIGIT)*
+std::regex stmtRef("*");														// need to fix
+std::regex entRef("[a-zA-Z]([a-zA-Z0-9])*|_|[\"][a-zA-Z]([a-zA-Z0-9])*[\"]");	// endRef: synonym | '_' | '"' IDENT '"'
+std::regex expressionSpec("[\"].*[\"]");										// need to fix
 
 QueryParser::QueryParser(std::vector<std::string> tokens) {
 	query_tokens = tokens;
@@ -67,26 +67,27 @@ std::vector<std::string> QueryParser::patternClause() {
 	match("(");
 
 	std::string left_arg = current_token;
-	if (current_token == "_") {
+	if (current_token == "_") {		// left argument of pattern can only be either a wildcard or entRef
 		match("_");
-		left_arg += current_token;
+	} else {
+		match(entRef);
 	}
 
-	match(entRef);
 	match(",");
 
-	std::string right_arg = current_token;
+	std::string right_arg = "";
 
 	if (current_token == "_") {
+		std::string right_arg = current_token;
 		match("_");
-		right_arg += current_token;
 	}
 
-	match(expressionSpec);
-
-	if (current_token == "_") {
+	// check if right_arg matches '_exprssion_'
+	if (current_token != ")") {
 		right_arg += current_token;
+		match(expressionSpec);
 		match("_");
+		right_arg += "_";
 	}
 
 	match(")");
@@ -141,6 +142,7 @@ Query QueryParser::parse() {
 
 	current_token = getNextToken();
 
+	// parse declarations
 	while (index < query_tokens.size()) {
 		synonyms.push_back(declaration());	// returns a synonym to add to the query list
 		
@@ -153,13 +155,14 @@ Query QueryParser::parse() {
 
 	match(";");
 
+	// parse Select statement
 	if (index < query_tokens.size()) {
 		target = select();	// add to result clause? 
 	}
 
-	// such that and pattern clause
+	// parse such that and pattern clause
 	while (index < query_tokens.size()) {
-		if (current_token == "such") {
+		if (current_token == "such that") {
 			suchThatCl = suchThatClause();
 		} else if (current_token == "pattern") {
 			patternCl = patternClause();

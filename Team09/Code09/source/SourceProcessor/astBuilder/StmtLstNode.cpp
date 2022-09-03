@@ -22,3 +22,7 @@ bool StmtLstNode::isAssignmentNode() {
 TNode::ASSIGNMENT_NODE_PTR StmtLstNode::getStatementByIndex(int index) {
     return statementLstPtrs[index];
 }
+
+size_t StmtLstNode::getStatementCount() {
+    return statementLstPtrs.size();
+}

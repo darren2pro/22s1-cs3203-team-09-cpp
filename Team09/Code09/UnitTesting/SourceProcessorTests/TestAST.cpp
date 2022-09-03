@@ -16,7 +16,7 @@ namespace UnitTesting {
 
             TEST_METHOD(TestProgramNode) {
                 Logger::WriteMessage("TestProgramNode");
-				const shared_ptr<ProgramNode> programNode = make_shared<ProgramNode>();
+                const shared_ptr<ProgramNode> programNode = make_shared<ProgramNode>();
                 Assert::IsFalse(programNode->isDesignEntity());
                 Assert::IsFalse(programNode->isAssignmentNode());
             }
@@ -68,8 +68,8 @@ namespace UnitTesting {
                 const shared_ptr<ProgramNode> programNode = make_shared<ProgramNode>();
                 const shared_ptr<ProcedureNode> procedureNode = make_shared<ProcedureNode>(procedureName);
                 programNode->addProcedure(procedureNode);
-				Assert::IsTrue((programNode->procedureList).size() == 1, L"Wrong vector size in procedure list");
-				Assert::IsTrue((programNode->procedureList)[0] != nullptr, L"ProcedureNode was not added.");
+                Assert::IsTrue((programNode->procedureList).size() == 1, L"Wrong vector size in procedure list");
+                Assert::IsTrue((programNode->procedureList)[0] != nullptr, L"ProcedureNode was not added.");
                 Assert::IsTrue((programNode->procedureList)[0]->name == procedureName, L"ProcedureNode name is wrong.");
             }
 
@@ -90,12 +90,30 @@ namespace UnitTesting {
                 plusNode->setRightSubtree(constantNode);
 
                 const TNode::PROCEDURE_NODE_PTR firstProcedure = (programNode->getProcedureByIndex(0));
-				const TNode::ASSIGNMENT_NODE_PTR firstStmt = firstProcedure->
-                Assert::IsTrue(->getStatementByIndex(0));
-            
-                //Assert::IsTrue((programNode->procedureList)[0]->statementList.size() == 1, L"Wrong vector size in statement list");
-                //Assert::IsTrue((programNode->procedureList)[0]->statementList[0] != nullptr, L"StatementNode was not added.");
-                //Assert::IsTrue((programNode->procedureList)[0]->statementList[0]->isAssignmentNode(), L"StatementNode is not an assignment node.");
+                const TNode::ASSIGNMENT_NODE_PTR firstStmt = firstProcedure->getStatementByIndex(0);
+                Assert::IsTrue(firstStmt != nullptr, L"AssignmentNode was not added.");
+                Assert::IsTrue(firstStmt->isAssignmentNode(), L"Not an assignment node.");
+            }
+
+            TEST_METHOD(TestIteratingProceduresStatements) {
+                const string procedureName = "darrenProcedure";
+                const shared_ptr<ProgramNode> programNode = make_shared<ProgramNode>();
+                const shared_ptr<ProcedureNode> procedureNode = make_shared<ProcedureNode>(procedureName);
+                programNode->addProcedure(procedureNode);
+                const shared_ptr<AssignmentNode> assignmentNode = make_shared<AssignmentNode>();
+                const shared_ptr<VariableNode> assignedVariable = make_shared<VariableNode>("a");
+                procedureNode->addStatement(assignmentNode);
+                assignmentNode->addAssignedVariable(assignedVariable);
+                const shared_ptr<PlusNode> plusNode = make_shared<PlusNode>();
+                assignmentNode->addPlus(plusNode);
+                const shared_ptr<VariableNode> variableNode1 = make_shared<VariableNode>("a");
+                const shared_ptr<ConstantNode> constantNode = make_shared<ConstantNode>("1");
+                plusNode->setLeftSubtree(variableNode1);
+                plusNode->setRightSubtree(constantNode);
+
+                Assert::IsTrue(programNode->getProcedureCount() == 1, L"Wrong number of procedures.");
+                Assert::IsTrue(programNode->getProcedureByIndex(0)->getStatementCount() == 1,
+                               L"Wrong number of statements in first procedure.");
             }
     };
 }

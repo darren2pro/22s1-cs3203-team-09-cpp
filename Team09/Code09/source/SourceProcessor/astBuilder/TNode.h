@@ -35,7 +35,7 @@ public:
     typedef vector<shared_ptr<ProcedureNode>> PROCEDURE_PTR_LST;
 
     // TODO: Change from AssignmentNode to StatementNode
-    // typedef shared_ptr<AssignmentNode> STATEMENT_NODE_PTR;
+    typedef shared_ptr<AssignmentNode> STATEMENT_NODE_PTR;
     typedef vector<shared_ptr<AssignmentNode>> STATEMENT_PTR_LST;
 
     virtual ~TNode() = default;

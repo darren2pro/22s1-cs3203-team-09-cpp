@@ -19,4 +19,6 @@ public:
     virtual bool isAssignmentNode() override;
 
     PROCEDURE_NODE_PTR getProcedureByIndex(int index);
+
+    size_t getProcedureCount();
 };

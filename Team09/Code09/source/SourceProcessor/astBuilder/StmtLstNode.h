@@ -21,4 +21,6 @@ public:
     virtual bool isAssignmentNode() override;
 
     ASSIGNMENT_NODE_PTR getStatementByIndex(int index);
+
+    size_t getStatementCount();
 };

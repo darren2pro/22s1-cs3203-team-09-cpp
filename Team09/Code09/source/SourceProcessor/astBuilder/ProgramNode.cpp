@@ -22,3 +22,7 @@ bool ProgramNode::isAssignmentNode() {
 TNode::PROCEDURE_NODE_PTR ProgramNode::getProcedureByIndex(int index) {
     return procedureList[index];
 }
+
+size_t ProgramNode::getProcedureCount() {
+    return procedureList.size();
+}

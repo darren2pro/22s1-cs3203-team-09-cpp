@@ -13,6 +13,15 @@
   <ItemGroup>
     <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\PlusNode.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\ProcedureNode.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\ProgramNode.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\StmtLstNode.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\VariableNode.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp" />
@@ -31,6 +40,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\AssignmentNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\ConstantNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\PlusNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\ProcedureNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\ProgramNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\StmtLstNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\TNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\VariableNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h" />
     <ClInclude Include="..\source\SourceProcessor\Parser.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleToken.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h" />

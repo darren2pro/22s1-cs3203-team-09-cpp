@@ -28,3 +28,11 @@ bool ProcedureNode::isDesignEntity() {
 bool ProcedureNode::isAssignmentNode() {
     return false;
 }
+
+TNode::ASSIGNMENT_NODE_PTR ProcedureNode::getStatementByIndex(int index) {
+    return statementListNode->getStatementByIndex(index);
+}
+
+size_t ProcedureNode::getStatementCount() {
+    return statementListNode->getStatementCount();
+}

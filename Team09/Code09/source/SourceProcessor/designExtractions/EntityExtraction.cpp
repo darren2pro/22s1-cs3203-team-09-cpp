@@ -24,11 +24,13 @@ void EntityExtraction::extractEntities(const TNode::PROCEDURE_NODE_PTR proc) {
 		TNode::ASSIGNMENT_NODE_PTR stmt = proc->getStatementByIndex(i);
 		extractEntities(stmt);
 	}
+	pkbFacade.persistEntity(proc);
 }
 
 void EntityExtraction::extractEntities(TNode::ASSIGNMENT_NODE_PTR assign) {
 	TNode::VARIABLE_NODE_PTR var = assign->getAssignedVariableNode();
 	TNode::PLUS_NODE_PTR plus = assign->plusNode;
+	pkbFacade.persistEntity(assign);
 	pkbFacade.persistEntity(var);
 	extractEntities(plus->leftSubtree);
 	extractEntities(plus->rightSubtree);

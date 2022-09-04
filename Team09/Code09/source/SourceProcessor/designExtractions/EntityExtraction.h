@@ -15,15 +15,10 @@ public:
 
     ~EntityExtraction();
 
-    void extractEntities(TNode::PROGRAM_NODE_PTR astRoot);
+    void extractEntities(const TNode::PROGRAM_NODE_PTR astRoot);
+    void extractEntities(const TNode::PROCEDURE_NODE_PTR proc);
+    void extractEntities(TNode::ASSIGNMENT_NODE_PTR assign);
+    void extractEntities(TNode::VARIABLE_NODE_PTR var);
+    void extractEntities(TNode::CONSTANT_NODE_PTR cons);
 
-    /*
-    void extractEntities(const shared_ptr<ProcedureNode> proc);
-
-    void extractEntities(const shared_ptr<AssignmentNode> assign);
-
-    void extractEntities(const shared_ptr<VariableNode> var);
-
-    void extractEntities(const shared_ptr<PlusNode> plus);
-     */
 };

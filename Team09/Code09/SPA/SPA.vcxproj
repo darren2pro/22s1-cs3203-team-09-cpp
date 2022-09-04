@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\DesignExtractor.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp" />
@@ -21,6 +20,9 @@
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\StmtLstNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\VariableNode.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.cpp" />
     <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
@@ -37,6 +39,9 @@
     <ClInclude Include="..\source\SourceProcessor\astBuilder\StmtLstNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\TNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\VariableNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h" />
+    <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h" />
+    <ClInclude Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.h" />
     <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h" />
     <ClInclude Include="..\source\SourceProcessor\Parser.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleToken.h" />
@@ -79,6 +84,7 @@
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\lolwa\source\repos\22s1-win-spa-team-09\Team09\Code09\source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

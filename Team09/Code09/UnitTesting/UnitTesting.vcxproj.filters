@@ -44,5 +44,8 @@
     <ClCompile Include="TestQueryLexer.cpp">
       <Filter>Source Files\QPS\Validator</Filter>
     </ClCompile>
+    <ClCompile Include="TestQueryParser.cpp">
+      <Filter>Source Files\QPS\Validator</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

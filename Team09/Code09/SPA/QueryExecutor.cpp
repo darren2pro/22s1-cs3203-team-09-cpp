@@ -8,7 +8,7 @@ std::vector<std::string> QueryExecutor::processQuery(Query* query) {
 	Relation relations = query->relations;
 	std::vector<std::string> patterns = query->patterns;
 	std::vector<std::string> declarations = query->declarations;
-	std::vector<std::string> tokens = query->tokens;
+	std::string tokens = query->target;
 	std::vector<std::string> results;
 
 	// Call the "Relation" execute immediately

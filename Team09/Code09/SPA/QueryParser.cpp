@@ -99,9 +99,9 @@ std::vector<std::string> QueryParser::patternClause() {
 	match(")");
 
 	std::vector<std::string> p;
+	p.push_back(syn_assign);
 	p.push_back(left_arg);
 	p.push_back(right_arg);
-	p.push_back(syn_assign);
 	return p;
 }
 

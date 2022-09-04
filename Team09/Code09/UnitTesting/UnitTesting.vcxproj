@@ -172,6 +172,7 @@
     </ClCompile>
     <ClCompile Include="TestAST.cpp" />
     <ClCompile Include="TestQueryLexer.cpp" />
+    <ClCompile Include="TestQueryParser.cpp" />
     <ClCompile Include="TestTokenizer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -24,11 +24,14 @@ std::vector<std::string> QueryLexer::lex() {
 	for (int i = 0; i < query_string.length(); i++) {
         const char currentChar = query_string[i];
         if (std::regex_match(std::string(1, currentChar), whitespace)) {
-            if (str == "such") {        // the only time we want to add a space to tokens is for the 'such that' token
-                str += currentChar;
-            } else if (str.length() > 0) {
-                tokens.push_back(str);
-                str.clear();
+            if (str.length() > 0) {
+                if (str == "such") {        // the only time we want to add a space to tokens is for the 'such that' token
+                    str += currentChar;
+                }
+                else if (str[0] != '"') {
+                    tokens.push_back(str);
+                    str.clear();
+                }
             }
         } else if (std::regex_match(std::string(1, currentChar), punctuation)) {
             if (str.length() > 0) {

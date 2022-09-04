@@ -4,6 +4,8 @@
 #include "../../PKB.h"
 #include "../astBuilder/TNode.h"
 
+using namespace std;
+
 class EntityExtraction {
 private:
     PKB pkbFacade;
@@ -16,14 +18,12 @@ public:
     void extractEntities(TNode::PROGRAM_NODE_PTR astRoot);
 
     /*
-    void extractEntities(const std::shared_ptr<ProcedureNode> proc);
+    void extractEntities(const shared_ptr<ProcedureNode> proc);
 
-    void extractEntities(const std::shared_ptr<ProcedureNode> proc);
+    void extractEntities(const shared_ptr<AssignmentNode> assign);
 
-    void extractEntities(const std::shared_ptr<AssignmentNode> assign);
+    void extractEntities(const shared_ptr<VariableNode> var);
 
-    void extractEntities(const std::shared_ptr<VariableNode> var);
-
-    void extractEntities(const std::shared_ptr<PlusNode> plus);
+    void extractEntities(const shared_ptr<PlusNode> plus);
      */
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-#include<unordered_set>
+#include <unordered_set>
 #include "../SourceProcessor/astBuilder/TNode.h"
 
 namespace PKB {
@@ -11,21 +11,25 @@ namespace PKB {
         ~PKBStorage();
 
         // node pointers
-        using assignNode = TNode::ASSIGNMENT_NODE_PTR;
-        using procedureNode = TNode::PROCEDURE_NODE_PTR;
-        using variableNode = TNode::VARIABLE_NODE_PTR;
+        using AssignNode = TNode::ASSIGNMENT_NODE_PTR;
+        using ProcedureNode = TNode::PROCEDURE_NODE_PTR;
+        using VariableNode = TNode::VARIABLE_NODE_PTR;
 
         // design entities
-        std::unordered_set<assignNode> assignSet;
-        std::unordered_set<procedureNode> procedureSet;
+        std::unordered_set<std::string> assignSet;
+        std::unordered_set<std::string> procedureSet;
+        std::unordered_set<std::string> variableSet;
 
         // relationships
-        std::unordered_set<assignNode, variableNode> assignment_modifies_variable;
+        std::unordered_set<std::string> assignment_modifies_variable;
 
         // store
-        void persistEntity(assignNode);
-        void persistEntity(procedureNode);
+        void persistEntity(AssignNode);
+        void persistEntity(ProcedureNode);
+        void persistEntity(VariableNode);
+        void persistAssignModifyVariable(VariableNode);
 
-        void persistAssignModifyVariable(assignNode, variableNode);
+        std::unordered_set<std::string> getVariableSet();
+        std::unordered_set<std::string> getAllModify();
     };
 }

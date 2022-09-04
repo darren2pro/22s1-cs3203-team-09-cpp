@@ -1,19 +1,33 @@
+#include <unordered_set>
+#include <unordered_map>
 #include "PKBStorage.h"
 
 namespace PKB {
     PKBStorage::PKBStorage(){};
     PKBStorage::~PKBStorage(){};
 
-    // store entities
-    void PKBStorage::persistEntity(PKB::PKBStorage::assignNode) {
-        PKBStorage::assignSet.insert(assignNode);
-    }
-    void PKBStorage::persistEntity(PKB::PKBStorage::procedureNode) {
-        PKBStorage::procedureSet.insert(procedureNode);
+    void PKBStorage::persistEntity(AssignNode assignNode) {}
+    void PKBStorage::persistEntity(ProcedureNode procedureNode) {
+        this->procedureSet.insert(procedureNode->name);
     }
 
-    // store modifies
-    void PKBStorage::persistAssignModifyVariable(PKB::PKBStorage::assignNode, PKB::PKBStorage::variableNode) {
-        PKBStorage::assignment_modifies_variable(assignNode, variableNode);
+    void PKBStorage::persistEntity(VariableNode variableNode) {
+        this->variableSet.insert(variableNode->variableName);
+    }
+    
+    void PKBStorage::persistAssignModifyVariable(VariableNode variableNode) {
+        this->assignment_modifies_variable(variableNode->variableName);
+    }
+
+    std::unordered_set<std::string> PKBStorage::getVariableSet() {
+        return this->variableSet;
+    }
+
+    std::unordered_set<std::string> PKBStorage::getProcedureSet() {
+        return this->procedureSet;
+    }
+
+    std::unordered_set<std::string> PKBStorage::getAllModify() {
+        return this->assignment_modifies_variable;
     }
 }

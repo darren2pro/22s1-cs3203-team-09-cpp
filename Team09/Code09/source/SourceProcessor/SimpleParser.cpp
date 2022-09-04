@@ -11,6 +11,8 @@ SimpleParser::SimpleParser(const string program) {
     tokens = tokenizer.tokenize();
 }
 
+
+// Consider returning an AST here
 int SimpleParser::parse() {
     // TODO: Validate the source program and create the AST at the same time
     SimpleAstBuilder builder(tokens);

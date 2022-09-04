@@ -5,9 +5,7 @@
 
 class FollowsStarEvaluator : public Evaluator {
 public:
-	FollowsStarEvaluator() {}; // Constructor
+	FollowsStarEvaluator(std::vector<std::string> declarations, Relation relations, PKB pkb) :
+	Evaluator(declarations, relations, pkb) {}; // Constructor
 
-	std::vector<std::string> evaluate() override {
-		return {};
-	}
 };

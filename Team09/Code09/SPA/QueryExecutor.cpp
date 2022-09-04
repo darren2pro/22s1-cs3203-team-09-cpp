@@ -24,7 +24,7 @@ std::vector<std::string> QueryExecutor::execute(std::vector<std::string> declara
 	switch (relations.TYPE) {
 	case Relation::Modifies:
 		// Create the Modifies Evaluator and evaluate it
-		return ModifiesEvaluator(declarations, relations).evaluate();
+		return ModifiesEvaluator(declarations, relations, pkb).evaluate();
 	}
 }
 

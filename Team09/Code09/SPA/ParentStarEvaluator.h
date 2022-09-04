@@ -5,9 +5,6 @@
 
 class ParentStarEvaluator : public Evaluator {
 public:
-	ParentStarEvaluator() {}; // Constructor
-
-	std::vector<std::string> evaluate() override {
-		return {};
-	}
+	ParentStarEvaluator(std::vector<std::string> declarations, Relation relations, PKB pkb) :
+	Evaluator(declarations, relations, pkb) {}; // Constructor
 };

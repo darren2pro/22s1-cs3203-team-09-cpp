@@ -11,7 +11,7 @@ private:
 	std::string RIGHT_ARG;
 
 public:
-	Evaluator(std::vector<std::string> declarations, Relation relations) :
+	Evaluator(std::vector<std::string> declarations, Relation relations, PKB pkb) : // Added PKB
 		declarations(declarations),
 		relations(relations),
 		LEFT_ARG(relations.LEFT_ARG),

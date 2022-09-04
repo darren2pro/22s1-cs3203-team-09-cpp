@@ -14,13 +14,13 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Source Files\QPS">
-      <UniqueIdentifier>{20939d0a-87cc-421c-bdd7-35269903a1f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\QPS\Validator">
-      <UniqueIdentifier>{0577330f-ce90-4dc3-877a-119b377cc298}</UniqueIdentifier>
+      <UniqueIdentifier>{ed7cbd21-5975-4083-b328-e59dabf60805}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\QPS\Executor">
-      <UniqueIdentifier>{9ebf2a20-8896-41c3-b85b-309bb0b5feb1}</UniqueIdentifier>
+      <UniqueIdentifier>{d6b4f69e-8d6e-4842-8ffa-8ef6a94a9a1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QPS\Validator">
+      <UniqueIdentifier>{c92b6562-e3d5-44b5-8800-73791bdc23a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

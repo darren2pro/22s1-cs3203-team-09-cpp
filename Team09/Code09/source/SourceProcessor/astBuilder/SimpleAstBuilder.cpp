@@ -121,3 +121,7 @@ void SimpleAstBuilder::handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR ass
         tokenType = currentToken.getType();
     }
 }
+
+const TNode::PROGRAM_NODE_PTR &SimpleAstBuilder::getProgramNode() const {
+    return programNode;
+}

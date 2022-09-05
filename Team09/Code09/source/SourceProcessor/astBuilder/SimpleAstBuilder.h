@@ -39,4 +39,6 @@ public:
     void handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR procedureNode);
 
     void handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR assignmentNode);
+
+    const TNode::PROGRAM_NODE_PTR &getProgramNode() const;
 };

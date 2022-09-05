@@ -34,14 +34,16 @@ void TestWrapper::parse(std::string filename) {
     std::string str((std::istreambuf_iterator<char>(file)),
                      std::istreambuf_iterator<char>());
     SimpleParser simpleParser = SimpleParser(str);
-    simpleParser.parse();
+    this->pkb = simpleParser.parse();
 }
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string> &results) {
     // call your evaluator to evaluate the query here
     // ...code to evaluate query...
+    QueryBuilder queryBuilder = QueryBuilder(query);
 
     // store the answers to the query in the results list (it is initially empty)
     // each result must be a string.
+
 }

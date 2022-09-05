@@ -3,6 +3,7 @@
 #include "Parser.h"
 #include "SimpleTokenizer.h"
 #include "astBuilder/SimpleAstBuilder.h"
+#include "designExtractions/DesignExtractor.h"
 
 using namespace std;
 
@@ -11,9 +12,11 @@ SimpleParser::SimpleParser(const string program) {
     tokens = tokenizer.tokenize();
 }
 
-int SimpleParser::parse() {
-    // TODO: Validate the source program and create the AST at the same time
+PKB::PKBStorage SimpleParser::parse() {
     SimpleAstBuilder builder(tokens);
     builder.build();
-    return -1;
+    PKBStorage pkb;
+    DesignExtractor extractor(pkb);
+    extractor.extractDesignAbstractions(builder.getProgramNode());
+    return pkb;
 }

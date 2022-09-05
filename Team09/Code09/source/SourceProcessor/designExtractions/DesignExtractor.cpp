@@ -1,10 +1,12 @@
 #include "DesignExtractor.h"
 #include "EntityExtraction.h"
 #include "RelationshipExtraction.h"
+#include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-DesignExtractor::DesignExtractor(PKB pkb) {
-    pkbFacade = pkb;
+/*
+DesignExtractor::DesignExtractor(PKBStorage pkb) {
 }
+*/
 
 DesignExtractor::~DesignExtractor() {}
 

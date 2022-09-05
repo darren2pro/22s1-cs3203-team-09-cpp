@@ -1,17 +1,17 @@
 #pragma once
 
 #include <memory>
-#include "../../PKB.h"
 #include "../astBuilder/TNode.h"
+#include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-using namespace std;
+using namespace PKB;
 
 class EntityExtraction {
 private:
-    PKB pkbFacade;
+    PKBStorage pkbFacade;
 
 public:
-    explicit EntityExtraction(PKB pkb);
+    explicit EntityExtraction(PKBStorage pkb);
 
     ~EntityExtraction();
 

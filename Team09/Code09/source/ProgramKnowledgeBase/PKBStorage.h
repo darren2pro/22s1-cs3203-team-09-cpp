@@ -30,6 +30,7 @@ namespace PKB {
         void persistAssignModifyVariable(VariableNode);
 
         std::unordered_set<std::string> getVariableSet();
+        std::unordered_set<std::string> getProcedureSet();
         std::unordered_set<std::string> getAllModify();
     };
 }

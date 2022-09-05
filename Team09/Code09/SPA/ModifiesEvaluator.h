@@ -3,6 +3,9 @@
 #include <vector>
 #include "Evaluator.h"
 #include "../source/ProgramKnowledgeBase/PKBStorage.h"
+#include <iostream>
+
+using namespace std;
 
 class ModifiesEvaluator : public Evaluator {
 public:

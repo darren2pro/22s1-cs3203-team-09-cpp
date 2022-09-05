@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\PKB.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\PlusNode.cpp" />
@@ -27,9 +27,17 @@
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp" />
+    <ClCompile Include="Evaluator.cpp" />
+    <ClCompile Include="PatternEvaluator.cpp" />
+    <ClCompile Include="QPSValidatorException.cpp" />
+    <ClCompile Include="QueryBuilder.cpp" />
+    <ClCompile Include="QueryExecutor.cpp" />
+    <ClCompile Include="QueryLexer.cpp" />
+    <ClCompile Include="QueryParser.cpp" />
+    <ClCompile Include="QueryValidator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\PKB.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\AssignmentNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ConstantNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\PlusNode.h" />
@@ -47,6 +55,21 @@
     <ClInclude Include="..\source\SourceProcessor\SimpleToken.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h" />
     <ClInclude Include="..\source\TNode.h" />
+    <ClInclude Include="Evaluator.h" />
+    <ClInclude Include="FollowsEvaluator.h" />
+    <ClInclude Include="FollowsStarEvaluator.h" />
+    <ClInclude Include="ModifiesEvaluator.h" />
+    <ClInclude Include="ParentEvaluator.h" />
+    <ClInclude Include="ParentStarEvaluator.h" />
+    <ClInclude Include="PatternEvaluator.h" />
+    <ClInclude Include="QPSValidatorException.h" />
+    <ClInclude Include="Query.h" />
+    <ClInclude Include="QueryExecutor.h" />
+    <ClInclude Include="QueryLexer.h" />
+    <ClInclude Include="QueryParser.h" />
+    <ClInclude Include="QueryValidator.h" />
+    <ClInclude Include="Relation.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

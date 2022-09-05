@@ -53,7 +53,9 @@ void SimpleAstBuilder::handleProcedure() {
     programNode->addProcedure(procedureNode);
     while (tokens[currentTokenIndex].getType() != SimpleToken::TokenType::CLOSE_BRACES) {
         handleProcedureStatement(procedureNode);
+        currentTokenIndex++;
     }
+    currentTokenIndex++;
 }
 
 void SimpleAstBuilder::handleProcedureStatement(TNode::PROCEDURE_NODE_PTR procedureNode) {
@@ -75,7 +77,7 @@ void SimpleAstBuilder::handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR proce
     const SimpleToken variableToken = tokens[currentTokenIndex];
     currentTokenIndex++;
     const SimpleToken equalToken = tokens[currentTokenIndex];
-    if (equalToken.getType() != SimpleToken::TokenType::EQUALS) {
+    if (equalToken.getType() != SimpleToken::TokenType::ASSIGN) {
         char* message = new char[100];
         sprintf(message, "Expected equals token. Got %s", equalToken.getValue().c_str());
         throw SimpleInvalidSyntaxException(message);
@@ -88,8 +90,9 @@ void SimpleAstBuilder::handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR proce
 }
 
 void SimpleAstBuilder::handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR assignmentNode) {
-    const SimpleToken currentToken = tokens[currentTokenIndex];
-    const SimpleToken::TokenType tokenType = currentToken.getType();
+    currentTokenIndex++;
+    SimpleToken currentToken = tokens[currentTokenIndex];
+    SimpleToken::TokenType tokenType = currentToken.getType();
     const TNode::PLUS_NODE_PTR assignmentExpressionRootNode = make_shared<PlusNode>();
     assignmentNode->addPlus(assignmentExpressionRootNode);
     // TODO: Need to improve this to build the expression subtree correctly. I think we have to build from bottom up
@@ -114,5 +117,11 @@ void SimpleAstBuilder::handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR ass
                 throw SimpleInvalidSyntaxException(message);
         }
         currentTokenIndex++;
+        currentToken = tokens.at(currentTokenIndex);
+        tokenType = currentToken.getType();
     }
+}
+
+const TNode::PROGRAM_NODE_PTR &SimpleAstBuilder::getProgramNode() const {
+    return programNode;
 }

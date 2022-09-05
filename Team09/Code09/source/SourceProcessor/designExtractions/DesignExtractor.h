@@ -4,15 +4,15 @@
 #include <string>
 #include <vector>
 #include "../astBuilder/TNode.h"
-#include "../../PKB.h"
-// #include "PKB.h"
+#include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-class DesignExtractor {
-private:
-    PKB pkbFacade;
+using namespace PKB;
 
+class DesignExtractor {	
 public:
-    explicit DesignExtractor(PKB pkb);
+    PKBStorage pkbFacade;
+	
+    DesignExtractor(PKBStorage pkb) : pkbFacade(pkb) {};
 
     ~DesignExtractor();
 

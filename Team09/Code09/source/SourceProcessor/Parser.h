@@ -4,6 +4,7 @@
 #include <string>
 #include "SimpleToken.h"
 #include <vector>
+#include "../ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ public:
      * This is a pure virtual function which must be implemented in the derived class.
      * @return 0 if successful, -1 otherwise
      */
-    virtual int parse() = 0;
+    virtual PKB::PKBStorage parse() = 0;
 
     const SOURCE_CODE_TOKENS &getTokens() const {
         return tokens;
@@ -44,5 +45,5 @@ class SimpleParser : public Parser {
 public:
     explicit SimpleParser(const string program);
 
-    int parse() override;
+    PKB::PKBStorage parse() override;
 };

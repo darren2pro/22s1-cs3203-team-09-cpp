@@ -4,10 +4,12 @@
 #include "../astBuilder/StmtLstNode.h"
 #include "../astBuilder/ProcedureNode.h"
 #include "../astBuilder/AssignmentNode.h"
-#include "PKB.h"
 #include "../astBuilder/PlusNode.h"
+#include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-EntityExtraction::EntityExtraction(PKB pkb) {
+using namespace PKB;
+
+EntityExtraction::EntityExtraction(PKBStorage pkb) {
 	pkbFacade = pkb;
 }
 
@@ -39,5 +41,5 @@ void EntityExtraction::extractEntities(TNode::VARIABLE_NODE_PTR var) {
 	pkbFacade.persistEntity(var);
 }
 void EntityExtraction::extractEntities(TNode::CONSTANT_NODE_PTR cons) {
-	pkbFacade.persistEntity(cons);
+	// pkbFacade.persistEntity(cons);
 }

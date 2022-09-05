@@ -1,6 +1,9 @@
 #include <unordered_set>
 #include <unordered_map>
 #include "PKBStorage.h"
+#include "../SourceProcessor/astBuilder/ProcedureNode.h"
+#include "../SourceProcessor/astBuilder/AssignmentNode.h"
+#include "../SourceProcessor/astBuilder/VariableNode.h"
 
 namespace PKB {
     PKBStorage::PKBStorage(){};
@@ -16,7 +19,7 @@ namespace PKB {
     }
     
     void PKBStorage::persistAssignModifyVariable(VariableNode variableNode) {
-        this->assignment_modifies_variable(variableNode->variableName);
+        this->assignment_modifies_variable.insert(variableNode->variableName);
     }
 
     std::unordered_set<std::string> PKBStorage::getVariableSet() {

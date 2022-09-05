@@ -86,5 +86,5 @@ public:
 	 * Parses the query tokens.
 	 * @return A Query.
 	 */
-	Query parse();
+	Query* parse();
 };

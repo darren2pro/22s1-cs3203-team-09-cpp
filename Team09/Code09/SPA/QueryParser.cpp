@@ -144,13 +144,13 @@ Relation QueryParser::suchThatClause() {
 	return Relation(type, left_arg, right_arg);
 }
 
-Query QueryParser::parse() {
+Query* QueryParser::parse() {
 	std::string currentToken;
 	std::vector<std::string> synonyms;
 	std::string target;
 	Relation suchThatCl;
 	std::vector<std::string> patternCl;
-	Query query = Query();
+	Query* query = new Query();
 
 	current_token = getNextToken();
 
@@ -186,10 +186,10 @@ Query QueryParser::parse() {
 		}
 	}
 
-	query.declarations = synonyms;
-	query.relations = suchThatCl;
-	query.patterns = patternCl;
-	query.target = target;
+	query->declarations = synonyms;
+	query->relations = suchThatCl;
+	query->patterns = patternCl;
+	query->target = target;
 
 	return query;
 }

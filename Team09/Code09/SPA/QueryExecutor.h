@@ -14,9 +14,9 @@ private:
 	std::vector<std::string> declarations;
 	std::vector<std::string> tokens;
 
-	std::unordered_set<std::string> execute(std::vector<std::string> declarations, Relation relations);
+	std::unordered_set<std::string> execute();
 
 public:
-	std::unordered_set<std::string> processQuery(Query* query);
+	std::unordered_set<std::string>* processQuery(Query* query);
 	QueryExecutor(PKB::PKBStorage pkb) : pkb(pkb) {}; // Constructor for taking in PKB
 };

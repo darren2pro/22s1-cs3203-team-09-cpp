@@ -47,10 +47,8 @@ void TestWrapper::evaluate(std::string query, std::list<std::string> &results) {
     std::cout << "evaluate called" << std::endl;
     auto queryAdt = QueryBuilder().buildQuery(query);
     auto qe = QueryExecutor(this->pkb);
-    auto queryResults = qe.processQuery(&queryAdt);
-    	
-    for (auto result : queryResults) {
-        std::cout << result << std::endl;
+    auto queryResults = qe.processQuery(queryAdt);
+    for (auto result : *queryResults) {
         results.push_back(result);
     }
 }

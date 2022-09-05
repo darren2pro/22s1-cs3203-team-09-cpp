@@ -5,7 +5,7 @@
 
 class QueryBuilder {
 public:
-    Query buildQuery(std::string query_string) {
+    Query* buildQuery(std::string query_string) {
 
         // Lexer
         QueryLexer lexer = QueryLexer(query_string);
@@ -13,7 +13,7 @@ public:
 
         // Parser
         QueryParser parser = QueryParser(tokens);
-        Query query = parser.parse();
+        Query* query = parser.parse();
         return query;
 
         // Validator

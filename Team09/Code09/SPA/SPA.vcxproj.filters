@@ -66,7 +66,7 @@
     <ClCompile Include="..\source\DesignExtractor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\PKB.cpp">
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PKB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
@@ -137,7 +137,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\PKB.h">
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PKB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\TNode.h">

@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\QPS">
+      <UniqueIdentifier>{ed7cbd21-5975-4083-b328-e59dabf60805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QPS\Executor">
+      <UniqueIdentifier>{d6b4f69e-8d6e-4842-8ffa-8ef6a94a9a1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QPS\Validator">
+      <UniqueIdentifier>{c92b6562-e3d5-44b5-8800-73791bdc23a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -31,6 +40,12 @@
     </ClCompile>
     <ClCompile Include="SourceProcessorTests\TestTokenizer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestQueryLexer.cpp">
+      <Filter>Source Files\QPS\Validator</Filter>
+    </ClCompile>
+    <ClCompile Include="TestQueryParser.cpp">
+      <Filter>Source Files\QPS\Validator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

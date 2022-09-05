@@ -4,10 +4,12 @@
 #include "../astBuilder/StmtLstNode.h"
 #include "../astBuilder/ProcedureNode.h"
 #include "../astBuilder/AssignmentNode.h"
-#include "../../PKB.h"
 #include "../astBuilder/PlusNode.h"
+#include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-EntityExtraction::EntityExtraction(PKB pkb) {
+using namespace PKB;
+
+EntityExtraction::EntityExtraction(PKBStorage pkb) {
 	pkbFacade = pkb;
 }
 
@@ -24,19 +26,19 @@ void EntityExtraction::extractEntities(const TNode::PROCEDURE_NODE_PTR proc) {
 		TNode::ASSIGNMENT_NODE_PTR stmt = proc->getStatementByIndex(i);
 		extractEntities(stmt);
 	}
-	// pkbFacade.persistEntity(proc);
+	pkbFacade.persistEntity(proc);
 }
 
 void EntityExtraction::extractEntities(TNode::ASSIGNMENT_NODE_PTR assign) {
 	TNode::VARIABLE_NODE_PTR var = assign->getAssignedVariableNode();
 	TNode::PLUS_NODE_PTR plus = assign->plusNode;
-	// pkbFacade.persistEntity(assign);
-	// pkbFacade.persistEntity(var);
+	pkbFacade.persistEntity(assign);
+	pkbFacade.persistEntity(var);
 	extractEntities(plus->leftSubtree);
 	extractEntities(plus->rightSubtree);
 }
 void EntityExtraction::extractEntities(TNode::VARIABLE_NODE_PTR var) {
-	// pkbFacade.persistEntity(var);
+	pkbFacade.persistEntity(var);
 }
 void EntityExtraction::extractEntities(TNode::CONSTANT_NODE_PTR cons) {
 	// pkbFacade.persistEntity(cons);

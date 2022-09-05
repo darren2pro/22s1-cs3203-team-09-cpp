@@ -37,11 +37,14 @@
     <Filter Include="Header Files\SourceProcessor\designExtractor">
       <UniqueIdentifier>{288517c8-b0d5-49f3-a43c-3b803116a7a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ProgramKnowledgeBase">
+      <UniqueIdentifier>{15501278-e906-45a9-a12a-b34f34987889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ProgramKnowledgeBase">
+      <UniqueIdentifier>{1e4226c7-3da1-43f1-8b4a-a49f676dda74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\PKB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
       <Filter>Source Files\SourceProcessor</Filter>
     </ClCompile>
@@ -87,11 +90,11 @@
     <ClCompile Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.cpp">
       <Filter>Source Files\SourceProcessor\designExtractor</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp">
+      <Filter>Source Files\ProgramKnowledgeBase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\PKB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\TNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.h">
       <Filter>Header Files\SourceProcessor\designExtractor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

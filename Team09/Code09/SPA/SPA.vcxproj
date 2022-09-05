@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\PKB.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\PlusNode.cpp" />
@@ -29,7 +29,7 @@
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\PKB.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\AssignmentNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ConstantNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\PlusNode.h" />

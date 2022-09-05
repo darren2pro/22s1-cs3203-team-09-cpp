@@ -1,14 +1,16 @@
 #pragma once
 
-#include "../../PKB.h"
 #include "../astBuilder/TNode.h"
+#include "../../ProgramKnowledgeBase/PKBStorage.h"
+
+using namespace PKB;
 
 class RelationshipExtraction {
 private:
-    PKB pkbFacade;
+    PKBStorage pkbFacade;
 
 public:
-    explicit RelationshipExtraction(PKB pkb);
+    explicit RelationshipExtraction(PKBStorage pkb);
 
     ~RelationshipExtraction();
 

@@ -1,5 +1,5 @@
 #include "RelationshipExtraction.h"
-#include "PKB.h"
+#include "../../PKB.h"
 #include "../astBuilder/TNode.h"
 #include "../astBuilder/ProgramNode.h"
 #include "../astBuilder/ProcedureNode.h"
@@ -24,6 +24,6 @@ void RelationshipExtraction::extractRls(TNode::PROCEDURE_NODE_PTR proc) {
         }
  }
 void RelationshipExtraction::extractRls(TNode::ASSIGNMENT_NODE_PTR assign, TNode::PROCEDURE_NODE_PTR proc) {
-        pkbFacade.persistModifies(assign, assign->variableNode);
-        pkbFacade.persistModifies(proc, assign->variableNode);
+        // pkbFacade.persistModifies(assign, assign->variableNode);
+        // pkbFacade.persistModifies(proc, assign->variableNode);
 }

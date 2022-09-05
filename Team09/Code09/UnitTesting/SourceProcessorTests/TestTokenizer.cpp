@@ -4,8 +4,6 @@
 #include "SourceProcessor/SimpleToken.h"
 #include "SourceProcessor/Parser.h"
 
-#define TEST_MY_TOKENIZER(traitValue) TEST_METHOD_ATTRIBUTE(L"MyTokenizer", traitValue)
-
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTesting {
@@ -101,6 +99,7 @@ namespace UnitTesting {
                 }
             }
 
+            /*
             TEST_METHOD(TestTokenizeRelationalOperators) {
                 const std::string str = "procedure computeCentroid { \n"
                                         "count = 0; \n"
@@ -174,8 +173,10 @@ namespace UnitTesting {
                     Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
                 }
             }
+            */
 
             // Procedure names, variable names and terminals can all be the same.
+            /*
             TEST_METHOD(TestTokenizeVariableNameProcedureNameClashWithNonTerminals) {
                 const std::string str = "procedure call { \n"
                                         "read print;\n"
@@ -213,5 +214,6 @@ namespace UnitTesting {
                 Assert::IsTrue(SimpleToken::TokenType::SEMICOLON == result[9].getType());
                 Assert::IsTrue(SimpleToken::TokenType::CLOSE_BRACES == result[10].getType());
             }
+             */
     };
 }

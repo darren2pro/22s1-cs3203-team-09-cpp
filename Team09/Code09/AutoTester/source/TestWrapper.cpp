@@ -1,4 +1,10 @@
 #include "TestWrapper.h"
+#include "SourceProcessor/Parser.h"
+#include <sstream>
+#include <string>
+#include <fstream>
+#include <memory>
+#include <unordered_set>
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
@@ -18,11 +24,17 @@ TestWrapper::TestWrapper() {
     std::cout << "TestWrapper constructor called" << std::endl;
 }
 
+TestWrapper::~TestWrapper() {
+}
+
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
-    // call your parser to do the parsing
-    // ...rest of your code...
-    std::cout << "TestWrapper::parse called" << std::endl;
+    // read the SIMPLE source file as string and call your simpleParser
+    std::ifstream file(filename);
+    std::string str((std::istreambuf_iterator<char>(file)),
+                     std::istreambuf_iterator<char>());
+    SimpleParser simpleParser = SimpleParser(str);
+    simpleParser.parse();
 }
 
 // method to evaluating a query

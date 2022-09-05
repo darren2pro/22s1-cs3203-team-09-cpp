@@ -75,7 +75,7 @@ void SimpleAstBuilder::handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR proce
     const SimpleToken variableToken = tokens[currentTokenIndex];
     currentTokenIndex++;
     const SimpleToken equalToken = tokens[currentTokenIndex];
-    if (equalToken.getType() != SimpleToken::TokenType::EQUALS) {
+    if (equalToken.getType() != SimpleToken::TokenType::ASSIGN) {
         char* message = new char[100];
         sprintf(message, "Expected equals token. Got %s", equalToken.getValue().c_str());
         throw SimpleInvalidSyntaxException(message);

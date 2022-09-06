@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 #include "QueryExecutor.h"
-#include "Relation.h"
+#include "../Relation.h"
 #include "ModifiesEvaluator.h"
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {

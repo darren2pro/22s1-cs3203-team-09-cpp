@@ -2,9 +2,9 @@
 #include <string>
 #include <vector>
 #include <unordered_set>
-#include "Query.h"
-#include "Relation.h"
-#include "../source/ProgramKnowledgeBase/PKBStorage.h"
+#include "../Query.h"
+#include "../Relation.h"
+#include "../../ProgramKnowledgeBase/PKBStorage.h"
 
 class QueryExecutor {
 private:

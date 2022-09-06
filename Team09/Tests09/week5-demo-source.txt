@@ -1,4 +1,5 @@
 procedure demoQuery {
     x=x+1;
     y=diamond+1;
+    hi =5;
 }

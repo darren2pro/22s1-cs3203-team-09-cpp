@@ -15,4 +15,12 @@ public:
     bool isDesignEntity() override;
 
     virtual bool isAssignmentNode() override;
+
+    bool isVariableNode() override {
+        return true;
+    };
+
+    string getVariableName() override {
+        return variableName;
+    }
 };

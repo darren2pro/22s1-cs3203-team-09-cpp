@@ -6,11 +6,15 @@ using namespace std;
 
 class BinaryOperatorNode : public TNode {
 public:
-    VARIABLE_NODE_PTR leftSubtree;
+    T_NODE_PTR leftSubtree;
 
-    CONSTANT_NODE_PTR rightSubtree;
+    T_NODE_PTR rightSubtree;
 
-    void setLeftSubtree(VARIABLE_NODE_PTR leftSubtree);
+    void setLeftSubtree(T_NODE_PTR leftSubtree);
 
-    void setRightSubtree(CONSTANT_NODE_PTR rightSubtree);
+    void setRightSubtree(T_NODE_PTR rightSubtree);
+
+    bool isBinaryOperatorNode() override {
+        return true;
+    };
 };

@@ -53,4 +53,16 @@ public:
      * https://stackoverflow.com/a/500495
      */
     virtual bool isAssignmentNode() = 0;
+
+    virtual bool isBinaryOperatorNode() {
+        return false;
+    };
+
+    virtual bool isVariableNode() {
+        return false;
+    };
+
+    virtual string getVariableName() {
+        return "";
+    };
 };

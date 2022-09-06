@@ -137,36 +137,36 @@ TNode::T_NODE_PTR SimpleAstBuilder::buildExpressionTree() {
         if (leftOperandToken.getType() == SimpleToken::TokenType::NUMBER &&
                 (operatorToken.getType() == SimpleToken::TokenType::PLUS || operatorToken.getType() == SimpleToken::TokenType::MINUS) &&
             rightOperandToken.getType() == SimpleToken::TokenType::NUMBER) {
-            TNode::T_NODE_PTR leftOperandNode = make_shared<ConstantNode>(leftOperandToken.getValue());
-            TNode::T_NODE_PTR rightOperandNode = make_shared<ConstantNode>(rightOperandToken.getValue());
-            TNode::T_NODE_PTR binaryOperatorNode = make_shared<BinaryOperatorNode>(operatorToken.getValue());
+            TNode::CONSTANT_NODE_PTR leftOperandNode = make_shared<ConstantNode>(leftOperandToken.getValue());
+            TNode::CONSTANT_NODE_PTR rightOperandNode = make_shared<ConstantNode>(rightOperandToken.getValue());
+            TNode::BIN_OP_NODE_PTR binaryOperatorNode = make_shared<PlusNode>();
             binaryOperatorNode->setLeftSubtree(leftOperandNode);
             binaryOperatorNode->setRightSubtree(rightOperandNode);
             return binaryOperatorNode;
         } else if (leftOperandToken.getType() == SimpleToken::TokenType::WORD &&
                    (operatorToken.getType() == SimpleToken::TokenType::PLUS || operatorToken.getType() == SimpleToken::TokenType::MINUS) &&
                    rightOperandToken.getType() == SimpleToken::TokenType::WORD) {
-            TNode::T_NODE_PTR leftOperandNode = make_shared<VariableNode>(leftOperandToken.getValue());
-            TNode::T_NODE_PTR rightOperandNode = make_shared<VariableNode>(rightOperandToken.getValue());
-            TNode::T_NODE_PTR binaryOperatorNode = make_shared<BinaryOperatorNode>(operatorToken.getValue());
+            TNode::VARIABLE_NODE_PTR leftOperandNode = make_shared<VariableNode>(leftOperandToken.getValue());
+            TNode::VARIABLE_NODE_PTR rightOperandNode = make_shared<VariableNode>(rightOperandToken.getValue());
+            TNode::BIN_OP_NODE_PTR binaryOperatorNode = make_shared<PlusNode>();
             binaryOperatorNode->setLeftSubtree(leftOperandNode);
             binaryOperatorNode->setRightSubtree(rightOperandNode);
             return binaryOperatorNode;
         } else if (leftOperandToken.getType() == SimpleToken::TokenType::WORD &&
                 (operatorToken.getType() == SimpleToken::TokenType::PLUS || operatorToken.getType() == SimpleToken::TokenType::MINUS) &&
                    rightOperandToken.getType() == SimpleToken::TokenType::NUMBER) {
-            TNode::T_NODE_PTR leftOperandNode = make_shared<VariableNode>(leftOperandToken.getValue());
-            TNode::T_NODE_PTR rightOperandNode = make_shared<ConstantNode>(rightOperandToken.getValue());
-            TNode::T_NODE_PTR binaryOperatorNode = make_shared<BinaryOperatorNode>(operatorToken.getValue());
+            TNode::VARIABLE_NODE_PTR leftOperandNode = make_shared<VariableNode>(leftOperandToken.getValue());
+            TNode::CONSTANT_NODE_PTR rightOperandNode = make_shared<ConstantNode>(rightOperandToken.getValue());
+            TNode::BIN_OP_NODE_PTR binaryOperatorNode = make_shared<PlusNode>();
             binaryOperatorNode->setLeftSubtree(leftOperandNode);
             binaryOperatorNode->setRightSubtree(rightOperandNode);
             return binaryOperatorNode;
         } else if (leftOperandToken.getType() == SimpleToken::TokenType::NUMBER &&
                 (operatorToken.getType() == SimpleToken::TokenType::PLUS || operatorToken.getType() == SimpleToken::TokenType::MINUS) &&
                    rightOperandToken.getType() == SimpleToken::TokenType::WORD) {
-            TNode::T_NODE_PTR leftOperandNode = make_shared<ConstantNode>(leftOperandToken.getValue());
-            TNode::T_NODE_PTR rightOperandNode = make_shared<VariableNode>(rightOperandToken.getValue());
-            TNode::T_NODE_PTR binaryOperatorNode = make_shared<BinaryOperatorNode>(operatorToken.getValue());
+            TNode::CONSTANT_NODE_PTR leftOperandNode = make_shared<ConstantNode>(leftOperandToken.getValue());
+            TNode::VARIABLE_NODE_PTR rightOperandNode = make_shared<VariableNode>(rightOperandToken.getValue());
+            TNode::BIN_OP_NODE_PTR binaryOperatorNode = make_shared<PlusNode>();
             binaryOperatorNode->setLeftSubtree(leftOperandNode);
             binaryOperatorNode->setRightSubtree(rightOperandNode);
             return binaryOperatorNode;

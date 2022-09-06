@@ -94,11 +94,6 @@ void SimpleAstBuilder::handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR proce
 void SimpleAstBuilder::handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR assignmentNode) {
     advanceTokenIndex();
     TNode::T_NODE_PTR expressionRootNode = buildExpressionTree();
-    /*
-     * If the expressionRootNode is constant then addConstant
-     * If is a binary operator then add binary operator
-    assignmentNode->addPlus(assignmentExpressionRootNode);
-    */
     assignmentNode->addExpressionRootNode(expressionRootNode);
 }
 

@@ -53,7 +53,7 @@ void SimpleAstBuilder::handleProcedure() {
     advanceTokenIndex();
     TNode::PROCEDURE_NODE_PTR procedureNode = make_shared<ProcedureNode>(procedureToken.getValue());
     programNode->addProcedure(procedureNode);
-    while (tokens[currentTokenIndex].getType() != SimpleToken::TokenType::CLOSE_BRACES) {
+    while (tokens[currentTokenIndex]->getType() != SimpleToken::TokenType::CLOSE_BRACES) {
         handleProcedureStatement(procedureNode);
         advanceTokenIndex();
     }
@@ -106,7 +106,7 @@ void SimpleAstBuilder::advanceTokenIndex() {
 }
 
 SimpleToken SimpleAstBuilder::getCurrentToken() {
-    return tokens.at(currentTokenIndex);
+    return *(tokens.at(currentTokenIndex));
 }
 
 TNode::T_NODE_PTR SimpleAstBuilder::buildExpressionTree() {

@@ -38,7 +38,11 @@ public:
         THEN,
         ELSE,
         PRINT,
-        READ
+        READ,
+        AND,
+        OR,
+        MODULO,
+        END_OF_FILE
     };
 
     /**
@@ -46,7 +50,7 @@ public:
      * @details Constructor
      * @param value The token value
      */
-    explicit SimpleToken(string value);
+    explicit SimpleToken(string value, TokenType type);
 
     /**
      * @brief Destructor
@@ -67,6 +71,8 @@ public:
      * @return The token value
      */
     string getValue() const;
+
+    bool operator==(const SimpleToken& other) const;
 
 private:
     /**

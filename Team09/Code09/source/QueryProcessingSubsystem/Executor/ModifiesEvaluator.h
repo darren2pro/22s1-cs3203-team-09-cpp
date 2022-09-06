@@ -12,7 +12,7 @@ public:
 	ModifiesEvaluator(std::vector<std::string> declarations, Relation relations, PKB::PKBStorage pkb) :
 	Evaluator(declarations, relations, pkb) {}; // Constructor
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftSynonymRightString(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+	std::unordered_set<std::string> ModifiesEvaluator::leftSynonymRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) override {
 		// Example: such that Modify(a, "x")
 		// Call PKB API here.
 		std::unordered_set<std::string> results = pkb.getAllModify();

@@ -93,35 +93,13 @@ void SimpleAstBuilder::handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR proce
 
 void SimpleAstBuilder::handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR assignmentNode) {
     advanceTokenIndex();
-    SimpleToken currentToken = tokens[currentTokenIndex];
-    SimpleToken::TokenType tokenType = currentToken.getType();
-    const TNode::PLUS_NODE_PTR assignmentExpressionRootNode = make_shared<PlusNode>();
+    TNode::T_NODE_PTR expressionRootNode = buildExpressionTree();
+    /*
+     * If the expressionRootNode is constant then addConstant
+     * If is a binary operator then add binary operator
     assignmentNode->addPlus(assignmentExpressionRootNode);
-    // TODO: Need to improve this to build the expression subtree correctly. I think we have to build from bottom up
-    while (tokenType != SimpleToken::TokenType::SEMICOLON) {
-        switch (tokenType) {
-            case SimpleToken::TokenType::WORD: {
-                TNode::VARIABLE_NODE_PTR variableNode = make_shared<VariableNode>(currentToken.getValue());
-                assignmentExpressionRootNode->setLeftSubtree(variableNode);
-            }
-                break;
-            case SimpleToken::TokenType::NUMBER: {
-                TNode::CONSTANT_NODE_PTR constantNode = make_shared<ConstantNode>(currentToken.getValue());
-                assignmentExpressionRootNode->setRightSubtree(constantNode);
-            }
-                break;
-            case SimpleToken::TokenType::PLUS:
-                // To be edited
-                break;
-            default:
-                char* message = new char[100];
-                sprintf(message, "Expected assignment expression. Got %s", currentToken.getValue().c_str());
-                throw SimpleInvalidSyntaxException(message);
-        }
-        advanceTokenIndex();
-        currentToken = tokens.at(currentTokenIndex);
-        tokenType = currentToken.getType();
-    }
+    */
+    assignmentNode->addExpressionRootNode(expressionRootNode);
 }
 
 const TNode::PROGRAM_NODE_PTR &SimpleAstBuilder::getProgramNode() const {
@@ -134,4 +112,77 @@ void SimpleAstBuilder::advanceTokenIndex() {
 
 SimpleToken SimpleAstBuilder::getCurrentToken() {
     return tokens.at(currentTokenIndex);
+}
+
+TNode::T_NODE_PTR SimpleAstBuilder::buildExpressionTree() {
+    vector<SimpleToken> expression;
+    SimpleToken currentToken = getCurrentToken();
+    SimpleToken::TokenType tokenType = currentToken.getType();
+    while (tokenType != SimpleToken::TokenType::SEMICOLON) {
+        expression.push_back(currentToken);
+        advanceTokenIndex();
+        currentToken = getCurrentToken();
+        tokenType = currentToken.getType();
+    }
+    if (expression.size() == 1) {
+        SimpleToken expressionToken = expression.at(0);
+        if (expressionToken.getType() == SimpleToken::TokenType::NUMBER) {
+            return make_shared<ConstantNode>(expressionToken.getValue());
+        } else if (expressionToken.getType() == SimpleToken::TokenType::WORD) {
+            return make_shared<VariableNode>(expressionToken.getValue());
+        } else {
+            char* message = new char[100];
+            sprintf(message, "Expected expression. Got %s", expressionToken.getValue().c_str());
+            throw SimpleInvalidSyntaxException(message);
+        }
+    } else if (expression.size() == 3) {
+        SimpleToken leftOperandToken = expression.at(0);
+        SimpleToken operatorToken = expression.at(1);
+        SimpleToken rightOperandToken = expression.at(2);
+        if (leftOperandToken.getType() == SimpleToken::TokenType::NUMBER &&
+                (operatorToken.getType() == SimpleToken::TokenType::PLUS || operatorToken.getType() == SimpleToken::TokenType::MINUS) &&
+            rightOperandToken.getType() == SimpleToken::TokenType::NUMBER) {
+            TNode::T_NODE_PTR leftOperandNode = make_shared<ConstantNode>(leftOperandToken.getValue());
+            TNode::T_NODE_PTR rightOperandNode = make_shared<ConstantNode>(rightOperandToken.getValue());
+            TNode::T_NODE_PTR binaryOperatorNode = make_shared<BinaryOperatorNode>(operatorToken.getValue());
+            binaryOperatorNode->setLeftSubtree(leftOperandNode);
+            binaryOperatorNode->setRightSubtree(rightOperandNode);
+            return binaryOperatorNode;
+        } else if (leftOperandToken.getType() == SimpleToken::TokenType::WORD &&
+                   (operatorToken.getType() == SimpleToken::TokenType::PLUS || operatorToken.getType() == SimpleToken::TokenType::MINUS) &&
+                   rightOperandToken.getType() == SimpleToken::TokenType::WORD) {
+            TNode::T_NODE_PTR leftOperandNode = make_shared<VariableNode>(leftOperandToken.getValue());
+            TNode::T_NODE_PTR rightOperandNode = make_shared<VariableNode>(rightOperandToken.getValue());
+            TNode::T_NODE_PTR binaryOperatorNode = make_shared<BinaryOperatorNode>(operatorToken.getValue());
+            binaryOperatorNode->setLeftSubtree(leftOperandNode);
+            binaryOperatorNode->setRightSubtree(rightOperandNode);
+            return binaryOperatorNode;
+        } else if (leftOperandToken.getType() == SimpleToken::TokenType::WORD &&
+                (operatorToken.getType() == SimpleToken::TokenType::PLUS || operatorToken.getType() == SimpleToken::TokenType::MINUS) &&
+                   rightOperandToken.getType() == SimpleToken::TokenType::NUMBER) {
+            TNode::T_NODE_PTR leftOperandNode = make_shared<VariableNode>(leftOperandToken.getValue());
+            TNode::T_NODE_PTR rightOperandNode = make_shared<ConstantNode>(rightOperandToken.getValue());
+            TNode::T_NODE_PTR binaryOperatorNode = make_shared<BinaryOperatorNode>(operatorToken.getValue());
+            binaryOperatorNode->setLeftSubtree(leftOperandNode);
+            binaryOperatorNode->setRightSubtree(rightOperandNode);
+            return binaryOperatorNode;
+        } else if (leftOperandToken.getType() == SimpleToken::TokenType::NUMBER &&
+                (operatorToken.getType() == SimpleToken::TokenType::PLUS || operatorToken.getType() == SimpleToken::TokenType::MINUS) &&
+                   rightOperandToken.getType() == SimpleToken::TokenType::WORD) {
+            TNode::T_NODE_PTR leftOperandNode = make_shared<ConstantNode>(leftOperandToken.getValue());
+            TNode::T_NODE_PTR rightOperandNode = make_shared<VariableNode>(rightOperandToken.getValue());
+            TNode::T_NODE_PTR binaryOperatorNode = make_shared<BinaryOperatorNode>(operatorToken.getValue());
+            binaryOperatorNode->setLeftSubtree(leftOperandNode);
+            binaryOperatorNode->setRightSubtree(rightOperandNode);
+            return binaryOperatorNode;
+        } else {
+            char* message = new char[100];
+            sprintf(message, "Expected expression. Got %s", currentToken.getValue().c_str());
+            throw SimpleInvalidSyntaxException(message);
+        }
+    } else {
+        char* message = new char[100];
+        sprintf(message, "Expected expression. Got %s", currentToken.getValue().c_str());
+        throw SimpleInvalidSyntaxException(message);
+    }
 }

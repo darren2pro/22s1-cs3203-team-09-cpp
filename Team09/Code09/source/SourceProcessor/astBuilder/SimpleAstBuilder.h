@@ -45,4 +45,6 @@ public:
     void handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR assignmentNode);
 
     const TNode::PROGRAM_NODE_PTR &getProgramNode() const;
+
+    TNode::T_NODE_PTR buildExpressionTree();
 };

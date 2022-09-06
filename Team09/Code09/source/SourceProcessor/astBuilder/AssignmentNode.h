@@ -9,13 +9,13 @@ public:
     VARIABLE_NODE_PTR variableNode;
 
     // TODO: Change from plusNode to incorporate other types of operators or constant
-    PLUS_NODE_PTR plusNode;
+    T_NODE_PTR expressionRootNode;
 
     string toString() override;
 
     void addAssignedVariable(VARIABLE_NODE_PTR variableNode);
 
-    void addPlus(PLUS_NODE_PTR plusNode);
+    void addExpressionRootNode(T_NODE_PTR expressionRootNode);
 
     bool isDesignEntity() override;
 

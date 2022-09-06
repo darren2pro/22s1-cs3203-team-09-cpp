@@ -40,6 +40,7 @@ public:
     // TODO: Change from AssignmentNode to StatementNode
     typedef shared_ptr<AssignmentNode> STATEMENT_NODE_PTR;
     typedef vector<shared_ptr<AssignmentNode>> STATEMENT_PTR_LST;
+    typedef shared_ptr<TNode> T_NODE_PTR;
 
     virtual ~TNode() = default;
 

@@ -8,8 +8,8 @@ void AssignmentNode::addAssignedVariable(TNode::VARIABLE_NODE_PTR variableNode) 
     this->variableNode = variableNode;
 }
 
-void AssignmentNode::addPlus(TNode::PLUS_NODE_PTR plusNode) {
-    this->plusNode = plusNode;
+void AssignmentNode::addExpressionRootNode(TNode::T_NODE_PTR expressionRootNode) {
+    this->expressionRootNode = expressionRootNode;
 }
 
 bool AssignmentNode::isDesignEntity() {

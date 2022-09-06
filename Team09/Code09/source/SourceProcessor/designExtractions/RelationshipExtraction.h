@@ -7,10 +7,10 @@ using namespace PKB;
 
 class RelationshipExtraction {
 private:
-    PKBStorage pkbFacade;
+    PKBStorage* pkbFacade;
 
 public:
-    explicit RelationshipExtraction(PKBStorage pkb);
+    explicit RelationshipExtraction(PKBStorage* pkb);
 
     ~RelationshipExtraction();
 

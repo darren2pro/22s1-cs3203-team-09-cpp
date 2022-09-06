@@ -8,10 +8,10 @@ using namespace PKB;
 
 class EntityExtraction {
 private:
-    PKBStorage pkbFacade;
+    PKBStorage* pkbFacade;
 
 public:
-    explicit EntityExtraction(PKBStorage pkb);
+    explicit EntityExtraction(PKBStorage* pkb);
 
     ~EntityExtraction();
 

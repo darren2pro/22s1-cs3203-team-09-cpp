@@ -16,7 +16,7 @@ PKB::PKBStorage SimpleParser::parse() {
     SimpleAstBuilder builder(tokens);
     builder.build();
     PKBStorage pkb;
-    DesignExtractor extractor(pkb);
+    DesignExtractor extractor(&pkb);
     extractor.extractDesignAbstractions(builder.getProgramNode());
     return pkb;
 }

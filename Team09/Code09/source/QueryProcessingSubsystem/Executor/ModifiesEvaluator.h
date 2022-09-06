@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "Evaluator.h"
-#include "../source/ProgramKnowledgeBase/PKBStorage.h"
+#include "../../ProgramKnowledgeBase/PKBStorage.h"
 #include <iostream>
 
 using namespace std;

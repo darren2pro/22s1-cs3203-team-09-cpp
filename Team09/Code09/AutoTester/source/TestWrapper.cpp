@@ -5,8 +5,8 @@
 #include <fstream>
 #include <memory>
 #include <unordered_set>
-#include "../SPA/QueryBuilder.cpp"
-#include "../SPA/QueryExecutor.h"
+#include "../source/QueryProcessingSubsystem/Executor/QueryExecutor.h"
+#include "../source/QueryProcessingSubsystem/Validator/QueryBuilder.h"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;

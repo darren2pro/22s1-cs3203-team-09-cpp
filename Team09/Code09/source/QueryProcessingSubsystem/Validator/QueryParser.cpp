@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 #include "QueryParser.h"
-#include "Relation.h"
+#include "../Relation.h"
 #include "QPSValidatorException.h"
 
 std::regex design_enteties("stmt|read|print|while|if|assign|variable|constant|procedure");

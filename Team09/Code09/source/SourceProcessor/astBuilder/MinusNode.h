@@ -2,9 +2,7 @@
 
 #include "BinaryOperatorNode.h"
 
-using namespace std;
-
-class PlusNode : public BinaryOperatorNode {
+class MinusNode : public BinaryOperatorNode {
 public:
     string toString() override;
 

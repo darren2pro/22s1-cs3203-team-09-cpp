@@ -21,7 +21,9 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\BinaryOperatorNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\MinusNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\PlusNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ProcedureNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ProgramNode.cpp" />
@@ -55,7 +57,9 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\AssignmentNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\BinaryOperatorNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ConstantNode.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\MinusNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\PlusNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ProcedureNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ProgramNode.h" />

@@ -6,3 +6,19 @@
 <queries>
 <query>
 <id ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="week 5 demo query">1</id><querystr><![CDATA[ variable v, assign a; Select v such that Modifies(a, v)]]></querystr>
+<stuans>x,y</stuans>
+<correct>x</correct>
+<time_taken>10.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>y</additional>
+<summary>
+<expected>1</expected>
+<matched>1</matched>
+<missing>0</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+</queries>
+</test_results>

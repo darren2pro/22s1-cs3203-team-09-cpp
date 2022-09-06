@@ -27,6 +27,10 @@ public:
 
     int build();
 
+    void advanceTokenIndex();
+
+    SimpleToken getCurrentToken();
+
     /**
      * @brief Deals with the building of the AST for a single procedure block.
      * @details This method will create the necessary nodes for the procedure block and then call other methods

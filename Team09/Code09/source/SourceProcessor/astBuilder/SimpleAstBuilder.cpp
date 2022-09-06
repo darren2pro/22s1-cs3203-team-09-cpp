@@ -6,6 +6,8 @@
 #include "ConstantNode.h"
 #include "PlusNode.h"
 #include "VariableNode.h"
+#include "BinaryOperatorNode.h"
+#include "MinusNode.h"
 
 using namespace std;
 
@@ -21,45 +23,45 @@ SimpleAstBuilder::~SimpleAstBuilder() {
 
 int SimpleAstBuilder::build() {
     while (currentTokenIndex < tokens.size()) {
-        const SimpleToken currentToken = tokens[currentTokenIndex];
+        const SimpleToken currentToken = getCurrentToken();
         if (currentToken.getType() != SimpleToken::TokenType::PROCEDURE) {
             char* message = new char[100];
             sprintf(message, "Expected procedure token. Got %s", currentToken.getValue().c_str());
             throw SimpleInvalidSyntaxException(message);
             return -1;
         }
-        currentTokenIndex++;
+        advanceTokenIndex();
         handleProcedure();
     }
     return 0;
 }
 
 void SimpleAstBuilder::handleProcedure() {
-    const SimpleToken procedureToken = tokens[currentTokenIndex];
+    const SimpleToken procedureToken = getCurrentToken();
     if (procedureToken.getType() != SimpleToken::TokenType::WORD) {
         char* message = new char[100];
         sprintf(message, "Expected procedure name. Got %s", procedureToken.getValue().c_str());
         throw SimpleInvalidSyntaxException(message);
     }
-    currentTokenIndex++;
-    const SimpleToken leftBracesToken = tokens[currentTokenIndex];
+    advanceTokenIndex();
+    const SimpleToken leftBracesToken = getCurrentToken();
     if (leftBracesToken.getType() != SimpleToken::TokenType::OPEN_BRACES) {
         char* message = new char[100];
         sprintf(message, "Expected open braces. Got %s", leftBracesToken.getValue().c_str());
         throw SimpleInvalidSyntaxException(message);
     }
-    currentTokenIndex++;
+    advanceTokenIndex();
     TNode::PROCEDURE_NODE_PTR procedureNode = make_shared<ProcedureNode>(procedureToken.getValue());
     programNode->addProcedure(procedureNode);
     while (tokens[currentTokenIndex].getType() != SimpleToken::TokenType::CLOSE_BRACES) {
         handleProcedureStatement(procedureNode);
-        currentTokenIndex++;
+        advanceTokenIndex();
     }
-    currentTokenIndex++;
+    advanceTokenIndex();
 }
 
 void SimpleAstBuilder::handleProcedureStatement(TNode::PROCEDURE_NODE_PTR procedureNode) {
-    const SimpleToken currentToken = tokens[currentTokenIndex];
+    const SimpleToken currentToken = getCurrentToken();
     const SimpleToken::TokenType tokenType = currentToken.getType();
     switch (tokenType) {
         case SimpleToken::TokenType::WORD:
@@ -74,9 +76,9 @@ void SimpleAstBuilder::handleProcedureStatement(TNode::PROCEDURE_NODE_PTR proced
 }
 
 void SimpleAstBuilder::handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR procedureNode) {
-    const SimpleToken variableToken = tokens[currentTokenIndex];
-    currentTokenIndex++;
-    const SimpleToken equalToken = tokens[currentTokenIndex];
+    const SimpleToken variableToken = getCurrentToken();
+    advanceTokenIndex();
+    const SimpleToken equalToken = getCurrentToken();
     if (equalToken.getType() != SimpleToken::TokenType::ASSIGN) {
         char* message = new char[100];
         sprintf(message, "Expected equals token. Got %s", equalToken.getValue().c_str());
@@ -90,7 +92,7 @@ void SimpleAstBuilder::handleAssignmentStatement(TNode::PROCEDURE_NODE_PTR proce
 }
 
 void SimpleAstBuilder::handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR assignmentNode) {
-    currentTokenIndex++;
+    advanceTokenIndex();
     SimpleToken currentToken = tokens[currentTokenIndex];
     SimpleToken::TokenType tokenType = currentToken.getType();
     const TNode::PLUS_NODE_PTR assignmentExpressionRootNode = make_shared<PlusNode>();
@@ -116,7 +118,7 @@ void SimpleAstBuilder::handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR ass
                 sprintf(message, "Expected assignment expression. Got %s", currentToken.getValue().c_str());
                 throw SimpleInvalidSyntaxException(message);
         }
-        currentTokenIndex++;
+        advanceTokenIndex();
         currentToken = tokens.at(currentTokenIndex);
         tokenType = currentToken.getType();
     }
@@ -124,4 +126,12 @@ void SimpleAstBuilder::handleAssignmentExpression(TNode::ASSIGNMENT_NODE_PTR ass
 
 const TNode::PROGRAM_NODE_PTR &SimpleAstBuilder::getProgramNode() const {
     return programNode;
+}
+
+void SimpleAstBuilder::advanceTokenIndex() {
+    currentTokenIndex++;
+}
+
+SimpleToken SimpleAstBuilder::getCurrentToken() {
+    return tokens.at(currentTokenIndex);
 }

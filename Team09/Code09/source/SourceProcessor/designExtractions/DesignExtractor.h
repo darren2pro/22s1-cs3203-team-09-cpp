@@ -10,9 +10,9 @@ using namespace PKB;
 
 class DesignExtractor {	
 public:
-    PKBStorage pkbFacade;
+    PKBStorage* pkbFacade;
 	
-    DesignExtractor(PKBStorage pkb) : pkbFacade(pkb) {};
+    DesignExtractor(PKBStorage* pkb) : pkbFacade(pkb) {};
 
     ~DesignExtractor();
 

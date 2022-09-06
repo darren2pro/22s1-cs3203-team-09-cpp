@@ -7,13 +7,13 @@
 
 class Evaluator {
 private:
+
+public:
+	PKB::PKBStorage pkb;
 	std::vector<std::string> declarations;
 	Relation relations;
 	std::string LEFT_ARG;
 	std::string RIGHT_ARG;
-
-public:
-	PKB::PKBStorage pkb;
 
 	Evaluator(std::vector<std::string> declarations, Relation relations, PKB::PKBStorage pkb) : // Added PKB
 		declarations(declarations),

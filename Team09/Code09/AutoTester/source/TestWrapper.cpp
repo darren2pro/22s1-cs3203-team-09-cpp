@@ -44,11 +44,10 @@ void TestWrapper::parse(std::string filename) {
 void TestWrapper::evaluate(std::string query, std::list<std::string> &results) {
     // call your evaluator to evaluate the query here
     // ...code to evaluate query...	
-    std::cout << "evaluate called" << std::endl;
     auto queryAdt = QueryBuilder().buildQuery(query);
     auto qe = QueryExecutor(this->pkb);
     auto queryResults = qe.processQuery(queryAdt);
-    for (auto result : *queryResults) {
+    for (auto result : queryResults) {
         results.push_back(result);
     }
 }

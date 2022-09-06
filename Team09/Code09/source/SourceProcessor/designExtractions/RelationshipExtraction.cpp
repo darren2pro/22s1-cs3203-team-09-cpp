@@ -6,7 +6,7 @@
 
 using namespace PKB;
 
-RelationshipExtraction::RelationshipExtraction(PKBStorage pkb) {
+RelationshipExtraction::RelationshipExtraction(PKBStorage* pkb) {
     pkbFacade = pkb;
 }
 
@@ -25,6 +25,6 @@ void RelationshipExtraction::extractRls(TNode::PROCEDURE_NODE_PTR proc) {
         }
  }
 void RelationshipExtraction::extractRls(TNode::ASSIGNMENT_NODE_PTR assign, TNode::PROCEDURE_NODE_PTR proc) {
-        pkbFacade.persistAssignModifyVariable(assign->variableNode);
-        pkbFacade.persistAssignModifyVariable(assign->variableNode);
+        pkbFacade->persistAssignModifyVariable(assign->variableNode);
+        pkbFacade->persistAssignModifyVariable(assign->variableNode);
 }

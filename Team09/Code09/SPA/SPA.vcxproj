@@ -12,6 +12,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\PlusNode.cpp" />
@@ -27,17 +35,25 @@
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp" />
-    <ClCompile Include="Evaluator.cpp" />
-    <ClCompile Include="PatternEvaluator.cpp" />
-    <ClCompile Include="QPSValidatorException.cpp" />
-    <ClCompile Include="QueryBuilder.cpp" />
-    <ClCompile Include="QueryExecutor.cpp" />
-    <ClCompile Include="QueryLexer.cpp" />
-    <ClCompile Include="QueryParser.cpp" />
-    <ClCompile Include="QueryValidator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsStarEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ModifiesEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentStarEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Query.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Relation.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Utils.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\AssignmentNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ConstantNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\PlusNode.h" />
@@ -55,21 +71,6 @@
     <ClInclude Include="..\source\SourceProcessor\SimpleToken.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h" />
     <ClInclude Include="..\source\TNode.h" />
-    <ClInclude Include="Evaluator.h" />
-    <ClInclude Include="FollowsEvaluator.h" />
-    <ClInclude Include="FollowsStarEvaluator.h" />
-    <ClInclude Include="ModifiesEvaluator.h" />
-    <ClInclude Include="ParentEvaluator.h" />
-    <ClInclude Include="ParentStarEvaluator.h" />
-    <ClInclude Include="PatternEvaluator.h" />
-    <ClInclude Include="QPSValidatorException.h" />
-    <ClInclude Include="Query.h" />
-    <ClInclude Include="QueryExecutor.h" />
-    <ClInclude Include="QueryLexer.h" />
-    <ClInclude Include="QueryParser.h" />
-    <ClInclude Include="QueryValidator.h" />
-    <ClInclude Include="Relation.h" />
-    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

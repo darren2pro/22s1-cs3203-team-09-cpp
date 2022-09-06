@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include "QueryValidator.h"
+#include "../Query.h"
 
 QueryValidator::QueryValidator(Query query) {
 	stored_query = query;

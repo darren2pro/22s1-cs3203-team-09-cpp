@@ -2,8 +2,8 @@
 #include <string>
 #include <regex>
 #include <vector>
-#include "Query.h"
-#include "Relation.h"
+#include "../Query.h"
+#include "../Relation.h"
 
 /**
  * A QueryParser class to parse the query.

@@ -239,5 +239,11 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.h">
       <Filter>Header Files\QueryProcessingSystem\Validator</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h">
+      <Filter>Header Files\QueryProcessingSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Pattern.h">
+      <Filter>Header Files\QueryProcessingSystem</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

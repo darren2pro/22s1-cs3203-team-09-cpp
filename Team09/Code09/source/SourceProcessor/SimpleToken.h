@@ -30,7 +30,8 @@ public:
         MULTIPLY,
         DIVIDE,
         ASSIGN,
-        WORD, // variable or procedure names, but it could also be an invalid word if it is wrongly placed
+        WORD, //! variable or procedure names, or invalid word if wrongly placed. It is could also be read,
+                //! while, call, because we don't know whether they are keywords or variable names yet.
         PROCEDURE,
         CALL,
         WHILE,
@@ -72,7 +73,7 @@ public:
      */
     string getValue() const;
 
-    bool operator==(const SimpleToken& other) const;
+    bool operator==(const SimpleToken &other) const;
 
 private:
     /**

@@ -25,7 +25,7 @@ SimpleToken::TokenType mapSingleCharPunctuationToTokenType(char c) {
             return SimpleToken::TokenType::OPEN_PARENTHESES;
             break;
         case ')':
-            return SimpleToken::TokenType::CLOSE_BRACES;
+            return SimpleToken::TokenType::CLOSE_PARENTHESES;
             break;
         case '+':
             return SimpleToken::TokenType::PLUS;

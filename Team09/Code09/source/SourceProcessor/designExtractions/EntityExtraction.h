@@ -20,5 +20,4 @@ public:
     void extractEntities(TNode::ASSIGNMENT_NODE_PTR assign);
     void extractEntities(TNode::VARIABLE_NODE_PTR var);
     void extractEntities(TNode::CONSTANT_NODE_PTR cons);
-
 };

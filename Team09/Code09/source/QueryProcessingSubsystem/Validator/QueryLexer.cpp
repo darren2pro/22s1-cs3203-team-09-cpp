@@ -15,10 +15,10 @@ QueryLexer::~QueryLexer() {
 
 std::vector<std::string> QueryLexer::lex() {
     std::vector<std::string> tokens;
-	
+
     std::regex whitespace("[ \t\n]+");
     std::regex punctuation("[(),;_]");
-    
+
     std::string str = "";
 
 	for (int i = 0; i < query_string.length(); i++) {

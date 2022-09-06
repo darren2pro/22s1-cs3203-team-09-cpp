@@ -1,15 +1,24 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>AutoTester</name><parsing_time_taken>2.000000</parsing_time_taken>
+<name>AutoTester</name><parsing_time_taken>1.000000</parsing_time_taken>
 </info>
 <queries>
 <query>
 <id ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="week 5 demo query">1</id><querystr><![CDATA[ variable v, assign a; Select v such that Modifies(a, v)]]></querystr>
-<stuans>x</stuans>
+<stuans>x,y,hi</stuans>
 <correct>x</correct>
-<time_taken>16.000000</time_taken>
-<passed/>
+<time_taken>9.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>hi,y</additional>
+<summary>
+<expected>1</expected>
+<matched>1</matched>
+<missing>0</missing>
+<additional>2</additional>
+</summary>
+</failed>
 </query>
 </queries>
 </test_results>

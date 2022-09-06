@@ -1,10 +1,13 @@
 #include "EntityExtraction.h"
 #include "../astBuilder/ProgramNode.h"
 #include <stack>
+#include <memory>
 #include "../astBuilder/StmtLstNode.h"
 #include "../astBuilder/ProcedureNode.h"
 #include "../astBuilder/AssignmentNode.h"
 #include "../astBuilder/PlusNode.h"
+#include "../astBuilder/MinusNode.h"
+#include "../astBuilder/BinaryOperatorNode.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace PKB;
@@ -31,15 +34,16 @@ void EntityExtraction::extractEntities(const TNode::PROCEDURE_NODE_PTR proc) {
 
 void EntityExtraction::extractEntities(TNode::ASSIGNMENT_NODE_PTR assign) {
 	TNode::VARIABLE_NODE_PTR var = assign->getAssignedVariableNode();
-	TNode::PLUS_NODE_PTR plus = assign->plusNode;
+	TNode::T_NODE_PTR expressionRootNode = assign->expressionRootNode;
 	pkbFacade->persistEntity(assign);
 	pkbFacade->persistEntity(var);
-	extractEntities(plus->leftSubtree);
-	extractEntities(plus->rightSubtree);
+    if (expressionRootNode->isBinaryOperatorNode()) {
+        // persist the entities of the binary operator
+    }
 }
 void EntityExtraction::extractEntities(TNode::VARIABLE_NODE_PTR var) {
 	pkbFacade->persistEntity(var);
 }
 void EntityExtraction::extractEntities(TNode::CONSTANT_NODE_PTR cons) {
-	// pkbFacade.persistEntity(cons);
+	// pkbFacade->persistEntity(cons);
 }

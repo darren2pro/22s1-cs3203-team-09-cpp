@@ -4,6 +4,7 @@
 #include <string>
 #include "SimpleToken.h"
 #include <vector>
+#include <cctype>
 #include "../ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace std;
@@ -14,7 +15,7 @@ using namespace std;
  */
 class Parser {
 public:
-    typedef vector<SimpleToken> SOURCE_CODE_TOKENS;
+    typedef vector<SimpleToken*> SOURCE_CODE_TOKENS;
 
     /**
      * @brief Destructor
@@ -42,8 +43,11 @@ protected:
  * @brief Parser for the SIMPLE language
  */
 class SimpleParser : public Parser {
+private:
+    istream* program;
+
 public:
-    explicit SimpleParser(const string program);
+    explicit SimpleParser(istream* program);
 
     PKB::PKBStorage parse() override;
 };

@@ -33,9 +33,7 @@ TestWrapper::~TestWrapper() {
 void TestWrapper::parse(std::string filename) {
     // read the SIMPLE source file as string and call your simpleParser
     std::ifstream file(filename);
-    std::string str((std::istreambuf_iterator<char>(file)),
-                     std::istreambuf_iterator<char>());
-    SimpleParser simpleParser = SimpleParser(str);
+    SimpleParser simpleParser = SimpleParser(&file);
     this->pkb = simpleParser.parse();
 }
 

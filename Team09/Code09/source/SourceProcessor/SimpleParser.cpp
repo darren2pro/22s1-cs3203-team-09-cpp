@@ -7,7 +7,7 @@
 
 using namespace std;
 
-SimpleParser::SimpleParser(const string program) {
+SimpleParser::SimpleParser(istream* program) {
     SimpleTokenizer tokenizer(program);
     tokens = tokenizer.tokenize();
 }

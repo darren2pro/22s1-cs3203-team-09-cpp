@@ -2,20 +2,22 @@
 #include <string>
 #include <vector>
 #include "Relation.h"
+#include "Pattern.h"
+#include "Declaration.h"
 
 class Query {
 public:
 	Relation relations;
-	std::vector<std::string> patterns;
-	std::vector<std::string> declarations;
+	Pattern patterns;
+	std::vector<Declaration> declarations;
 	std::string target;
 	std::vector<std::string> results;
 
 
 	Query() :
-		relations(Relation()), // Replace with new Relation after Parser class
-		patterns(std::vector<std::string>()),
-		declarations(std::vector<std::string>()),
+		relations(Relation()),
+		patterns(Pattern()),
+		declarations(std::vector<Declaration>()),
 		target(std::string()),
 		results(std::vector<std::string>()) {};
 };

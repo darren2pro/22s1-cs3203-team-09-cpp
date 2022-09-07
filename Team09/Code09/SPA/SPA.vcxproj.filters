@@ -43,9 +43,6 @@
     <Filter Include="Source Files\ProgramKnowledgeBase">
       <UniqueIdentifier>{1e4226c7-3da1-43f1-8b4a-a49f676dda74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\QueryProcessingSystem">
-      <UniqueIdentifier>{b9be5e20-cdf4-4f2f-b5a2-d745bc952128}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\QueryProcessingSystem">
       <UniqueIdentifier>{2d03cad5-10b6-48c9-a680-821add5aa794}</UniqueIdentifier>
     </Filter>
@@ -55,10 +52,13 @@
     <Filter Include="Header Files\QueryProcessingSystem\Executor">
       <UniqueIdentifier>{5f2baec3-4297-401b-9b77-e74011105bd3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\QueryProcessingSystem\Validator">
+    <Filter Include="Source Files\QueryProcessingSubsystem">
+      <UniqueIdentifier>{b9be5e20-cdf4-4f2f-b5a2-d745bc952128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QueryProcessingSubsystem\Validator">
       <UniqueIdentifier>{c0211b4b-2ba0-4b8a-b3d5-a0611710facd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\QueryProcessingSystem\Executor">
+    <Filter Include="Source Files\QueryProcessingSubsystem\Executor">
       <UniqueIdentifier>{25637db5-130d-4f22-9a2a-fd11882f69ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -112,28 +112,28 @@
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.cpp">
-      <Filter>Source Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Source Files\QueryProcessingSubsystem\Executor</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.cpp">
-      <Filter>Source Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Source Files\QueryProcessingSubsystem\Executor</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp">
-      <Filter>Source Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Source Files\QueryProcessingSubsystem\Executor</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.cpp">
-      <Filter>Source Files\QueryProcessingSystem\Validator</Filter>
+      <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.cpp">
-      <Filter>Source Files\QueryProcessingSystem\Validator</Filter>
+      <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.cpp">
-      <Filter>Source Files\QueryProcessingSystem\Validator</Filter>
+      <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp">
-      <Filter>Source Files\QueryProcessingSystem\Validator</Filter>
+      <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.cpp">
-      <Filter>Source Files\QueryProcessingSystem\Validator</Filter>
+      <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Pattern.h">
       <Filter>Header Files\QueryProcessingSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\UsesEvaluator.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

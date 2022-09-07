@@ -10,7 +10,7 @@ public:
 		Print,
 		While,
 		If,
-		Assign,
+		Assignment,
 		Variable,
 		Constant,
 		Procedure,

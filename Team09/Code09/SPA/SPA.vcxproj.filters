@@ -61,6 +61,12 @@
     <Filter Include="Source Files\QueryProcessingSubsystem\Executor">
       <UniqueIdentifier>{25637db5-130d-4f22-9a2a-fd11882f69ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TNode">
+      <UniqueIdentifier>{7712d99f-6e74-4187-a893-388001bb4963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TNode">
+      <UniqueIdentifier>{b3a0e69d-4596-4984-b5f2-09b897e5498d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
@@ -75,29 +81,8 @@
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp">
       <Filter>Source Files\SourceProcessor\astBuilder</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\ProcedureNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\ProgramNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp">
       <Filter>Source Files\SourceProcessor\exceptions</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\StmtLstNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\PlusNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\VariableNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
     </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp">
       <Filter>Source Files\SourceProcessor\designExtractor</Filter>
@@ -135,17 +120,11 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\BinaryOperatorNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\MinusNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
+    <ClCompile Include="..\source\TNode\TNode.cpp">
+      <Filter>Source Files\TNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\TNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\Parser.h">
       <Filter>Header Files\SourceProcessor</Filter>
     </ClInclude>
@@ -155,35 +134,11 @@
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h">
       <Filter>Header Files\SourceProcessor</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\ProcedureNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\ProgramNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\TNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h">
       <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h">
       <Filter>Header Files\SourceProcessor\exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\StmtLstNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\AssignmentNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\ConstantNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\PlusNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\VariableNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h">
       <Filter>Header Files\SourceProcessor\designExtractor</Filter>
@@ -245,11 +200,8 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.h">
       <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\BinaryOperatorNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\MinusNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
+    <ClInclude Include="..\source\TNode\TNode.h">
+      <Filter>Header Files\TNode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

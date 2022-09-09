@@ -1,4 +1,4 @@
 #include "SimpleInvalidSyntaxException.h"
 
-SimpleInvalidSyntaxException::SimpleInvalidSyntaxException(const char* message)
-        : runtime_error(message) {}
+SimpleInvalidSyntaxException::SimpleInvalidSyntaxException(const string& msg)
+        : runtime_error(msg) {}

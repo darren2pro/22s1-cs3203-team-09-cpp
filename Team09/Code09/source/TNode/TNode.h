@@ -28,6 +28,10 @@ using Expr = std::variant<std::shared_ptr<VariableNode>,
                           std::shared_ptr<ConstantNode>,
                           std::shared_ptr<BinOpNode>>;
 
+using Factor = std::variant<std::shared_ptr<VariableNode>,
+                            std::shared_ptr<ConstantNode>,
+                            std::shared_ptr<BinOpNode>>;
+
 using StmtLst = std::vector<Stmt>;
 
 using AST = std::shared_ptr<ProgramNode>;

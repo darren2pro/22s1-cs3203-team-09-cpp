@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include "../astBuilder/TNode.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace PKB;

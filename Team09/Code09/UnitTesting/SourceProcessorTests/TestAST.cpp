@@ -1,12 +1,5 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "SourceProcessor/astBuilder/ProgramNode.h"
-#include "SourceProcessor/astBuilder/ProcedureNode.h"
-#include "SourceProcessor/astBuilder/StmtLstNode.h"
-#include "SourceProcessor/astBuilder/AssignmentNode.h"
-#include "SourceProcessor/astBuilder/VariableNode.h"
-#include "SourceProcessor/astBuilder/ConstantNode.h"
-#include "SourceProcessor/astBuilder/PlusNode.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

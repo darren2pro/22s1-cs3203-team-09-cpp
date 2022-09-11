@@ -47,7 +47,7 @@ class ProcedureNode : public TNode {
     public:
         std::string procName;
         StmtLst stmtList;
-        explicit ProcedureNode(const std::string procName, Stmt stmtList);
+        explicit ProcedureNode(const std::string procName, StmtLst stmtList);
 };
 
 class ConstantNode : public TNode {
@@ -66,7 +66,7 @@ class AssignmentNode : public TNode {
     public:
         std::shared_ptr<VariableNode> var;
         Expr expr;
-        explicit AssignmentNode(const std::shared_ptr<VariableNode> var, Expr expr);
+        explicit AssignmentNode(std::shared_ptr<VariableNode> var, Expr expr);
 };
 
 class CallNode : public TNode {

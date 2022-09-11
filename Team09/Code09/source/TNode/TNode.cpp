@@ -3,14 +3,14 @@
 ProgramNode::ProgramNode(std::vector<std::shared_ptr<ProcedureNode>> procList) :
     procList(std::move(procList)) {};
 
-ProcedureNode::ProcedureNode(const std::string procName, Stmt stmtList) :
+ProcedureNode::ProcedureNode(const std::string procName, StmtLst stmtList) :
     procName(procName), stmtList(std::move(stmtList)) {};
 
 ConstantNode::ConstantNode(const std::string value) : value(value) {};
 
 VariableNode::VariableNode(const std::string varName) : varName(varName) {};
 
-AssignmentNode::AssignmentNode(const std::shared_ptr<VariableNode> var, Expr expr) :
+AssignmentNode::AssignmentNode(std::shared_ptr<VariableNode> var, Expr expr) :
     var(std::move(var)) {};
 
 CallNode::CallNode(std::shared_ptr<ProcedureNode> proc) : proc(std::move(proc)) {};

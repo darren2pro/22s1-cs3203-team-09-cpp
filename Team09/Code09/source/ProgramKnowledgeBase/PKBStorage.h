@@ -1,36 +1,25 @@
 #pragma once
 
-#include <unordered_set>
-#include "../SourceProcessor/astBuilder/TNode.h"
+#include <string>
+#include <unordered_map>
+#include "pkb_adt.h"
+#include "../TNode/TNode.h"
 
 namespace PKB {
 
-    class PKBStorage {
-    public:
-        PKBStorage();
-        ~PKBStorage();
+class PKBStorage {
+private:
+    int lineNum = 1;
+    std::unordered_map<LineNum, std::shared_ptr<TNode>> lineToNodeMap;
+    std::unordered_map<std::shared_ptr<TNode>, LineNum> nodeToLineMap;
 
-        // node pointers
-        using AssignNode = TNode::ASSIGNMENT_NODE_PTR;
-        using ProcedureNode = TNode::PROCEDURE_NODE_PTR;
-        using VariableNode = TNode::VARIABLE_NODE_PTR;
+    LineNum getCurrLineNumber();
+    void incrementCurrLineNumber();
 
-        // design entities
-        std::unordered_set<std::string> assignSet;
-        std::unordered_set<std::string> procedureSet;
-        std::unordered_set<std::string> variableSet;
+public:
+    PKBStorage();
+    ~PKBStorage();
+    LineNum storeLine(const Stmt node);
+};
 
-        // relationships
-        std::unordered_set<std::string> assignment_modifies_variable;
-
-        // store
-        void persistEntity(AssignNode);
-        void persistEntity(ProcedureNode);
-        void persistEntity(VariableNode);
-        void persistAssignModifyVariable(VariableNode);
-
-        std::unordered_set<std::string> getVariableSet();
-        std::unordered_set<std::string> getProcedureSet();
-        std::unordered_set<std::string> getAllModify();
-    };
 }

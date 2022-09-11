@@ -4,17 +4,23 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "PKBStorage.h"
 
-using namespace std;
-typedef short PROC;
+namespace PKB {
 
-class TNode;
-
-class VarTable;  // no need to #include "VarTable.h" as all I need is pointer
-
-class PKB {
+class PKBManager {
+private:
+	std::shared_ptr<PKBStorage> pkbStorage = std::make_shared<PKBStorage>();
 public:
-	static VarTable* varTable; 
-	static int setProcToAST(PROC p, TNode* r);
-	static TNode* getRootAST (PROC p);
+	PKBManager();
+	~PKBManager();
+
+	std::shared_ptr<PKBStorage> PKBManager::getPKBStorage();
 };
+
+}
+
+
+
+
+

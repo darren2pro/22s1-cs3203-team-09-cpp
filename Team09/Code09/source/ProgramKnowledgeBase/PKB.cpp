@@ -2,16 +2,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
-using namespace std;
-
 #include "PKB.h"
-#include "../SourceProcessor/astBuilder/TNode.h"
 
-int PKB::setProcToAST(PROC p, TNode* r) {
-    return 0;
+PKBManager::PKBManager() {}
+
+PKBManager::~PKBManager() {}
+
+//getter for pkbStorage. Used by SimpleParser. DesignExtractor extractor(pkb.getPKBStorage).
+std::shared_ptr<PKBStorage> PKBManager::getPKBStorage() {
+    return pkbStorage;
 }
 
-TNode* PKB::getRootAST(PROC p) {
-    return nullptr;
-}

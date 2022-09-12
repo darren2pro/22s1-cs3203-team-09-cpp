@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "../astBuilder/TNode.h"
+#include "TNode/TNode.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace PKB;
@@ -15,9 +15,19 @@ public:
 
     ~EntityExtraction();
 
-    void extractEntities(const TNode::PROGRAM_NODE_PTR astRoot);
-    void extractEntities(const TNode::PROCEDURE_NODE_PTR proc);
-    void extractEntities(TNode::ASSIGNMENT_NODE_PTR assign);
-    void extractEntities(TNode::VARIABLE_NODE_PTR var);
-    void extractEntities(TNode::CONSTANT_NODE_PTR cons);
+    void extractEntities(const std::shared_ptr<ProgramNode> astRoot);
+    void extractEntities(const std::shared_ptr<ProcedureNode> proc);
+    void extractStatements(const std::vector<Stmt> stmts);
+    void extractEntities(const std::shared_ptr<AssignmentNode> assign);
+    void extractEntities(const std::shared_ptr<CondExprNode> cond);
+    void extractEntities(const std::shared_ptr<RelExprNode> rel);
+    void extractEntities(const std::shared_ptr<BinOpNode> bin);
+    void extractEntities(const std::shared_ptr<VariableNode> var);
+    void extractEntities(const std::shared_ptr<ConstantNode> cons);
+    void extractEntities(const std::shared_ptr<IfNode> ifNode);
+    void extractEntities(const std::shared_ptr<WhileNode> whileNode);
+    void extractEntities(const std::shared_ptr<ReadNode> readNode);
+    void extractEntities(const std::shared_ptr<PrintNode> printNode);
+    void extractEntities(const std::shared_ptr<CallNode> node);
+    void extractEntities(const Expr exp);
 };

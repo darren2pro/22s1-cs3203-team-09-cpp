@@ -32,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsStarEvaluator.h" />
@@ -40,6 +41,8 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentStarEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\UsesEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Pattern.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Query.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Relation.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Utils.h" />

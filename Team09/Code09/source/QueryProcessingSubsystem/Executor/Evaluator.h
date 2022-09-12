@@ -23,5 +23,5 @@ public:
 		pkb(pkb) {};
 
 	std::unordered_set<std::string> evaluate();
-	virtual std::unordered_set<std::string> leftSynonymRightString(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
+	virtual std::unordered_set<std::string> leftSynonymRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
 };

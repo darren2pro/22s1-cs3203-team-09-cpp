@@ -1,0 +1,5 @@
+1 - week 5 demo query 2
+
+variable v, assign a; Select v such that Uses(a, v)
+y
+5000

@@ -20,14 +20,7 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\PlusNode.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\ProcedureNode.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\ProgramNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\StmtLstNode.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\VariableNode.cpp" />
     <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp" />
     <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp" />
     <ClCompile Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.cpp" />
@@ -35,6 +28,7 @@
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp" />
+    <ClCompile Include="..\source\TNode\TNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
@@ -57,15 +51,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.h" />
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\AssignmentNode.h" />
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\ConstantNode.h" />
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\PlusNode.h" />
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\ProcedureNode.h" />
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\ProgramNode.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h" />
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\StmtLstNode.h" />
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\TNode.h" />
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\VariableNode.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.h" />
@@ -73,7 +59,7 @@
     <ClInclude Include="..\source\SourceProcessor\Parser.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleToken.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h" />
-    <ClInclude Include="..\source\TNode.h" />
+    <ClInclude Include="..\source\TNode\TNode.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

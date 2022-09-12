@@ -33,31 +33,17 @@ TestWrapper::~TestWrapper() {
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
     // read the SIMPLE source file as string and call your simpleParser
-    std::cout << "parse called" << std::endl;
     std::ifstream file(filename);
-    std::string str((std::istreambuf_iterator<char>(file)),
-                     std::istreambuf_iterator<char>());
-    SimpleParser simpleParser = SimpleParser(str);
+    SimpleParser simpleParser = SimpleParser(&file);
     this->pkb = simpleParser.parse();
 }
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string> &results) {
-    // call your evaluator to evaluate the query here
-    // ...code to evaluate query...	
-    try {
-
-        auto queryAdt = QueryBuilder().buildQuery(query);
-        auto qe = QueryExecutor(this->pkb);
-        auto queryResults = qe.processQuery(queryAdt);
-        for (auto result : queryResults) {
-            results.push_back(result);
-        }
-    }
-    catch (SyntaxError&) {
-        results.push_back("SyntaxError");
-    } 
-    catch (SemanticError&) {
-        results.push_back("SemanticError");
+    Query* queryAdt = QueryBuilder().buildQuery(query);
+    QueryExecutor qe(this->pkb);
+    std::unordered_set<std::string> queryResults = qe.processQuery(queryAdt);
+    for (std::string result : queryResults) {
+        results.push_back(result);
     }
 }

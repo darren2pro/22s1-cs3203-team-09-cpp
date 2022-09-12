@@ -43,13 +43,13 @@
     <Filter Include="Source Files\ProgramKnowledgeBase">
       <UniqueIdentifier>{1e4226c7-3da1-43f1-8b4a-a49f676dda74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\QueryProcessingSystem">
+    <Filter Include="Header Files\QueryProcessingSubsystem">
       <UniqueIdentifier>{2d03cad5-10b6-48c9-a680-821add5aa794}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\QueryProcessingSystem\Validator">
+    <Filter Include="Header Files\QueryProcessingSubsystem\Validator">
       <UniqueIdentifier>{a7cdfda8-4c5d-4547-842e-c083cc13b9b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\QueryProcessingSystem\Executor">
+    <Filter Include="Header Files\QueryProcessingSubsystem\Executor">
       <UniqueIdentifier>{5f2baec3-4297-401b-9b77-e74011105bd3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\QueryProcessingSubsystem">
@@ -60,6 +60,12 @@
     </Filter>
     <Filter Include="Source Files\QueryProcessingSubsystem\Executor">
       <UniqueIdentifier>{25637db5-130d-4f22-9a2a-fd11882f69ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TNode">
+      <UniqueIdentifier>{7712d99f-6e74-4187-a893-388001bb4963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TNode">
+      <UniqueIdentifier>{b3a0e69d-4596-4984-b5f2-09b897e5498d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,29 +81,8 @@
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp">
       <Filter>Source Files\SourceProcessor\astBuilder</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\ProcedureNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\ProgramNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp">
       <Filter>Source Files\SourceProcessor\exceptions</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\StmtLstNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\AssignmentNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\ConstantNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\PlusNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\astBuilder\VariableNode.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
     </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp">
       <Filter>Source Files\SourceProcessor\designExtractor</Filter>
@@ -135,11 +120,11 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\TNode\TNode.cpp">
+      <Filter>Source Files\TNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\TNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\Parser.h">
       <Filter>Header Files\SourceProcessor</Filter>
     </ClInclude>
@@ -149,35 +134,11 @@
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h">
       <Filter>Header Files\SourceProcessor</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\ProcedureNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\ProgramNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\TNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h">
       <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h">
       <Filter>Header Files\SourceProcessor\exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\StmtLstNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\AssignmentNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\ConstantNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\PlusNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\astBuilder\VariableNode.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h">
       <Filter>Header Files\SourceProcessor\designExtractor</Filter>
@@ -192,52 +153,55 @@
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.h">
-      <Filter>Header Files\QueryProcessingSystem\Validator</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.h">
-      <Filter>Header Files\QueryProcessingSystem\Validator</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.h">
-      <Filter>Header Files\QueryProcessingSystem\Validator</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.h">
-      <Filter>Header Files\QueryProcessingSystem\Validator</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Query.h">
-      <Filter>Header Files\QueryProcessingSystem</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Relation.h">
-      <Filter>Header Files\QueryProcessingSystem</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Utils.h">
-      <Filter>Header Files\QueryProcessingSystem</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.h">
-      <Filter>Header Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsEvaluator.h">
-      <Filter>Header Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsStarEvaluator.h">
-      <Filter>Header Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ModifiesEvaluator.h">
-      <Filter>Header Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentEvaluator.h">
-      <Filter>Header Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentStarEvaluator.h">
-      <Filter>Header Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.h">
-      <Filter>Header Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.h">
-      <Filter>Header Files\QueryProcessingSystem\Executor</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.h">
-      <Filter>Header Files\QueryProcessingSystem\Validator</Filter>
+      <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNode\TNode.h">
+      <Filter>Header Files\TNode</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h">
       <Filter>Header Files\QueryProcessingSystem</Filter>

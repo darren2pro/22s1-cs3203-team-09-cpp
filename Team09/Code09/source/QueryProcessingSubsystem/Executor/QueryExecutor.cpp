@@ -11,7 +11,7 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	std::vector<std::string> declarations = query->declarations;
 	std::string tokens = query->target;
 	std::unordered_set<std::string> results;
-
+	// Call the "Relation" execute immediately
 	results = execute();
 	return results;
 }

@@ -9,7 +9,6 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace UnitTesting {
     TEST_CLASS(TestTokenizer) {
             public:
-
             TEST_METHOD(TestTokenizeNiceFormat) {
                 const std::string str = "procedure computeAverage {\n"
                                         "    read num1;\n"
@@ -20,32 +19,34 @@ namespace UnitTesting {
                                         "    print sum;\n"
                                         "}";
                 vector<SimpleToken> expectedResult;
-                expectedResult.push_back(SimpleToken("procedure"));
-                expectedResult.push_back(SimpleToken("computeAverage"));
-                expectedResult.push_back(SimpleToken("{"));
-                expectedResult.push_back(SimpleToken("read"));
-                expectedResult.push_back(SimpleToken("num1"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("read"));
-                expectedResult.push_back(SimpleToken("num2"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("sum"));
-                expectedResult.push_back(SimpleToken("="));
-                expectedResult.push_back(SimpleToken("num1"));
-                expectedResult.push_back(SimpleToken("+"));
-                expectedResult.push_back(SimpleToken("num2"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("print"));
-                expectedResult.push_back(SimpleToken("sum"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("}"));
+                expectedResult.push_back(SimpleToken("procedure", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("computeAverage", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("{", SimpleToken::TokenType::OPEN_BRACES));
+                expectedResult.push_back(SimpleToken("read", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("num1", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("read", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("num2", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("sum", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("=", SimpleToken::TokenType::ASSIGN));
+                expectedResult.push_back(SimpleToken("num1", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("+", SimpleToken::TokenType::PLUS));
+                expectedResult.push_back(SimpleToken("num2", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("print", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("sum", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("}", SimpleToken::TokenType::CLOSE_BRACES));
+                expectedResult.push_back(SimpleToken("EOF", SimpleToken::TokenType::END_OF_FILE));
 
-                SimpleParser simpleParser(str);
+                std::istringstream iss(str);
+                SimpleParser simpleParser(&iss);
                 Parser* parser = &simpleParser;
-                vector<SimpleToken> result = parser->getTokens();
+                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 Assert::AreEqual(expectedResult.size(), result.size());
                 for (int i = 0; i < expectedResult.size(); i++) {
-                    Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
+                    Assert::IsTrue(expectedResult[i] == *(result[i]));
                 }
             }
 
@@ -54,56 +55,61 @@ namespace UnitTesting {
                                         "    read num1;\n"
                                         "    read num2;\n"
                                         "\n"
+                                        "\n"
                                         "    sum= num1+num2;\n"
                                         "\n"
                                         "    print sum;}";
                 vector<SimpleToken> expectedResult;
-                expectedResult.push_back(SimpleToken("procedure"));
-                expectedResult.push_back(SimpleToken("computeAverage"));
-                expectedResult.push_back(SimpleToken("{"));
-                expectedResult.push_back(SimpleToken("read"));
-                expectedResult.push_back(SimpleToken("num1"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("read"));
-                expectedResult.push_back(SimpleToken("num2"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("sum"));
-                expectedResult.push_back(SimpleToken("="));
-                expectedResult.push_back(SimpleToken("num1"));
-                expectedResult.push_back(SimpleToken("+"));
-                expectedResult.push_back(SimpleToken("num2"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("print"));
-                expectedResult.push_back(SimpleToken("sum"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("}"));
+                expectedResult.push_back(SimpleToken("procedure", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("computeAverage", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("{", SimpleToken::TokenType::OPEN_BRACES));
+                expectedResult.push_back(SimpleToken("read", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("num1", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("read", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("num2", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("sum", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("=", SimpleToken::TokenType::ASSIGN));
+                expectedResult.push_back(SimpleToken("num1", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("+", SimpleToken::TokenType::PLUS));
+                expectedResult.push_back(SimpleToken("num2", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("print", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("sum", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("}", SimpleToken::TokenType::CLOSE_BRACES));
+                expectedResult.push_back(SimpleToken("EOF", SimpleToken::TokenType::END_OF_FILE));
 
-                SimpleParser simpleParser(str);
+                std::istringstream iss(str);
+                SimpleParser simpleParser(&iss);
                 Parser* parser = &simpleParser;
-                vector<SimpleToken> result = parser->getTokens();
+                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 Assert::AreEqual(expectedResult.size(), result.size());
                 for (int i = 0; i < expectedResult.size(); i++) {
-                    Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
+                    Assert::IsTrue(expectedResult[i] == *(result[i]));
                 }
             }
 
             TEST_METHOD(TestTokenizeEmptyString) {
                 const std::string str = "";
                 vector<SimpleToken> expectedResult;
-                SimpleParser simpleParser(str);
+                expectedResult.push_back(SimpleToken("EOF", SimpleToken::TokenType::END_OF_FILE));
+
+                std::istringstream iss(str);
+                SimpleParser simpleParser(&iss);
                 Parser* parser = &simpleParser;
-                vector<SimpleToken> result = parser->getTokens();
+                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 Assert::AreEqual(expectedResult.size(), result.size());
                 for (int i = 0; i < expectedResult.size(); i++) {
-                    Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
+                    Assert::IsTrue(expectedResult[i] == *(result[i]));
                 }
             }
 
-            /*
             TEST_METHOD(TestTokenizeRelationalOperators) {
-                const std::string str = "procedure computeCentroid { \n"
+                const std::string str = "procedure myProc { \n"
                                         "count = 0; \n"
-                                        "while ((x != 0) && (y != 0)) {\n"
+                                        "while ((x != 0) && (y <= 0)) {\n"
                                         "count = count + 1;\n"
                                         "}\n"
                                         "if (count == 0) then {\n"
@@ -113,107 +119,98 @@ namespace UnitTesting {
                                         "}\n"
                                         "}";
                 vector<SimpleToken> expectedResult;
-                expectedResult.push_back(SimpleToken("procedure"));
-                expectedResult.push_back(SimpleToken("computeCentroid"));
-                expectedResult.push_back(SimpleToken("{"));
-                expectedResult.push_back(SimpleToken("count"));
-                expectedResult.push_back(SimpleToken("="));
-                expectedResult.push_back(SimpleToken("0"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("while"));
-                expectedResult.push_back(SimpleToken("("));
-                expectedResult.push_back(SimpleToken("("));
-                expectedResult.push_back(SimpleToken("x"));
-                expectedResult.push_back(SimpleToken("!="));
-                expectedResult.push_back(SimpleToken("0"));
-                expectedResult.push_back(SimpleToken(")"));
-                expectedResult.push_back(SimpleToken("&&"));
-                expectedResult.push_back(SimpleToken("("));
-                expectedResult.push_back(SimpleToken("y"));
-                expectedResult.push_back(SimpleToken("!="));
-                expectedResult.push_back(SimpleToken("0"));
-                expectedResult.push_back(SimpleToken(")"));
-                expectedResult.push_back(SimpleToken(")"));
-                expectedResult.push_back(SimpleToken("{"));
-                expectedResult.push_back(SimpleToken("count"));
-                expectedResult.push_back(SimpleToken("="));
-                expectedResult.push_back(SimpleToken("count"));
-                expectedResult.push_back(SimpleToken("+"));
-                expectedResult.push_back(SimpleToken("1"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("}"));
-                expectedResult.push_back(SimpleToken("if"));
-                expectedResult.push_back(SimpleToken("("));
-                expectedResult.push_back(SimpleToken("count"));
-                expectedResult.push_back(SimpleToken("=="));
-                expectedResult.push_back(SimpleToken("0"));
-                expectedResult.push_back(SimpleToken(")"));
-                expectedResult.push_back(SimpleToken("then"));
-                expectedResult.push_back(SimpleToken("{"));
-                expectedResult.push_back(SimpleToken("flag"));
-                expectedResult.push_back(SimpleToken("="));
-                expectedResult.push_back(SimpleToken("1"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("}"));
-                expectedResult.push_back(SimpleToken("else"));
-                expectedResult.push_back(SimpleToken("{"));
-                expectedResult.push_back(SimpleToken("cenX"));
-                expectedResult.push_back(SimpleToken("="));
-                expectedResult.push_back(SimpleToken("cenX"));
-                expectedResult.push_back(SimpleToken("/"));
-                expectedResult.push_back(SimpleToken("count"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("}"));
-                expectedResult.push_back(SimpleToken("}"));
-                SimpleParser simpleParser(str);
+                expectedResult.push_back(SimpleToken("procedure", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("myProc", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("{", SimpleToken::TokenType::OPEN_BRACES));
+                expectedResult.push_back(SimpleToken("count", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("=", SimpleToken::TokenType::ASSIGN));
+                expectedResult.push_back(SimpleToken("0", SimpleToken::TokenType::NUMBER));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("while", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("(", SimpleToken::TokenType::OPEN_PARENTHESES));
+                expectedResult.push_back(SimpleToken("(", SimpleToken::TokenType::OPEN_PARENTHESES));
+                expectedResult.push_back(SimpleToken("x", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("!=", SimpleToken::TokenType::NOT_EQUAL_TO));
+                expectedResult.push_back(SimpleToken("0", SimpleToken::TokenType::NUMBER));
+                expectedResult.push_back(SimpleToken(")", SimpleToken::TokenType::CLOSE_PARENTHESES));
+                expectedResult.push_back(SimpleToken("&&", SimpleToken::TokenType::AND));
+                expectedResult.push_back(SimpleToken("(", SimpleToken::TokenType::OPEN_PARENTHESES));
+                expectedResult.push_back(SimpleToken("y", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("<=", SimpleToken::TokenType::LESS_THAN_OR_EQUAL_TO));
+                expectedResult.push_back(SimpleToken("0", SimpleToken::TokenType::NUMBER));
+                expectedResult.push_back(SimpleToken(")", SimpleToken::TokenType::CLOSE_PARENTHESES));
+                expectedResult.push_back(SimpleToken(")", SimpleToken::TokenType::CLOSE_PARENTHESES));
+                expectedResult.push_back(SimpleToken("{", SimpleToken::TokenType::OPEN_BRACES));
+                expectedResult.push_back(SimpleToken("count", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("=", SimpleToken::TokenType::ASSIGN));
+                expectedResult.push_back(SimpleToken("count", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("+", SimpleToken::TokenType::PLUS));
+                expectedResult.push_back(SimpleToken("1", SimpleToken::TokenType::NUMBER));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("}", SimpleToken::TokenType::CLOSE_BRACES));
+                expectedResult.push_back(SimpleToken("if", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("(", SimpleToken::TokenType::OPEN_PARENTHESES));
+                expectedResult.push_back(SimpleToken("count", SimpleToken::TokenType::WORD));
+				expectedResult.push_back(SimpleToken("==", SimpleToken::TokenType::EQUALS));
+                expectedResult.push_back(SimpleToken("0", SimpleToken::TokenType::NUMBER));
+                expectedResult.push_back(SimpleToken(")", SimpleToken::TokenType::CLOSE_PARENTHESES));
+                expectedResult.push_back(SimpleToken("then", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("{", SimpleToken::TokenType::OPEN_BRACES));
+                expectedResult.push_back(SimpleToken("flag", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("=", SimpleToken::TokenType::ASSIGN));
+                expectedResult.push_back(SimpleToken("1", SimpleToken::TokenType::NUMBER));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("}", SimpleToken::TokenType::CLOSE_BRACES));
+                expectedResult.push_back(SimpleToken("else", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("{", SimpleToken::TokenType::OPEN_BRACES));
+                expectedResult.push_back(SimpleToken("cenX", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("=", SimpleToken::TokenType::ASSIGN));
+                expectedResult.push_back(SimpleToken("cenX", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("/", SimpleToken::TokenType::DIVIDE));
+                expectedResult.push_back(SimpleToken("count", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("}", SimpleToken::TokenType::CLOSE_BRACES));
+                expectedResult.push_back(SimpleToken("}", SimpleToken::TokenType::CLOSE_BRACES));
+                expectedResult.push_back(SimpleToken("EOF", SimpleToken::TokenType::END_OF_FILE));
+
+                std::istringstream iss(str);
+                SimpleParser simpleParser(&iss);
                 Parser* parser = &simpleParser;
-                vector<SimpleToken> result = parser->getTokens();
+                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 Assert::AreEqual(expectedResult.size(), result.size());
                 for (int i = 0; i < expectedResult.size(); i++) {
-                    Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
+                    Assert::IsTrue(expectedResult[i] == *(result[i]));
                 }
             }
-            */
 
             // Procedure names, variable names and terminals can all be the same.
-            /*
             TEST_METHOD(TestTokenizeVariableNameProcedureNameClashWithNonTerminals) {
                 const std::string str = "procedure call { \n"
                                         "read print;\n"
-                                        "read = 0; \n"
+                                        "read = 04006; \n"
                                         "}";
                 vector<SimpleToken> expectedResult;
-                expectedResult.push_back(SimpleToken("procedure"));
-                expectedResult.push_back(SimpleToken("call"));
-                expectedResult.push_back(SimpleToken("{"));
-                expectedResult.push_back(SimpleToken("read"));
-                expectedResult.push_back(SimpleToken("print"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("read"));
-                expectedResult.push_back(SimpleToken("="));
-                expectedResult.push_back(SimpleToken("0"));
-                expectedResult.push_back(SimpleToken(";"));
-                expectedResult.push_back(SimpleToken("}"));
-                SimpleParser simpleParser(str);
+                expectedResult.push_back(SimpleToken("procedure", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("call", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("{", SimpleToken::TokenType::OPEN_BRACES));
+                expectedResult.push_back(SimpleToken("read", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("print", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("read", SimpleToken::TokenType::WORD));
+                expectedResult.push_back(SimpleToken("=", SimpleToken::TokenType::ASSIGN));
+                expectedResult.push_back(SimpleToken("04006", SimpleToken::TokenType::NUMBER));
+                expectedResult.push_back(SimpleToken(";", SimpleToken::TokenType::SEMICOLON));
+                expectedResult.push_back(SimpleToken("}", SimpleToken::TokenType::CLOSE_BRACES));
+                expectedResult.push_back(SimpleToken("EOF", SimpleToken::TokenType::END_OF_FILE));
+
+                std::istringstream iss(str);
+                SimpleParser simpleParser(&iss);
                 Parser* parser = &simpleParser;
-                vector<SimpleToken> result = parser->getTokens();
+                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 Assert::AreEqual(expectedResult.size(), result.size());
                 for (int i = 0; i < expectedResult.size(); i++) {
-                    Assert::AreEqual(expectedResult[i].getValue(), result[i].getValue());
+                    Assert::IsTrue(expectedResult[i] == *(result[i]));
                 }
-                // Now check whether the token types are correct
-                Assert::IsTrue(SimpleToken::TokenType::PROCEDURE == result[0].getType(), L"Wrong token type");
-                Assert::IsTrue(SimpleToken::TokenType::WORD == result[1].getType(), L"Wrong token type");
-                Assert::IsTrue(SimpleToken::TokenType::OPEN_BRACES == result[2].getType());
-                Assert::IsTrue(SimpleToken::TokenType::READ == result[3].getType());
-                Assert::IsTrue(SimpleToken::TokenType::WORD == result[4].getType());
-                Assert::IsTrue(SimpleToken::TokenType::SEMICOLON == result[5].getType());
-                Assert::IsTrue(SimpleToken::TokenType::WORD == result[6].getType());
-                Assert::IsTrue(SimpleToken::TokenType::ASSIGN == result[7].getType());
-                Assert::IsTrue(SimpleToken::TokenType::NUMBER == result[8].getType());
-                Assert::IsTrue(SimpleToken::TokenType::SEMICOLON == result[9].getType());
-                Assert::IsTrue(SimpleToken::TokenType::CLOSE_BRACES == result[10].getType());
             }
-             */
     };
 }

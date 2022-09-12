@@ -54,10 +54,10 @@ void TestWrapper::evaluate(std::string query, std::list<std::string> &results) {
             results.push_back(result);
         }
     }
-    catch (SyntaxError e) {
+    catch (SyntaxError&) {
         results.push_back("SyntaxError");
     } 
-    catch (SemanticError e) {
+    catch (SemanticError&) {
         results.push_back("SemanticError");
     }
 }

@@ -40,10 +40,18 @@ void TestWrapper::parse(std::string filename) {
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string> &results) {
-    Query* queryAdt = QueryBuilder().buildQuery(query);
-    QueryExecutor qe(this->pkb);
-    std::unordered_set<std::string> queryResults = qe.processQuery(queryAdt);
-    for (std::string result : queryResults) {
-        results.push_back(result);
+   try { 
+        Query* queryAdt = QueryBuilder().buildQuery(query);
+        QueryExecutor qe(this->pkb);
+        std::unordered_set<std::string> queryResults = qe.processQuery(queryAdt);
+        for (std::string result : queryResults) {
+            results.push_back(result);
+        }
+    }
+    catch (SyntaxError&) {
+        results.push_back("SyntaxError");
+    }
+    catch (SemanticError&) {
+        results.push_back("SemanticError");
     }
 }

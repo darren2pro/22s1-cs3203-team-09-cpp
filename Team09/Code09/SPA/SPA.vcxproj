@@ -20,6 +20,7 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp" />
     <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp" />
     <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.h" />
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h" />

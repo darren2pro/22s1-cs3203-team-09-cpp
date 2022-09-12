@@ -20,6 +20,21 @@ class BinOpNode;
 class CondExprNode;
 class RelExprNode;
 
+// TODO: Replace the occurrences
+using ProgramNodePtr = std::shared_ptr<ProgramNode>;
+using ProcedureNodePtr = std::shared_ptr<ProcedureNode>;
+using ConstantNodePtr = std::shared_ptr<ConstantNode>;
+using VariableNodePtr = std::shared_ptr<VariableNode>;
+using AssignmentNodePtr = std::shared_ptr<AssignmentNode>;
+using CallNodePtr = std::shared_ptr<CallNode>;
+using PrintNodePtr = std::shared_ptr<PrintNode>;
+using ReadNodePtr = std::shared_ptr<ReadNode>;
+using IfNodePtr = std::shared_ptr<IfNode>;
+using WhileNodePtr = std::shared_ptr<WhileNode>;
+using BinOpNodePtr = std::shared_ptr<BinOpNode>;
+using CondExprNodePtr = std::shared_ptr<CondExprNode>;
+using RelExprNodePtr = std::shared_ptr<RelExprNode>;
+
 using Stmt = std::variant<std::shared_ptr<AssignmentNode>, std::shared_ptr<CallNode>,
                           std::shared_ptr<PrintNode>, std::shared_ptr<ReadNode>,
                           std::shared_ptr<IfNode>, std::shared_ptr<WhileNode>>;

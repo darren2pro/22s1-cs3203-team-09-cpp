@@ -2,6 +2,7 @@
 
 #include "../Parser.h"
 #include "../../TNode/TNode.h"
+#include "ArithmeticParser.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -17,7 +18,7 @@ class SimpleAstBuilder {
 private:
     Parser::SOURCE_CODE_TOKENS tokens;
 
-    ExprParser exprParser;
+    ArithmeticParser arithmeticParser;
 
     int currentTokenIndex;
 
@@ -48,6 +49,12 @@ private:
      * @return true if the current token is of the specified string value, false otherwise
      */
     bool check(string value);
+
+    /**
+     * @brief Asserts the current token at the current index to be of string s.
+     * Consumes the token if true, else throws an exception
+     */
+    void expect(string s);
 
     /**
      * @brief Consumes the current token and advances the current token index.
@@ -114,11 +121,10 @@ public:
 
     ~SimpleAstBuilder();
 
-    AST build();
-
     /**
      * @brief Deals with the building of the AST for a single procedure block.
      * @details This method will create the necessary nodes for the procedure block and then call other methods
      * as per needed for the statements in the procedure block.
      */
+    AST build();
 };

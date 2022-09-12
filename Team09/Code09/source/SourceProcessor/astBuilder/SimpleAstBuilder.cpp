@@ -6,9 +6,9 @@ using namespace std;
 SimpleAstBuilder::SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS tokens) {
     this->tokens = tokens;
     this->currentTokenIndex = 0;
-    this->exprParser = make_shared<ExprParser>(tokens,
-                                               currentTokenIndex,
-                                               unordered_set<string>({">", ">=", "<", "<=", "==", "!=", ";", ")"})
+    this->arithmeticParser = make_shared<ArithmeticParser>(tokens,
+                                                     currentTokenIndex,
+                                                     unordered_set<string>({">", ">=", "<", "<=", "==", "!=", ";", ")"})
     );
 }
 
@@ -52,6 +52,12 @@ bool SimpleAstBuilder::check(SimpleToken::TokenType type) {
 
 bool SimpleAstBuilder::check(string value) {
     return peek()->getValue().compare(value) == 0;
+}
+
+void SimpleAstBuilder::expect(string s) {
+    if (!match(s)) {
+        throw SimpleInvalidSyntaxException("Expected " + s + ", got " + peek()->getValue() + ".");
+    }
 }
 
 SimpleToken* SimpleAstBuilder::advance() {
@@ -303,7 +309,7 @@ Factor SimpleAstBuilder::parseFactor() {
 }
 
 Expr SimpleAstBuilder::parseExpr() {
-    return exprParser->parse(0);
+    return arithmeticParser->parse(0);
 }
 
 shared_ptr<AssignmentNode> SimpleAstBuilder::parseAssign() {

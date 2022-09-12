@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include "../source/QueryProcessingSubsystem/Executor/QueryExecutor.h"
 #include "../source/QueryProcessingSubsystem/Validator/QueryBuilder.h"
+#include "../source/QueryProcessingSubsystem/Validator/QPSValidatorException.h"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
@@ -39,10 +40,18 @@ void TestWrapper::parse(std::string filename) {
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string> &results) {
-    Query* queryAdt = QueryBuilder().buildQuery(query);
-    QueryExecutor qe(this->pkb);
-    std::unordered_set<std::string> queryResults = qe.processQuery(queryAdt);
-    for (std::string result : queryResults) {
-        results.push_back(result);
+   try { 
+        Query* queryAdt = QueryBuilder().buildQuery(query);
+        QueryExecutor qe(this->pkb);
+        std::unordered_set<std::string> queryResults = qe.processQuery(queryAdt);
+        for (std::string result : queryResults) {
+            results.push_back(result);
+        }
+    }
+    catch (SyntaxError&) {
+        results.push_back("SyntaxError");
+    }
+    catch (SemanticError&) {
+        results.push_back("SemanticError");
     }
 }

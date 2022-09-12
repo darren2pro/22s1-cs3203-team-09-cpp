@@ -4,6 +4,8 @@
 #include <vector>
 #include "../Query.h"
 #include "../Relation.h"
+#include "../Declaration.h"
+#include "../Pattern.h"
 
 /**
  * A QueryParser class to parse the query.
@@ -49,11 +51,17 @@ public:
 	void match(std::regex re);
 
 	/**
+	 * Returns the Declaration::DesignEntity that is equivalent to the token string.
+	 * @returns a Declaration::DesignEntity that is equivalent to the token string.
+	 */
+	Declaration::DesignEntity QueryParser::getDesignEntity(std::string token);
+
+	/**
 	 * Parses declaration.
-	 * @returns the synonym.
+	 * @returns the declarations.
 	 * @throws QueryParserException if an expected token is encountered.
 	 */
-	std::string declaration();
+	std::vector<Declaration> declaration();
 
 	/**
 	 * Parses declaration.
@@ -67,7 +75,7 @@ public:
 	 * @returns the pattern clause.
 	 * @throws QueryParserException if an expected token is encountered.
 	 */
-	std::vector<std::string> patternClause();
+	Pattern patternClause();
 
 	/**
 	 * Returns the Relation::Types that is equivalent to the token string.

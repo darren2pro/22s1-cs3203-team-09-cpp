@@ -2,18 +2,21 @@
 #include <vector>
 #include "QueryParser.h"
 #include "../Relation.h"
+#include "../Pattern.h"
+#include "../Declaration.h"
 #include "QPSValidatorException.h"
 
 std::regex design_enteties("stmt|read|print|while|if|assign|variable|constant|procedure");
 std::regex relation("Follows|Follows*|Parent|Parent*|Uses|Modifies");
 std::regex synonym("[a-zA-Z]([a-zA-Z0-9])*");									// synonym: IDENT	--> IDENT: LETTER (LETTER|DIGIT)*
-std::regex stmtRef(".*");														// need to fix
+std::regex stmtRef("[a-zA-Z]([a-zA-Z0-9])*|_|(0|[1-9]([0-9])*)");				// stmtRef: synonym | '_' | INTEGER
 std::regex entRef("[a-zA-Z]([a-zA-Z0-9])*|_|[\"][a-zA-Z]([a-zA-Z0-9])*[\"]");	// endRef: synonym | '_' | '"' IDENT '"'
-std::regex expressionSpec("[\"].*[\"]");										// need to fix
+std::regex expressionSpec("[\"][a-zA-Z]([a-zA-Z0-9])*|(0|[1-9]([0-9])*)[\"]");	// need to fix	var_name | INTEGER
 
 QueryParser::QueryParser(std::vector<std::string> tokens) {
 	query_tokens = tokens;
 	index = 0;
+	current_token = getNextToken();
 }
 
 QueryParser::~QueryParser() {
@@ -35,7 +38,7 @@ void QueryParser::match(std::string token) {
 		current_token = getNextToken();
 	}
 	else {
-		throw QueryParserException("Expected " + token + " but found " + current_token);
+		throw SyntaxError("Expected " + token + " but found " + current_token);
 	}
 }
 
@@ -44,28 +47,75 @@ void QueryParser::match(std::regex re) {
 		current_token = getNextToken();
 	}
 	else {
-		throw QueryParserException("Unexpected token");
+		throw SyntaxError("Unexpected token");
 	}
 }
 
-std::string QueryParser::declaration() {
-	std::string type = current_token;
-	match(design_enteties);
-	std::string name = current_token;
-	match(synonym);
+Declaration::DesignEntity QueryParser::getDesignEntity(std::string token) {
+	if (token == "stmt") {
+		return Declaration::DesignEntity::Statement;
+	}
+	else if (token == "read") {
+		return Declaration::DesignEntity::Read;
+	}
+	else if (token == "print") {
+		return Declaration::DesignEntity::Print;
+	}
+	else if (token == "while") {
+		return Declaration::DesignEntity::While;
+	}
+	else if (token == "if") {
+		return Declaration::DesignEntity::If;
+	}
+	else if (token == "assign") {
+		return Declaration::DesignEntity::Assignment;
+	}	
+	else if (token == "variable") {
+		return Declaration::DesignEntity::Variable;
+	}	
+	else if (token == "constant") {
+		return Declaration::DesignEntity::Constant;
+	}	
+	else if (token == "procedure") {
+		return Declaration::DesignEntity::Procedure;
+	}
+	else {
+		return Declaration::DesignEntity::NONE;
+	}
+}
 
-	return name;
+std::vector<Declaration> QueryParser::declaration() {
+	std::vector<Declaration> declarations = std::vector<Declaration>();
+
+	while (std::regex_match(current_token, design_enteties)) {
+		Declaration::DesignEntity type = getDesignEntity(current_token);
+		match(design_enteties);
+
+		std::string name = current_token;
+		match(synonym);
+		declarations.push_back(Declaration::Declaration(type, name));
+
+		while (current_token != ";") {
+			match(",");
+			std::string name = current_token;
+			match(synonym);
+			declarations.push_back(Declaration::Declaration(type, name));
+		}
+		match(";");
+	}
+
+	return declarations;
 }
 
 std::string QueryParser::select() {
 	match("Select");
-	std::string result = current_token;
+	std::string target = current_token;
 	match(synonym);
 
-	return result;
+	return target;
 }
 
-std::vector<std::string> QueryParser::patternClause() {
+Pattern QueryParser::patternClause() {
 	match("pattern");
 	std::string syn_assign = current_token;
 	match(synonym);
@@ -98,11 +148,7 @@ std::vector<std::string> QueryParser::patternClause() {
 
 	match(")");
 
-	std::vector<std::string> p;
-	p.push_back(syn_assign);
-	p.push_back(left_arg);
-	p.push_back(right_arg);
-	return p;
+	return Pattern(syn_assign, left_arg, right_arg);
 }
 
 Relation::Types QueryParser::getType(std::string token) {
@@ -130,7 +176,8 @@ Relation::Types QueryParser::getType(std::string token) {
 }
 
 Relation QueryParser::suchThatClause() {
-	match("such that");
+	match("such");
+	match("that");
 	Relation::Types type = getType(current_token);
 	match(relation);
 	match("(");
@@ -138,40 +185,27 @@ Relation QueryParser::suchThatClause() {
 	match(stmtRef);
 	match(",");
 	std::string right_arg = current_token;
-	match(stmtRef);
+	if (type == Relation::Types::Uses || type == Relation::Types::UsesStar
+		|| type == Relation::Types::Modifies || type == Relation::Types::ModifiesStar) {
+		match(entRef);
+	}
+	else {
+		match(stmtRef);
+	}
 	match(")");
 
 	return Relation(type, left_arg, right_arg);
 }
 
 Query* QueryParser::parse() {
-	std::string currentToken;
-	std::vector<std::string> synonyms;
+	std::vector<Declaration> declarations;
 	std::string target;
 	Relation suchThatCl;
-	std::vector<std::string> patternCl;
+	Pattern patternCl;
 	Query* query = new Query();
 
-	current_token = getNextToken();
-
-	// parse declarations
-	while (index < query_tokens.size()) {
-		synonyms.push_back(declaration());	// returns a synonym to add to the query list
-
-		if (current_token == ";") {		// end of declarations
-			break;
-		}
-		else {
-			match(",");
-		}
-	}
-
-	match(";");
-
-	// parse Select statement
-	if (index < query_tokens.size()) {
-		target = select();	// add to result clause? 
-	}
+	declarations = declaration();	// parse declarations
+	target = select();				// parse Select statement
 
 	// parse such that and pattern clause
 	while (index < query_tokens.size()) {
@@ -182,11 +216,11 @@ Query* QueryParser::parse() {
 			patternCl = patternClause();
 		}
 		else {
-			throw QueryParserException("Unexpected token");
+			throw SyntaxError("Unexpected token");
 		}
 	}
 
-	query->declarations = synonyms;
+	query->declarations = declarations;
 	query->relations = suchThatCl;
 	query->patterns = patternCl;
 	query->target = target;

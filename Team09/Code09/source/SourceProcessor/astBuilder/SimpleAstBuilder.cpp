@@ -193,14 +193,16 @@ CallNodePtr SimpleAstBuilder::parseCall() {
 
     string procedureName;
     if (match(SimpleToken::TokenType::WORD)) {
-        procedureName = static_cast<SimpleToken*>(previous())->getValue();
+        procedureName = previous()->getValue();
     } else {
         currentTokenIndex = currTokenIdx;
         return nullptr;
     }
 
     expect(";");
-    return make_shared<CallNode>(move(procedureName));
+    StmtLst emptyStmtLst;
+    ProcedureNodePtr procNode = make_shared<ProcedureNode>(procedureName, move(emptyStmtLst));
+    return make_shared<CallNode>(move(procNode));
 }
 
 ReadNodePtr SimpleAstBuilder::parseRead() {
@@ -317,7 +319,7 @@ CondExprNodePtr SimpleAstBuilder::parseCondExpr() {
         CondExprNodePtr conditionRhs = parseCondExpr();
         expect(")");
 
-        return make_shared<CondExprNode>(move(conditionLhs), op, move(conditionRhs));
+        return make_shared<CondExprNode>(op, move(conditionLhs), move(conditionRhs));
     } else { // relExpr
         RelExprNodePtr relExpr = parseRelExpr();
         if (relExpr) return make_shared<CondExprNode>(move(relExpr));
@@ -338,7 +340,7 @@ RelExprNodePtr SimpleAstBuilder::parseRelExpr() {
     advance();
     RelFactor rhs = parseRelFactor();
     // TODO: Check if the move is needed here.
-    return make_shared<RelExprNode>(move(lhs), op, move(rhs));
+    return make_shared<RelExprNode>(op, move(lhs), move(rhs));
 }
 
 RelFactor SimpleAstBuilder::parseRelFactor() {

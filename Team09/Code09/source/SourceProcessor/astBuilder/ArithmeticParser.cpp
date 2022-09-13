@@ -71,6 +71,27 @@ int ArithmeticParser::leftBindingPower(SimpleToken* pToken) {
     }
 }
 
+Expr ArithmeticParser::leftDenotation(SimpleToken* token, Expr left) {
+    if (token->getValue() == "+") {
+        Expr right = parse(10);
+        return make_shared<BinOpNode>("+", left, right);
+    } else if (token->getValue() == "-") {
+        Expr right = parse(10);
+        return make_shared<BinOpNode>("-", left, right);
+    } else if (token->getValue() == "*") {
+        Expr right = parse(20);
+        return make_shared<BinOpNode>("*", left, right);
+    } else if (token->getValue() == "/") {
+        Expr right = parse(20);
+        return make_shared<BinOpNode>("/", left, right);
+    } else if (token->getValue() == "%") {
+        Expr right = parse(20);
+        return make_shared<BinOpNode>("%", left, right);
+    } else {
+        throw SimpleInvalidSyntaxException("Left denotation called on an invalid token: " + token->getValue() + "'.");
+    }
+}
+
 ArithmeticParser::ArithmeticParser(const vector<SimpleToken*> &tokens, int* currentTokenIndex,
                                    const unordered_set<string> delimiters) : currentTokenIndex(currentTokenIndex),
                                                                              tokens(tokens), delimiters(delimiters) {}
@@ -81,7 +102,7 @@ Expr ArithmeticParser::parse(int rightBindingPower) {
 
     while (rightBindingPower < leftBindingPower(peek())) {
         t = advance();
-        left = led(t, left);
+        left = leftDenotation(t, left);
     }
 
     return left;

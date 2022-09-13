@@ -68,6 +68,7 @@ private:
      * @brief Null denotation function for the current token.
      * @details The null denotation function is the function that is called when the current token is the first token in the expression.
      * This method does not care about the tokens to the left. This method is used by values (constants and variables) and prefix operators such as !.
+     * This method might call the parse function as well.
      */
     Expr nullDenotation(SimpleToken* token);
 
@@ -77,6 +78,13 @@ private:
      * @return The left binding power for the given token.
      */
     int leftBindingPower(SimpleToken* pToken);
+
+    /**
+     * @brief Left denotation method for the given token.
+     * @details The left denotation method is used to process infix (such as +, *) and suffix operators.
+     * This method might call the parse function as well.
+     */
+    Expr leftDenotation(SimpleToken* token, Expr left);
 
 public:
     ArithmeticParser(const Parser::SOURCE_CODE_TOKENS &tokens, int* currentTokenIndex,

@@ -3,7 +3,11 @@
 #include <string>
 #include <vector>
 #include <regex>
-#include "QPSValidatorException.h""
+#include "QPSValidatorException.h"
+
+std::regex whitespace("[ \t\n]+");
+std::regex punctuation("[\(\),;_]");
+std::regex allowed_charas("[A-Za-z0-9\*\+-/%]");
 
 QueryLexer::QueryLexer(std::string query) {
 	query_string = query;
@@ -15,27 +19,19 @@ QueryLexer::~QueryLexer() {
 
 std::vector<std::string> QueryLexer::lex() {
     std::vector<std::string> tokens;
-
-    std::regex whitespace("[ \t\n]+");
-    std::regex punctuation("[(),;_]");
-
+    
     std::string str = "";
 
 	for (int i = 0; i < query_string.length(); i++) {
         const char currentChar = query_string[i];
         if (std::regex_match(std::string(1, currentChar), whitespace)) {
-            if (str.length() > 0) {
-                if (str == "such") {        // the only time we want to add a space to tokens is for the 'such that' token
-                    str += currentChar;
-                }
-                else if (str[0] != '"') {
-                    tokens.push_back(str);
-                    str.clear();
-                }
+            if (str.length() > 0 && str[0] != '"') {
+                tokens.push_back(str);
+                str.clear();
             }
         } else if (std::regex_match(std::string(1, currentChar), punctuation)) {
             if (str.length() > 0) {
-                if (str[0] == '"' && (currentChar == '(' || currentChar == ')')) {    // check if it's part of an expression  -- needs fixing
+                if (str[0] == '"') {    // check if it's part of an expression
                     str += currentChar;
                 } else {
                     tokens.push_back(str);
@@ -53,10 +49,10 @@ std::vector<std::string> QueryLexer::lex() {
                 continue;
             }
             str += currentChar;
-        } else if (isalnum(currentChar) || currentChar == '*') {
+        } else if (std::regex_match(std::string(1, currentChar), allowed_charas)) {
              str += currentChar;
         } else {
-            throw QueryLexerException("Unexpected character (" + std::string(1, currentChar) + ") while tokenizing\n");
+            throw SyntaxError("Unexpected character (" + std::string(1, currentChar) + ") while tokenizing\n");
         }
 	}
 

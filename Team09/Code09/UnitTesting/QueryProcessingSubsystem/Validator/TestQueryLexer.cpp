@@ -1,10 +1,9 @@
 #include "stdafx.h"
-#include "targetver.h"
 #include "CppUnitTest.h"
 #include <string>
 #include <vector>
-#include "../SPA/QueryLexer.h"
-#include "../SPA/QPSValidatorException.h"
+#include "QueryProcessingSubsystem/Validator/QueryLexer.h"
+#include "QueryProcessingSubsystem/Validator/QPSValidatorException.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -108,7 +107,7 @@ namespace UnitTesting {
             {
                 lexer.lex();
             }
-            catch (QueryLexerException&)
+            catch (SyntaxError&)
             {
                 exceptionThrown = true;
             }

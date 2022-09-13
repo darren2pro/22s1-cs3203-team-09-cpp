@@ -3,15 +3,15 @@
 ProgramNode::ProgramNode(std::vector<ProcedureNodePtr> procList) :
         procList(std::move(procList)) {};
 
-ProcedureNode::ProcedureNode(const std::string procName, Stmt stmtList) :
-        procName(procName), stmtList(std::move(stmtList)) {};
+ProcedureNode::ProcedureNode(const std::string procName, StmtLst stmtList) :
+    procName(procName), stmtList(std::move(stmtList)) {};
 
 ConstantNode::ConstantNode(const std::string value) : value(value) {};
 
 VariableNode::VariableNode(const std::string varName) : varName(varName) {};
 
-AssignmentNode::AssignmentNode(const VariableNodePtr var, Expr expr) :
-        var(std::move(var)) {};
+AssignmentNode::AssignmentNode(VariableNodePtr var, Expr expr) :
+    var(std::move(var)) {};
 
 CallNode::CallNode(ProcedureNodePtr proc) : proc(std::move(proc)) {};
 

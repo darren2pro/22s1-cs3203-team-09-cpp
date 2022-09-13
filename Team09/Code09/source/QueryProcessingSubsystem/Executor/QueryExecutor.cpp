@@ -3,6 +3,7 @@
 #include "QueryExecutor.h"
 #include "../Relation.h"
 #include "ModifiesEvaluator.h"
+#include "UsesEvaluator.h"
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	relations = query->relations;
@@ -17,15 +18,15 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 // Relation execute
 std::unordered_set<std::string> QueryExecutor::execute() {
+
 	switch (relations.TYPE) {
 	case Relation::Modifies:
 		// Create the Modifies Evaluator and evaluate it
-		//return ModifiesEvaluator({}, relations, pkb).evaluate();
-		auto x = ModifiesEvaluator({}, relations, pkb);
-		return x.evaluate();
-		//std::unordered_set<std::string> result = { "yyyy" };
-		//return result;
+		return ModifiesEvaluator({}, relations, pkb).evaluate();
+	case Relation::Uses:
+		return UsesEvaluator({}, relations, pkb).evaluate();
 	}
+
 }
 
 // TODO: Pattern execute

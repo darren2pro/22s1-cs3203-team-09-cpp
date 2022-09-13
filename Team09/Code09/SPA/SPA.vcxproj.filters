@@ -209,5 +209,14 @@
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.h">
       <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\UsesEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Pattern.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

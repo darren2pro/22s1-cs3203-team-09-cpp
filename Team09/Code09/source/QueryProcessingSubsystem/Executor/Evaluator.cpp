@@ -16,7 +16,7 @@ std::unordered_set<std::string> Evaluator::evaluate() {
 	//return result;
 
 	if (Utils().isSynonym(LEFT_ARG) && Utils().isSynonym(RIGHT_ARG)) {
-		std::unordered_set<std::string> result = leftSynonymRightString(LEFT_ARG, RIGHT_ARG);
+		std::unordered_set<std::string> result = leftSynonymRightSynonym(LEFT_ARG, RIGHT_ARG);
 		return result;
 		//std::unordered_set<std::string> result = {"yyyy"};
 		//return result;

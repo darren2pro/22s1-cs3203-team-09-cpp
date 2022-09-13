@@ -63,11 +63,10 @@ public:
 };
 
 class ProcedureNode : public TNode {
-public:
-    std::string procName;
-    StmtLst stmtList;
-
-    explicit ProcedureNode(const std::string procName, Stmt stmtList);
+    public:
+        std::string procName;
+        StmtLst stmtList;
+        explicit ProcedureNode(const std::string procName, StmtLst stmtList);
 };
 
 class ConstantNode : public TNode {
@@ -85,11 +84,10 @@ public:
 };
 
 class AssignmentNode : public TNode {
-public:
-    VariableNodePtr var;
-    Expr expr;
-
-    explicit AssignmentNode(const VariableNodePtr var, Expr expr);
+    public:
+        VariableNodePtr var;
+        Expr expr;
+        explicit AssignmentNode(VariableNodePtr var, Expr expr);
 };
 
 class CallNode : public TNode {

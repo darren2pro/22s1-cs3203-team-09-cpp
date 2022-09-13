@@ -16,21 +16,21 @@ namespace UnitTesting {
 
             TEST_METHOD(TestProcedureNode) {
                 Logger::WriteMessage("TestProcedureNode");
-                const shared_ptr<ProcedureNode> procedureNode = make_shared<ProcedureNode>("darrenProcedure");
+                const ProcedureNodePtr procedureNode = make_shared<ProcedureNode>("darrenProcedure");
                 Assert::IsTrue(procedureNode->isDesignEntity());
                 Assert::IsFalse(procedureNode->isAssignmentNode());
             }
 
             TEST_METHOD(TestConstantNode) {
                 Logger::WriteMessage("TestConstantNode");
-                const shared_ptr<ConstantNode> constantNode = make_shared<ConstantNode>("1");
+                const ConstantNodePtr constantNode = make_shared<ConstantNode>("1");
                 Assert::IsTrue(constantNode->isDesignEntity());
                 Assert::IsFalse(constantNode->isAssignmentNode());
             }
 
             TEST_METHOD(TestVariableNode) {
                 Logger::WriteMessage("TestVariableNode");
-                const shared_ptr<VariableNode> variableNode = make_shared<VariableNode>("a");
+                const VariableNodePtr variableNode = make_shared<VariableNode>("a");
                 Assert::IsTrue(variableNode->isDesignEntity());
                 Assert::IsFalse(variableNode->isAssignmentNode());
             }
@@ -44,7 +44,7 @@ namespace UnitTesting {
 
             TEST_METHOD(TestAssignmentNode) {
                 Logger::WriteMessage("TestAssignmentNode");
-                const shared_ptr<AssignmentNode> assignmentNode = make_shared<AssignmentNode>();
+                const AssignmentNodePtr assignmentNode = make_shared<AssignmentNode>();
                 Assert::IsTrue(assignmentNode->isDesignEntity());
                 Assert::IsTrue(assignmentNode->isAssignmentNode());
             }
@@ -59,7 +59,7 @@ namespace UnitTesting {
             TEST_METHOD(TestAddProcedure) {
                 const string procedureName = "darrenProcedure";
                 const shared_ptr<ProgramNode> programNode = make_shared<ProgramNode>();
-                const shared_ptr<ProcedureNode> procedureNode = make_shared<ProcedureNode>(procedureName);
+                const ProcedureNodePtr procedureNode = make_shared<ProcedureNode>(procedureName);
                 programNode->addProcedure(procedureNode);
                 Assert::IsTrue((programNode->procedureList).size() == 1, L"Wrong vector size in procedure list");
                 Assert::IsTrue((programNode->procedureList)[0] != nullptr, L"ProcedureNode was not added.");
@@ -69,16 +69,16 @@ namespace UnitTesting {
             TEST_METHOD(TestAddAssignmentNodeToProcedureNode) {
                 const string procedureName = "darrenProcedure";
                 const shared_ptr<ProgramNode> programNode = make_shared<ProgramNode>();
-                const shared_ptr<ProcedureNode> procedureNode = make_shared<ProcedureNode>(procedureName);
+                const ProcedureNodePtr procedureNode = make_shared<ProcedureNode>(procedureName);
                 programNode->addProcedure(procedureNode);
-                const shared_ptr<AssignmentNode> assignmentNode = make_shared<AssignmentNode>();
-                const shared_ptr<VariableNode> assignedVariable = make_shared<VariableNode>("a");
+                const AssignmentNodePtr assignmentNode = make_shared<AssignmentNode>();
+                const VariableNodePtr assignedVariable = make_shared<VariableNode>("a");
                 procedureNode->addStatement(assignmentNode);
                 assignmentNode->addAssignedVariable(assignedVariable);
                 const shared_ptr<PlusNode> plusNode = make_shared<PlusNode>();
                 assignmentNode->addExpressionRootNode(plusNode);
-                const shared_ptr<VariableNode> variableNode1 = make_shared<VariableNode>("a");
-                const shared_ptr<ConstantNode> constantNode = make_shared<ConstantNode>("1");
+                const VariableNodePtr variableNode1 = make_shared<VariableNode>("a");
+                const ConstantNodePtr constantNode = make_shared<ConstantNode>("1");
                 plusNode->setLeftSubtree(variableNode1);
                 plusNode->setRightSubtree(constantNode);
 
@@ -91,16 +91,16 @@ namespace UnitTesting {
             TEST_METHOD(TestIteratingProceduresStatements) {
                 const string procedureName = "darrenProcedure";
                 const shared_ptr<ProgramNode> programNode = make_shared<ProgramNode>();
-                const shared_ptr<ProcedureNode> procedureNode = make_shared<ProcedureNode>(procedureName);
+                const ProcedureNodePtr procedureNode = make_shared<ProcedureNode>(procedureName);
                 programNode->addProcedure(procedureNode);
-                const shared_ptr<AssignmentNode> assignmentNode = make_shared<AssignmentNode>();
-                const shared_ptr<VariableNode> assignedVariable = make_shared<VariableNode>("a");
+                const AssignmentNodePtr assignmentNode = make_shared<AssignmentNode>();
+                const VariableNodePtr assignedVariable = make_shared<VariableNode>("a");
                 procedureNode->addStatement(assignmentNode);
                 assignmentNode->addAssignedVariable(assignedVariable);
                 const shared_ptr<PlusNode> plusNode = make_shared<PlusNode>();
                 assignmentNode->addExpressionRootNode(plusNode);
-                const shared_ptr<VariableNode> variableNode1 = make_shared<VariableNode>("a");
-                const shared_ptr<ConstantNode> constantNode = make_shared<ConstantNode>("1");
+                const VariableNodePtr variableNode1 = make_shared<VariableNode>("a");
+                const ConstantNodePtr constantNode = make_shared<ConstantNode>("1");
                 plusNode->setLeftSubtree(variableNode1);
                 plusNode->setRightSubtree(constantNode);
 

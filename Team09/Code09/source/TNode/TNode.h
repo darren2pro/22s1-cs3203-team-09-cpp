@@ -20,138 +20,149 @@ class BinOpNode;
 class CondExprNode;
 class RelExprNode;
 
-// TODO: Replace the occurrences
-using ProgramNodePtr = std::shared_ptr<ProgramNode>;
-using ProcedureNodePtr = std::shared_ptr<ProcedureNode>;
-using ConstantNodePtr = std::shared_ptr<ConstantNode>;
-using VariableNodePtr = std::shared_ptr<VariableNode>;
-using AssignmentNodePtr = std::shared_ptr<AssignmentNode>;
-using CallNodePtr = std::shared_ptr<CallNode>;
-using PrintNodePtr = std::shared_ptr<PrintNode>;
-using ReadNodePtr = std::shared_ptr<ReadNode>;
-using IfNodePtr = std::shared_ptr<IfNode>;
-using WhileNodePtr = std::shared_ptr<WhileNode>;
-using BinOpNodePtr = std::shared_ptr<BinOpNode>;
-using CondExprNodePtr = std::shared_ptr<CondExprNode>;
-using RelExprNodePtr = std::shared_ptr<RelExprNode>;
+typedef std::shared_ptr<ProgramNode> AST;
+typedef std::shared_ptr<ProcedureNode> ProcedureNodePtr;
+typedef std::shared_ptr<ConstantNode> ConstantNodePtr;
+typedef std::shared_ptr<VariableNode> VariableNodePtr;
+typedef std::shared_ptr<AssignmentNode> AssignmentNodePtr;
+typedef std::shared_ptr<CallNode> CallNodePtr;
+typedef std::shared_ptr<PrintNode> PrintNodePtr;
+typedef std::shared_ptr<ReadNode> ReadNodePtr;
+typedef std::shared_ptr<IfNode> IfNodePtr;
+typedef std::shared_ptr<WhileNode> WhileNodePtr;
+typedef std::shared_ptr<BinOpNode> BinOpNodePtr;
+typedef std::shared_ptr<CondExprNode> CondExprNodePtr;
+typedef std::shared_ptr<RelExprNode> RelExprNodePtr;
 
-using Stmt = std::variant<std::shared_ptr<AssignmentNode>, std::shared_ptr<CallNode>,
-                          std::shared_ptr<PrintNode>, std::shared_ptr<ReadNode>,
-                          std::shared_ptr<IfNode>, std::shared_ptr<WhileNode>>;
+typedef std::variant<AssignmentNodePtr, CallNodePtr,
+        PrintNodePtr, ReadNodePtr,
+        IfNodePtr, WhileNodePtr> Stmt;
 
-using Expr = std::variant<std::shared_ptr<VariableNode>,
-                          std::shared_ptr<ConstantNode>,
-                          std::shared_ptr<BinOpNode>>;
+typedef std::vector<Stmt> StmtLst;
 
-using Factor = std::variant<std::shared_ptr<VariableNode>,
-                            std::shared_ptr<ConstantNode>,
-                            std::shared_ptr<BinOpNode>>;
+typedef std::variant<VariableNodePtr,
+        ConstantNodePtr,
+        BinOpNodePtr> Expr;
 
-using StmtLst = std::vector<Stmt>;
+typedef std::variant<VariableNodePtr,
+        ConstantNodePtr,
+        BinOpNodePtr> Factor;
 
-using AST = std::shared_ptr<ProgramNode>;
+typedef Factor RelFactor;
 
 class TNode {
-    public:
-        virtual ~TNode() = default;
+public:
+    virtual ~TNode() = default;
 };
 
 class ProgramNode : public TNode {
-    public:
-        std::vector<std::shared_ptr<ProcedureNode>> procList;
-        explicit ProgramNode(std::vector<std::shared_ptr<ProcedureNode>> procList);
+public:
+    std::vector<ProcedureNodePtr> procList;
+
+    explicit ProgramNode(std::vector<ProcedureNodePtr> procList);
 };
 
 class ProcedureNode : public TNode {
-    public:
-        std::string procName;
-        StmtLst stmtList;
-        explicit ProcedureNode(const std::string procName, Stmt stmtList);
+public:
+    std::string procName;
+    StmtLst stmtList;
+
+    explicit ProcedureNode(const std::string procName, Stmt stmtList);
 };
 
 class ConstantNode : public TNode {
-    public:
-        std::string value;
-        explicit ConstantNode(const std::string value);
+public:
+    std::string value;
+
+    explicit ConstantNode(const std::string value);
 };
 
 class VariableNode : public TNode {
-    public:
-        std::string varName;
-        explicit VariableNode(const std::string varName);
+public:
+    std::string varName;
+
+    explicit VariableNode(const std::string varName);
 };
 
 class AssignmentNode : public TNode {
-    public:
-        std::shared_ptr<VariableNode> var;
-        Expr expr;
-        explicit AssignmentNode(const std::shared_ptr<VariableNode> var, Expr expr);
+public:
+    VariableNodePtr var;
+    Expr expr;
+
+    explicit AssignmentNode(const VariableNodePtr var, Expr expr);
 };
 
 class CallNode : public TNode {
-    public:
-        std::shared_ptr<ProcedureNode> proc;
-        explicit CallNode(std::shared_ptr<ProcedureNode> proc);
+public:
+    ProcedureNodePtr proc;
+
+    explicit CallNode(ProcedureNodePtr proc);
 };
 
 class PrintNode : public TNode {
-    public:
-        std::shared_ptr<VariableNode> var;
-        explicit PrintNode(std::shared_ptr<VariableNode> var);
+public:
+    VariableNodePtr var;
+
+    explicit PrintNode(VariableNodePtr var);
 };
 
 class ReadNode : public TNode {
-    public:
-        std::shared_ptr<VariableNode> var;
-        explicit ReadNode(std::shared_ptr<VariableNode> var);
+public:
+    VariableNodePtr var;
+
+    explicit ReadNode(VariableNodePtr var);
 };
 
 class IfNode : public TNode {
-    public:
-        std::shared_ptr<CondExprNode> condExpr;
-        StmtLst thenStmtList;
-        StmtLst elseStmtList;
-        explicit IfNode(std::shared_ptr<CondExprNode> condExpr,
-            StmtLst thenStmtList, StmtLst elseStmtList);
+public:
+    CondExprNodePtr condExpr;
+    StmtLst thenStmtList;
+    StmtLst elseStmtList;
+
+    explicit IfNode(CondExprNodePtr condExpr,
+                    StmtLst thenStmtList, StmtLst elseStmtList);
 };
 
 class WhileNode : public TNode {
-    public:
-        std::shared_ptr<CondExprNode> condExpr;
-        StmtLst stmtList;
-        explicit WhileNode(std::shared_ptr<CondExprNode> condExpr, StmtLst stmtList);
+public:
+    CondExprNodePtr condExpr;
+    StmtLst stmtList;
+
+    explicit WhileNode(CondExprNodePtr condExpr, StmtLst stmtList);
 };
 
 class BinOpNode : public TNode {
-    public:
-        std::string op;
-        Expr leftExpr;
-        Expr rightExpr;
-        explicit BinOpNode(std::string op, Expr leftExpr, Expr rightExpr);
+public:
+    std::string op;
+    Expr leftExpr;
+    Expr rightExpr;
+
+    explicit BinOpNode(std::string op, Expr leftExpr, Expr rightExpr);
 };
 
 class CondExprNode : public TNode {
-    public:
-        std::string op = "";
-        std::shared_ptr<RelExprNode> relExpr = nullptr;
-        std::shared_ptr<CondExprNode> leftCond = nullptr;
-        std::shared_ptr<CondExprNode> rightCond = nullptr;
-        
-        // rel_expr
-        explicit CondExprNode(std::shared_ptr<RelExprNode> relExpr);
+public:
+    std::string op = "";
+    RelExprNodePtr relExpr = nullptr;
+    CondExprNodePtr leftCond = nullptr;
+    CondExprNodePtr rightCond = nullptr;
 
-        // !(cond_expr)
-        explicit CondExprNode(std::shared_ptr<CondExprNode> leftCond);
+    // rel_expr
+    explicit CondExprNode(RelExprNodePtr relExpr);
 
-        // (cond_expr) op (cond_expr)
-        explicit CondExprNode(std::string op,
-            std::shared_ptr<CondExprNode> leftCond, std::shared_ptr<CondExprNode> rightCond);
+    // !(cond_expr)
+    explicit CondExprNode(CondExprNodePtr leftCond);
+
+    // (cond_expr) op (cond_expr)
+    explicit CondExprNode(std::string op,
+                          CondExprNodePtr leftCond, CondExprNodePtr rightCond);
 };
 
 class RelExprNode : public TNode {
-    public:
-        std::string op;
-        Expr leftRel;
-        Expr rightRel;
-        explicit RelExprNode(std::string op, Expr leftRel, Expr rightRel);
+public:
+    std::string op;
+    Expr leftRel;
+    Expr rightRel;
+
+    explicit RelExprNode(std::string op, Expr leftRel, Expr rightRel);
 };

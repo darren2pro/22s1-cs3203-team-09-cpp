@@ -54,7 +54,7 @@ private:
      * @brief Asserts the current token at the current index to be of string s.
      * Consumes the token if true, else throws an exception
      */
-    void expect(string s);
+    bool expect(string s);
 
     /**
      * @brief Consumes the current token and advances the current token index.
@@ -83,41 +83,45 @@ private:
       * Parses a number expression
       * @return the shared pointer for this constant number
       */
-     shared_ptr<ConstantNode> parseConstant();
+     ConstantNodePtr parseConstant();
 
      /**
       * Parses a variable expression
       * @return the shared pointer for this variable
       */
-    shared_ptr<VariableNode> parseVariable();
+    VariableNodePtr parseVariable();
 
-    shared_ptr<ProcedureNode> parseProcedure();
+    ProcedureNodePtr parseProcedure();
 
     StmtLst parseStmtLst();
 
     optional<Stmt> parseStatement();
 
-    shared_ptr<CallNode> parseCall();
+    CallNodePtr parseCall();
 
-    shared_ptr<ReadNode> parseRead();
+    ReadNodePtr parseRead();
 
-    shared_ptr<PrintNode> parsePrint();
+    PrintNodePtr parsePrint();
 
-    shared_ptr<WhileNode> parseWhile();
+    WhileNodePtr parseWhile();
 
-    shared_ptr<IfNode> parseIf();
+    IfNodePtr parseIf();
 
-    shared_ptr<AssignmentNode> parseAssign();
+    CondExprNodePtr parseCondExpr();
+
+    RelExprNodePtr parseRelExpr();
+
+    RelFactor parseRelFactor();
+
+    AssignmentNodePtr parseAssign();
 
     //! Parse factor is used for relational expressions
     Factor parseFactor();
 
     Expr parseExpr();
 
-    shared_ptr<AssignmentNode> parseAssign();
-
 public:
-    explicit SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS tokens);
+    explicit SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS _tokens);
 
     ~SimpleAstBuilder();
 

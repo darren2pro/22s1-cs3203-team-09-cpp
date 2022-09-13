@@ -1,27 +1,28 @@
 #include "SimpleAstBuilder.h"
 #include "../exceptions/SimpleInvalidSyntaxException.h"
+#include <unordered_set>
 
 using namespace std;
 
-SimpleAstBuilder::SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS tokens) {
-    this->tokens = tokens;
-    this->currentTokenIndex = 0;
-    this->arithmeticParser = make_shared<ArithmeticParser>(tokens,
-                                                     currentTokenIndex,
-                                                     unordered_set<string>({">", ">=", "<", "<=", "==", "!=", ";", ")"})
-    );
-}
+SimpleAstBuilder::SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS _tokens) : tokens(_tokens), currentTokenIndex(0),
+                                                                               arithmeticParser(tokens,
+                                                                                                &currentTokenIndex,
+                                                                                                unordered_set<string>(
+                                                                                                        {">", ">=", "<",
+                                                                                                         "<=", "==",
+                                                                                                         "!=", ";",
+                                                                                                         ")"})) {}
 
 SimpleAstBuilder::~SimpleAstBuilder() {
 }
 
 AST SimpleAstBuilder::build() {
-    vector<shared_ptr<ProcedureNode>> procedureLst;
+    vector<ProcedureNodePtr> procedureLst;
     while (true) {
         if (match(SimpleToken::TokenType::END_OF_FILE)) {
             break;
         }
-        shared_ptr<ProcedureNode> procedureNode = parseProcedure();
+        ProcedureNodePtr procedureNode = parseProcedure();
         procedureLst.push_back(procedureNode);
     }
     if (procedureLst.size() == 0) {
@@ -54,10 +55,11 @@ bool SimpleAstBuilder::check(string value) {
     return peek()->getValue().compare(value) == 0;
 }
 
-void SimpleAstBuilder::expect(string s) {
-    if (!match(s)) {
-        throw SimpleInvalidSyntaxException("Expected " + s + ", got " + peek()->getValue() + ".");
+bool SimpleAstBuilder::expect(string s) {
+    if (match(s)) {
+        return true;
     }
+    throw SimpleInvalidSyntaxException("Expected " + s + ", got " + peek()->getValue() + ".");
 }
 
 SimpleToken* SimpleAstBuilder::advance() {
@@ -77,11 +79,11 @@ SimpleToken* SimpleAstBuilder::previous() {
     return tokens.at(currentTokenIndex - 1);
 }
 
-shared_ptr<ConstantNode> SimpleAstBuilder::parseConstant() {
+ConstantNodePtr SimpleAstBuilder::parseConstant() {
     int currTokenIdx = currentTokenIndex;
     if (match(SimpleToken::TokenType::NUMBER)) {
         string number = previous()->getValue();
-        shared_ptr<ConstantNode> constNode = make_shared<ConstantNode>(number);
+        ConstantNodePtr constNode = make_shared<ConstantNode>(number);
         return constNode;
     } else {
         currentTokenIndex = currTokenIdx;
@@ -89,11 +91,11 @@ shared_ptr<ConstantNode> SimpleAstBuilder::parseConstant() {
     }
 }
 
-shared_ptr<VariableNode> SimpleAstBuilder::parseVariable() {
+VariableNodePtr SimpleAstBuilder::parseVariable() {
     int currTokenIdx = currentTokenIndex;
     if (match(SimpleToken::TokenType::WORD)) {
         string identifier = previous()->getValue();
-        shared_ptr<VariableNode> varNode = make_shared<VariableNode>(identifier);
+        VariableNodePtr varNode = make_shared<VariableNode>(identifier);
         return varNode;
     } else {
         currentTokenIndex = currTokenIdx;
@@ -101,7 +103,7 @@ shared_ptr<VariableNode> SimpleAstBuilder::parseVariable() {
     }
 }
 
-shared_ptr<ProcedureNode> SimpleAstBuilder::parseProcedure() {
+ProcedureNodePtr SimpleAstBuilder::parseProcedure() {
     if (!match("procedure")) {
         throw SimpleInvalidSyntaxException("Expected 'procedure' keyword, got " + peek()->getValue() + ".");
     }
@@ -146,33 +148,33 @@ optional<Stmt> SimpleAstBuilder::parseStatement() {
 
     int currTokenIdx = currentTokenIndex;
 
-    shared_ptr<CallNode> callStmt = parseCall();
+    CallNodePtr callStmt = parseCall();
     if (callStmt) {
         return callStmt;
     }
 
-    shared_ptr<ReadNode> readStmt = parseRead();
+    ReadNodePtr readStmt = parseRead();
     if (readStmt) {
         return readStmt;
     }
 
-    shared_ptr<PrintNode> printStmt = parsePrint();
+    PrintNodePtr printStmt = parsePrint();
     if (printStmt) {
         return printStmt;
     }
 
-    shared_ptr<WhileNode> whileStmt = parseWhile();
+    WhileNodePtr whileStmt = parseWhile();
     if (whileStmt) {
         return whileStmt;
     }
 
-    shared_ptr<IfNode> ifStmt = parseIf();
+    IfNodePtr ifStmt = parseIf();
     if (ifStmt) {
         return ifStmt;
     }
 
     //! Assignment statement is tried last because it can take in any token as the variable being modified
-    shared_ptr<AssignmentNode> assignStmt = parseAssign();
+    AssignmentNodePtr assignStmt = parseAssign();
     if (assignStmt) {
         return assignStmt;
     }
@@ -181,7 +183,7 @@ optional<Stmt> SimpleAstBuilder::parseStatement() {
     return nullopt;
 }
 
-shared_ptr<CallNode> SimpleAstBuilder::parseCall() {
+CallNodePtr SimpleAstBuilder::parseCall() {
     int currTokenIdx = currentTokenIndex;
 
     if (!match("call")) {
@@ -201,14 +203,14 @@ shared_ptr<CallNode> SimpleAstBuilder::parseCall() {
     return make_shared<CallNode>(move(procedureName));
 }
 
-shared_ptr<ReadNode> SimpleAstBuilder::parseRead() {
+ReadNodePtr SimpleAstBuilder::parseRead() {
     int currTokenIdx = currentTokenIndex;
     if (!match("read")) {
         currentTokenIndex = currTokenIdx;
         return nullptr;
     }
 
-    shared_ptr<VariableNode> variable = parseVariable();
+    VariableNodePtr variable = parseVariable();
     if (!variable) {
         currentTokenIndex = currTokenIdx;
         return nullptr;
@@ -218,14 +220,14 @@ shared_ptr<ReadNode> SimpleAstBuilder::parseRead() {
     return make_shared<ReadNode>(move(variable));
 }
 
-shared_ptr<PrintNode> SimpleAstBuilder::parsePrint() {
+PrintNodePtr SimpleAstBuilder::parsePrint() {
     int currTokenIdx = currentTokenIndex;
     if (!match("print")) {
         currentTokenIndex = currTokenIdx;
         return nullptr;
     }
 
-    shared_ptr<VariableNode> variable = parseVariable();
+    VariableNodePtr variable = parseVariable();
     if (!variable) {
         currentTokenIndex = currTokenIdx;
         return nullptr;
@@ -235,7 +237,7 @@ shared_ptr<PrintNode> SimpleAstBuilder::parsePrint() {
     return make_shared<PrintNode>(move(variable));
 }
 
-shared_ptr<WhileNode> SimpleAstBuilder::parseWhile() {
+WhileNodePtr SimpleAstBuilder::parseWhile() {
     int currTokenIdx = currentTokenIndex;
     if (!match("while")) {
         currentTokenIndex = currTokenIdx;
@@ -247,7 +249,7 @@ shared_ptr<WhileNode> SimpleAstBuilder::parseWhile() {
         return nullptr;
     }
 
-    shared_ptr<CondExprNode> condExpr = parseCondExpr();
+    CondExprNodePtr condExpr = parseCondExpr();
     if (!condExpr) {
         throw SimpleInvalidSyntaxException("Expected condition expression, got " + peek()->getValue() + ".");
     }
@@ -260,7 +262,7 @@ shared_ptr<WhileNode> SimpleAstBuilder::parseWhile() {
     return make_shared<WhileNode>(move(condExpr), move(stmtLst));
 }
 
-shared_ptr<IfNode> SimpleAstBuilder::parseIf() {
+IfNodePtr SimpleAstBuilder::parseIf() {
     int currTokenIdx = currentTokenIndex;
     if (!match("if")) {
         currentTokenIndex = currTokenIdx;
@@ -272,7 +274,7 @@ shared_ptr<IfNode> SimpleAstBuilder::parseIf() {
         return nullptr;
     }
 
-    shared_ptr<CondExprNode> condExpr = parseCondExpr();
+    CondExprNodePtr condExpr = parseCondExpr();
     if (!condExpr) {
         throw SimpleInvalidSyntaxException("Expected condition expression, got " + peek()->getValue() + ".");
     }
@@ -291,13 +293,66 @@ shared_ptr<IfNode> SimpleAstBuilder::parseIf() {
     return make_shared<IfNode>(move(condExpr), move(thenStmtLst), move(elseStmtLst));
 }
 
+CondExprNodePtr SimpleAstBuilder::parseCondExpr() {
+    if (match("!")) { // !()
+        expect("(");
+        CondExprNodePtr condExpr = parseCondExpr();
+        expect(")");
+        return make_shared<CondExprNode>(move(condExpr));
+    } else if (check("(")) { // () op ()
+        expect("(");
+        CondExprNodePtr conditionLhs = parseCondExpr();
+        expect(")");
+
+        string op;
+        if (match("&&")) {
+            op = "&&";
+        } else if (match("||")) {
+            op = "||";
+        } else {
+            throw SimpleInvalidSyntaxException("Expected && or ||, got " + peek()->getValue() + ".");
+        }
+
+        expect("(");
+        CondExprNodePtr conditionRhs = parseCondExpr();
+        expect(")");
+
+        return make_shared<CondExprNode>(move(conditionLhs), op, move(conditionRhs));
+    } else { // relExpr
+        RelExprNodePtr relExpr = parseRelExpr();
+        if (relExpr) return make_shared<CondExprNode>(move(relExpr));
+    }
+
+    // Neither !(), (), nor relExpr
+    return nullptr;
+}
+
+RelExprNodePtr SimpleAstBuilder::parseRelExpr() {
+    unordered_set<string> validRelOps = {"==", "!=", "<", ">", "<=", ">="};
+    RelFactor lhs = parseRelFactor();
+    string op = peek()->getValue();
+
+    if (validRelOps.find(op) == validRelOps.end())
+        throw SimpleInvalidSyntaxException("Expected relational operator, got " + op + ".");
+
+    advance();
+    RelFactor rhs = parseRelFactor();
+    // TODO: Check if the move is needed here.
+    return make_shared<RelExprNode>(move(lhs), op, move(rhs));
+}
+
+RelFactor SimpleAstBuilder::parseRelFactor() {
+    Expr expr = parseExpr();
+    return expr;
+}
+
 Factor SimpleAstBuilder::parseFactor() {
-    shared_ptr<VariableNode> variable = parseVariable();
+    VariableNodePtr variable = parseVariable();
     if (variable) {
         return variable;
     }
 
-    shared_ptr<ConstantNode> constant = parseConstant();
+    ConstantNodePtr constant = parseConstant();
     if (constant) {
         return constant;
     }
@@ -309,11 +364,11 @@ Factor SimpleAstBuilder::parseFactor() {
 }
 
 Expr SimpleAstBuilder::parseExpr() {
-    return arithmeticParser->parse(0);
+    return arithmeticParser.parse(0);
 }
 
-shared_ptr<AssignmentNode> SimpleAstBuilder::parseAssign() {
-    shared_ptr<VariableNode> variable = parseVariable();
+AssignmentNodePtr SimpleAstBuilder::parseAssign() {
+    VariableNodePtr variable = parseVariable();
     if (!variable) {
         throw SimpleInvalidSyntaxException("Expected variable for assign statement, got " + peek()->getValue() + ".");
     }

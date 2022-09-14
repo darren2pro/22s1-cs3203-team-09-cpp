@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include <SourceProcessor/Parser.h>
 #include <SourceProcessor/astBuilder/SimpleAstBuilder.h>
+#include <SourceProcessor/exceptions/SimpleInvalidSyntaxException.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -388,6 +389,61 @@ namespace UnitTesting {
                 AST programNode2 = make_shared<ProgramNode>(vector<ProcedureNodePtr>{procComplexMain});
 
                 Assert::IsTrue(*programNode == *programNode2, L"ASTs are not equal");
+            }
+
+            TEST_METHOD(TestSimpleArithmetic) {
+                string program = "procedure arithmeticSimple {\n"
+                                 "    testing = hello + world * 8;\n"
+                                 "}";
+                std::istringstream iss(program);
+                SimpleParser simpleParser(&iss);
+                Parser* parser = &simpleParser;
+                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleAstBuilder astBuilder(result);
+                AST programNode = astBuilder.build();
+
+                Logger::WriteMessage("[TestSimpleArithmetic] Printing AST\n");
+                Logger::WriteMessage(programNode->toString().c_str());
+
+                // hello + world * 8
+                VariableNodePtr hello = make_shared<VariableNode>("hello");
+                VariableNodePtr world = make_shared<VariableNode>("world");
+                ConstantNodePtr eight = make_shared<ConstantNode>("8");
+                BinOpNodePtr binOp = make_shared<BinOpNode>("*", world, eight);
+                BinOpNodePtr binOp2 = make_shared<BinOpNode>("+", hello, binOp);
+                // testing = hello + world * 8
+                VariableNodePtr testing = make_shared<VariableNode>("testing");
+                AssignmentNodePtr assign = make_shared<AssignmentNode>(testing, binOp2);
+                // procedure node
+                ProcedureNodePtr procSimpleArithmetic = make_shared<ProcedureNode>("arithmeticSimple", StmtLst{assign});
+                AST programNode2 = make_shared<ProgramNode>(vector<ProcedureNodePtr>{procSimpleArithmetic});
+
+                Assert::IsTrue(*programNode == *programNode2, L"ASTs are not equal");
+            }
+
+            TEST_METHOD(TestInvalidSourceProgram) {
+                string program = "procedure invalid1 {\n"
+                                 "    if (k == 1) {\n"
+                                 "        print k;\n"
+                                 "    } else {\n"
+                                 "        print y;\n"
+                                 "    }\n"
+                                 "}";
+
+                std::istringstream iss(program);
+                SimpleParser simpleParser(&iss);
+                Parser* parser = &simpleParser;
+                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleAstBuilder astBuilder(result);
+
+                // expect an exception
+                try {
+                    AST programNode = astBuilder.build();
+                    Assert::Fail(L"Expected an exception");
+                } catch (SimpleInvalidSyntaxException& e) {
+                    Logger::WriteMessage("(Correct) Exception seen: ");
+                    Logger::WriteMessage(e.what());
+                }
             }
     };
 }

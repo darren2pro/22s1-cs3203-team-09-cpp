@@ -4,6 +4,7 @@
 #include "SimpleTokenizer.h"
 #include "astBuilder/SimpleAstBuilder.h"
 #include "designExtractions/DesignExtractor.h"
+#include "exceptions/SimpleInvalidSyntaxException.h"
 
 using namespace std;
 

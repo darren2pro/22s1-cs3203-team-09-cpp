@@ -30,7 +30,7 @@ public:
 
 	//Modifies
 	bool getModifies(const LineNum, const Variable);
-	bool getModifiesUS(LineNum);
+	bool getModifiesUS(const LineNum);
 	std::unordered_set<Variable> getModifiesVarByStmt(const LineNum);
 	std::unordered_set<LineNum> getModifiesStmtByVar(const Variable);
 	std::unordered_set<std::pair<LineNum, Variable>> getAllModifies();
@@ -38,7 +38,7 @@ public:
 
 	//Uses
 	bool getUses(const LineNum, const Variable);
-	bool getUsesUS(LineNum);
+	bool getUsesUS(const LineNum);
 	std::unordered_set<Variable> getUsesVarByStmt(const LineNum);
 	std::unordered_set<LineNum> getUsesStmtByVar(const Variable);
 	std::unordered_set<std::pair<LineNum, Variable>> getAllUses();
@@ -68,32 +68,32 @@ public:
 
 
 	//Parent
-	bool getParent(ParentLine, ChildLine);
-	bool getParentByParentUS(ParentLine);
-	bool getParentByUSChild(ChildLine);
+	bool getParent(const ParentLine, const ChildLine);
+	bool getParentByParentUS(const ParentLine);
+	bool getParentByUSChild(const ChildLine);
 	bool getParentByUSUS();
-	std::unordered_set<ChildLine> getParentChildByParent(ParentLine);
-	std::unordered_set<ParentLine> getParentParentByChild(ChildLine);
+	std::unordered_set<ChildLine> getParentChildByParent(const ParentLine);
+	std::unordered_set<ParentLine> getParentParentByChild(const ChildLine);
 	std::unordered_set<ParentLine> getParentParentByUS();
 	std::unordered_set<ChildLine> getParentChildByUS();
 	std::unordered_set<std::pair<ParentLine, ChildLine>> getAllParent();
 
 
 	//ParentT
-	bool getParentT(ParentLine, ChildLine);
-	bool getParentTByParentUS(ParentLine);
-	bool getParentTByUSChild(ChildLine);
+	bool getParentT(const ParentLine, const ChildLine);
+	bool getParentTByParentUS(const ParentLine);
+	bool getParentTByUSChild(const ChildLine);
 	bool getParentTByUSUS();
-	std::unordered_set<ChildLine> getParentTChildByParent(ParentLine);
-	std::unordered_set<ParentLine> getParentTParentByChild(ChildLine);
+	std::unordered_set<ChildLine> getParentTChildByParent(const ParentLine);
+	std::unordered_set<ParentLine> getParentTParentByChild(const ChildLine);
 	std::unordered_set<ParentLine> getParentTParentByUS();
 	std::unordered_set<ChildLine> getParentTChildByUS();
 	std::unordered_set<std::pair<ParentLine, ChildLine>> getAllParentT();
+
+	void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>>& set,
+		std::unordered_map<std::string, std::unordered_set<std::string>>& star,
+		const std::unordered_map<std::string, std::unordered_set<std::string>> base, std::string key);
 };
 
 }
-
-
-
-
 

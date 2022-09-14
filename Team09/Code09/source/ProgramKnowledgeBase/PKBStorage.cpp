@@ -45,6 +45,7 @@ namespace PKB {
         }
     }
 
+    //entities
     void PKBStorage::storeVariable(const Variable var) {
         varSet.insert(var);
     }
@@ -77,23 +78,32 @@ namespace PKB {
         printSet.insert(lineNum);
     }
 
-    void PKBStorage::storeFollows(const PrevLine, const NextLine) {
-
+    //relations
+    void PKBStorage::storeModifiesS(const LineNum lineNum, const Variable var) {
+        std::pair<LineNum, Variable> pair = std::make_pair(lineNum, var);
+        modifiesSet.insert(pair);
+        addToSetInMap(modifiesLineToVarMap, lineNum, var);
+        addToSetInMap(modifiesVarToLineMap, var, lineNum);
     }
 
-    void PKBStorage::storeParent(const ParentLine, const ChildLine) {
-
-    }
-
+    //todo
     void PKBStorage::storeUsesS(const LineNum, const Variable) {
 
     }
 
-    void PKBStorage::storeModifiesS(const LineNum, const Variable) {
+    void PKBStorage::storeFollows(const PrevLine prev, const NextLine next) {
+        std::pair<PrevLine, NextLine> pair = std::make_pair(prev, next);
+        followsSet.insert(pair);
+        followsPrevToNextMap[prev] = next;
+        followsNextToPrevMap[next] = prev;
+    }
+
+    //todo
+    void PKBStorage::storeParent(const ParentLine, const ChildLine) {
 
     }
 
-    void PKBStorage::addVarToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
+    void PKBStorage::addToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
         const std::string key, const std::string val) {
         if (map.find(key) == map.end()) {
             std::unordered_set<std::string> vals;

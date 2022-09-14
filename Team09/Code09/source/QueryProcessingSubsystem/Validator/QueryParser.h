@@ -40,13 +40,13 @@ public:
 
 	/**
 	 * Checks if the current token matches with the expected token.
-	 * @throws QueryLParserException if the current token does not match the expected token.
+	 * @throws SyntaxError if the current token does not match the expected token.
 	 */
 	void match(std::string token);
 
 	/**
 	 * Checks if the current token matches with the expected regex.
-	 * @throws QueryLParserException if the current token does not match the regex.
+	 * @throws SyntaxError if the current token does not match the regex.
 	 */
 	void match(std::regex re);
 
@@ -54,26 +54,26 @@ public:
 	 * Returns the Declaration::DesignEntity that is equivalent to the token string.
 	 * @returns a Declaration::DesignEntity that is equivalent to the token string.
 	 */
-	Declaration::DesignEntity QueryParser::getDesignEntity(std::string token);
+	Declaration::DesignEntity getDesignEntity(std::string token);
 
 	/**
 	 * Parses declaration.
 	 * @returns the declarations.
-	 * @throws QueryParserException if an expected token is encountered.
+	 * @throws SyntaxError if an expected token is encountered.
 	 */
 	std::vector<Declaration> declaration();
 
 	/**
 	 * Parses declaration.
 	 * @returns the variable in the select statement.
-	 * @throws QueryParserException if an expected token is encountered.
+	 * @throws SyntaxError if an expected token is encountered.
 	 */
 	std::string select();
 
 	/**
 	 * Parses declaration.
 	 * @returns the pattern clause.
-	 * @throws QueryParserException if an expected token is encountered.
+	 * @throws SyntaxError if an expected token is encountered.
 	 */
 	Pattern patternClause();
 
@@ -86,7 +86,7 @@ public:
 	/**
 	 * Parses the such that clause.
 	 * @returns the relation.
-	 * @throws QueryParserException if an expected token is encountered.
+	 * @throws SyntaxError if an expected token is encountered.
 	 */
 	Relation suchThatClause();
 

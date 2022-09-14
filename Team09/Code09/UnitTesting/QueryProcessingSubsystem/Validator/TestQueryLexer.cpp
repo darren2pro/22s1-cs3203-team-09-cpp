@@ -15,28 +15,9 @@ namespace UnitTesting {
         TEST_METHOD(TestLexer) {
             const std::string query = "assign a; Select a pattern a(_, _\"x\"_) such that Modifies(a, \"x\")";
 
-            std::vector<std::string> expectedResult;
-            expectedResult.push_back("assign");
-            expectedResult.push_back("a");
-            expectedResult.push_back(";");
-            expectedResult.push_back("Select");
-            expectedResult.push_back("a");
-            expectedResult.push_back("pattern");
-            expectedResult.push_back("a");
-            expectedResult.push_back("(");
-            expectedResult.push_back("_");
-            expectedResult.push_back(",");
-            expectedResult.push_back("_");
-            expectedResult.push_back("\"x\"");
-            expectedResult.push_back("_");
-            expectedResult.push_back(")");
-            expectedResult.push_back("such that");
-            expectedResult.push_back("Modifies");
-            expectedResult.push_back("(");
-            expectedResult.push_back("a");
-            expectedResult.push_back(",");
-            expectedResult.push_back("\"x\"");
-            expectedResult.push_back(")");
+            std::vector<std::string> expectedResult = std::vector<std::string>(
+                { "assign", "a", ";", "Select", "a", "pattern", "a", "(", "_", ",", "_",
+                "\"x\"", "_", ")", "such", "that", "Modifies", "(", "a", ",", "\"x\"", ")" });
 
             QueryLexer lexer = QueryLexer(query);
             std::vector<std::string> result = lexer.lex();
@@ -52,28 +33,9 @@ namespace UnitTesting {
                                       "Select      a pattern a(_, _       \"x        \"_)"
                                       "such that Modifies \t ( a , \"\tx       \")";
 
-            std::vector<std::string> expectedResult;
-            expectedResult.push_back("assign");
-            expectedResult.push_back("a");
-            expectedResult.push_back(";");
-            expectedResult.push_back("Select");
-            expectedResult.push_back("a");
-            expectedResult.push_back("pattern");
-            expectedResult.push_back("a");
-            expectedResult.push_back("(");
-            expectedResult.push_back("_");
-            expectedResult.push_back(",");
-            expectedResult.push_back("_");
-            expectedResult.push_back("\"x\"");
-            expectedResult.push_back("_");
-            expectedResult.push_back(")");
-            expectedResult.push_back("such that");
-            expectedResult.push_back("Modifies");
-            expectedResult.push_back("(");
-            expectedResult.push_back("a");
-            expectedResult.push_back(",");
-            expectedResult.push_back("\"x\"");
-            expectedResult.push_back(")");
+            std::vector<std::string> expectedResult = std::vector<std::string>(
+                { "assign", "a", ";", "Select", "a", "pattern", "a", "(", "_", ",", "_",
+                "\"x\"", "_", ")", "such", "that", "Modifies", "(", "a", ",", "\"x\"", ")" });
 
             QueryLexer lexer = QueryLexer(query);
             std::vector<std::string> result = lexer.lex();
@@ -98,7 +60,7 @@ namespace UnitTesting {
             }
         }
 
-        TEST_METHOD(TestLexerException) {
+        TEST_METHOD(TestLexerInvalidToken) {
             const std::string query = "assign a$; Select a pattern a(_, _\"x\"_) such that Modifies(a, \"x\")";
             QueryLexer lexer = QueryLexer(query);
 
@@ -114,6 +76,22 @@ namespace UnitTesting {
 
 
             Assert::IsTrue(exceptionThrown);
+        }
+    
+        TEST_METHOD(TestLexerExpression) {
+            const std::string query = "assign a; Select a pattern a(_, \"x / y*(2 + z)\"_) such that Modifies(a, _\"(x - (y - (z -6)))\")";
+
+            std::vector<std::string> expectedResult = std::vector<std::string>(
+                { "assign", "a", ";", "Select", "a", "pattern", "a", "(", "_", ",",
+                "\"x / y*(2 + z)\"", "_", ")", "such", "that", "Modifies", "(", "a", ",", "_", "\"(x - (y - (z -6)))\"", ")" });
+
+            QueryLexer lexer = QueryLexer(query);
+            std::vector<std::string> result = lexer.lex();
+
+            Assert::AreEqual(expectedResult.size(), result.size());
+            for (int i = 0; i < expectedResult.size(); i++) {
+                Assert::AreEqual(expectedResult[i], result[i]);
+            }
         }
     };
 }

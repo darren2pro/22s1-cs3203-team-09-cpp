@@ -5,11 +5,10 @@
 #include "PKB.h"
 #include "PKBManager.h"
 
+namespace PKB {
+
 PKBManager::PKBManager() {}
-
 PKBManager::~PKBManager() {}
-
-using namespace PKB;
 
 //getter for pkbStorage. Used by SimpleParser. DesignExtractor extractor(pkb.getPKBStorage).
 std::shared_ptr<PKBStorage> PKBManager::getPKBStorage() {
@@ -17,69 +16,69 @@ std::shared_ptr<PKBStorage> PKBManager::getPKBStorage() {
 }
 
 
-std::unordered_set<Variable> PKB::PKBManager::getVariableSet() {
+std::unordered_set<Variable> PKBManager::getVariableSet() {
     return pkbStorage->varSet;
 }
 
 //todo
-std::unordered_set<Procedure> PKB::PKBManager::getProcedureSet() {
+std::unordered_set<Procedure> PKBManager::getProcedureSet() {
 
 }
 
 //todo
-std::unordered_set<Constant> PKB::PKBManager::getConstantSet() {
+std::unordered_set<Constant> PKBManager::getConstantSet() {
 
 }
 
 //todo
-std::unordered_set<LineNum> PKB::PKBManager::getWhileSet() {
+std::unordered_set<LineNum> PKBManager::getWhileSet() {
   
 }
 
 //todo
-std::unordered_set<LineNum> PKB::PKBManager::getIfSet() {
+std::unordered_set<LineNum> PKBManager::getIfSet() {
   
 }
 
 //todo
-std::unordered_set<LineNum> PKB::PKBManager::getAssignSet() {
+std::unordered_set<LineNum> PKBManager::getAssignSet() {
   
 }
 
 //todo
-std::unordered_set<LineNum> PKB::PKBManager::getReadSet() {
+std::unordered_set<LineNum> PKBManager::getReadSet() {
   
 }
 
 //todo
-std::unordered_set<LineNum> PKB::PKBManager::getPrintSet() {
+std::unordered_set<LineNum> PKBManager::getPrintSet() {
   
 }
 
 //Modifies
-bool PKB::PKBManager::getModifies(const LineNum lineNum, const Variable var) {
+bool PKBManager::getModifies(const LineNum lineNum, const Variable var) {
     return pkbStorage->modifiesSet.contains(std::make_pair(lineNum, var);
 }
 
-bool PKB::PKBManager::getModifiesUS(const LineNum lineNum) {
+bool PKBManager::getModifiesUS(const LineNum lineNum) {
     return pkbStorage->modifiesLineToVarMap.contains(lineNum);
 }
 
-std::unordered_set<Variable> PKB::PKBManager::getModifiesVarByStmt(const LineNum lineNum) {
+std::unordered_set<Variable> PKBManager::getModifiesVarByStmt(const LineNum lineNum) {
     return pkbStorage->modifiesLineToVarMap.at(lineNum);
 }
 
-std::unordered_set<LineNum> PKB::PKBManager::getModifiesStmtByVar(const Variable var) {
+std::unordered_set<LineNum> PKBManager::getModifiesStmtByVar(const Variable var) {
     return pkbStorage->modifiesVarToLineMap.at(var);
 }
 
-std::unordered_set<std::pair<LineNum, Variable>> PKB::PKBManager::getAllModifies() {
+std::unordered_set<std::pair<LineNum, Variable>> PKBManager::getAllModifies() {
     return pkbStorage->modifiesSet;
 }
 
-std::unordered_set<LineNum> PKB::PKBManager::getModifiesStmtByUS() {
+std::unordered_set<LineNum> PKBManager::getModifiesStmtByUS() {
     std::unordered_set<LineNum> set;
-    for (const auto elem : pkbStorage->modifiesLineToVarMap) {
+    for (const auto& elem : pkbStorage->modifiesLineToVarMap) {
         set.insert(elem.first);
     }
     return set;
@@ -87,56 +86,56 @@ std::unordered_set<LineNum> PKB::PKBManager::getModifiesStmtByUS() {
 
 //todo
 //Uses
-bool PKB::PKBManager::getUses(const LineNum, const Variable) {
+bool PKBManager::getUses(const LineNum, const Variable) {
 
 }
 
-bool PKB::PKBManager::getUsesUS(const LineNum) {
+bool PKBManager::getUsesUS(const LineNum) {
 
 }
 
-std::unordered_set<Variable> PKB::PKBManager::getUsesVarByStmt(const LineNum) {
+std::unordered_set<Variable> PKBManager::getUsesVarByStmt(const LineNum) {
 
 }
 
-std::unordered_set<LineNum> PKB::PKBManager::getUsesStmtByVar(const Variable) {
+std::unordered_set<LineNum> PKBManager::getUsesStmtByVar(const Variable) {
 
 }
 
-std::unordered_set<std::pair<LineNum, Variable>> PKB::PKBManager::getAllUses() {
+std::unordered_set<std::pair<LineNum, Variable>> PKBManager::getAllUses() {
 
 }
 
-std::unordered_set<LineNum> PKB::PKBManager::getUsesStmtByUS() {
+std::unordered_set<LineNum> PKBManager::getUsesStmtByUS() {
 
 }
 
 //Follows
-bool PKB::PKBManager::getFollows(const PrevLine prev, const NextLine next) {
+bool PKBManager::getFollows(const PrevLine prev, const NextLine next) {
     return pkbStorage->followsSet.contains(std::make_pair(prev, next));
 }
 
-bool PKB::PKBManager::getFollowsByPrevUS(const PrevLine prev) {
+bool PKBManager::getFollowsByPrevUS(const PrevLine prev) {
     return pkbStorage->followsPrevToNextMap.contains(prev);
 }
 
-bool PKB::PKBManager::getFollowsByUSNext(const NextLine next) {
+bool PKBManager::getFollowsByUSNext(const NextLine next) {
     return pkbStorage->followsNextToPrevMap.contains(next);
 }
 
-bool PKB::PKBManager::getFollowsByUSUS() {
+bool PKBManager::getFollowsByUSUS() {
     return !(pkbStorage->followsSet.empty());
 }
 
-std::unordered_set<NextLine> PKB::PKBManager::getFollowsNextByPrev(const PrevLine prev) {
+std::unordered_set<NextLine> PKBManager::getFollowsNextByPrev(const PrevLine prev) {
     return pkbStorage->followsPrevToNextMap.at(prev);
 }
 
-std::unordered_set<PrevLine> PKB::PKBManager::getFollowsPrevByNext(const NextLine next) {
+std::unordered_set<PrevLine> PKBManager::getFollowsPrevByNext(const NextLine next) {
     return pkbStorage->followsNextToPrevMap.at(next);
 }
 
-std::unordered_set<PrevLine> PKB::PKBManager::getFollowsPrevByUS() {
+std::unordered_set<PrevLine> PKBManager::getFollowsPrevByUS() {
     std::unordered_set<PrevLine> set;
     for (const auto& elem : pkbStorage->followsPrevToNextMap) {
         set.insert(elem.first);
@@ -144,7 +143,7 @@ std::unordered_set<PrevLine> PKB::PKBManager::getFollowsPrevByUS() {
     return set;
 }
 
-std::unordered_set<NextLine> PKB::PKBManager::getFollowsNextByUS() {
+std::unordered_set<NextLine> PKBManager::getFollowsNextByUS() {
     std::unordered_set<NextLine> set;
     for (const auto& elem : pkbStorage->followsNextToPrevMap) {
         set.insert(elem.first);
@@ -152,49 +151,49 @@ std::unordered_set<NextLine> PKB::PKBManager::getFollowsNextByUS() {
     return set;
 }
 
-std::unordered_set<std::pair<PrevLine, NextLine>> PKB::PKBManager::getAllFollows() {
+std::unordered_set<std::pair<PrevLine, NextLine>> PKBManager::getAllFollows() {
     return pkbStorage->followsSet;
 }
 
 //FollowsT
-bool PKB::PKBManager::getFollowsT(const PrevLine prev, const NextLine next) {
+bool PKBManager::getFollowsT(const PrevLine prev, const NextLine next) {
     getFollowsTNextByPrev(prev);
     return pkbStorage->followsTSet.contains(std::make_pair(prev, next));
 }
 
-bool PKB::PKBManager::getFollowsTByPrevUS(const PrevLine) {
+bool PKBManager::getFollowsTByPrevUS(const PrevLine) {
     return getFollowsByPrevUS;
 }
 
-bool PKB::PKBManager::getFollowsTByUSNext(const NextLine) {
+bool PKBManager::getFollowsTByUSNext(const NextLine) {
     return getFollowsByUSNext;
 }
 
-bool PKB::PKBManager::getFollowsTByUSUS() {
+bool PKBManager::getFollowsTByUSUS() {
     return getFollowsByUSUS();
 }
 
-std::unordered_set<NextLine> PKB::PKBManager::getFollowsTNextByPrev(const PrevLine prev) {
+std::unordered_set<NextLine> PKBManager::getFollowsTNextByPrev(const PrevLine prev) {
     setStarFromBaseMap(pkbStorage->followsTSet, pkbStorage->followsTPrevToNextMap,
         pkbStorage->followsPrevToNextMap, prev);
     return pkbStorage->followsTPrevToNextMap.at(prev);
 }
 
-std::unordered_set<PrevLine> PKB::PKBManager::getFollowsTPrevByNext(const NextLine next) {
+std::unordered_set<PrevLine> PKBManager::getFollowsTPrevByNext(const NextLine next) {
     setStarFromBaseMap(pkbStorage->followsTSet, pkbStorage->followsTNextToPrevMap,
         pkbStorage->followsNextToPrevMap, next);
     return pkbStorage->followsTNextToPrevMap.at(next);
 }
 
-std::unordered_set<PrevLine> PKB::PKBManager::getFollowsTPrevByUS() {
+std::unordered_set<PrevLine> PKBManager::getFollowsTPrevByUS() {
     return getFollowsPrevByUS();
 }
 
-std::unordered_set<NextLine> PKB::PKBManager::getFollowsTNextByUS() {
+std::unordered_set<NextLine> PKBManager::getFollowsTNextByUS() {
     return getFollowsNextByUS();
 }
 
-std::unordered_set<std::pair<PrevLine, NextLine>> PKB::PKBManager::getAllFollowsT() {
+std::unordered_set<std::pair<PrevLine, NextLine>> PKBManager::getAllFollowsT() {
     for (const auto& elem : pkbStorage->followsSet) {
         getFollowsTNextByPrev(elem.first);
     }
@@ -203,76 +202,76 @@ std::unordered_set<std::pair<PrevLine, NextLine>> PKB::PKBManager::getAllFollows
 
 //todo
 //Parent
-bool PKB::PKBManager::getParent(const ParentLine, const ChildLine) {
+bool PKBManager::getParent(const ParentLine, const ChildLine) {
 
 }
 
-bool PKB::PKBManager::getParentByParentUS(const ParentLine) {
+bool PKBManager::getParentByParentUS(const ParentLine) {
 
 }
 
-bool PKB::PKBManager::getParentByUSChild(const ChildLine) {
+bool PKBManager::getParentByUSChild(const ChildLine) {
 
 }
 
-bool PKB::PKBManager::getParentByUSUS() {
+bool PKBManager::getParentByUSUS() {
 
 }
 
-std::unordered_set<ChildLine> PKB::PKBManager::getParentChildByParent(const ParentLine) {
+std::unordered_set<ChildLine> PKBManager::getParentChildByParent(const ParentLine) {
 
 }
 
-std::unordered_set<ParentLine> PKB::PKBManager::getParentParentByChild(const ChildLine) {
+std::unordered_set<ParentLine> PKBManager::getParentParentByChild(const ChildLine) {
 
 }
 
-std::unordered_set<ChildLine> PKB::PKBManager::getParentChildByUS() {
+std::unordered_set<ChildLine> PKBManager::getParentChildByUS() {
 
 }
 
-std::unordered_set<std::pair<ParentLine, ChildLine>> PKB::PKBManager::getAllParent() {
+std::unordered_set<std::pair<ParentLine, ChildLine>> PKBManager::getAllParent() {
 
 }
 
 //ParentT
-bool PKB::PKBManager::getParentT(const ParentLine, const ChildLine) {
+bool PKBManager::getParentT(const ParentLine, const ChildLine) {
 
 }
 
-bool PKB::PKBManager::getParentTByParentUS(const ParentLine) {
+bool PKBManager::getParentTByParentUS(const ParentLine) {
 
 }
 
-bool PKB::PKBManager::getParentTByUSChild(const ChildLine) {
+bool PKBManager::getParentTByUSChild(const ChildLine) {
 
 }
 
-bool PKB::PKBManager::getParentTByUSUS() {
+bool PKBManager::getParentTByUSUS() {
 
 }
 
-std::unordered_set<ChildLine> PKB::PKBManager::getParentTChildByParent(const ParentLine) {
+std::unordered_set<ChildLine> PKBManager::getParentTChildByParent(const ParentLine) {
 
 }
 
-std::unordered_set<ParentLine> PKB::PKBManager::getParentTParentByChild(const ChildLine) {
+std::unordered_set<ParentLine> PKBManager::getParentTParentByChild(const ChildLine) {
 
 }
 
-std::unordered_set<ParentLine> PKB::PKBManager::getParentTParentByUS() {
+std::unordered_set<ParentLine> PKBManager::getParentTParentByUS() {
 
 }
 
-std::unordered_set<ChildLine> PKB::PKBManager::getParentTChildByUS() {
+std::unordered_set<ChildLine> PKBManager::getParentTChildByUS() {
 
 }
 
-std::unordered_set<std::pair<ParentLine, ChildLine>> PKB::PKBManager::getAllParentT() {
+std::unordered_set<std::pair<ParentLine, ChildLine>> PKBManager::getAllParentT() {
 
 }
 
-void PKB::PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>>& set,
+void PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>>& set,
     std::unordered_map<std::string, std::unordered_set<std::string>>& star,
     const std::unordered_map<std::string, std::unordered_set<std::string>> base, std::string key) {
     std::string currKey = key;
@@ -282,6 +281,8 @@ void PKB::PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::strin
         PKBStorage::addToSetInMap(star, key, val);
         currKey = val;
     }
+}
+
 }
 
 

@@ -110,7 +110,7 @@ ProcedureNodePtr SimpleAstBuilder::parseProcedure() {
 
     string procedureName;
     if (match(SimpleToken::TokenType::WORD)) {
-        procedureName = static_cast<SimpleToken*>(previous())->getValue();
+        procedureName = previous()->getValue();
     } else {
         throw SimpleInvalidSyntaxException("Expected valid procedure name, got " + peek()->getValue() + ".");
     }
@@ -178,7 +178,7 @@ optional<Stmt> SimpleAstBuilder::parseStatement() {
     if (assignStmt) {
         return assignStmt;
     }
-
+    // Should never come here
     currentTokenIndex = currTokenIdx;
     return nullopt;
 }

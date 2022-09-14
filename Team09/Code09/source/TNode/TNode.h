@@ -53,74 +53,74 @@ typedef Factor RelFactor;
 class TNode {
 public:
     virtual ~TNode() = default;
-    // virtual bool operator==(const TNode& other) const = 0;
-    // virtual std::string toString() const = 0;
+    virtual bool operator==(const TNode& other) const = 0;
+    virtual std::string toString() const = 0;
 };
 
 class ProgramNode : public TNode {
 public:
     std::vector<ProcedureNodePtr> procList;
     explicit ProgramNode(std::vector<ProcedureNodePtr> procList);
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class ProcedureNode : public TNode {
-    public:
-        std::string procName;
-        StmtLst stmtList;
-        explicit ProcedureNode(const std::string procName, StmtLst stmtList);
-        bool operator==(const TNode& other) const; // override
-        std::string toString() const; // override
+public:
+    std::string procName;
+    StmtLst stmtList;
+    explicit ProcedureNode(const std::string procName, StmtLst stmtList);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class ConstantNode : public TNode {
 public:
     std::string value;
     explicit ConstantNode(const std::string value);
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class VariableNode : public TNode {
 public:
     std::string varName;
     explicit VariableNode(const std::string varName);
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class AssignmentNode : public TNode {
-    public:
-        VariableNodePtr var;
-        Expr expr;
-        explicit AssignmentNode(VariableNodePtr var, Expr expr);
-        bool operator==(const TNode& other) const; // override
-        std::string toString() const; // override
+public:
+    VariableNodePtr var;
+    Expr expr;
+    explicit AssignmentNode(VariableNodePtr var, Expr expr);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class CallNode : public TNode {
 public:
     ProcedureNodePtr proc;
     explicit CallNode(ProcedureNodePtr proc);
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class PrintNode : public TNode {
 public:
     VariableNodePtr var;
     explicit PrintNode(VariableNodePtr var);
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class ReadNode : public TNode {
 public:
     VariableNodePtr var;
     explicit ReadNode(VariableNodePtr var);
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class IfNode : public TNode {
@@ -130,8 +130,8 @@ public:
     StmtLst elseStmtList;
     explicit IfNode(CondExprNodePtr condExpr,
                     StmtLst thenStmtList, StmtLst elseStmtList);
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class WhileNode : public TNode {
@@ -139,8 +139,8 @@ public:
     CondExprNodePtr condExpr;
     StmtLst stmtList;
     explicit WhileNode(CondExprNodePtr condExpr, StmtLst stmtList);
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class BinOpNode : public TNode {
@@ -149,8 +149,8 @@ public:
     Expr leftExpr;
     Expr rightExpr;
     explicit BinOpNode(std::string op, Expr leftExpr, Expr rightExpr);
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class CondExprNode : public TNode {
@@ -170,8 +170,8 @@ public:
     explicit CondExprNode(std::string op,
                           CondExprNodePtr leftCond, CondExprNodePtr rightCond);
 
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class RelExprNode : public TNode {
@@ -180,6 +180,6 @@ public:
     Expr leftRel;
     Expr rightRel;
     explicit RelExprNode(std::string op, Expr leftRel, Expr rightRel);
-    bool operator==(const TNode& other) const; // override
-    std::string toString() const; // override
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };

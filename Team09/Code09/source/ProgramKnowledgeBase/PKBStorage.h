@@ -29,8 +29,8 @@ public:
     std::unordered_set<LineNum> printSet;
 
     //relations map
-    std::unordered_map<LineNum, LineNum> followsMap;
-    std::unordered_map<LineNum, LineNum> parentMap;
+    std::unordered_map<PrevLine, NextLine> followsMap;
+    std::unordered_map<ParentLine, ChildLine> parentMap;
     std::unordered_map<LineNum, std::unordered_set<Variable>> usesSMap;
     std::unordered_map<LineNum, std::unordered_set<Variable>> modifiesMap;
 
@@ -55,6 +55,16 @@ public:
     void storeAssign(const LineNum lineNum);
     void storeRead(const LineNum lineNum, Variable var);
     void storePrint(const LineNum lineNum, Variable var);
+
+    //store relations API
+    void storeFollows(const PrevLine, const NextLine);
+    void storeParent(const ParentLine, const ChildLine);
+    void storeUsesS(const LineNum, const Variable);
+    void storeModifiesS(const LineNum, const Variable);
+
+    //helper to store variable into usesMap and modifiesMap
+    void addVarToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
+        const std::string key, const std::string val);
 };
 
 }

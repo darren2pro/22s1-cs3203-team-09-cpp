@@ -77,4 +77,31 @@ namespace PKB {
         printSet.insert(lineNum);
     }
 
+    void PKBStorage::storeFollows(const PrevLine, const NextLine) {
+
+    }
+
+    void PKBStorage::storeParent(const ParentLine, const ChildLine) {
+
+    }
+
+    void PKBStorage::storeUsesS(const LineNum, const Variable) {
+
+    }
+
+    void PKBStorage::storeModifiesS(const LineNum, const Variable) {
+
+    }
+
+    void PKBStorage::addVarToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
+        const std::string key, const std::string val) {
+        if (map.find(key) == map.end()) {
+            std::unordered_set<std::string> vals;
+            vals.insert(val);
+            map[key] = vals;
+        } else {
+            map.at(key).insert(val);
+        }
+    }
+
 }

@@ -123,6 +123,9 @@
     <ClCompile Include="..\source\TNode\TNode.cpp">
       <Filter>Source Files\TNode</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.cpp">
+      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\SourceProcessor\Parser.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="..\source\TNode\TNode.h">
       <Filter>Header Files\TNode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.h">
+      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\UsesEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>

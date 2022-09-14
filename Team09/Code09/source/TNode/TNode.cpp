@@ -114,7 +114,7 @@ bool CallNode::operator==(const TNode& other) const {
 }
 
 std::string CallNode::toString() const {
-    return "CallNode(" + proc->procName + ")";
+    return "CallNode(procNode:" + proc->procName + ")";
 };
 
 PrintNode::PrintNode(VariableNodePtr var) : var(std::move(var)) {}
@@ -172,15 +172,17 @@ bool IfNode::operator==(const TNode& other) const {
 }
 
 std::string IfNode::toString() const {
-    std::string result = "IfNode(" + condExpr->toString() + ", ";
-    for (auto stmt: thenStmtList) {
-        result += std::visit([](const auto& s) { return s->toString(); }, stmt) + ", ";
+    std::string result = "IfNode(" + condExpr->toString() + ",\n";
+    result += "thenStmtList:[";
+    for (const Stmt& stmt : thenStmtList) {
+        result += std::visit([](const auto& e) { return e->toString(); }, stmt) + ",\n";
     }
-    result += ", ";
-    for (auto stmt: elseStmtList) {
-        result += std::visit([](const auto& s) { return s->toString(); }, stmt) + ", ";
+    result += "],\n";
+    result += "elseStmtList:[";
+    for (const Stmt& stmt : elseStmtList) {
+        result += std::visit([](const auto& e) { return e->toString(); }, stmt) + ",\n";
     }
-    result += ")";
+    result += "])";
     return result;
 };
 
@@ -203,9 +205,9 @@ bool WhileNode::operator==(const TNode& other) const {
 }
 
 std::string WhileNode::toString() const {
-    std::string result = "WhileNode(" + condExpr->toString() + ", ";
+    std::string result = "WhileNode(" + condExpr->toString() + ",\n";
     for (auto stmt: stmtList) {
-        result += std::visit([](const auto& s) { return s->toString(); }, stmt) + ", ";
+        result += std::visit([](const auto& s) { return s->toString(); }, stmt) + ",\n";
     }
     result += ")";
     return result;
@@ -248,11 +250,14 @@ bool CondExprNode::operator==(const TNode& other) const {
     const CondExprNode* castedOther = dynamic_cast<const CondExprNode*>(&other);
     bool canCast = castedOther != 0;
     if (!canCast) return false;
+    //! Either both their relExpr are nullptr or both are (not nullptr and equal)
+    bool equalRelExpr = (this->relExpr == castedOther->relExpr) || *(this->relExpr) == *(castedOther->relExpr);
     bool equalOp = this->op == castedOther->op;
-    bool equalLeftCond = *(this->leftCond) == *(castedOther->leftCond);
-    bool equalRightCond = *(this->rightCond) == *(castedOther->rightCond);
-    bool equalRelExpr = *(this->relExpr) == *(castedOther->relExpr);
-    return canCast && equalOp && equalLeftCond && equalRightCond && equalRelExpr;
+    //! Either both their leftCond are nullptr or both are (not nullptr and equal)
+    bool equalLeftCond = (this->leftCond == castedOther->leftCond) || *(this->leftCond) == *(castedOther->leftCond);
+    //! Either both their rightCond are nullptr or both are (not nullptr and equal)
+    bool equalRightCond = (this->rightCond == castedOther->rightCond) || *(this->rightCond) == *(castedOther->rightCond);
+    return canCast && equalRelExpr && equalOp && equalLeftCond && equalRightCond;
 }
 
 std::string CondExprNode::toString() const {

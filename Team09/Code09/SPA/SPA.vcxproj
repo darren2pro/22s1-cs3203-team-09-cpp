@@ -35,10 +35,10 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsStarEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsTEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ModifiesEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentStarEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentTEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\UsesEvaluator.h" />

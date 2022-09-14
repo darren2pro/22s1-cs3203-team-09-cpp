@@ -179,7 +179,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsStarEvaluator.h">
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsTEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ModifiesEvaluator.h">
@@ -188,7 +188,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentStarEvaluator.h">
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentTEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.h">

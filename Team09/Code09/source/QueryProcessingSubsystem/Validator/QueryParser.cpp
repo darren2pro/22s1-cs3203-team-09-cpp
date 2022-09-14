@@ -153,16 +153,16 @@ Pattern QueryParser::patternClause() {
 
 Relation::Types QueryParser::getType(std::string token) {
 	if (token == "Follows") {
-		return Relation::Types::Follow;
+		return Relation::Types::Follows;
 	}
 	else if (token == "Follows*") {
-		return Relation::Types::FollowStar;
+		return Relation::Types::FollowsT;
 	}
 	else if (token == "Parent") {
 		return Relation::Types::Parent;
 	}
 	else if (token == "Parent*") {
-		return Relation::Types::ParentStar;
+		return Relation::Types::ParentT;
 	}
 	else if (token == "Uses") {
 		return Relation::Types::Uses;
@@ -185,8 +185,8 @@ Relation QueryParser::suchThatClause() {
 	match(stmtRef);
 	match(",");
 	std::string right_arg = current_token;
-	if (type == Relation::Types::Uses || type == Relation::Types::UsesStar
-		|| type == Relation::Types::Modifies || type == Relation::Types::ModifiesStar) {
+	if (type == Relation::Types::Uses || type == Relation::Types::UsesT
+		|| type == Relation::Types::Modifies || type == Relation::Types::ModifiesT) {
 		match(entRef);
 	}
 	else {

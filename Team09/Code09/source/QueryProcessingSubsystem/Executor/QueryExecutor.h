@@ -10,8 +10,8 @@ class QueryExecutor {
 private:
 	PKB::PKBStorage pkb;
 	Relation relations;
-	std::vector<std::string> patterns;
-	std::vector<std::string> declarations;
+	Pattern pattern;
+	std::vector<Declaration> declarations;
 	std::vector<std::string> tokens;
 
 	std::unordered_set<std::string> execute();

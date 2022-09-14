@@ -23,5 +23,17 @@ public:
 		pkb(pkb) {};
 
 	std::unordered_set<std::string> evaluate();
-	virtual std::unordered_set<std::string> leftSynonymRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
+
+	// Different
+	virtual std::unordered_set<std::string> leftSynonymRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
+	virtual std::unordered_set<std::string> leftSynonymRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) = 0;
+	virtual std::unordered_set<std::string> leftSynonymRightUnderscore(std::string LEFT_ARG) = 0;
+
+	virtual std::unordered_set<std::string> leftSimpleRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
+	virtual std::unordered_set<std::string> leftSimpleRightUnderscore(std::string LEFT_ARG) = 0;
+	virtual std::unordered_set<std::string> leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) = 0;
+
+	virtual std::unordered_set<std::string> leftUnderscoreRightSynonym(std::string RIGHT_ARG) = 0;
+	virtual std::unordered_set<std::string> leftUnderscoreRightSimple(std::string RIGHT_ARG) = 0;
+	virtual std::unordered_set<std::string> leftUnderscoreRightUnderScore() = 0;
 };

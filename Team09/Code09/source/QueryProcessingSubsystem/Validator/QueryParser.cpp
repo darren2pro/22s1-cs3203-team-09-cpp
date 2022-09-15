@@ -9,7 +9,7 @@
 
 namespace parserre {
 	std::string synonym = "[a-zA-Z]([a-zA-Z0-9])*";
-	std::string integer = "(0|[1-9]([0-9])*";
+	std::string integer = "(0|[1-9]([0-9])*)";
 	std::string stmtRef = synonym + "|_|" + integer;
 	std::string entRef = synonym + "|_|\"" + synonym + "\"";
 	std::string expressionSpec = synonym + "|" + integer;

@@ -27,6 +27,14 @@ private:
 	 */
 	std::string current_token;
 
+	/**
+	 * Query attributes.
+	 */
+	std::vector<Declaration> declarations;
+	std::string target;
+	Relation suchThatCl;
+	Pattern patternCl;
+
 public:
 	QueryParser(std::vector<std::string> tokens);
 

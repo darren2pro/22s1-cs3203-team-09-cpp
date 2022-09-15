@@ -320,7 +320,7 @@ Query* QueryParser::parse() {
 
 	// parse such that and pattern clause
 	while (index < query_tokens.size()) {
-		if (current_token == "such that") {
+		if (current_token == "such") {
 			suchThatCl = suchThatClause();
 		}
 		else if (current_token == "pattern") {

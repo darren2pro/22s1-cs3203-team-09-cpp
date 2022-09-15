@@ -1,13 +1,6 @@
 #include "EntityExtraction.h"
-#include "../astBuilder/ProgramNode.h"
 #include <stack>
 #include <memory>
-#include "../astBuilder/StmtLstNode.h"
-#include "../astBuilder/ProcedureNode.h"
-#include "../astBuilder/AssignmentNode.h"
-#include "../astBuilder/PlusNode.h"
-#include "../astBuilder/MinusNode.h"
-#include "../astBuilder/BinaryOperatorNode.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace PKB;
@@ -18,6 +11,7 @@ EntityExtraction::EntityExtraction(PKBStorage* pkb) {
 
 EntityExtraction::~EntityExtraction() {}
 
+/*
 void EntityExtraction::extractEntities(const TNode::PROGRAM_NODE_PTR astRoot) {
 	for (size_t i = 0; i < astRoot->getProcedureCount(); i++) {
 		TNode::PROCEDURE_NODE_PTR proc = astRoot->getProcedureByIndex(i);
@@ -47,3 +41,4 @@ void EntityExtraction::extractEntities(TNode::VARIABLE_NODE_PTR var) {
 void EntityExtraction::extractEntities(TNode::CONSTANT_NODE_PTR cons) {
 	// pkbFacade->persistEntity(cons);
 }
+*/

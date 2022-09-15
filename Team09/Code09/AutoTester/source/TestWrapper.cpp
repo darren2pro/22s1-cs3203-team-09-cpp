@@ -8,6 +8,7 @@
 #include "../source/QueryProcessingSubsystem/Executor/QueryExecutor.h"
 #include "../source/QueryProcessingSubsystem/Validator/QueryBuilder.h"
 #include "../source/QueryProcessingSubsystem/Validator/QPSValidatorException.h"
+#include "SourceProcessor/exceptions/SimpleInvalidSyntaxException.h"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;
@@ -35,7 +36,12 @@ void TestWrapper::parse(std::string filename) {
     // read the SIMPLE source file as string and call your simpleParser
     std::ifstream file(filename);
     SimpleParser simpleParser = SimpleParser(&file);
-    this->pkb = simpleParser.parse();
+    try {
+        this->pkb = simpleParser.parse();
+    } catch (SimpleInvalidSyntaxException& e) {
+        std::cout << e.what() << std::endl;
+        std::cout << "Invalid syntax. Please input another file." << std::endl;
+    }
 }
 
 // method to evaluating a query

@@ -67,21 +67,39 @@ public:
 	/**
 	 * Parses declaration.
 	 * @returns the declarations.
-	 * @throws SyntaxError if an expected token is encountered.
+	 * @throws SemanticError if there are duplcate synonyms.
 	 */
 	std::vector<Declaration> declaration();
 
 	/**
+	 * Checks if the given name is a synonym in the declaration list.
+	 * @returns The declaration object with the given name.
+	 * @throws SemanticError if the name is not declared.
+	 */
+	Declaration findDeclaration(std::string name);
+
+	/**
+	 * Checks that the arguent is a valid stmtRef.
+	 * @throws SemanticError if arg is not valid.
+	 */
+	void validate_stmtRef(Relation::Types rel, std::string arg);
+	
+	/**
+	 * Checks that the arguent is a valid entRef.
+	 * @throws SemanticError if arg is not valid.
+	 */
+	void validate_entRef(std::string arg);
+
+	/**
 	 * Parses declaration.
 	 * @returns the variable in the select statement.
-	 * @throws SyntaxError if an expected token is encountered.
 	 */
 	std::string select();
 
 	/**
 	 * Parses declaration.
 	 * @returns the pattern clause.
-	 * @throws SyntaxError if an expected token is encountered.
+	 * @throws SemanticError if an argument is not valid.
 	 */
 	Pattern patternClause();
 
@@ -94,7 +112,7 @@ public:
 	/**
 	 * Parses the such that clause.
 	 * @returns the relation.
-	 * @throws SyntaxError if an expected token is encountered.
+	 * @throws SemanticError if an argument is not valid.
 	 */
 	Relation suchThatClause();
 

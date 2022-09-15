@@ -117,9 +117,6 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.cpp">
-      <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\TNode\TNode.cpp">
       <Filter>Source Files\TNode</Filter>
     </ClCompile>
@@ -162,9 +159,6 @@
       <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryValidator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Query.h">

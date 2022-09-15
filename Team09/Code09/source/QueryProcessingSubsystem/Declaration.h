@@ -14,6 +14,7 @@ public:
 		Variable,
 		Constant,
 		Procedure,
+		Call,
 		NONE
 	};
 

@@ -1,6 +1,5 @@
 #include "QueryLexer.h"
 #include "QueryParser.h"
-#include "QueryValidator.h"
 #include "QueryBuilder.h"
 #include "../Query.h"
 #include <string>

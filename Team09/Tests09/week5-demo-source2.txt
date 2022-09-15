@@ -1,3 +1,0 @@
-procedure demoQuery2 {
-    x=y;
-}

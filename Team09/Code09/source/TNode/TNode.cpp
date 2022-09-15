@@ -11,7 +11,7 @@ ConstantNode::ConstantNode(const std::string value) : value(value) {};
 VariableNode::VariableNode(const std::string varName) : varName(varName) {};
 
 AssignmentNode::AssignmentNode(std::shared_ptr<VariableNode> var, Expr expr) :
-    var(std::move(var)) {};
+    var(std::move(var)), expr(std::move(expr)) {};
 
 CallNode::CallNode(std::shared_ptr<ProcedureNode> proc) : proc(std::move(proc)) {};
 

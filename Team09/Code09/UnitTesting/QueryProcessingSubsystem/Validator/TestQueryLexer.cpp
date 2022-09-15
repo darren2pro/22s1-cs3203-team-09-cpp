@@ -83,7 +83,7 @@ namespace UnitTesting {
 
             std::vector<std::string> expectedResult = std::vector<std::string>(
                 { "assign", "a", ";", "Select", "a", "pattern", "a", "(", "_", ",",
-                "\"x / y*(2 + z)\"", "_", ")", "such", "that", "Modifies", "(", "a", ",", "_", "\"(x - (y - (z -6)))\"", ")" });
+                "\"x/y*(2+z)\"", "_", ")", "such", "that", "Modifies", "(", "a", ",", "_", "\"(x-(y-(z-6)))\"", ")" });
 
             QueryLexer lexer = QueryLexer(query);
             std::vector<std::string> result = lexer.lex();

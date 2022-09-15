@@ -6,12 +6,24 @@
 #include "../Declaration.h"
 #include "QPSValidatorException.h"
 
-std::regex design_enteties("stmt|read|print|while|if|assign|variable|constant|procedure");
-std::regex relation("Follows|Follows*|Parent|Parent*|Uses|Modifies");
-std::regex synonym("[a-zA-Z]([a-zA-Z0-9])*");									// synonym: IDENT	--> IDENT: LETTER (LETTER|DIGIT)*
-std::regex stmtRef("[a-zA-Z]([a-zA-Z0-9])*|_|(0|[1-9]([0-9])*)");				// stmtRef: synonym | '_' | INTEGER
-std::regex entRef("[a-zA-Z]([a-zA-Z0-9])*|_|[\"][a-zA-Z]([a-zA-Z0-9])*[\"]");	// endRef: synonym | '_' | '"' IDENT '"'
-std::regex expressionSpec("[\"][a-zA-Z]([a-zA-Z0-9])*|(0|[1-9]([0-9])*)[\"]");	// need to fix	var_name | INTEGER
+std::vector<Declaration> declarations;
+std::string target;
+Relation suchThatCl;
+Pattern patternCl;
+
+std::string synonym = "[a-zA-Z]([a-zA-Z0-9])*";
+std::string integer = "(0|[1-9]([0-9])*";
+std::string stmtRef = synonym + "|_|" + integer;
+std::string entRef = synonym + "|_|\"" + synonym + "\"";
+std::string expressionSpec = synonym + "|" + integer;
+
+
+std::regex design_enteties_re("stmt|read|print|while|if|assign|variable|constant|procedure");
+std::regex relation_re("Follows|Follows*|Parent|Parent*|Uses|Modifies");
+std::regex synonym_re(synonym);									// synonym: IDENT	--> IDENT: LETTER (LETTER|DIGIT)*
+std::regex stmtRef_re(stmtRef);									// stmtRef: synonym | '_' | INTEGER
+std::regex entRef_re(entRef);									// endRef: synonym | '_' | '"' IDENT '"'
+std::regex expressionSpec_re(expressionSpec);					// var_name | INTEGER
 
 QueryParser::QueryParser(std::vector<std::string> tokens) {
 	query_tokens = tokens;
@@ -87,18 +99,18 @@ Declaration::DesignEntity QueryParser::getDesignEntity(std::string token) {
 std::vector<Declaration> QueryParser::declaration() {
 	std::vector<Declaration> declarations = std::vector<Declaration>();
 
-	while (std::regex_match(current_token, design_enteties)) {
+	while (std::regex_match(current_token, design_enteties_re)) {
 		Declaration::DesignEntity type = getDesignEntity(current_token);
-		match(design_enteties);
+		match(design_enteties_re);
 
 		std::string name = current_token;
-		match(synonym);
+		match(synonym_re);
 		declarations.push_back(Declaration::Declaration(type, name));
 
 		while (current_token != ";") {
 			match(",");
 			std::string name = current_token;
-			match(synonym);
+			match(synonym_re);
 			declarations.push_back(Declaration::Declaration(type, name));
 		}
 		match(";");
@@ -110,7 +122,7 @@ std::vector<Declaration> QueryParser::declaration() {
 std::string QueryParser::select() {
 	match("Select");
 	std::string target = current_token;
-	match(synonym);
+	match(synonym_re);
 
 	return target;
 }
@@ -118,7 +130,7 @@ std::string QueryParser::select() {
 Pattern QueryParser::patternClause() {
 	match("pattern");
 	std::string syn_assign = current_token;
-	match(synonym);
+	match(synonym_re);
 	match("(");
 
 	std::string left_arg = current_token;
@@ -126,7 +138,7 @@ Pattern QueryParser::patternClause() {
 		match("_");
 	}
 	else {
-		match(entRef);
+		match(entRef_re);
 	}
 
 	match(",");
@@ -141,7 +153,7 @@ Pattern QueryParser::patternClause() {
 	// check if right_arg matches '_exprssion_'
 	if (current_token != ")") {
 		right_arg += current_token;
-		match(expressionSpec);
+		match(expressionSpec_re);
 		match("_");
 		right_arg += "_";
 	}
@@ -179,18 +191,18 @@ Relation QueryParser::suchThatClause() {
 	match("such");
 	match("that");
 	Relation::Types type = getType(current_token);
-	match(relation);
+	match(relation_re);
 	match("(");
 	std::string left_arg = current_token;
-	match(stmtRef);
+	match(stmtRef_re);
 	match(",");
 	std::string right_arg = current_token;
 	if (type == Relation::Types::Uses || type == Relation::Types::UsesT
 		|| type == Relation::Types::Modifies || type == Relation::Types::ModifiesT) {
-		match(entRef);
+		match(entRef_re);
 	}
 	else {
-		match(stmtRef);
+		match(stmtRef_re);
 	}
 	match(")");
 
@@ -198,10 +210,6 @@ Relation QueryParser::suchThatClause() {
 }
 
 Query* QueryParser::parse() {
-	std::vector<Declaration> declarations;
-	std::string target;
-	Relation suchThatCl;
-	Pattern patternCl;
 	Query* query = new Query();
 
 	declarations = declaration();	// parse declarations

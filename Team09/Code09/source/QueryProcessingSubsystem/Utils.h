@@ -20,4 +20,12 @@ public:
 	static bool isRelaxedExpression(Pattern::Types type) {
 		return type == Pattern::Types::AssignRelaxed;
 	}
+
+	// NEEDS CHANGING
+	static bool isList(Pattern::Types type) {
+		return type == Pattern::Types::AssignRelaxed;
+	}
+	static bool isListPair(Pattern::Types type) {
+		return type == Pattern::Types::AssignRelaxed;
+	}
 };

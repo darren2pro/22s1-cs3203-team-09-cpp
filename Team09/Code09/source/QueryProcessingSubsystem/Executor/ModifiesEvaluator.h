@@ -6,6 +6,9 @@
 #include <iostream>
 #include <cassert>
 
+typedef std::string LineNum;
+typedef std::string Variable;
+
 using namespace std;
 
 class ModifiesEvaluator : public Evaluator {
@@ -13,60 +16,60 @@ public:
 	ModifiesEvaluator(std::vector<std::string> declarations, Relation relations, PKB::PKBStorage pkb) :
 	Evaluator(declarations, relations, pkb) {}; // Constructor
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftSynonymRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+	std::unordered_set<LineNum> ModifiesEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
 		// Modifies(a, 'x') List
-		// getStatementBy
-		std::unordered_set<std::string> results = {};
+		std::unordered_set<LineNum> results = pkb.getModifiesStmtByVar(RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftSynonymRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+	std::unordered_set<std::pair<LineNum, Variable>> ModifiesEvaluator::leftSynonymRightSynonym() override {
 		// Modifies(a, v) PairList
 		//							w   v
 		// Modifies(w, v) PairList {2   a}
 		//						   {10  b}
-		std::unordered_set<std::string> results = pkb.getAllModify();
+		std::unordered_set<std::pair<LineNum, Variable>> results = pkb.getAllModifies();
 		return results;
 	};
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftSynonymRightUnderscore(std::string LEFT_ARG) override {
+	std::unordered_set<LineNum> ModifiesEvaluator::leftSynonymRightUnderscore() override {
 		// Modifies(a, _) List
-		std::unordered_set<std::string> results = {};
+		std::unordered_set<LineNum> results = pkb.getModifiesStmtByUS();
 		return results;
 	}
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+	std::unordered_set<Variable> ModifiesEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
 		// Modifies(1, v) List 
-		std::unordered_set<std::string> results = {};
+		std::unordered_set<Variable> results = pkb.getModifiesByStmt(LEFT_ARG);
 		return results;
 
 	}
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
+	bool ModifiesEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
 		// Modifies(1, _) Boolean
-		std::unordered_set<std::string> results = {};
+		bool results = pkb.getModifiesUS(LEFT_ARG);
 		return results;
 
 	}
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+	bool ModifiesEvaluator::leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+		// Left LineNum, Right Variable
 		// Modifies(1, 'x')
 		// Returns Boolean
-		std::unordered_set<std::string> results = {};
+		bool results = pkb.getModifies(LEFT_ARG, RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftUnderscoreRightSynonym(std::string RIGHT_ARG) override {
+	std::unordered_set<std::string> ModifiesEvaluator::leftUnderscoreRightSynonym() override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
 	}
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
+	bool ModifiesEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
 	}
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftUnderscoreRightUnderScore() override {
+	bool ModifiesEvaluator::leftUnderscoreRightUnderScore() override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
 	}

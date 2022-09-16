@@ -7,6 +7,8 @@
 
 class Evaluator {
 private:
+	std::string LEFT_SYNONYM;
+	std::string RIGHT_SYNONYM;
 
 public:
 	PKB::PKBStorage pkb;
@@ -22,18 +24,18 @@ public:
 		RIGHT_ARG(relations.RIGHT_ARG),
 		pkb(pkb) {};
 
-	std::unordered_set<std::string> evaluate();
+	auto evaluate();
 
 	// Different
-	virtual std::unordered_set<std::string> leftSynonymRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::string> leftSynonymRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) = 0;
-	virtual std::unordered_set<std::string> leftSynonymRightUnderscore(std::string LEFT_ARG) = 0;
+	virtual std::unordered_set<std::string> leftSynonymRightSimple(std::string RIGHT_ARG) = 0; // For Demo in Week 5
+	virtual std::unordered_set<std::pair<std::string, std::string>> leftSynonymRightSynonym() = 0;
+	virtual std::unordered_set<std::string> leftSynonymRightUnderscore() = 0;
 
-	virtual std::unordered_set<std::string> leftSimpleRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::string> leftSimpleRightUnderscore(std::string LEFT_ARG) = 0;
-	virtual std::unordered_set<std::string> leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) = 0;
+	virtual std::unordered_set<std::string> leftSimpleRightSynonym(std::string LEFT_ARG) = 0; // For Demo in Week 5
+	virtual bool leftSimpleRightUnderscore(std::string LEFT_ARG) = 0;
+	virtual bool leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) = 0;
 
-	virtual std::unordered_set<std::string> leftUnderscoreRightSynonym(std::string RIGHT_ARG) = 0;
-	virtual std::unordered_set<std::string> leftUnderscoreRightSimple(std::string RIGHT_ARG) = 0;
-	virtual std::unordered_set<std::string> leftUnderscoreRightUnderScore() = 0;
+	virtual std::unordered_set<std::string> leftUnderscoreRightSynonym() = 0;
+	virtual bool leftUnderscoreRightSimple(std::string RIGHT_ARG) = 0;
+	virtual bool leftUnderscoreRightUnderScore() = 0;
 };

@@ -1,0 +1,14 @@
+procedure invalid1Proc {
+    if (x > 1) then {
+        x = y;
+    } else {
+        x = z;
+    }
+}
+
+procedure extra {
+    read kk;
+    if (yy <= 100) then {
+        print kk;
+    } else {}
+}

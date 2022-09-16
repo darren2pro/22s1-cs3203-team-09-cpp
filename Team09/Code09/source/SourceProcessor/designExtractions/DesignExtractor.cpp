@@ -3,16 +3,15 @@
 #include "RelationshipExtraction.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-/*
-DesignExtractor::DesignExtractor(PKBStorage pkb) {
-}
-*/
 
 DesignExtractor::~DesignExtractor() {}
 
-void DesignExtractor::extractDesignAbstractions(TNode::PROGRAM_NODE_PTR astRoot) {
-    EntityExtraction entityExtraction = EntityExtraction(pkbFacade);
+void DesignExtractor::extractDesignAbstractions(const std::shared_ptr<ProgramNode> astRoot) {
+    EntityExtraction entityExtraction = EntityExtraction(pkbFacade.getPKBStorage());
+    entityExtraction.createLineNumbers(astRoot);
     entityExtraction.extractEntities(astRoot);
-    RelationshipExtraction rlsExtraction = RelationshipExtraction(pkbFacade);
-    rlsExtraction.extractRls(astRoot);
+    entityExtraction.extractModifyRls(astRoot);
+    entityExtraction.extractUsesRls(astRoot);
+    entityExtraction.extractFollowsRls(astRoot);
+    entityExtraction.extractParentsRls(astRoot);
 }

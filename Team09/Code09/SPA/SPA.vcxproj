@@ -23,7 +23,6 @@
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp" />
     <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp" />
     <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.cpp" />
     <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
@@ -51,7 +50,6 @@
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h" />
-    <ClInclude Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.h" />
     <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h" />
     <ClInclude Include="..\source\SourceProcessor\Parser.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleToken.h" />

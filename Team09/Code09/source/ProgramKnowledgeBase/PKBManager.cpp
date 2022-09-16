@@ -219,7 +219,13 @@ std::unordered_set< PKBStorage::ChildLine> PKBManager::getParentChildByParent(co
 std::unordered_set< PKBStorage::ParentLine> PKBManager::getParentParentByChild(const  PKBStorage::ChildLine child) {
     return pkbStorage->parentChildToParentMap.at(child);
 }
-
+std::unordered_set<PKBStorage::ParentLine> PKBManager::getParentParentByUS() {
+    std::unordered_set<PKBStorage::ParentLine> set;
+    for (const auto& elem : pkbStorage->parentParentToChildMap) {
+        set.insert(elem.first);
+    }
+    return set;
+}
 std::unordered_set< PKBStorage::ChildLine> PKBManager::getParentChildByUS() {
     std::unordered_set< PKBStorage::ChildLine> set;
     for (const auto& elem : pkbStorage->parentParentToChildMap) {

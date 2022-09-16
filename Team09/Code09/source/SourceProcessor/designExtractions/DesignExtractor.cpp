@@ -1,9 +1,7 @@
 #include "DesignExtractor.h"
 #include "EntityExtraction.h"
-#include "RelationshipExtraction.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-/*
 DesignExtractor::~DesignExtractor() {}
 
 void DesignExtractor::extractDesignAbstractions(const std::shared_ptr<ProgramNode> astRoot) {
@@ -15,4 +13,3 @@ void DesignExtractor::extractDesignAbstractions(const std::shared_ptr<ProgramNod
     entityExtraction.extractFollowsRls(astRoot);
     entityExtraction.extractParentsRls(astRoot);
 }
-*/

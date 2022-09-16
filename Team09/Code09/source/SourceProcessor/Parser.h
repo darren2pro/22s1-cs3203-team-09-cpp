@@ -6,6 +6,7 @@
 #include <vector>
 #include <cctype>
 #include "../ProgramKnowledgeBase/PKBStorage.h"
+#include "../ProgramKnowledgeBase/PKBManager.h"
 
 using namespace std;
 
@@ -28,7 +29,7 @@ public:
      * This is a pure virtual function which must be implemented in the derived class.
      * @return 0 if successful, -1 otherwise
      */
-    virtual PKBStorage parse() = 0;
+    virtual PKBManager parse() = 0;
 
     const SOURCE_CODE_TOKENS &getTokens() const {
         return tokens;
@@ -49,5 +50,5 @@ private:
 public:
     explicit SimpleParser(istream* program);
 
-    PKBStorage parse() override;
+    PKBManager parse() override;
 };

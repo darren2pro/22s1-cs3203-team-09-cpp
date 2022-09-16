@@ -22,9 +22,11 @@ std::unordered_set<std::string> QueryExecutor::execute() {
 	switch (relations.TYPE) {
 	case Relation::Modifies:
 		// Create the Modifies Evaluator and evaluate it
-		return ModifiesEvaluator({}, relations, pkb).evaluate();
+		// return ModifiesEvaluator({}, relations, pkb).evaluate();
+		return {};
 	case Relation::Uses:
-		return UsesEvaluator({}, relations, pkb).evaluate();
+		// return UsesEvaluator({}, relations, pkb).evaluate();
+		return {};
 	}
 
 }

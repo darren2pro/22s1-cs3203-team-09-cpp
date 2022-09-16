@@ -83,7 +83,7 @@ public:
     void storeModifiesS(const LineNum, const Variable);
 
     //helper to store variable into usesMap and modifiesMap
-    static void addToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
+    void addToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
         const std::string key, const std::string val);
 };
 

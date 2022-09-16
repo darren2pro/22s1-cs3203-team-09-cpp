@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <variant>
 #include "PKBStorage.h"
 
 namespace PKB {

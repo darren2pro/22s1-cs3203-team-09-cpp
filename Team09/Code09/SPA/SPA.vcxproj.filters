@@ -126,6 +126,9 @@
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.cpp">
       <Filter>Source Files\SourceProcessor\astBuilder</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PKBManager.cpp">
+      <Filter>Source Files\ProgramKnowledgeBase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\SourceProcessor\Parser.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Pattern.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PKBManager.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

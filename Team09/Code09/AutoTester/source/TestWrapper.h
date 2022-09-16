@@ -11,7 +11,7 @@
 
 class TestWrapper : public AbstractWrapper {
 private:
-    PKB::PKBStorage pkb;
+    PKBStorage pkb;
 
 public:
     // default constructor

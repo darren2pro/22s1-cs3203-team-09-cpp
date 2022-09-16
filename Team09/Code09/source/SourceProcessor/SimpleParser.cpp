@@ -13,7 +13,7 @@ SimpleParser::SimpleParser(istream* program) {
     tokens = tokenizer.tokenize();
 }
 
-PKB::PKBStorage SimpleParser::parse() {
+PKBStorage SimpleParser::parse() {
     SimpleAstBuilder builder(tokens);
     builder.build();
     PKBStorage pkb;

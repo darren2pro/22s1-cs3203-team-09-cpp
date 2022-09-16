@@ -78,30 +78,30 @@ void PKBStorage::storePrint(const LineNum lineNum, Variable var) {
 void PKBStorage::storeModifiesS(const LineNum lineNum, const Variable var) {
     std::pair<LineNum, Variable> pair = std::make_pair(lineNum, var);
     modifiesSet.insert(pair);
-    addToSetInMap(modifiesLineToVarMap, lineNum, var);
-    addToSetInMap(modifiesVarToLineMap, var, lineNum);
+    PairHasher::addToSetInMap(modifiesLineToVarMap, lineNum, var);
+    PairHasher::addToSetInMap(modifiesVarToLineMap, var, lineNum);
 }
 
 void PKBStorage::storeUsesS(const LineNum lineNum, const Variable var) {
     std::pair<LineNum, Variable> pair = std::make_pair(lineNum, var);
     usesSet.insert(pair);
-    addToSetInMap(usesLineToVarMap, lineNum, var);
-    addToSetInMap(usesVarToLineMap, var, lineNum);
+    PairHasher::addToSetInMap(usesLineToVarMap, lineNum, var);
+    PairHasher::addToSetInMap(usesVarToLineMap, var, lineNum);
 }
 
 void PKBStorage::storeFollows(const PrevLine prev, const NextLine next) {
     std::pair<PrevLine, NextLine> pair = std::make_pair(prev, next);
     followsSet.insert(pair);
-    addToSetInMap(followsPrevToNextMap, prev, next);
-    addToSetInMap(followsNextToPrevMap, next, prev);
+    PairHasher::addToSetInMap(followsPrevToNextMap, prev, next);
+    PairHasher::addToSetInMap(followsNextToPrevMap, next, prev);
 }
 
 
 void PKBStorage::storeParent(const ParentLine parent, const ChildLine child) {
     std::pair<ParentLine, ChildLine> pair = std::make_pair(parent, child);
     parentSet.insert(pair);
-    addToSetInMap(parentParentToChildMap, parent, child);
-    addToSetInMap(parentChildToParentMap, child, parent);
+    PairHasher::addToSetInMap(parentParentToChildMap, parent, child);
+    PairHasher::addToSetInMap(parentChildToParentMap, child, parent);
 }
 
 void PKBStorage::storeAssignPattern(const Variable var, const LineNum line, const ExprStr expr) {

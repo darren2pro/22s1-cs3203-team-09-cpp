@@ -2,8 +2,6 @@
 
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-using namespace PKB;
-
 class RelationshipExtraction {
 private:
     PKBStorage* pkbFacade;

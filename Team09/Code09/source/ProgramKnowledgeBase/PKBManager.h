@@ -4,7 +4,6 @@
 #include <vector>
 #include <unordered_set>
 #include "PKBStorage.h"
-#include "../QueryProcessingSubsystem/Utils.h"
 
 class PKBManager {
 private:
@@ -33,7 +32,7 @@ public:
     bool getModifiesUS(const PKBStorage::LineNum);
     std::unordered_set<PKBStorage::Variable> getModifiesVarByStmt(const PKBStorage::LineNum);
     std::unordered_set<PKBStorage::LineNum> getModifiesStmtByVar(const PKBStorage::Variable);
-    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PKBStorage::pairHash> getAllModifies();
+    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> getAllModifies();
     std::unordered_set<PKBStorage::LineNum> getModifiesStmtByUS();
 
     //Uses
@@ -41,7 +40,7 @@ public:
     bool getUsesUS(const PKBStorage::LineNum);
     std::unordered_set<PKBStorage::Variable> getUsesVarByStmt(const PKBStorage::LineNum);
     std::unordered_set<PKBStorage::LineNum> getUsesStmtByVar(const PKBStorage::Variable);
-    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PKBStorage::pairHash> getAllUses();
+    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> getAllUses();
     std::unordered_set<PKBStorage::LineNum> getUsesStmtByUS();
 
     //Follows
@@ -53,7 +52,7 @@ public:
     std::unordered_set<PKBStorage::PrevLine> getFollowsPrevByNext(const PKBStorage::NextLine);
     std::unordered_set<PKBStorage::PrevLine> getFollowsPrevByUS();
     std::unordered_set<PKBStorage::NextLine> getFollowsNextByUS();
-    std::unordered_set<std::pair<PKBStorage::PrevLine, PKBStorage::NextLine>, PKBStorage::pairHash> getAllFollows();
+    std::unordered_set<std::pair<PKBStorage::PrevLine, PKBStorage::NextLine>, PairHasher::pairHash> getAllFollows();
 
     //FollowsT
     bool getFollowsT(const PKBStorage::PrevLine, const PKBStorage::NextLine);
@@ -64,7 +63,7 @@ public:
     std::unordered_set<PKBStorage::PrevLine> getFollowsTPrevByNext(const PKBStorage::NextLine);
     std::unordered_set<PKBStorage::PrevLine> getFollowsTPrevByUS();
     std::unordered_set<PKBStorage::NextLine> getFollowsTNextByUS();
-    std::unordered_set<std::pair<PKBStorage::PrevLine, PKBStorage::NextLine>, PKBStorage::pairHash> getAllFollowsT();
+    std::unordered_set<std::pair<PKBStorage::PrevLine, PKBStorage::NextLine>, PairHasher::pairHash> getAllFollowsT();
 
     //Parent
     bool getParent(const PKBStorage::ParentLine, const PKBStorage::ChildLine);
@@ -75,7 +74,7 @@ public:
     std::unordered_set<PKBStorage::ParentLine> getParentParentByChild(const PKBStorage::ChildLine);
     std::unordered_set<PKBStorage::ParentLine> getParentParentByUS();
     std::unordered_set<PKBStorage::ChildLine> getParentChildByUS();
-    std::unordered_set<std::pair<PKBStorage::ParentLine, PKBStorage::ChildLine>, PKBStorage::pairHash> getAllParent();
+    std::unordered_set<std::pair<PKBStorage::ParentLine, PKBStorage::ChildLine>, PairHasher::pairHash> getAllParent();
 
     //ParentT
     bool getParentT(const PKBStorage::ParentLine, const PKBStorage::ChildLine);
@@ -86,15 +85,15 @@ public:
     std::unordered_set<PKBStorage::ParentLine> getParentTParentByChild(const PKBStorage::ChildLine);
     std::unordered_set<PKBStorage::ParentLine> getParentTParentByUS();
     std::unordered_set<PKBStorage::ChildLine> getParentTChildByUS();
-    std::unordered_set<std::pair<PKBStorage::ParentLine, PKBStorage::ChildLine>, PKBStorage::pairHash> getAllParentT();
+    std::unordered_set<std::pair<PKBStorage::ParentLine, PKBStorage::ChildLine>, PairHasher::pairHash> getAllParentT();
 
     //AssignPattern
     std::unordered_set<PKBStorage::LineNum> getAssignLineByVarUS(const PKBStorage::Variable);
     std::unordered_set<PKBStorage::LineNum> getAssignLineByVarMatchFull(const PKBStorage::Variable, const PKBStorage::ExprStr);
     std::unordered_set<PKBStorage::LineNum> getAssignLineByVarMatchPartial(const PKBStorage::Variable, const PKBStorage::ExprStr);
-    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PKBStorage::pairHash> getAssignLineVarByUS();
-    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PKBStorage::pairHash> getAssignLineVarByMatchFull(const PKBStorage::ExprStr);
-    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PKBStorage::pairHash> getAssignLineVarByMatchPartial(const PKBStorage::ExprStr);
+    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> getAssignLineVarByUS();
+    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> getAssignLineVarByMatchFull(const PKBStorage::ExprStr);
+    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> getAssignLineVarByMatchPartial(const PKBStorage::ExprStr);
     std::unordered_set<PKBStorage::LineNum> getAssignLineByUSUS();
     std::unordered_set<PKBStorage::LineNum> getAssignLineByUSMatchFull(const PKBStorage::ExprStr);
     std::unordered_set<PKBStorage::LineNum> getAssignLineByUSVarMatchPartial(const PKBStorage::ExprStr);

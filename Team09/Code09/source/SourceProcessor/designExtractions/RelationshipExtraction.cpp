@@ -1,7 +1,5 @@
 #include "RelationshipExtraction.h"
 
-using namespace PKB;
-
 RelationshipExtraction::RelationshipExtraction(PKBStorage* pkb) {
     pkbFacade = pkb;
 }

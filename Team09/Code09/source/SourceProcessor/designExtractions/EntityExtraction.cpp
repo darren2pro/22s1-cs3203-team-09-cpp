@@ -3,8 +3,6 @@
 #include <memory>
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-using namespace PKB;
-
 EntityExtraction::EntityExtraction(PKBStorage* pkb) {
 	pkbFacade = pkb;
 }

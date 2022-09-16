@@ -13,11 +13,11 @@ SimpleParser::SimpleParser(istream* program) {
     tokens = tokenizer.tokenize();
 }
 
-PKB::PKBManager SimpleParser::parse() {
+PKBStorage SimpleParser::parse() {
     SimpleAstBuilder builder(tokens);
     builder.build();
-    PKBManager pkb;
-    DesignExtractor extractor(pkb.getPKBStorage());
-    //extractor.extractDesignAbstractions(builder.getProgramNode());
+    PKBStorage pkb;
+    DesignExtractor extractor(&pkb);
+    // extractor.extractDesignAbstractions(builder.getProgramNode());
     return pkb;
 }

@@ -4,8 +4,6 @@
 #include "../../TNode/TNode.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-using namespace PKB;
-
 class EntityExtraction {
 private:
     std::shared_ptr<PKBStorage> pkbFacade;

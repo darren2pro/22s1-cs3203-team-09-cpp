@@ -90,6 +90,9 @@
     <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp">
       <Filter>Source Files\SourceProcessor\designExtractor</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.cpp">
+      <Filter>Source Files\SourceProcessor\designExtractor</Filter>
+    </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
@@ -147,6 +150,9 @@
       <Filter>Header Files\SourceProcessor\designExtractor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h">
+      <Filter>Header Files\SourceProcessor\designExtractor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.h">
       <Filter>Header Files\SourceProcessor\designExtractor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h">
@@ -214,9 +220,6 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Pattern.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\pkb_adt.h">
-      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBManager.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>

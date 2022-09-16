@@ -9,7 +9,7 @@ using namespace std;
 
 class UsesEvaluator: public Evaluator {
 public:
-	UsesEvaluator(std::vector<std::string> declarations, Relation relations, PKB::PKBStorage pkb) :
+	UsesEvaluator(std::vector<std::string> declarations, Relation relations, PKBStorage pkb) :
 	Evaluator(declarations, relations, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> UsesEvaluator::leftSynonymRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) override {

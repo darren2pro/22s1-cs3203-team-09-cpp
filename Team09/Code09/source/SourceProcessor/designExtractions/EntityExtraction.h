@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "TNode/TNode.h"
+#include "../../TNode/TNode.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace PKB;

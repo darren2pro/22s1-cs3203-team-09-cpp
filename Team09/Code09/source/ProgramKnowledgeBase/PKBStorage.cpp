@@ -86,7 +86,6 @@ void PKBStorage::storeModifiesS(const LineNum lineNum, const Variable var) {
     addToSetInMap(modifiesVarToLineMap, var, lineNum);
 }
 
-
 void PKBStorage::storeUsesS(const LineNum lineNum, const Variable var) {
     std::pair<LineNum, Variable> pair = std::make_pair(lineNum, var);
     usesSet.insert(pair);
@@ -107,6 +106,12 @@ void PKBStorage::storeParent(const ParentLine parent, const ChildLine child) {
     parentSet.insert(pair);
     addToSetInMap(parentParentToChildMap, parent, child);
     addToSetInMap(parentChildToParentMap, child, parent);
+}
+
+void PKBStorage::storeAssignPattern(const Variable var, const LineNum line, const ExprStr expr) {
+    assignLineVarSet.insert(std::pair<LineNum, Variable>(line, var));
+    addToSetInMap(assignExprToLineVarMap, expr, std::pair<LineNum, Variable>(line, var));
+    addToSetInMap(assignVarToLineExprMap, var, std::pair<LineNum, ExprStr>(line, expr));
 }
 
 }

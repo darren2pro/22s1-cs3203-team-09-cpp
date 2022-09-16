@@ -285,5 +285,59 @@ std::unordered_set<std::pair<ParentLine, ChildLine>> PKBManager::getAllParentT()
     return pkbStorage->parentTSet;
 }
 
+//AssignPattern
+std::unordered_set<LineNum> PKBManager::getAssignLineByVarUS(const Variable var) {
+    std::unordered_set<LineNum> set;
+    for (const auto& elem : pkbStorage->assignVarToLineExprMap.at(var)) {
+        set.insert(elem.first);
+    }
+    return set;
+}
+
+std::unordered_set<LineNum> PKBManager::getAssignLineByVarMatchFull(const Variable var, const ExprStr expr) {
+    std::unordered_set<LineNum> set;
+    for (const auto& elem : pkbStorage->assignExprToLineVarMap.at(expr)) {
+        if (elem.second == var) {
+            set.insert(elem.first);
+        }
+    }
+    return set;
+}
+
+//todo
+std::unordered_set<LineNum> PKBManager::getAssignLineByVarMatchPartial(const Variable var, const ExprStr expr) {
+    return std::unordered_set<LineNum>();
+}
+
+std::unordered_set<std::pair<LineNum, Variable>> PKBManager::getAssignLineVarByUS() {
+    return pkbStorage->assignLineVarSet;
+}
+
+std::unordered_set<std::pair<LineNum, Variable>> PKBManager::getAssignLineVarByMatchFull(const ExprStr expr) {
+    return pkbStorage->assignExprToLineVarMap.at(expr);
+}
+
+//todo
+std::unordered_set<std::pair<LineNum, Variable>> PKBManager::getAssignLineVarByMatchPartial(const ExprStr expr) {
+    return std::unordered_set<std::pair<LineNum, Variable>>();
+}
+
+std::unordered_set<LineNum> PKBManager::getAssignLineByUSUS() {
+    return pkbStorage->assignSet;
+}
+
+std::unordered_set<LineNum> PKBManager::getAssignLineByUSMatchFull(const ExprStr expr) {
+    std::unordered_set<LineNum> set;
+    for (const auto& elem : pkbStorage->assignExprToLineVarMap.at(expr)) {
+        set.insert(elem.first);
+    }
+    return set;
+}
+
+//todo
+std::unordered_set<LineNum> PKBManager::getAssignLineByUSVarMatchPartial(const ExprStr expr) {
+    return std::unordered_set<LineNum>();
+}
+
 }
 

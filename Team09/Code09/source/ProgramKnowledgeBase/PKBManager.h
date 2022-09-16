@@ -90,6 +90,18 @@ public:
 	std::unordered_set<ChildLine> getParentTChildByUS();
 	std::unordered_set<std::pair<ParentLine, ChildLine>> getAllParentT();
 
+	//AssignPattern
+	std::unordered_set<LineNum> getAssignLineByVarUS(const Variable);
+	std::unordered_set<LineNum> getAssignLineByVarMatchFull(const Variable, const ExprStr);
+	std::unordered_set<LineNum> getAssignLineByVarMatchPartial(const Variable, const ExprStr);
+	std::unordered_set<std::pair<LineNum, Variable>> getAssignLineVarByUS();
+	std::unordered_set<std::pair<LineNum, Variable>> getAssignLineVarByMatchFull(const ExprStr);
+	std::unordered_set<std::pair<LineNum, Variable>> getAssignLineVarByMatchPartial(const ExprStr);
+	std::unordered_set<LineNum> getAssignLineByUSUS();
+	std::unordered_set<LineNum> getAssignLineByUSMatchFull(const ExprStr);
+	std::unordered_set<LineNum> getAssignLineByUSVarMatchPartial(const ExprStr);
+
+
 };
 	
 void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>>& set,
@@ -99,7 +111,7 @@ void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>>&
 	while (base.find(currKey) != base.end()) {
 		std::string val = *(base.at(currKey).begin());
 		set.insert(key, val);
-		PKB::addToSetInMap(star, key, val);
+		addToSetInMap(star, key, val);
 		currKey = val;
 	}
 }

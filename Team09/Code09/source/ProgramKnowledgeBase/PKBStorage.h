@@ -55,7 +55,9 @@ public:
     std::unordered_map<ChildLine, std::unordered_set<ParentLine>> parentTChildToParentMap;
 
     //pattern map
-    std::unordered_map<ExprStr, std::unordered_set<std::pair<LineNum, Variable>>> assignMap;
+    std::unordered_set<std::pair<LineNum, Variable>> assignLineVarSet;
+    std::unordered_map<ExprStr, std::unordered_set<std::pair<LineNum, Variable>>> assignExprToLineVarMap;
+    std::unordered_map<Variable, std::unordered_set<std::pair<LineNum, ExprStr>>> assignVarToLineExprMap;
 
 
     PKBStorage();
@@ -81,6 +83,7 @@ public:
     void storeParent(const ParentLine, const ChildLine);
     void storeUsesS(const LineNum, const Variable);
     void storeModifiesS(const LineNum, const Variable);
+    void storeAssignPattern(const Variable, const LineNum, const ExprStr);
 
 };
 
@@ -89,6 +92,19 @@ void addToSetInMap(std::unordered_map<std::string, std::unordered_set<std::strin
     const std::string key, const std::string val) {
     if (map.find(key) == map.end()) {
         std::unordered_set<std::string> vals;
+        vals.insert(val);
+        map[key] = vals;
+    }
+    else {
+        map.at(key).insert(val);
+    }
+}
+
+void addToSetInMap(std::unordered_map<std::string,
+    std::unordered_set<std::pair<std::string, std::string>>>& map,
+    const std::string key, const std::pair<std::string, std::string> val) {
+    if (map.find(key) == map.end()) {
+        std::unordered_set<std::pair<std::string, std::string>> vals;
         vals.insert(val);
         map[key] = vals;
     }

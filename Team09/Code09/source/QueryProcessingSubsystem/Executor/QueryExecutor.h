@@ -14,7 +14,8 @@ private:
 	std::vector<Declaration> declarations;
 	std::vector<std::string> tokens;
 
-	std::unordered_set<std::string> execute();
+	auto execute(Pattern pattern);
+	auto execute(Relation relation);
 
 public:
 	std::unordered_set<std::string> processQuery(Query* query);

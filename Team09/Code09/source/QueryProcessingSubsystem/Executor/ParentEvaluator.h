@@ -3,60 +3,62 @@
 #include <vector>
 #include "Evaluator.h"
 
+typedef std::string ParentLine;
+typedef std::string ChildLine;
+
 class ParentEvaluator : public Evaluator {
 public:
 	ParentEvaluator(std::vector<std::string> declarations, Relation relations, PKB::PKBStorage pkb) :
 	Evaluator(declarations, relations, pkb) {}; // Constructor
 
-	std::unordered_set<std::string> ParentEvaluator::leftSynonymRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+	std::unordered_set<std::string> ParentEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
 		// Parent(a, 1) List
-		std::unordered_set<std::string> results = {};
+		std::unordered_set<ParentLine> results = pkb.getParentByChild(RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::string> ParentEvaluator::leftSynonymRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+	std::unordered_set<std::pair<std::string, std::string>> ParentEvaluator::leftSynonymRightSynonym() override {
 		// Parent(a, w) ListPair
-		std::unordered_set<std::string> results = {};
+		std::unordered_set<std::pair<ParentLine, ChildLine>> results = pkb.getAllParent();
 		return results;
 	}
 
-	std::unordered_set<std::string> ParentEvaluator::leftSynonymRightUnderscore(std::string LEFT_ARG) override {
+	std::unordered_set<std::string> ParentEvaluator::leftSynonymRightUnderscore() override {
 		// Parent(a, _) List
-		std::unordered_set<std::string> results = {};
+		std::unordered_set<ParentLine> results = pkb.getParentByUS();
 		return results;
 	}
 
-	std::unordered_set<std::string> ParentEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+	std::unordered_set<std::string> ParentEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
 		// Parent(a, _) List
-		std::unordered_set<std::string> results = {};
-		std::unordered_set<std::string> results = {};
+		std::unordered_set<ChildLine> results = pkb.getParentChildByParent(LEFT_ARG);
 		return results;
 
 	}
 
-	std::unordered_set<std::string> ParentEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
-		std::unordered_set<std::string> results = {};
+	bool ParentEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
+		bool results = pkb.getParentByParentUS(LEFT_ARG);
 		return results;
 
 	}
 
-	std::unordered_set<std::string> ParentEvaluator::leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
-		std::unordered_set<std::string> results = {};
+	bool ParentEvaluator::leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+		bool results = pkb.getParent(LEFT_ARG, RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::string> ParentEvaluator::leftUnderscoreRightSynonym(std::string RIGHT_ARG) override {
-		std::unordered_set<std::string> results = {};
+	std::unordered_set<std::string> ParentEvaluator::leftUnderscoreRightSynonym() override {
+		std::unordered_set<ChildLine> results = pkb.getParentChildByUS();
 		return results;
 	}
 
-	std::unordered_set<std::string> ParentEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
-		std::unordered_set<std::string> results = {};
+	bool ParentEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
+		bool results = pkb.getParentByUSChild(RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::string> ParentEvaluator::leftUnderscoreRightUnderScore() override {
-		std::unordered_set<std::string> results = {};
+	bool ParentEvaluator::leftUnderscoreRightUnderScore() override {
+		bool results = pkb.getParentByUSUS();
 		return results;
 	}
 };

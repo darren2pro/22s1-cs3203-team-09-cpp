@@ -3,66 +3,59 @@
 #include <vector>
 #include "Evaluator.h"
 
+typedef std::string PrevLine;
+typedef std::string NextLine;
+
 class FollowsTEvaluator : public Evaluator {
 public:
 	FollowsTEvaluator(std::vector<std::string> declarations, Relation relations, PKB::PKBStorage pkb) :
 	Evaluator(declarations, relations, pkb) {}; // Constructor
 
-	std::unordered_set<std::string> FollowsTEvaluator::leftSynonymRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
-		// Follows(a, 1) List 
-		// Follows*(a, 1) List
-		std::unordered_set<std::string> results = {};
+	std::unordered_set<std::string> FollowsTEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
+		std::unordered_set<PrevLine> results = pkb.getFollowsTPrevByNext(RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::string> FollowsTEvaluator::leftSynonymRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) override {
-		// Follows(a, w) ListPair 
-		// Follows*(a, w) ListPair
-		std::unordered_set<std::string> results = {};
+	std::unordered_set<std::pair<PrevLine, NextLine>> FollowsTEvaluator::leftSynonymRightSynonym() override {
+		std::unordered_set<std::pair<PrevLine, NextLine>> results = pkb.getAllFollowsT();
 		return results;
 	}
 
-	std::unordered_set<std::string> FollowsTEvaluator::leftSynonymRightUnderscore(std::string LEFT_ARG) override {
-		// Follows*(a, _) List 
-		std::unordered_set<std::string> results = {};
+	std::unordered_set<std::string> FollowsTEvaluator::leftSynonymRightUnderscore() override {
+		std::unordered_set<PrevLine> results = pkb.getFollowsTPrevByUS();
 		return results;
 	}
 
-	std::unordered_set<std::string> FollowsTEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) override {
-		// Follows(1, a) List
-		std::unordered_set<std::string> results = {};
+	std::unordered_set<std::string> FollowsTEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
+		std::unordered_set<NextLine> results = pkb.getFollowsTNextByPrev(LEFT_ARG);
 		return results;
 
 	}
 
-	std::unordered_set<std::string> FollowsTEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
-		// Follows(1, _) Boolean
-		std::unordered_set<std::string> results = {};
+	bool FollowsTEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
+		bool results = pkb.getFollowsTByPrevUS(LEFT_ARG);
 		return results;
 
 	}
 
-	std::unordered_set<std::string> FollowsTEvaluator::leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
-		// Follows(1,2) Boolean
-		std::unordered_set<std::string> results = {};
+	bool FollowsTEvaluator::leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+		bool results = pkb.getFollowsT(LEFT_ARG, RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::string> FollowsTEvaluator::leftUnderscoreRightSynonym(std::string RIGHT_ARG) override {
-		// Follows(_, a) List
-		std::unordered_set<std::string> results = {};
+	std::unordered_set<std::string> FollowsTEvaluator::leftUnderscoreRightSynonym() override {
+		std::unordered_set<NextLine> results = pkb.getFollowsTNextByUS();
 		return results;
 	}
 
-	std::unordered_set<std::string> FollowsTEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
-		// Follows(_, 1) Boolean
-		std::unordered_set<std::string> results = {};
+	bool FollowsTEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
+		bool results = pkb.getFollowsTByUSNext(RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::string> FollowsTEvaluator::leftUnderscoreRightUnderScore() override {
-		// Follows(_, _) Boolean
-		std::unordered_set<std::string> results = {};
+	bool FollowsTEvaluator::leftUnderscoreRightUnderScore() override {
+		bool results = pkb.getFollowsTByUSUS();
 		return results;
 	}
 };
+

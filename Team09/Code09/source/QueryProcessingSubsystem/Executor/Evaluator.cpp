@@ -17,8 +17,11 @@ std::unordered_set<std::string> Evaluator::evaluate() {
 
 	if (Utils().isSynonym(LEFT_ARG) && Utils().isSynonym(RIGHT_ARG)) {
 		std::unordered_set<std::string> result = leftSynonymRightSynonym(LEFT_ARG, RIGHT_ARG);
-		return result;
 		//std::unordered_set<std::string> result = {"yyyy"};
 		//return result;
 	}
+	
+
+	// After getting all results, save the results to database, together with variable it represents
+
 }

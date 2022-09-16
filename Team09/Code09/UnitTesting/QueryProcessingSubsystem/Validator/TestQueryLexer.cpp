@@ -3,7 +3,8 @@
 #include <string>
 #include <vector>
 #include "QueryProcessingSubsystem/Validator/QueryLexer.h"
-#include "QueryProcessingSubsystem/Validator/QPSValidatorException.h"
+#include "QueryProcessingSubsystem/Validator/SyntaxException.h"
+#include "QueryProcessingSubsystem/Validator/SemanticException.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

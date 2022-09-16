@@ -164,7 +164,7 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.h">
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SyntaxException.h">
       <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.h">
@@ -229,6 +229,8 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\ResultsDatabase</Filter>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SemanticException.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

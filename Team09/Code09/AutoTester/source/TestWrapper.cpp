@@ -7,7 +7,8 @@
 #include <unordered_set>
 #include "../source/QueryProcessingSubsystem/Executor/QueryExecutor.h"
 #include "../source/QueryProcessingSubsystem/Validator/QueryBuilder.h"
-#include "../source/QueryProcessingSubsystem/Validator/QPSValidatorException.h"
+#include "../source/QueryProcessingSubsystem/Validator/SyntaxException.h"
+#include "../source/QueryProcessingSubsystem/Validator/SemanticException.h"
 #include "SourceProcessor/exceptions/SimpleInvalidSyntaxException.h"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
@@ -41,6 +42,7 @@ void TestWrapper::parse(std::string filename) {
     } catch (SimpleInvalidSyntaxException& e) {
         std::cout << e.what() << std::endl;
         std::cout << "Invalid syntax. Please input another file." << std::endl;
+        exit(1);
     }
 }
 

@@ -5,7 +5,8 @@
 #include "../Relation.h"
 #include "../Pattern.h"
 #include "../Declaration.h"
-#include "QPSValidatorException.h"
+#include "SyntaxException.h"
+#include "SemanticException.h"
 
 namespace parserre {
 	std::string synonym = "[a-zA-Z]([a-zA-Z0-9])*";
@@ -230,7 +231,7 @@ Pattern QueryParser::patternClause() {
 		match("_");
 	}
 
-	if (current_token != ")") {		// check if right_arg matches '_exprssion_'
+	if (current_token != ")" || right_arg == "") {		// check if right_arg matches '_exprssion_'
 		right_arg += current_token;
 		match(parserre::expressionSpec_re);
 		match("_");

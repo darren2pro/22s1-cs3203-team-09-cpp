@@ -1,8 +1,5 @@
 #include "EntityExtraction.h"
 #include <stack>
-#include <memory>
-#include <TNode/TNode.h>
-#include "ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace PKB;
 
@@ -48,8 +45,8 @@ void EntityExtraction::extractEntities(const std::shared_ptr<ProgramNode> astRoo
 	}
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<ProcedureNode> proc) {
-    const LineNum lnNum = pkbFacade->getLineFromNode(proc);
-    pkbFacade->storeProcedure(lnNum);
+    // const LineNum lnNum = pkbFacade->getLineFromNode(proc);
+    pkbFacade->storeProcedure(proc->procName);
 	extractStatements(proc -> stmtList);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<AssignmentNode> assign) {
@@ -81,10 +78,10 @@ void EntityExtraction::extractEntities(const std::shared_ptr<BinOpNode> bin) {
 	extractEntities(bin->rightExpr);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<VariableNode> var) {
-	pkbFacade->storeVariable(var);
+	pkbFacade->storeVariable(var->varName);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<ConstantNode> cons) {
-	pkbFacade->storeConstant(cons);
+	pkbFacade->storeConstant(cons->value);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<IfNode> ifNode) {
 	const LineNum lnNum = pkbFacade->getLineFromNode(ifNode);
@@ -112,7 +109,7 @@ void EntityExtraction::extractEntities(const std::shared_ptr<PrintNode> printNod
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<CallNode> callNode) {
 	const LineNum lnNum = pkbFacade->getLineFromNode(callNode);
-	pkbFacade->storeCall(lnNum, callNode -> proc);
+	// pkbFacade->storeCall(lnNum, callNode -> proc);
 }
 void EntityExtraction::extractStatements(const std::vector<Stmt> stmts) {
 	for (const auto& stmt : stmts) {
@@ -185,7 +182,6 @@ void EntityExtraction::extractUsesRls(const std::shared_ptr<WhileNode> whileNode
     extractUsesHelper(whileNode->condExpr, whileNode);
     extractUsesStmts(whileNode->stmtList);
 }
-void EntityExtraction::extractUsesRls(const std::shared_ptr<ReadNode> node) {}
 void EntityExtraction::extractUsesRls(const std::shared_ptr<CallNode>) {}
 void EntityExtraction::extractUsesHelper(const std::shared_ptr<BinOpNode> bin, const Stmt stmt) {
     extractUsesHelper(bin->leftExpr, stmt);
@@ -215,13 +211,8 @@ void EntityExtraction::extractUsesHelper(const std::shared_ptr<VariableNode> var
     const LineNum lnNum = pkbFacade->getLineFromNode(stmt);
     pkbFacade->storeUsesS(lnNum, var->varName);
 }
-void EntityExtraction::extractUsesHelper(const std::shared_ptr<ConstantNode>cons, const Stmt stmt) {};
-void EntityExtraction::extractUsesRls(const std::shared_ptr<WhileNode> whileNode) {
-    extractUsesHelper(whileNode->condExpr, whileNode);
-    extractUsesStmts(whileNode->stmtList);
-}
+void EntityExtraction::extractUsesHelper(const std::shared_ptr<ConstantNode> cons, const Stmt stmt) {};
 void EntityExtraction::extractUsesRls(const std::shared_ptr<ReadNode> node) {}
-void EntityExtraction::extractUsesRls(const std::shared_ptr<CallNode>) {}
 
 //Follows relations
 void EntityExtraction::extractFollowsRls(const std::shared_ptr<ProgramNode> astRoot) {

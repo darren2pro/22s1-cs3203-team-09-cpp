@@ -3,7 +3,7 @@
 #include "RelationshipExtraction.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-
+/*
 DesignExtractor::~DesignExtractor() {}
 
 void DesignExtractor::extractDesignAbstractions(const std::shared_ptr<ProgramNode> astRoot) {

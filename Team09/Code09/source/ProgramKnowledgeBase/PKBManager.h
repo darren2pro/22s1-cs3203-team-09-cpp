@@ -33,7 +33,7 @@ public:
 	bool getModifiesUS(const LineNum);
 	std::unordered_set<Variable> getModifiesVarByStmt(const LineNum);
 	std::unordered_set<LineNum> getModifiesStmtByVar(const Variable);
-	std::unordered_set<std::pair<LineNum, Variable>> getAllModifies();
+	std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAllModifies();
 	std::unordered_set<LineNum> getModifiesStmtByUS();
 
 	//Uses
@@ -41,7 +41,7 @@ public:
 	bool getUsesUS(const LineNum);
 	std::unordered_set<Variable> getUsesVarByStmt(const LineNum);
 	std::unordered_set<LineNum> getUsesStmtByVar(const Variable);
-	std::unordered_set<std::pair<LineNum, Variable>> getAllUses();
+	std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAllUses();
 	std::unordered_set<LineNum> getUsesStmtByUS();
 
 	//Follows
@@ -53,7 +53,7 @@ public:
 	std::unordered_set<PrevLine> getFollowsPrevByNext(const NextLine);
 	std::unordered_set<PrevLine> getFollowsPrevByUS();
 	std::unordered_set<NextLine> getFollowsNextByUS();
-	std::unordered_set<std::pair<PrevLine, NextLine>> getAllFollows();
+	std::unordered_set<std::pair<PrevLine, NextLine>, pairHash> getAllFollows();
 
 	//FollowsT
 	bool getFollowsT(const PrevLine, const NextLine);
@@ -64,7 +64,7 @@ public:
 	std::unordered_set<PrevLine> getFollowsTPrevByNext(const NextLine);
 	std::unordered_set<PrevLine> getFollowsTPrevByUS();
 	std::unordered_set<NextLine> getFollowsTNextByUS();
-	std::unordered_set<std::pair<PrevLine, NextLine>> getAllFollowsT();
+	std::unordered_set<std::pair<PrevLine, NextLine>, pairHash> getAllFollowsT();
 
 
 	//Parent
@@ -76,7 +76,7 @@ public:
 	std::unordered_set<ParentLine> getParentParentByChild(const ChildLine);
 	std::unordered_set<ParentLine> getParentParentByUS();
 	std::unordered_set<ChildLine> getParentChildByUS();
-	std::unordered_set<std::pair<ParentLine, ChildLine>> getAllParent();
+	std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> getAllParent();
 
 
 	//ParentT
@@ -88,33 +88,32 @@ public:
 	std::unordered_set<ParentLine> getParentTParentByChild(const ChildLine);
 	std::unordered_set<ParentLine> getParentTParentByUS();
 	std::unordered_set<ChildLine> getParentTChildByUS();
-	std::unordered_set<std::pair<ParentLine, ChildLine>> getAllParentT();
+	std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> getAllParentT();
 
 	//AssignPattern
 	std::unordered_set<LineNum> getAssignLineByVarUS(const Variable);
 	std::unordered_set<LineNum> getAssignLineByVarMatchFull(const Variable, const ExprStr);
 	std::unordered_set<LineNum> getAssignLineByVarMatchPartial(const Variable, const ExprStr);
-	std::unordered_set<std::pair<LineNum, Variable>> getAssignLineVarByUS();
-	std::unordered_set<std::pair<LineNum, Variable>> getAssignLineVarByMatchFull(const ExprStr);
-	std::unordered_set<std::pair<LineNum, Variable>> getAssignLineVarByMatchPartial(const ExprStr);
+	std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAssignLineVarByUS();
+	std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAssignLineVarByMatchFull(const ExprStr);
+	std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAssignLineVarByMatchPartial(const ExprStr);
 	std::unordered_set<LineNum> getAssignLineByUSUS();
 	std::unordered_set<LineNum> getAssignLineByUSMatchFull(const ExprStr);
 	std::unordered_set<LineNum> getAssignLineByUSVarMatchPartial(const ExprStr);
 
 
 };
-	
-void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>>& set,
+
+void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>, pairHash>& set,
 	std::unordered_map<std::string, std::unordered_set<std::string>>& star,
 	const std::unordered_map<std::string, std::unordered_set<std::string>> base, std::string key) {
 	std::string currKey = key;
 	while (base.find(currKey) != base.end()) {
 		std::string val = *(base.at(currKey).begin());
-		set.insert(key, val);
+		// set.insert(key, val);
+        set.insert(std::make_pair(key, val));
 		addToSetInMap(star, key, val);
 		currKey = val;
 	}
 }
-
 }
-

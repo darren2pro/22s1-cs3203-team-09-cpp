@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "TNode/TNode.h"
+#include "../../TNode/TNode.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace PKB;
@@ -66,7 +66,7 @@ public:
     void extractUsesHelper(const std::shared_ptr<RelExprNode> rel, const Stmt stmt);
     void extractUsesHelper(const Expr node, const Stmt stmt);
     void extractUsesHelper(const std::shared_ptr<VariableNode> var, const Stmt stmt);
-    void extractUsesHelper(const std::shared_ptr<ConstantNode>cons, const Stmt stmt) {};
+    void extractUsesHelper(const std::shared_ptr<ConstantNode>cons, const Stmt stmt);
 
     //extracting Follows relations
 

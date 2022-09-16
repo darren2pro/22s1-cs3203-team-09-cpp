@@ -1,0 +1,321 @@
+Parameters : ../Tests09/Sample_source.txt ../Tests09/Sample_queries.txt ../Tests09/output-system-tests/Sample_output.xml
+TestWrapper constructor called
+Beginning to parse Simple Program.
+End of parsing Simple Program.
+Code09
+Beginning to evaluate Query File.
+1 - comment
+while w;
+Select w such that Parent(w, 7)
+none
+5000
+Evaluating query 1 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Parent="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: 
+Missing: 
+Additional: SyntaxError 
+2 - comment
+if ifs;
+Select ifs such that Follows(5, ifs)
+6
+5000
+Evaluating query 2 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Follows="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: 6 
+Missing: 6 
+Additional: SyntaxError 
+3 - comment
+assign a;
+Select a such that Parent*(4, a)
+5, 7, 8, 9, 11
+5000
+Evaluating query 3 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Parentstar="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: 5 7 8 9 11 
+Missing: 11 5 7 8 9 
+Additional: SyntaxError 
+4 - comment
+call c;
+Select c such that Follows*(1, c)
+12
+5000
+Evaluating query 4 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Followsstar="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: 12 
+Missing: 12 
+Additional: SyntaxError 
+5 - comment
+stmt s;
+Select s such that Modifies(s, "i")
+3, 4, 11, 12, 13, 14, 17
+5000
+Evaluating query 5 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: 3 4 11 12 13 14 17 
+Missing: 11 12 13 14 17 3 4 
+Additional: SyntaxError 
+6 - comment
+variable v;
+Select v such that Uses("p", v)
+i, x, y, z
+5000
+Evaluating query 6 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Uses="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: i x y z 
+Missing: i x y z 
+Additional: SyntaxError 
+7 - comment
+procedure p;
+Select p such that Calls(p, "q")
+Example, p
+5000
+Evaluating query 7 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Calls="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: Example p 
+Missing: Example p 
+Additional: SyntaxError 
+8 - comment
+procedure p;
+Select p such that Calls*("Example", p)
+p, q
+5000
+Evaluating query 8 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Callsstar="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: p q 
+Missing: p q 
+Additional: SyntaxError 
+9 - comment
+prog_line n;
+Select n such that Next(4, n)
+5, 12
+5000
+Evaluating query 9 - comment
+prog_line is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Next="1" UnnamedVar="1" SuchThat="1" CondNum="4" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: 5 12 
+Missing: 12 5 
+Additional: SyntaxError 
+10 - comment
+prog_line n;
+Select n such that Next*(n, 4)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+5000
+Evaluating query 10 - comment
+prog_line is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Nextstar="1" UnnamedVar="1" SuchThat="1" CondNum="4" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: 1 2 3 4 5 6 7 8 9 10 11 
+Missing: 1 10 11 2 3 4 5 6 7 8 9 
+Additional: SyntaxError 
+11 - comment
+assign a;
+Select a such that Affects(a, 9)
+2, 3, 5, 7, 11
+5000
+Evaluating query 11 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Affects="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: 2 3 5 7 11 
+Missing: 11 2 3 5 7 
+Additional: SyntaxError 
+12 - comment
+assign a;
+Select a such that Affects*(11, a)
+9, 11
+5000
+Evaluating query 12 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Affectsstar="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: 9 11 
+Missing: 11 9 
+Additional: SyntaxError 
+13 - comment
+assign a;
+Select a pattern a("z", _"x+i")
+none
+5000
+Evaluating query 13 - comment
+_"x+i" is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" UnnamedVar="1" Pattern="1" CondNum="3" RelNum="0" 
+Your answer: SyntaxError 
+Correct answer: 
+Missing: 
+Additional: SyntaxError 
+14 - comment
+assign a;
+Select a pattern a(_, _"x + 1"_)
+7, 18, 23
+5000
+Evaluating query 14 - comment
+_, is an Unnamedvar 
+_"x is an Unnamedvar 
+1"_ is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" UnnamedVar="3" Pattern="1" CondNum="5" RelNum="0" 
+Your answer: SyntaxError 
+Correct answer: 7 18 23 
+Missing: 18 23 7 
+Additional: SyntaxError 
+15 - comment
+assign a;
+Select a pattern a(_, " 3  +  2 ")
+none
+5000
+Evaluating query 15 - comment
+_, is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" UnnamedVar="1" Pattern="1" CondNum="3" RelNum="0" 
+Your answer: SyntaxError 
+Correct answer: 
+Missing: 
+Additional: SyntaxError 
+16 - comment
+while w; variable v;
+Select w such that Modifies(w, v) with v.varName = "x"
+4, 14
+5000
+Evaluating query 16 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Modifies="1" SuchThat="1" With="1" CondNum="4" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: 4 14 
+Missing: 14 4 
+Additional: SyntaxError 
+17 - comment
+if ifs; variable v;
+Select v such that Uses(ifs, v) with ifs.stmt# = 22
+x, z
+5000
+Evaluating query 17 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Uses="1" SuchThat="1" With="1" CondNum="4" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: x z 
+Missing: x z 
+Additional: SyntaxError 
+18 - comment
+procedure p, q;
+Select BOOLEAN such that Calls(p, q) with q.procName = "p" and p.procName = "Example"
+TRUE
+5000
+Evaluating query 18 - comment
+The final tag string is ReturnBoolean="1" Calls="1" SuchThat="1" With="1" CondNum="4" RelNum="1" 
+Your answer: SyntaxError 
+Correct answer: TRUE 
+Missing: TRUE 
+Additional: SyntaxError 
+19 - comment
+if ifs; assign a1, a2; variable v1, v2;
+Select ifs such that Follows*(a1, ifs) and Follows*(ifs, a2) and Modifies(ifs, v1) and Uses(ifs, v2) with v1.varName = v2.varName
+6
+5000
+Evaluating query 19 - comment
+The happen is 2
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Followsstar="2" Modifies="1" Uses="1" SuchThat="1" With="1" CondNum="7" RelNum="4" 
+Your answer: SyntaxError 
+Correct answer: 6 
+Missing: 6 
+Additional: SyntaxError 
+20 - comment
+prog_line n; stmt s;
+Select s such that Next*(16, n) and Parent*(s, n)
+13, 14
+5000
+Evaluating query 20 - comment
+prog_line is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Nextstar="1" Parentstar="1" UnnamedVar="1" SuchThat="1" CondNum="5" RelNum="2" 
+Your answer: SyntaxError 
+Correct answer: 13 14 
+Missing: 13 14 
+Additional: SyntaxError 
+21 - comment
+prog_line n; assign a;
+Select a such that Affects*(a, n) and Next*(13, n)
+17, 18, 19, 20
+5000
+Evaluating query 21 - comment
+prog_line is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Affectsstar="1" Nextstar="1" UnnamedVar="1" SuchThat="1" CondNum="5" RelNum="2" 
+Your answer: SyntaxError 
+Correct answer: 17 18 19 20 
+Missing: 17 18 19 20 
+Additional: SyntaxError 
+22 - comment
+procedure p, q; variable v;
+Select <p, q, v> such that Modifies(p, v) and Calls(p, q)
+Example p i, Example p x, Example p y, Example p z, Example q i, Example q x, Example q y, Example q z, p q i, p q x, p q z
+5000
+Evaluating query 22 - comment
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Calls="1" Modifies="1" SuchThat="1" CondNum="4" RelNum="2" 
+Your answer: SyntaxError 
+Correct answer: Example p i Example p x Example p y Example p z Example q i Example q x Example q y Example q z p q i p q x p q z 
+Missing: Example p i Example p x Example p y Example p z Example q i Example q x Example q y Example q z p q i p q x p q z 
+Additional: SyntaxError 
+23 - comment
+call c; assign a1, a2;
+Select BOOLEAN such that Follows*(_, c) and Affects(a1, a2) and Uses(a2, _)
+TRUE
+5000
+Evaluating query 23 - comment
+_, is an Unnamedvar 
+_ is an Unnamedvar 
+The final tag string is Affects="1" ReturnBoolean="1" Followsstar="1" UnnamedVar="2" Uses="1" SuchThat="1" CondNum="7" RelNum="3" 
+Your answer: SyntaxError 
+Correct answer: TRUE 
+Missing: TRUE 
+Additional: SyntaxError 
+24 - comment
+assign a1, a2; variable v;
+Select v pattern a1(v, _) such that Affects*(a1, a2) and Uses(a2, v)
+i, x, z
+5000
+Evaluating query 24 - comment
+_ is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Affectsstar="1" UnnamedVar="1" Uses="1" Pattern="1" SuchThat="1" CondNum="6" RelNum="2" 
+Your answer: SyntaxError 
+Correct answer: i x z 
+Missing: i x z 
+Additional: SyntaxError 
+25 - comment
+prog_line n1, n2; variable v; call c;
+Select c such that Next*(n1, n2) and Modifies(n1, v) and Uses(n2, v) and Modifies(c, v)
+10, 12, 16
+5000
+Evaluating query 25 - comment
+prog_line is an Unnamedvar 
+The happen is 2
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Modifies="2" Nextstar="1" UnnamedVar="1" Uses="1" SuchThat="1" CondNum="7" RelNum="4" 
+Your answer: SyntaxError 
+Correct answer: 10 12 16 
+Missing: 10 12 16 
+Additional: SyntaxError 
+End of evaluating Query File.
+AutoTester Completed !

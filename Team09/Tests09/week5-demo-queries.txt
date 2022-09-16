@@ -1,5 +1,0 @@
-1 - week 5 demo query
-
-variable v, assign a; Select v such that Modifies(a, v)
-x
-5000

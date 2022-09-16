@@ -1,8 +1,4 @@
 #include "RelationshipExtraction.h"
-#include "../astBuilder/TNode.h"
-#include "../astBuilder/ProgramNode.h"
-#include "../astBuilder/ProcedureNode.h"
-#include "../astBuilder/AssignmentNode.h"
 
 using namespace PKB;
 
@@ -12,6 +8,7 @@ RelationshipExtraction::RelationshipExtraction(PKBStorage* pkb) {
 
 RelationshipExtraction::~RelationshipExtraction() {}
 
+/*
 void RelationshipExtraction::extractRls(TNode::PROGRAM_NODE_PTR astRoot) {
     for (size_t i = 0; i < astRoot->getProcedureCount(); i++) {
         TNode::PROCEDURE_NODE_PTR proc = astRoot->getProcedureByIndex(i);
@@ -28,3 +25,4 @@ void RelationshipExtraction::extractRls(TNode::ASSIGNMENT_NODE_PTR assign, TNode
         pkbFacade->persistAssignModifyVariable(assign->variableNode);
         pkbFacade->persistAssignModifyVariable(assign->variableNode);
 }
+*/

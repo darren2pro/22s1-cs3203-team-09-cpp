@@ -3,7 +3,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../astBuilder/TNode.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace PKB;
@@ -16,5 +15,5 @@ public:
 
     ~DesignExtractor();
 
-    void extractDesignAbstractions(TNode::PROGRAM_NODE_PTR astRoot);
+    // void extractDesignAbstractions(TNode::PROGRAM_NODE_PTR astRoot);
 };

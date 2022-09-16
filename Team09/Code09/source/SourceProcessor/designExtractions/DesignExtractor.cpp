@@ -7,7 +7,7 @@
 DesignExtractor::~DesignExtractor() {}
 
 void DesignExtractor::extractDesignAbstractions(const std::shared_ptr<ProgramNode> astRoot) {
-    EntityExtraction entityExtraction = EntityExtraction(pkbFacade.getPKBStorage());
+    EntityExtraction entityExtraction = EntityExtraction(pkbFacade);
     entityExtraction.createLineNumbers(astRoot);
     entityExtraction.extractEntities(astRoot);
     entityExtraction.extractModifyRls(astRoot);

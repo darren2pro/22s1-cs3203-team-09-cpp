@@ -6,9 +6,7 @@
 
 using namespace PKB;
 
-EntityExtraction::EntityExtraction(std::shared_ptr<PKBStorage> pkb) {
-	pkbFacade -> pkb;
-}
+EntityExtraction::EntityExtraction(std::shared_ptr<PKBStorage> pkb) : pkbFacade(pkb) {};
 
 EntityExtraction::~EntityExtraction() {}
 

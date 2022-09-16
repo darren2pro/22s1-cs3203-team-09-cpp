@@ -15,5 +15,5 @@ public:
 
     ~DesignExtractor();
 
-    // void extractDesignAbstractions(TNode::PROGRAM_NODE_PTR astRoot);
+    void extractDesignAbstractions(const std::shared_ptr<ProgramNode> astRoot);
 };

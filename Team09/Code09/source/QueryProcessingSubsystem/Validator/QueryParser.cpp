@@ -231,7 +231,7 @@ Pattern QueryParser::patternClause() {
 		match("_");
 	}
 
-	if (current_token != ")") {		// check if right_arg matches '_exprssion_'
+	if (current_token != ")" || right_arg == "") {		// check if right_arg matches '_exprssion_'
 		right_arg += current_token;
 		match(parserre::expressionSpec_re);
 		match("_");

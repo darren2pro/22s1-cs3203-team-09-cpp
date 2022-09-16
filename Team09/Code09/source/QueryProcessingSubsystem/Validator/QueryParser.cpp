@@ -28,7 +28,7 @@ QueryParser::QueryParser(std::vector<std::string> tokens) {
 	index = 0;
 	current_token = getNextToken();
 	declarations = std::vector<Declaration>();
-	target = std::string();
+	target = Declaration();
 	suchThatCl = Relation();
 	patternCl = Pattern();
 }
@@ -138,7 +138,7 @@ std::vector<Declaration> QueryParser::declaration() {
 Declaration QueryParser::findDeclaration(std::string name) {
 	for (Declaration d: declarations) {
 		if (d.name == name) {
-			return d;
+			return Declaration::Declaration(d.TYPE, d.name);
 		}
 	}
 	throw SemanticError("Synonym not declared");
@@ -181,15 +181,15 @@ void QueryParser::validate_entRef(std::string arg) {
 	throw SemanticError("Invalid synonym type used as an argument");
 }
 
-std::string QueryParser::select() {
+Declaration QueryParser::select() {
 	match("Select");
 	std::string target = current_token;
 	match(parserre::synonym_re);
 
 	// checks if target is a declared synonym in the declaration list
-	findDeclaration(target);
+	Declaration d = findDeclaration(target);
 
-	return target;
+	return d;
 }
 
 Pattern QueryParser::patternClause() {

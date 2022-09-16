@@ -31,7 +31,7 @@ private:
 	 * Query attributes.
 	 */
 	std::vector<Declaration> declarations;
-	std::string target;
+	Declaration target;
 	Relation suchThatCl;
 	Pattern patternCl;
 
@@ -92,9 +92,9 @@ public:
 
 	/**
 	 * Parses declaration.
-	 * @returns the variable in the select statement.
+	 * @returns the synonym in the select statement.
 	 */
-	std::string select();
+	Declaration select();
 
 	/**
 	 * Parses declaration.

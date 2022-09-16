@@ -35,6 +35,7 @@
   <ItemGroup>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\AssignPatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsTEvaluator.h" />

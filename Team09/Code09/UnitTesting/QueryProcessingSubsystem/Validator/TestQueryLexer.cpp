@@ -26,6 +26,19 @@ namespace UnitTesting {
             for (int i = 0; i < expectedResult.size(); i++) {
                 Assert::AreEqual(expectedResult[i], result[i]);
             }
+
+            const std::string query2 = "assign a; Select a such that Follows*(a, _\"x + 1\"_)";
+
+            std::vector<std::string> expectedResult2 = std::vector<std::string>(
+                { "assign", "a", ";", "Select", "a", "such", "that", "Follows*", "(", "a", ",", "_", "\"x+1\"", "_" ,")" });
+
+            QueryLexer lexer2 = QueryLexer(query2);
+            std::vector<std::string> result2 = lexer2.lex();
+
+            Assert::AreEqual(expectedResult2.size(), result2.size());
+            for (int i = 0; i < expectedResult2.size(); i++) {
+                Assert::AreEqual(expectedResult2[i], result2[i]);
+            }
         }
 
         TEST_METHOD(TestLexerQueryWithSpaces) {

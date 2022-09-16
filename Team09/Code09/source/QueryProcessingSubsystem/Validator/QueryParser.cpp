@@ -12,15 +12,15 @@ namespace parserre {
 	std::string integer = "(0|[1-9]([0-9])*)";
 	std::string stmtRef = synonym + "|_|" + integer;
 	std::string entRef = synonym + "|_|\"" + synonym + "\"";
-	std::string expressionSpec = "_|(" + synonym + "|" + integer + ")";
+	std::string expressionSpec = "_|\"(" + synonym + "|" + integer + ")\"";
 
 	std::regex integer_re(integer);
-	std::regex design_enteties_re("stmt|read|print|while|if|assign|variable|constant|procedure");
-	std::regex relation_re("Follows|Follows*|Parent|Parent*|Uses|Modifies");
+	std::regex design_enteties_re("stmt|read|print|while|if|assign|variable|constant|procedure|call");
+	std::regex relation_re("Follows|Follows[\*]|Parent|Parent[\*]|Uses|Modifies");
 	std::regex synonym_re(synonym);									// synonym: IDENT	--> IDENT: LETTER (LETTER|DIGIT)*
 	std::regex stmtRef_re(stmtRef);									// stmtRef: synonym | '_' | INTEGER
 	std::regex entRef_re(entRef);									// endRef: synonym | '_' | '"' IDENT '"'
-	std::regex expressionSpec_re(expressionSpec);					// var_name | const_value
+	std::regex expressionSpec_re(expressionSpec);					// var_name | const_value  * update for next milestones
 }
 
 QueryParser::QueryParser(std::vector<std::string> tokens) {

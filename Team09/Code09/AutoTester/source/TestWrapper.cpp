@@ -41,6 +41,7 @@ void TestWrapper::parse(std::string filename) {
     } catch (SimpleInvalidSyntaxException& e) {
         std::cout << e.what() << std::endl;
         std::cout << "Invalid syntax. Please input another file." << std::endl;
+        exit(1);
     }
 }
 

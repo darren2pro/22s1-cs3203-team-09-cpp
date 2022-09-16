@@ -21,11 +21,11 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 
 	 //COMMENTED OUT FOR MILESTONE 1 INTEGRATION TESTING
-	if (!execute(relations)) {
+	/*if (!execute(relations)) {
 		return { "Error" };
-	}
+	}*/
 	auto suchThatResults = execute(relations);
-	auto patternResults = execute(patterns);
+	//auto patternResults = execute(patterns);
 	
 	//// CREATE CONSTRAIN DB
 	//ResultsDatabase rdb;

@@ -17,7 +17,6 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsDatabase.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.cpp" />
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp" />

@@ -24,7 +24,7 @@ public:
 		RIGHT_ARG(relations.RIGHT_ARG),
 		pkb(pkb) {};
 
-	auto evaluate();
+	std::unordered_set<std::string> evaluate();
 
 	// Different
 	virtual std::unordered_set<std::string> leftSynonymRightSimple(std::string RIGHT_ARG) = 0; // For Demo in Week 5

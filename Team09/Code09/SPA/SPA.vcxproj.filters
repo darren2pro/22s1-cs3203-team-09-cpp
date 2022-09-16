@@ -117,9 +117,6 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\ResultsDatabase</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.cpp">
-      <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
@@ -229,6 +226,7 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\ResultsDatabase</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SemanticException.h">
       <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>

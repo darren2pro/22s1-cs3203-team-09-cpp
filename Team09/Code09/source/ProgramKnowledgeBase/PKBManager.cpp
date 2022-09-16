@@ -163,12 +163,12 @@ bool PKBManager::getFollowsT(const PrevLine prev, const NextLine next) {
     return pkbStorage->followsTSet.find(std::make_pair(prev, next)) != pkbStorage->followsTSet.end();
 }
 
-bool PKBManager::getFollowsTByPrevUS(const PrevLine) {
-    return getFollowsByPrevUS;
+bool PKBManager::getFollowsTByPrevUS(const PrevLine prev) {
+    return getFollowsByPrevUS(prev);
 }
 
-bool PKBManager::getFollowsTByUSNext(const NextLine) {
-    return getFollowsByUSNext;
+bool PKBManager::getFollowsTByUSNext(const NextLine next) {
+    return getFollowsByUSNext(next);
 }
 
 bool PKBManager::getFollowsTByUSUS() {
@@ -260,13 +260,13 @@ bool PKBManager::getParentTByUSUS() {
 
 std::unordered_set<ChildLine> PKBManager::getParentTChildByParent(const ParentLine parent) {
     setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTChildToParentMap,
-        pkbStorage->parentChildToParentMap);
+        pkbStorage->parentChildToParentMap, parent);
     return pkbStorage->parentTChildToParentMap.at(parent);
 }
 
 std::unordered_set<ParentLine> PKBManager::getParentTParentByChild(const ChildLine child) {
     setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTParentToChildMap,
-        pkbStorage->parentParentToChildMap);
+        pkbStorage->parentParentToChildMap, child);
     return pkbStorage->parentTParentToChildMap.at(child);
 }
 

@@ -16,8 +16,8 @@ SimpleParser::SimpleParser(istream* program) {
 PKB::PKBManager SimpleParser::parse() {
     SimpleAstBuilder builder(tokens);
     builder.build();
-    PKBStorage pkb;
-    DesignExtractor extractor(&pkb);
+    PKBManager pkb;
+    DesignExtractor extractor(pkb.getPKBStorage());
     //extractor.extractDesignAbstractions(builder.getProgramNode());
     return pkb;
 }

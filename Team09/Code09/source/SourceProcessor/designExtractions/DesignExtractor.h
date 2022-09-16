@@ -9,9 +9,9 @@ using namespace PKB;
 
 class DesignExtractor {	
 public:
-    PKBStorage* pkbFacade;
+    std::shared_ptr<PKBStorage> pkbFacade;
 	
-    DesignExtractor(PKBStorage* pkb) : pkbFacade(pkb) {};
+    DesignExtractor(std::shared_ptr<PKBStorage> pkb) : pkbFacade(pkb) {};
 
     ~DesignExtractor();
 

@@ -97,16 +97,16 @@ void PKBStorage::storeUsesS(const LineNum lineNum, const Variable var) {
 void PKBStorage::storeFollows(const PrevLine prev, const NextLine next) {
     std::pair<PrevLine, NextLine> pair = std::make_pair(prev, next);
     followsSet.insert(pair);
-    followsPrevToNextMap[prev] = next;
-    followsNextToPrevMap[next] = prev;
+    addToSetInMap(followsPrevToNextMap, prev, next);
+    addToSetInMap(followsNextToPrevMap, next, prev);
 }
 
 
 void PKBStorage::storeParent(const ParentLine parent, const ChildLine child) {
     std::pair<ParentLine, ChildLine> pair = std::make_pair(parent, child);
     parentSet.insert(pair);
-    parentParentToChildMap[parent] = child;
-    parentChildToParentMap[child] = parent;
+    addToSetInMap(parentParentToChildMap, parent, child);
+    addToSetInMap(parentChildToParentMap, child, parent);
 }
 
 }

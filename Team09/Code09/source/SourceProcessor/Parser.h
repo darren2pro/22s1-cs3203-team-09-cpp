@@ -6,6 +6,7 @@
 #include <vector>
 #include <cctype>
 #include "../ProgramKnowledgeBase/PKBStorage.h"
+#include "../ProgramKnowledgeBase/PKBManager.h"
 
 using namespace std;
 

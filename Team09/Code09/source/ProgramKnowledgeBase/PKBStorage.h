@@ -40,16 +40,16 @@ public:
 
     //Follows
     std::unordered_set<std::pair<PrevLine, NextLine>> followsSet;
-    std::unordered_map<PrevLine, NextLine> followsPrevToNextMap;
-    std::unordered_map<NextLine, PrevLine> followsNextToPrevMap;
+    std::unordered_map<PrevLine, std::unordered_set<NextLine>> followsPrevToNextMap;
+    std::unordered_map<NextLine, std::unordered_set<PrevLine>> followsNextToPrevMap;
     std::unordered_set<std::pair<PrevLine, NextLine>> followsTSet;
     std::unordered_map<PrevLine, std::unordered_set<NextLine>> followsTPrevToNextMap;
     std::unordered_map<NextLine, std::unordered_set<PrevLine>> followsTNextToPrevMap;
 
     //Parent
     std::unordered_set<std::pair<ParentLine, ChildLine>> parentSet;
-    std::unordered_map<ParentLine, ChildLine> parentParentToChildMap;
-    std::unordered_map<ChildLine, ParentLine> parentChildToParentMap;
+    std::unordered_map<ParentLine, std::unordered_set<ChildLine>> parentParentToChildMap;
+    std::unordered_map<ChildLine, std::unordered_set<ParentLine>> parentChildToParentMap;
     std::unordered_set<std::pair<ParentLine, ChildLine>> parentTSet;
     std::unordered_map<ParentLine, std::unordered_set<ChildLine>> parentTParentToChildMap;
     std::unordered_map<ChildLine, std::unordered_set<ParentLine>> parentTChildToParentMap;
@@ -82,9 +82,19 @@ public:
     void storeUsesS(const LineNum, const Variable);
     void storeModifiesS(const LineNum, const Variable);
 
-    //helper to store variable into usesMap and modifiesMap
-    static void addToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
-        const std::string key, const std::string val);
 };
+
+//helper to store variable into usesMap and modifiesMap
+void addToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
+    const std::string key, const std::string val) {
+    if (map.find(key) == map.end()) {
+        std::unordered_set<std::string> vals;
+        vals.insert(val);
+        map[key] = vals;
+    }
+    else {
+        map.at(key).insert(val);
+    }
+}
 
 }

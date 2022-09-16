@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <variant>
 #include "PKBStorage.h"
 
 namespace PKB {
@@ -91,10 +90,19 @@ public:
 	std::unordered_set<ChildLine> getParentTChildByUS();
 	std::unordered_set<std::pair<ParentLine, ChildLine>> getAllParentT();
 
-	void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>>& set,
-		std::unordered_map<std::string, std::unordered_set<std::string>>& star,
-		const std::unordered_map<std::string, std::unordered_set<std::string>> base, std::string key);
 };
+	
+void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>>& set,
+	std::unordered_map<std::string, std::unordered_set<std::string>>& star,
+	const std::unordered_map<std::string, std::unordered_set<std::string>> base, std::string key) {
+	std::string currKey = key;
+	while (base.find(currKey) != base.end()) {
+		std::string val = *(base.at(currKey).begin());
+		set.insert(key, val);
+		PKB::addToSetInMap(star, key, val);
+		currKey = val;
+	}
+}
 
 }
 

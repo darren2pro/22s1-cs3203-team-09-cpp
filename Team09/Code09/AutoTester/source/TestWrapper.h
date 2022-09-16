@@ -7,11 +7,11 @@
 
 // include your other headers here
 #include "AbstractWrapper.h"
-#include "ProgramKnowledgeBase/PKBStorage.h"
+#include "ProgramKnowledgeBase/PKBManager.h"
 
 class TestWrapper : public AbstractWrapper {
 private:
-    PKB::PKBStorage pkb;
+    PKB::PKBManager pkb;
 
 public:
     // default constructor

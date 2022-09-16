@@ -28,7 +28,7 @@ public:
      * This is a pure virtual function which must be implemented in the derived class.
      * @return 0 if successful, -1 otherwise
      */
-    virtual PKB::PKBStorage parse() = 0;
+    virtual PKB::PKBManager parse() = 0;
 
     const SOURCE_CODE_TOKENS &getTokens() const {
         return tokens;
@@ -49,5 +49,5 @@ private:
 public:
     explicit SimpleParser(istream* program);
 
-    PKB::PKBStorage parse() override;
+    PKB::PKBManager parse() override;
 };

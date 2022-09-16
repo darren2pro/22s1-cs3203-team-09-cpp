@@ -4,6 +4,7 @@
 #include "SimpleTokenizer.h"
 #include "astBuilder/SimpleAstBuilder.h"
 #include "designExtractions/DesignExtractor.h"
+#include "../ProgramKnowledgeBase/PKBManager.h"
 
 using namespace std;
 
@@ -12,11 +13,11 @@ SimpleParser::SimpleParser(istream* program) {
     tokens = tokenizer.tokenize();
 }
 
-PKB::PKBStorage SimpleParser::parse() {
+PKB::PKBManager SimpleParser::parse() {
     SimpleAstBuilder builder(tokens);
     builder.build();
-    PKBStorage pkb;
-    DesignExtractor extractor(&pkb);
+    PKBManager pkb;
+    DesignExtractor extractor(pkb.getPKBStorage());
     extractor.extractDesignAbstractions(builder.getProgramNode());
     return pkb;
 }

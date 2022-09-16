@@ -19,37 +19,41 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	declarations = query->declarations;
 	target = query->target;
 
+
+	 //COMMENTED OUT FOR MILESTONE 1 INTEGRATION TESTING
 	if (!execute(relations)) {
 		return { "Error" };
 	}
 	auto suchThatResults = execute(relations);
-	//auto patternResults = execute(patterns);
+	auto patternResults = execute(patterns);
 	
-	// CREATE CONSTRAIN DB
-	ResultsDatabase rdb;
+	//// CREATE CONSTRAIN DB
+	//ResultsDatabase rdb;
 
-	// INSERT SUCH THAT RESULTS
-	if (Utils().isList(suchThatResults)) {
-		// List
-		std::string assignmentSynonym;
-		if (Utils().isSynonym(relations.LEFT_ARG)) {
-			assignmentSynonym = relations.LEFT_ARG;
-		}
-		else {
-			assignmentSynonym = relations.RIGHT_ARG;
-		}
-		rdb.insertList(assignmentSynonym, suchThatResults);
+	//// INSERT SUCH THAT RESULTS
+	//if (Utils().isList(suchThatResults)) {
+	//	// List
+	//	std::string assignmentSynonym;
+	//	if (Utils().isSynonym(relations.LEFT_ARG)) {
+	//		assignmentSynonym = relations.LEFT_ARG;
+	//	}
+	//	else {
+	//		assignmentSynonym = relations.RIGHT_ARG;
+	//	}
+	//	rdb.insertList(assignmentSynonym, suchThatResults);
 
-	} else if(Utils().isListPair(suchThatResults)) {
-		// ListPair 
-		rdb.insertPairList(relations.LEFT_ARG, relations.RIGHT_ARG, suchThatResults);
-	}
-	else {
-		// Boolean
-		rdb.insertBoolean(suchThatResults);
-	}
+	//} else if(Utils().isListPair(suchThatResults)) {
+	//	// ListPair 
+	//	rdb.insertPairList(relations.LEFT_ARG, relations.RIGHT_ARG, suchThatResults);
+	//}
+	//else {
+	//	// Boolean
+	//	rdb.insertBoolean(suchThatResults);
+	//}
 
-	std::unordered_set<std::string> results = rdb.getResults(target);
+	//std::unordered_set<std::string> results = rdb.getResults(target);
+
+	std::unordered_set<std::string> results = {};
 	return results;
 }
 
@@ -77,7 +81,7 @@ auto QueryExecutor::execute(Relation relation) {
 //std::unordered_set<std::string> QueryExecutor::execute(Pattern pattern) {
 //
 //	switch (pattern.TYPE) {
-//	case Pattern::AssignRelaxed:
+//	case Pattern::Assign:
 //		return 
 //	}
 //

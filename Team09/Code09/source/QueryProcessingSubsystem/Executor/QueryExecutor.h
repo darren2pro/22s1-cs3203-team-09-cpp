@@ -11,6 +11,7 @@ private:
 	PKB::PKBStorage pkb;
 	Relation relations;
 	Pattern pattern;
+	Declaration target;
 	std::vector<Declaration> declarations;
 	std::vector<std::string> tokens;
 

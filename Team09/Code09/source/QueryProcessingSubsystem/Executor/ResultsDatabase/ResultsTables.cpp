@@ -43,18 +43,17 @@ bool ResultsTables::insertIntoTableSameSynonymList(Variable variable, std::unord
 	int index = varToColIndex.at(variable);
 	bool add = true;
 
-	for (auto& value : list) {
-		for (int i = 0; i < resultsTable.size(); i++) {
-			std::vector<Variable> col = resultsTable[index];
-			if (value == col[i]) {
-				add = false;
-			}
-		}
+	// Only values in both list and table can be kept.
+	for (int i = 0; i < resultsTable.size(); i++) {
+		Variable tableValue = resultsTable[i][index];
 
-		// If no duplicates in column, add to the column
-		if (add) {
-			resultsTable[index].push_back(value);
+		// Value not in both table and list
+		if (list.find(tableValue) == list.end()) {
+
+			// NEEDS CHANGING: HOW TO ERASE?
+			resultsTable[i][index] = "NULL";
 		}
+		
 	}
 }
 
@@ -64,12 +63,17 @@ bool ResultsTables::insertIntoTableNewSynonymListPair(Variable var1, Variable va
 
 
 bool ResultsTables::insertIntoTableSameSynonymListPair(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair) {
+	// Only assignments in the list AND the current table can be kept.
 
 }
 
 // IMPLEMENT THE INSERTER -> INSERT AT SPECIFIC ROWS OF THE TABLE.
 // BUT HAVE TO TELL RY CHANGE EVERYTHING TO VECTOR. POSSIBLE?
 // void ResultsTables::inserter() 
+
+std::unordered_set<Value> getResultBySynonym(Variable variable) {
+	//int index = 
+}
 
 
 

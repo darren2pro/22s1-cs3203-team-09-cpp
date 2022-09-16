@@ -230,5 +230,8 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SemanticException.h">
       <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\AssignPatternEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

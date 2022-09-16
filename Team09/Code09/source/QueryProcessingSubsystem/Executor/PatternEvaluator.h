@@ -5,27 +5,30 @@
 #include "../Pattern.h"
 #include "../Declaration.h"
 
+typedef std::string LineNum;
+typedef std::string Variable;
+typedef std::string Expression;
+
 class PatternEvaluator {
-private:
+public:
 	Declaration declaration;
 	Pattern pattern;
 	PKB::PKBStorage pkb;
 
-	virtual std::unordered_set<std::string> patternleftUnderscoreRightRelaxedExpression(std::string RIGHT_ARG) = 0;
-	virtual std::unordered_set<std::string> patternleftUnderscoreRightStrictExpression(std::string RIGHT_ARG) = 0;
-	virtual std::unordered_set<std::string> patternleftUnderscoreRightUnderScore() = 0;
+	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightRelaxedExpression(Expression expr) = 0;
+	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightStrictExpression(Expression expr) = 0;
+	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightUnderScore() = 0;
 
-	virtual std::unordered_set<std::string> patternleftSynonymRightRelaxedExpression(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::string> patternleftSynonymRightStrictExpression(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::string> patternleftSynonymRightUnderscore(std::string LEFT_ARG) = 0;
+	virtual std::unordered_set<std::pair<LineNum, Variable>> patternLeftSynonymRightRelaxedExpression(Expression expr) = 0; // For Demo in Week 5
+	virtual std::unordered_set<std::pair<LineNum, Variable>> patternLeftSynonymRightStrictExpression(Expression expr) = 0; // For Demo in Week 5
+	virtual std::unordered_set<std::pair<LineNum, Variable>> patternLeftSynonymRightUnderscore() = 0;
 
-	virtual std::unordered_set<std::string> patternleftSimpleRightRelaxedExpression(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::string> patternleftSimpleRightStrictExpression(std::string LEFT_ARG, std::string RIGHT_ARG) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::string> patternleftSimpleRightUnderscore(std::string LEFT_ARG) = 0;
+	virtual std::unordered_set<LineNum> patternLeftSimpleRightRelaxedExpression(Variable var, Expression expr) = 0; // For Demo in Week 5
+	virtual std::unordered_set<LineNum> patternLeftSimpleRightStrictExpression(Variable var, Expression expr) = 0; // For Demo in Week 5
+	virtual std::unordered_set<LineNum> patternLeftSimpleRightUnderscore(Variable var) = 0;
 
 
-public:
-	PatternEvaluator(Declaration declaration, Pattern pattern, PKB::PKBStorage pkb) :
+	PatternEvaluator(std::vector<std::string> declarations, Pattern pattern, PKB::PKBStorage pkb) :
 		declaration(declaration), pattern(pattern), pkb(pkb) {};
 	std::unordered_set<std::string> evaluate();
 };

@@ -5,7 +5,8 @@
 #include "../Relation.h"
 #include "../Pattern.h"
 #include "../Declaration.h"
-#include "QPSValidatorException.h"
+#include "SyntaxException.h"
+#include "SemanticException.h"
 
 namespace parserre {
 	std::string synonym = "[a-zA-Z]([a-zA-Z0-9])*";

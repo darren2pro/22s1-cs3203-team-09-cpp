@@ -7,7 +7,8 @@
 #include "QueryProcessingSubsystem/Validator/QueryLexer.h"
 #include "QueryProcessingSubsystem/Validator/QueryParser.h"
 #include "QueryProcessingSubsystem/Validator/QueryParser.cpp"
-#include "QueryProcessingSubsystem/Validator/QPSValidatorException.h"
+#include "QueryProcessingSubsystem/Validator/SyntaxException.h"
+#include "QueryProcessingSubsystem/Validator/SemanticException.h"
 #include "QueryProcessingSubsystem/Pattern.h"
 #include "QueryProcessingSubsystem/Declaration.h"
 
@@ -205,31 +206,31 @@ namespace UnitTesting {
             }
         }
 
-        //TEST_METHOD(TestParserDeclarationSyntaxError) {
-        //    // 1
-        //    const std::string query = "assign a, variable v; Select a such that Modifies(a, \"x\")";
-        //    QueryLexer lexer = QueryLexer(query);
-        //    std::vector<std::string> tokens = lexer.lex();
-        //    QueryParser parser = QueryParser(tokens);
+        TEST_METHOD(TestParserDeclarationSyntaxError) {
+            // 1
+            const std::string query = "assign a, variable v; Select a such that Modifies(a, \"x\")";
+            QueryLexer lexer = QueryLexer(query);
+            std::vector<std::string> tokens = lexer.lex();
+            QueryParser parser = QueryParser(tokens);
 
-        //    bool semanticexceptionThrown = false;
-        //    bool syntaxexceptionThrown = false;
-        //    try
-        //    {
-        //        parser.parse();
-        //    }
-        //    catch (SemanticError&)
-        //    {
-        //        semanticexceptionThrown = true;
+            bool semanticexceptionThrown = false;
+            bool syntaxexceptionThrown = false;
+            try
+            {
+                parser.parse();
+            }
+            catch (SemanticError&)
+            {
+                semanticexceptionThrown = true;
 
-        //    } catch (SyntaxError&)
-        //    {
-        //        syntaxexceptionThrown = true;
+            } catch (SyntaxError&)
+            {
+                syntaxexceptionThrown = true;
 
-        //    }
+            }
 
-        //    Assert::IsFalse(semanticexceptionThrown);
-        //    Assert::IsTrue(syntaxexceptionThrown);
+            Assert::IsFalse(semanticexceptionThrown);
+            Assert::IsTrue(syntaxexceptionThrown);
             
             //// 2
             //const std::string query2 = "assign a; v; Select a such that Modifies(a, \"x\")";
@@ -267,7 +268,7 @@ namespace UnitTesting {
 
             //Assert::IsTrue(exceptionThrown);
 
-        //}        
+        }        
                 
         TEST_METHOD(TestParserDuplicateSynonymError) {
             const std::string query = "assign a; variable a; Select a such that Modifies(a, \"x\")";

@@ -105,9 +105,6 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.cpp">
-      <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
@@ -152,7 +149,7 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.h">
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SyntaxException.h">
       <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.h">
@@ -211,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Pattern.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SemanticException.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

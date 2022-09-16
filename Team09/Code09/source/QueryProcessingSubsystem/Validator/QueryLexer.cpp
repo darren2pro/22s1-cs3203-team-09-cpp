@@ -3,7 +3,8 @@
 #include <string>
 #include <vector>
 #include <regex>
-#include "QPSValidatorException.h"
+#include "SyntaxException.h"
+#include "SemanticException.h"
 
 namespace lexerre {
     std::regex whitespace("[ \t\n]+");

@@ -15,7 +15,6 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp" />
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp" />
@@ -46,7 +45,8 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Query.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Relation.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Utils.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QPSValidatorException.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SemanticException.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SyntaxException.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.h" />

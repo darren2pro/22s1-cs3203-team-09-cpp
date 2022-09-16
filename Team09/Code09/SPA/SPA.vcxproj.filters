@@ -90,9 +90,6 @@
     <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp">
       <Filter>Source Files\SourceProcessor\designExtractor</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.cpp">
-      <Filter>Source Files\SourceProcessor\designExtractor</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
@@ -150,9 +147,6 @@
       <Filter>Header Files\SourceProcessor\designExtractor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h">
-      <Filter>Header Files\SourceProcessor\designExtractor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.h">
       <Filter>Header Files\SourceProcessor\designExtractor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h">

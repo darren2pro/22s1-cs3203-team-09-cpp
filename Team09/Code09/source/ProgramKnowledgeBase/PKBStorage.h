@@ -23,42 +23,6 @@ namespace PairHasher {
             return hash_val;
         }
     };
-
-    //helper to store variable into usesMap and modifiesMap
-    void addToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
-                       const std::string key, const std::string val) {
-        if (map.find(key) == map.end()) {
-            std::unordered_set<std::string> vals;
-            vals.insert(val);
-            map[key] = vals;
-        } else {
-            map.at(key).insert(val);
-        }
-    }
-
-    void addToSetInMap(std::unordered_map<std::string,
-            std::unordered_set<std::pair<std::string, std::string>, pairHash>>& map,
-                       const std::string key, const std::pair<std::string, std::string> val) {
-        if (map.find(key) == map.end()) {
-            std::unordered_set<std::pair<std::string, std::string>, pairHash> vals;
-            vals.insert(val);
-            map[key] = vals;
-        } else {
-            map.at(key).insert(val);
-        }
-    }
-
-    void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>, pairHash>& set,
-                            std::unordered_map<std::string, std::unordered_set<std::string>>& star,
-                            const std::unordered_map<std::string, std::unordered_set<std::string>> base, std::string key) {
-        std::string currKey = key;
-        while (base.find(currKey) != base.end()) {
-            std::string val = *(base.at(currKey).begin());
-            set.insert(std::make_pair(key, val));
-            addToSetInMap(star, key, val);
-            currKey = val;
-        }
-    }
 }
 
 class PKBStorage {
@@ -147,4 +111,11 @@ public:
     void storeUsesS(const LineNum, const Variable);
     void storeModifiesS(const LineNum, const Variable);
     void storeAssignPattern(const Variable, const LineNum, const ExprStr);
+
+    // utility
+    void addToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
+                       const std::string key, const std::string val);
+    void addToSetInMap(std::unordered_map<std::string,
+            std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash>>& map,
+                       const std::string key, const std::pair<std::string, std::string> val);
 };

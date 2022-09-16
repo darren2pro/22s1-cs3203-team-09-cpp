@@ -330,3 +330,15 @@ std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSMatchFull(c
 std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSVarMatchPartial(const  PKBStorage::ExprStr expr) {
     return std::unordered_set<PKBStorage::LineNum>();
 }
+void PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash>& set,
+                                    std::unordered_map<std::string, std::unordered_set<std::string>>& star,
+                                    const std::unordered_map<std::string, std::unordered_set<std::string>> base,
+                                    std::string key) {
+    std::string currKey = key;
+    while (base.find(currKey) != base.end()) {
+        std::string val = *(base.at(currKey).begin());
+        set.insert(std::make_pair(key, val));
+        this->pkbStorage->addToSetInMap(star, key, val);
+        currKey = val;
+    }
+}

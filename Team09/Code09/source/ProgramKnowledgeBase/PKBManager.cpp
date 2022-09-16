@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "PKB.h"
 #include "PKBManager.h"
 
 namespace PKB {
@@ -57,7 +56,7 @@ std::unordered_set<LineNum> PKBManager::getPrintSet() {
 
 //Modifies
 bool PKBManager::getModifies(const LineNum lineNum, const Variable var) {
-    return pkbStorage->modifiesSet.contains(std::make_pair(lineNum, var);
+    return pkbStorage->modifiesSet.contains(std::make_pair(lineNum, var));
 }
 
 bool PKBManager::getModifiesUS(const LineNum lineNum) {
@@ -164,11 +163,11 @@ bool PKBManager::getFollowsT(const PrevLine prev, const NextLine next) {
     return pkbStorage->followsTSet.contains(std::make_pair(prev, next));
 }
 
-bool PKBManager::getFollowsTByPrevUS(const PrevLine) {
+bool PKBManager::getFollowsTByPrevUS(const PrevLine prev) {
     return getFollowsByPrevUS;
 }
 
-bool PKBManager::getFollowsTByUSNext(const NextLine) {
+bool PKBManager::getFollowsTByUSNext(const NextLine next) {
     return getFollowsByUSNext;
 }
 
@@ -299,7 +298,3 @@ void PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::string, st
 }
 
 }
-
-
-
-

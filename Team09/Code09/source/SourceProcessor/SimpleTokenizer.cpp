@@ -127,11 +127,15 @@ Parser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenize() {
                 if (peekNextChar() == '=') {
                     currentString += advanceChar();
                     tokens.push_back(new SimpleToken(currentString, SimpleToken::TokenType::LESS_THAN_OR_EQUAL_TO));
+                } else {
+                    tokens.push_back(new SimpleToken(currentString, SimpleToken::TokenType::LESS_THAN));
                 }
             } else if (nextChar == '>') {
                 if (peekNextChar() == '=') {
                     currentString += advanceChar();
                     tokens.push_back(new SimpleToken(currentString, SimpleToken::TokenType::GREATER_THAN_OR_EQUAL_TO));
+                } else {
+                    tokens.push_back(new SimpleToken(currentString, SimpleToken::TokenType::GREATER_THAN));
                 }
             } else if (SINGLE_TOKEN_PUNCTUATIONS.find(currentString) != SINGLE_TOKEN_PUNCTUATIONS.end()) {
                 SimpleToken::TokenType tokenType = mapSingleCharPunctuationToTokenType(nextChar);

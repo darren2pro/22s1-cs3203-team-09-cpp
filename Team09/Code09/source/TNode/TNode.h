@@ -20,119 +20,166 @@ class BinOpNode;
 class CondExprNode;
 class RelExprNode;
 
-using Stmt = std::variant<std::shared_ptr<AssignmentNode>, std::shared_ptr<CallNode>,
-                          std::shared_ptr<PrintNode>, std::shared_ptr<ReadNode>,
-                          std::shared_ptr<IfNode>, std::shared_ptr<WhileNode>>;
+typedef std::shared_ptr<ProgramNode> AST;
+typedef std::shared_ptr<ProcedureNode> ProcedureNodePtr;
+typedef std::shared_ptr<ConstantNode> ConstantNodePtr;
+typedef std::shared_ptr<VariableNode> VariableNodePtr;
+typedef std::shared_ptr<AssignmentNode> AssignmentNodePtr;
+typedef std::shared_ptr<CallNode> CallNodePtr;
+typedef std::shared_ptr<PrintNode> PrintNodePtr;
+typedef std::shared_ptr<ReadNode> ReadNodePtr;
+typedef std::shared_ptr<IfNode> IfNodePtr;
+typedef std::shared_ptr<WhileNode> WhileNodePtr;
+typedef std::shared_ptr<BinOpNode> BinOpNodePtr;
+typedef std::shared_ptr<CondExprNode> CondExprNodePtr;
+typedef std::shared_ptr<RelExprNode> RelExprNodePtr;
 
-using Expr = std::variant<std::shared_ptr<VariableNode>,
-                          std::shared_ptr<ConstantNode>,
-                          std::shared_ptr<BinOpNode>>;
+typedef std::variant<AssignmentNodePtr, CallNodePtr,
+        PrintNodePtr, ReadNodePtr,
+        IfNodePtr, WhileNodePtr> Stmt;
 
-using StmtLst = std::vector<Stmt>;
+typedef std::vector<Stmt> StmtLst;
 
-using AST = std::shared_ptr<ProgramNode>;
+typedef std::variant<VariableNodePtr,
+        ConstantNodePtr,
+        BinOpNodePtr> Expr;
+
+typedef std::variant<VariableNodePtr,
+        ConstantNodePtr,
+        BinOpNodePtr> Factor;
+
+typedef Factor RelFactor;
 
 class TNode {
-    public:
-        virtual ~TNode() = default;
+public:
+    virtual ~TNode() = default;
+    virtual bool operator==(const TNode& other) const = 0;
+    virtual std::string toString() const = 0;
 };
 
 class ProgramNode : public TNode {
-    public:
-        std::vector<std::shared_ptr<ProcedureNode>> procList;
-        explicit ProgramNode(std::vector<std::shared_ptr<ProcedureNode>> procList);
+public:
+    std::vector<ProcedureNodePtr> procList;
+    explicit ProgramNode(std::vector<ProcedureNodePtr> procList);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class ProcedureNode : public TNode {
-    public:
-        std::string procName;
-        StmtLst stmtList;
-        explicit ProcedureNode(const std::string procName, StmtLst stmtList);
+public:
+    std::string procName;
+    StmtLst stmtList;
+    explicit ProcedureNode(const std::string procName, StmtLst stmtList);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class ConstantNode : public TNode {
-    public:
-        std::string value;
-        explicit ConstantNode(const std::string value);
+public:
+    std::string value;
+    explicit ConstantNode(const std::string value);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class VariableNode : public TNode {
-    public:
-        std::string varName;
-        explicit VariableNode(const std::string varName);
+public:
+    std::string varName;
+    explicit VariableNode(const std::string varName);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class AssignmentNode : public TNode {
-    public:
-        std::shared_ptr<VariableNode> var;
-        Expr expr;
-        explicit AssignmentNode(std::shared_ptr<VariableNode> var, Expr expr);
+public:
+    VariableNodePtr var;
+    Expr expr;
+    explicit AssignmentNode(VariableNodePtr var, Expr expr);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class CallNode : public TNode {
-    public:
-        std::shared_ptr<ProcedureNode> proc;
-        explicit CallNode(std::shared_ptr<ProcedureNode> proc);
+public:
+    ProcedureNodePtr proc;
+    explicit CallNode(ProcedureNodePtr proc);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class PrintNode : public TNode {
-    public:
-        std::shared_ptr<VariableNode> var;
-        explicit PrintNode(std::shared_ptr<VariableNode> var);
+public:
+    VariableNodePtr var;
+    explicit PrintNode(VariableNodePtr var);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class ReadNode : public TNode {
-    public:
-        std::shared_ptr<VariableNode> var;
-        explicit ReadNode(std::shared_ptr<VariableNode> var);
+public:
+    VariableNodePtr var;
+    explicit ReadNode(VariableNodePtr var);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class IfNode : public TNode {
-    public:
-        std::shared_ptr<CondExprNode> condExpr;
-        StmtLst thenStmtList;
-        StmtLst elseStmtList;
-        explicit IfNode(std::shared_ptr<CondExprNode> condExpr,
-            StmtLst thenStmtList, StmtLst elseStmtList);
+public:
+    CondExprNodePtr condExpr;
+    StmtLst thenStmtList;
+    StmtLst elseStmtList;
+    explicit IfNode(CondExprNodePtr condExpr,
+                    StmtLst thenStmtList, StmtLst elseStmtList);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class WhileNode : public TNode {
-    public:
-        std::shared_ptr<CondExprNode> condExpr;
-        StmtLst stmtList;
-        explicit WhileNode(std::shared_ptr<CondExprNode> condExpr, StmtLst stmtList);
+public:
+    CondExprNodePtr condExpr;
+    StmtLst stmtList;
+    explicit WhileNode(CondExprNodePtr condExpr, StmtLst stmtList);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class BinOpNode : public TNode {
-    public:
-        std::string op;
-        Expr leftExpr;
-        Expr rightExpr;
-        explicit BinOpNode(std::string op, Expr leftExpr, Expr rightExpr);
+public:
+    std::string op;
+    Expr leftExpr;
+    Expr rightExpr;
+    explicit BinOpNode(std::string op, Expr leftExpr, Expr rightExpr);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class CondExprNode : public TNode {
-    public:
-        std::string op = "";
-        std::shared_ptr<RelExprNode> relExpr = nullptr;
-        std::shared_ptr<CondExprNode> leftCond = nullptr;
-        std::shared_ptr<CondExprNode> rightCond = nullptr;
-        
-        // rel_expr
-        explicit CondExprNode(std::shared_ptr<RelExprNode> relExpr);
+public:
+    std::string op = "";
+    RelExprNodePtr relExpr = nullptr;
+    CondExprNodePtr leftCond = nullptr;
+    CondExprNodePtr rightCond = nullptr;
 
-        // !(cond_expr)
-        explicit CondExprNode(std::shared_ptr<CondExprNode> leftCond);
+    // rel_expr
+    explicit CondExprNode(RelExprNodePtr relExpr);
 
-        // (cond_expr) op (cond_expr)
-        explicit CondExprNode(std::string op,
-            std::shared_ptr<CondExprNode> leftCond, std::shared_ptr<CondExprNode> rightCond);
+    // !(cond_expr)
+    explicit CondExprNode(CondExprNodePtr leftCond);
+
+    // (cond_expr) op (cond_expr)
+    explicit CondExprNode(std::string op,
+                          CondExprNodePtr leftCond, CondExprNodePtr rightCond);
+
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };
 
 class RelExprNode : public TNode {
-    public:
-        std::string op;
-        Expr leftRel;
-        Expr rightRel;
-        explicit RelExprNode(std::string op, Expr leftRel, Expr rightRel);
+public:
+    std::string op;
+    Expr leftRel;
+    Expr rightRel;
+    explicit RelExprNode(std::string op, Expr leftRel, Expr rightRel);
+    bool operator==(const TNode& other) const override;
+    std::string toString() const override;
 };

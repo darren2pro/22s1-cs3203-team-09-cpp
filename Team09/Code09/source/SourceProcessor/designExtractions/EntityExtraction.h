@@ -84,4 +84,21 @@ public:
     void extractParentsStmts(const std::vector<Stmt> stmts, const std::vector<PKBStorage::ParentLine> parent);
     void extractParentsHelper(const std::shared_ptr<IfNode> ifNode, std::vector<PKBStorage::ParentLine> parent);
     void extractParentsHelper(const std::shared_ptr<WhileNode> whileNode, std::vector<PKBStorage::ParentLine> parent);
+
+    //extracting Assign pattern relations
+    void extractAssignPattern(const std::shared_ptr<ProgramNode> astRoot);
+    void extractAssignPattern(const std::shared_ptr<ProcedureNode> proc);
+    void extractAssignStmts(const std::vector<Stmt> stmts);
+    void extractAssignPattern(const std::shared_ptr<AssignmentNode> assign);
+    void extractAssignPattern(const std::shared_ptr<IfNode> ifNode);
+    void extractPatternHelper(const Expr expr, const Stmt stmt);
+    void extractPatternHelper(const std::shared_ptr<BinOpNode> bin, const Stmt stmt);
+    void extractPatternHelper(const std::shared_ptr<CondExprNode> cond, const Stmt stmt);
+    void extractPatternHelper(const std::shared_ptr<RelExprNode> rel, const Stmt stmt);
+    void extractPatternHelper(const std::shared_ptr<ConstantNode>, const Stmt);
+    void extractAssignPattern(const std::shared_ptr<WhileNode> whileNode);
+    void extractAssignPattern(const std::shared_ptr<ReadNode>);
+    void extractAssignPattern(const std::shared_ptr<CallNode>);
+    void extractAssignPattern(const std::shared_ptr<PrintNode>);
+
 };

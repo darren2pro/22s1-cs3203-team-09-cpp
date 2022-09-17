@@ -5,15 +5,13 @@
 #include <vector>
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-using namespace PKB;
-
 class DesignExtractor {	
 public:
-    PKBStorage* pkbFacade;
+    std::shared_ptr<PKBStorage> pkbFacade;
 	
-    DesignExtractor(PKBStorage* pkb) : pkbFacade(pkb) {};
+    DesignExtractor(std::shared_ptr<PKBStorage> pkb) : pkbFacade(pkb) {};
 
     ~DesignExtractor();
 
-    // void extractDesignAbstractions(TNode::PROGRAM_NODE_PTR astRoot);
+    void extractDesignAbstractions(const std::shared_ptr<ProgramNode> astRoot);
 };

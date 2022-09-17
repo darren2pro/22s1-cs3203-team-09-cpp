@@ -5,6 +5,7 @@
 #include "astBuilder/SimpleAstBuilder.h"
 #include "designExtractions/DesignExtractor.h"
 #include "exceptions/SimpleInvalidSyntaxException.h"
+#include "../ProgramKnowledgeBase/PKBManager.h"
 
 using namespace std;
 
@@ -13,11 +14,10 @@ SimpleParser::SimpleParser(istream* program) {
     tokens = tokenizer.tokenize();
 }
 
-PKB::PKBStorage SimpleParser::parse() {
+PKBManager SimpleParser::parse() {
     SimpleAstBuilder builder(tokens);
-    builder.build();
-    PKBStorage pkb;
-    DesignExtractor extractor(&pkb);
-    // extractor.extractDesignAbstractions(builder.getProgramNode());
+    PKBManager pkb;
+    DesignExtractor extractor(pkb.getPKBStorage());
+    extractor.extractDesignAbstractions(builder.build());
     return pkb;
 }

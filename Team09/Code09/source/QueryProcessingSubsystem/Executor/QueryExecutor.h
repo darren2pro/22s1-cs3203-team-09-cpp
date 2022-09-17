@@ -4,12 +4,11 @@
 #include <unordered_set>
 #include "../Query.h"
 #include "../Relation.h"
-#include "../../ProgramKnowledgeBase/PKBStorage.h"
-#include "ResultsDatabase/ResultsDatabase.h"
+#include "../../ProgramKnowledgeBase/PKBManager.h"
 
 class QueryExecutor {
 private:
-	PKB::PKBStorage pkb;
+	PKBManager pkb;
 	Relation relations;
 	Pattern pattern;
 	Declaration target;
@@ -20,7 +19,7 @@ private:
 	bool execute(Relation relation, ResultsDatabase& rdb);
 
 public:
-	QueryExecutor(PKB::PKBStorage pkb) : pkb(pkb) {}; // Constructor for taking in PKB
+	QueryExecutor(PKB::PKBManager pkb) : pkb(pkb) {}; // Constructor for taking in PKB
 
 	std::unordered_set<std::string> processQuery(Query* query);
 	std::unordered_set<std::string> getResultsFromRDB(std::vector<Declaration> declarations, Declaration target, ResultsDatabase& rdb);

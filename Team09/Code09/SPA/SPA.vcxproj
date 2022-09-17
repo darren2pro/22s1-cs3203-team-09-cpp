@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PKBManager.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.cpp" />
@@ -24,7 +25,6 @@
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp" />
     <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp" />
     <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.cpp" />
     <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
@@ -32,7 +32,9 @@
     <ClCompile Include="..\source\TNode\TNode.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PKBManager.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\pkb_adt.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\AssignPatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.h" />
@@ -59,7 +61,6 @@
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h" />
-    <ClInclude Include="..\source\SourceProcessor\designExtractions\RelationshipExtraction.h" />
     <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h" />
     <ClInclude Include="..\source\SourceProcessor\Parser.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleToken.h" />

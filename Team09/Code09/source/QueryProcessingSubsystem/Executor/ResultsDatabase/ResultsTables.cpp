@@ -11,7 +11,7 @@ void ResultsTables::create(Variable variable, std::unordered_set<Value> list) {
 	}
 }
 
-void ResultsTables::create(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair) {
+void ResultsTables::create(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair) {
 	columnName.push_back(var1);
 	int firstIndex = columnIndex;
 	varToColIndex.insert({var1, columnIndex});
@@ -47,7 +47,7 @@ bool ResultsTables::insertListToTable(Variable variable, std::unordered_set<Valu
 	}
 }
 
-bool ResultsTables::insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair) {
+bool ResultsTables::insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair) {
 	int index1 = varToColIndex[var1];
 	int index2 = varToColIndex[var2];
 

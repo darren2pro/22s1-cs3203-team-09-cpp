@@ -5,6 +5,7 @@
 #include "../Query.h"
 #include "../Relation.h"
 #include "../../ProgramKnowledgeBase/PKBManager.h"
+#include "ResultsDatabase/ResultsDatabase.h"
 
 class QueryExecutor {
 private:
@@ -19,7 +20,7 @@ private:
 	bool execute(Relation relation, ResultsDatabase& rdb);
 
 public:
-	QueryExecutor(PKB::PKBManager pkb) : pkb(pkb) {}; // Constructor for taking in PKB
+	QueryExecutor(PKBManager pkb) : pkb(pkb) {}; // Constructor for taking in PKB
 
 	std::unordered_set<std::string> processQuery(Query* query);
 	std::unordered_set<std::string> getResultsFromRDB(std::vector<Declaration> declarations, Declaration target, ResultsDatabase& rdb);

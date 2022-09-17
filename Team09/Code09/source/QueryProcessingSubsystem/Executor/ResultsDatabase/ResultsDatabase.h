@@ -4,11 +4,14 @@
 #include <unordered_set>
 #include <unordered_map>
 #include "ResultsTables.h"
+#include "../../../ProgramKnowledgeBase/PKBStorage.h"
 #include "../../Declaration.h"
 
 typedef std::string Variable;
 typedef std::string Value;
 typedef std::string TableIndex;
+
+using namespace PairHasher;
 
 class ResultsDatabase {
 public:
@@ -22,7 +25,7 @@ public:
 		allResultsTables(std::vector<ResultsTables>()) {};
 
 	bool insertList(Variable variable, std::unordered_set<Value> list);
-	bool insertPairList(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair);
+	bool insertPairList(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair);
 
 	// Get index of variable if it exists in tables
 	int getVariableIndex(Variable variable);
@@ -31,8 +34,8 @@ public:
 	void addNewTableToMap(Variable variable, int tableIndex);
 
 	// Creating of tables
-	bool createSingleVariableTable(Variable variable, std::unordered_set<Value> list);
-	bool createDoubleVariableTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair);
+	void createSingleVariableTable(Variable variable, std::unordered_set<Value> list);
+	void createDoubleVariableTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair);
 
 	// Fetching results
 	std::unordered_set<std::string> getResults(Declaration& target);

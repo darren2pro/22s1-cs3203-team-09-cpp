@@ -8,7 +8,7 @@ typedef std::string NextLine;
 
 class FollowsEvaluator : public Evaluator {
 public:
-	FollowsEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKB::PKBStorage pkb) :
+	FollowsEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKBManager pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> FollowsEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
@@ -16,8 +16,8 @@ public:
 		return results;
 	}
 
-	std::unordered_set<std::pair<PrevLine, NextLine>> FollowsEvaluator::leftSynonymRightSynonym() override {
-		std::unordered_set<std::pair<PrevLine, NextLine>> results = pkb.getAllFollows();
+	std::unordered_set<std::pair<PrevLine, NextLine>, PairHasher::pairHash> FollowsEvaluator::leftSynonymRightSynonym() override {
+		std::unordered_set<std::pair<PrevLine, NextLine>, PairHasher::pairHash> results = pkb.getAllFollows();
 		return results;
 	}
 

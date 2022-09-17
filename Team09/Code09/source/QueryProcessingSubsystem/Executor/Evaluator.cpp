@@ -7,7 +7,7 @@
 
 bool Evaluator::evaluate() {
 	if (Utils().isSynonym(LEFT_ARG) && Utils().isSynonym(RIGHT_ARG)) {
-		std::unordered_set<std::pair<std::string, std::string>> result = leftSynonymRightSynonym();
+		std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> result = leftSynonymRightSynonym();
 		if (result.size() == 0) {
 			return false;
 		}

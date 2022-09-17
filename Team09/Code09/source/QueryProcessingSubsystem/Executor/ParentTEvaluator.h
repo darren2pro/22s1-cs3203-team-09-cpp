@@ -8,36 +8,36 @@ typedef std::string ChildLine;
 
 class ParentTEvaluator : public Evaluator {
 public:
-	ParentTEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKB::PKBStorage pkb) :
+	ParentTEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKBManager pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> ParentTEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
 		// ParentT(a, 1) List
-		std::unordered_set<ParentTLine> results = pkb.getParentTByChild(RIGHT_ARG);
+		std::unordered_set<ParentTLine> results = pkb.getParentTParentByChild(RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::pair<std::string, std::string>> ParentTEvaluator::leftSynonymRightSynonym() override {
+	std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> ParentTEvaluator::leftSynonymRightSynonym() override {
 		// ParentT(a, w) ListPair
-		std::unordered_set<std::pair<ParentTLine, ChildLine>> results = pkb.getAllParentT();
+		std::unordered_set<std::pair<ParentLine, ChildLine>, PairHasher::pairHash> results = pkb.getAllParentT();
 		return results;
 	}
 
 	std::unordered_set<std::string> ParentTEvaluator::leftSynonymRightUnderscore() override {
 		// ParentT(a, _) List
-		std::unordered_set<ParentTLine> results = pkb.getParentTByUS();
+		std::unordered_set<ParentTLine> results = pkb.getParentTParentByUS();
 		return results;
 	}
 
 	std::unordered_set<std::string> ParentTEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
 		// ParentT(a, _) List
-		std::unordered_set<ChildLine> results = pkb.getParentTChildByParentT(LEFT_ARG);
+		std::unordered_set<ChildLine> results = pkb.getParentTChildByParent(LEFT_ARG);
 		return results;
 
 	}
 
 	bool ParentTEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
-		bool results = pkb.getParentTByParentTUS(LEFT_ARG);
+		bool results = pkb.getParentTByParentUS(LEFT_ARG);
 		return results;
 
 	}

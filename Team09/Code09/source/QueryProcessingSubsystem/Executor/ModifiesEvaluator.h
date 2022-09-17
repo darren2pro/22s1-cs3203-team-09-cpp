@@ -13,7 +13,7 @@ using namespace std;
 
 class ModifiesEvaluator : public Evaluator {
 public:
-	ModifiesEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKB::PKBStorage pkb) :
+	ModifiesEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb,PKBManager pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<LineNum> ModifiesEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
@@ -22,12 +22,12 @@ public:
 		return results;
 	}
 
-	std::unordered_set<std::pair<LineNum, Variable>> ModifiesEvaluator::leftSynonymRightSynonym() override {
+	std::unordered_set<std::pair<LineNum, Variable>, PairHasher::pairHash> ModifiesEvaluator::leftSynonymRightSynonym() override {
 		// Modifies(a, v) PairList
 		//							w   v
 		// Modifies(w, v) PairList {2   a}
 		//						   {10  b}
-		std::unordered_set<std::pair<LineNum, Variable>> results = pkb.getAllModifies();
+		std::unordered_set<std::pair<LineNum, Variable>, PairHasher::pairHash> results = pkb.getAllModifies();
 		return results;
 	};
 
@@ -39,7 +39,7 @@ public:
 
 	std::unordered_set<Variable> ModifiesEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
 		// Modifies(1, v) List 
-		std::unordered_set<Variable> results = pkb.getModifiesByStmt(LEFT_ARG);
+		std::unordered_set<Variable> results = pkb.getModifiesVarByStmt(LEFT_ARG);
 		return results;
 
 	}
@@ -62,15 +62,18 @@ public:
 	std::unordered_set<std::string> ModifiesEvaluator::leftUnderscoreRightSynonym() override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
+		return {};
 	}
 
 	bool ModifiesEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
+		return false;
 	}
 
 	bool ModifiesEvaluator::leftUnderscoreRightUnderScore() override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
+		return false;
 	}
 };

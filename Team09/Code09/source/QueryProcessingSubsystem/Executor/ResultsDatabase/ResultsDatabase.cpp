@@ -15,7 +15,7 @@ bool ResultsDatabase::insertList(Variable variable, std::unordered_set<Value> li
 	}
 }
 
-bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair) {
+bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair) {
 	int firstIndex = getVariableIndex(var1);
 	int secondIndex = getVariableIndex(var2);
 	
@@ -53,7 +53,7 @@ int ResultsDatabase::getVariableIndex(Variable variable) {
 	}
 }
 
-bool ResultsDatabase::createSingleVariableTable(Variable variable, std::unordered_set<Value> list) {
+void ResultsDatabase::createSingleVariableTable(Variable variable, std::unordered_set<Value> list) {
 	ResultsTables resultsTable;
 	resultsTable.create(variable, list);
 	allResultsTables.push_back(resultsTable);
@@ -61,7 +61,7 @@ bool ResultsDatabase::createSingleVariableTable(Variable variable, std::unordere
 	addNewTableToMap(variable, tableIndex);
 }
 
-bool ResultsDatabase::createDoubleVariableTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> pairList) {
+void ResultsDatabase::createDoubleVariableTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> pairList) {
 	ResultsTables resultsTable;
 	resultsTable.create(var1, var2, pairList);
 	allResultsTables.push_back(resultsTable);

@@ -8,24 +8,24 @@ typedef std::string ChildLine;
 
 class ParentEvaluator : public Evaluator {
 public:
-	ParentEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKB::PKBStorage pkb) :
+	ParentEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKBManager pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> ParentEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
 		// Parent(a, 1) List
-		std::unordered_set<ParentLine> results = pkb.getParentByChild(RIGHT_ARG);
+		std::unordered_set<ParentLine> results = pkb.getParentParentByChild(RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::pair<std::string, std::string>> ParentEvaluator::leftSynonymRightSynonym() override {
+	std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> ParentEvaluator::leftSynonymRightSynonym() override {
 		// Parent(a, w) ListPair
-		std::unordered_set<std::pair<ParentLine, ChildLine>> results = pkb.getAllParent();
+		std::unordered_set<std::pair<ParentLine, ChildLine>, PairHasher::pairHash> results = pkb.getAllParent();
 		return results;
 	}
 
 	std::unordered_set<std::string> ParentEvaluator::leftSynonymRightUnderscore() override {
 		// Parent(a, _) List
-		std::unordered_set<ParentLine> results = pkb.getParentByUS();
+		std::unordered_set<ParentLine> results = pkb.getParentParentByUS();
 		return results;
 	}
 

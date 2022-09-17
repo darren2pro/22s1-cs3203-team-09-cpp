@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# CREATE THE OUTPUT DIRECTORY
+# THE OUTPUT DIRECTORY
 outputDir=../Tests09/output-system-tests
-mkdir -p $outputDir
 
 # AutoTester and test folder
 autoTester=./Debug/AutoTester.exe

@@ -12,10 +12,10 @@ none
 Evaluating query 1 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Parent="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: SyntaxError 
+Your answer: Error occurred with relation 
 Correct answer: 
 Missing: 
-Additional: SyntaxError 
+Additional: Error occurred with relation 
 2 - comment
 if ifs;
 Select ifs such that Follows(5, ifs)
@@ -24,10 +24,10 @@ Select ifs such that Follows(5, ifs)
 Evaluating query 2 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Follows="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: SyntaxError 
+Your answer: Error occurred with relation 
 Correct answer: 6 
 Missing: 6 
-Additional: SyntaxError 
+Additional: Error occurred with relation 
 3 - comment
 assign a;
 Select a such that Parent*(4, a)
@@ -36,10 +36,7 @@ Select a such that Parent*(4, a)
 Evaluating query 3 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Parentstar="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: SyntaxError 
-Correct answer: 5 7 8 9 11 
-Missing: 11 5 7 8 9 
-Additional: SyntaxError 
+<exception/>
 4 - comment
 call c;
 Select c such that Follows*(1, c)
@@ -48,10 +45,10 @@ Select c such that Follows*(1, c)
 Evaluating query 4 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Followsstar="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: SyntaxError 
+Your answer: Error occurred with relation 
 Correct answer: 12 
 Missing: 12 
-Additional: SyntaxError 
+Additional: Error occurred with relation 
 5 - comment
 stmt s;
 Select s such that Modifies(s, "i")
@@ -60,10 +57,7 @@ Select s such that Modifies(s, "i")
 Evaluating query 5 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: SyntaxError 
-Correct answer: 3 4 11 12 13 14 17 
-Missing: 11 12 13 14 17 3 4 
-Additional: SyntaxError 
+<exception/>
 6 - comment
 variable v;
 Select v such that Uses("p", v)
@@ -286,10 +280,10 @@ Evaluating query 23 - comment
 _, is an Unnamedvar 
 _ is an Unnamedvar 
 The final tag string is Affects="1" ReturnBoolean="1" Followsstar="1" UnnamedVar="2" Uses="1" SuchThat="1" CondNum="7" RelNum="3" 
-Your answer: SyntaxError 
+Your answer: SemanticError 
 Correct answer: TRUE 
 Missing: TRUE 
-Additional: SyntaxError 
+Additional: SemanticError 
 24 - comment
 assign a1, a2; variable v;
 Select v pattern a1(v, _) such that Affects*(a1, a2) and Uses(a2, v)

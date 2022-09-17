@@ -5,9 +5,24 @@
 
 class Utils {
 public:
-	static bool isSynonym(std::string argument) {
-		return argument.find_first_of("\"") == std::string::npos; // FFO returns npos if " not found. Synonym should not contain " "
+	static bool isSynonym(std::string arg, std::vector<Declaration> declarations) {
+		for (Declaration decl : declarations) {
+			if (decl.name == arg) {
+				return true;
+			}
+		}
+		return false;
 	};
+
+	static Declaration getSynonym(std::string arg, std::vector<Declaration> declarations) {
+		for (Declaration decl : declarations) {
+			if (decl.name == arg) {
+				return decl;
+			}
+		}
+		return Declaration(); // Should never be reached
+	};
+
 	static bool isString(std::string argument) {
 		return argument.find_first_of("\"") != std::string::npos; // FFO returns npos if " not found. String should contain " "
 	};

@@ -23,15 +23,9 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 	// Relations clause
 	bool relClauseResult = execute(relations, rdb);
-	if (!relClauseResult) {
-		return { "Error occurred with relation" };
-	}
 
 	// Patterns clause
 	bool patClauseResult = execute(pattern, rdb);
-	if (!patClauseResult) {
-		return { "Error occurred with pattern" };
-	}
 
 	// Insert all other variables that have not been inserted.
 	for (Declaration decl : declarations) {

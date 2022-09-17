@@ -64,7 +64,7 @@ void ResultsDatabase::createDoubleVariableTable(Variable var1, Variable var2, st
 	ResultsTables resultsTable;
 	resultsTable.create(var1, var2, pairList);
 	allResultsTables.push_back(resultsTable);
-	int tableIndex = allResultsTables.size();
+	int tableIndex = allResultsTables.size() - 1;
 	addNewTableToMap(var1, tableIndex);
 	addNewTableToMap(var2, tableIndex);
 }
@@ -103,7 +103,9 @@ void ResultsDatabase::removeTable(int index) {
 std::unordered_set<std::string> ResultsDatabase::getResults(Declaration& target) {
 	if (validQuery) {
 		int tableIndex = getVariableIndex(target.name);
-		return allResultsTables[tableIndex].getResultBySynonym(target.name);
+		ResultsTables rt = allResultsTables[tableIndex];
+		auto results = rt.getResultBySynonym(target.name);
+		return results;
 	}
 	else {
 		return { "Invalid Query" };

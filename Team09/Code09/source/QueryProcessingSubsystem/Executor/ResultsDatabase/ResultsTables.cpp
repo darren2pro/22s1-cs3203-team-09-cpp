@@ -16,7 +16,6 @@ void ResultsTables::create(Variable var1, Variable var2, std::unordered_set<std:
 	int firstIndex = columnIndex;
 	varToColIndex.insert({var1, columnIndex});
 	columnIndex++;
-
 	columnName.push_back(var2);
 	int secondIndex = columnIndex;
 	varToColIndex.insert({var2, columnIndex});

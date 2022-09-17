@@ -59,5 +59,8 @@
     <ClCompile Include="QueryProcessingSubsystem\Executor\ResultsDatabase\TestResultsTables.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\ResultsDatabase</Filter>
     </ClCompile>
+    <ClCompile Include="QueryProcessingSubsystem\Executor\TestExecute.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

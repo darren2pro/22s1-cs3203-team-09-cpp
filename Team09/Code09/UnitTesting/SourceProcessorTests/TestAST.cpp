@@ -445,5 +445,40 @@ namespace UnitTesting {
                     Logger::WriteMessage(e.what());
                 }
             }
+
+            TEST_METHOD(TestParseArithmeticExprFromString) {
+                // AST builder with empty tokens vector
+                SimpleAstBuilder astBuilder({});
+                string expr1 = "hello + world * 8";
+                string expr2 = "hello + world * 8 - 9 / 10 % 11";
+                Expr ast1 = astBuilder.parseArithmeticExpression(expr1);
+                Expr ast2 = astBuilder.parseArithmeticExpression(expr2);
+
+                Logger::WriteMessage("[TestParseArithmeticExprFromString] Printing expr ast 1\n");
+				string ast1Str = visit([](const auto& exprNode) { return exprNode->toString(); }, ast1);
+                Logger::WriteMessage((ast1Str + "\n\n").c_str());
+                Logger::WriteMessage("[TestParseArithmeticExprFromString] Printing expr ast 2\n");
+                string ast2Str = visit([](const auto& exprNode) { return exprNode->toString(); }, ast2);
+                Logger::WriteMessage((ast2Str + "\n\n").c_str());
+				
+                const bool isSubtree = ast2Str.find(ast1Str) != std::string::npos;
+                Assert::IsTrue(isSubtree);
+				
+                string expr3 = "9 / 10 % 11";
+				Expr ast3 = astBuilder.parseArithmeticExpression(expr3);
+				Logger::WriteMessage("[TestParseArithmeticExprFromString] Printing expr ast 3\n");
+                string ast3Str = visit([](const auto& exprNode) { return exprNode->toString(); }, ast3);
+				Logger::WriteMessage((ast3Str + "\n\n").c_str());
+				const bool expr3IsSubtree = ast2Str.find(ast3Str) != std::string::npos;
+				Assert::IsTrue(expr3IsSubtree);
+
+                string expr4 = "world * 8 - 9";
+				Expr ast4 = astBuilder.parseArithmeticExpression(expr4);
+                Logger::WriteMessage("[TestParseArithmeticExprFromString] Printing expr ast 4\n");
+                string ast4Str = visit([](const auto& exprNode) { return exprNode->toString(); }, ast4);
+                Logger::WriteMessage((ast4Str + "\n\n").c_str());
+                const bool expr4IsSubtree = ast2Str.find(ast4Str) != std::string::npos;
+                Assert::IsFalse(expr4IsSubtree, L"expr4 should not be a subtree of expr2");
+            }
     };
 }

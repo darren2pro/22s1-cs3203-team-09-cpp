@@ -37,6 +37,9 @@ public:
 	void createSingleVariableTable(Variable variable, std::unordered_set<Value> list);
 	void createDoubleVariableTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair);
 
+	bool combineTables(int firstIndex, int secondIndex, Variable var);
+	void removeTable(int index);
+
 	// Fetching results
 	std::unordered_set<std::string> getResults(Declaration& target);
 

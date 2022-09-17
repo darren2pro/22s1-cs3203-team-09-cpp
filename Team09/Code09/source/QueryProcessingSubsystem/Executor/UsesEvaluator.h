@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include "Evaluator.h"
-#include "../../ProgramKnowledgeBase/PKBStorage.h"
 #include <iostream>
 #include <cassert>
 
@@ -10,10 +9,11 @@ typedef std::string LineNum;
 typedef std::string Variable;
 
 using namespace std;
+using namespace PairHasher;
 
 class UsesEvaluator: public Evaluator {
 public:
-	UsesEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKB::PKBStorage pkb) :
+	UsesEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKBManager pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> UsesEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
@@ -22,9 +22,9 @@ public:
 		return results;
 	}
 
-	std::unordered_set<std::pair<std::string, std::string>> UsesEvaluator::leftSynonymRightSynonym() override {
+	std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> UsesEvaluator::leftSynonymRightSynonym() override {
 		// Uses(a, v) ListPair
-		std::unordered_set<std::pair<LineNum, Variable>> results = pkb.getAllUses();
+		std::unordered_set<std::pair<LineNum, Variable>, PairHasher::pairHash> results = pkb.getAllUses();
 		return results;
 	}
 
@@ -57,15 +57,18 @@ public:
 	std::unordered_set<std::string> UsesEvaluator::leftUnderscoreRightSynonym() override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
+		return {};
 	}
 
 	bool UsesEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
+		return false;
 	}
 
 	bool UsesEvaluator::leftUnderscoreRightUnderScore() override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
+		return false;
 	}
 };

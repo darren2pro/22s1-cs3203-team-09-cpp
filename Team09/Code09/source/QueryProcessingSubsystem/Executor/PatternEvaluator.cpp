@@ -36,7 +36,7 @@ bool PatternEvaluator::evaluate() {
 
 	// left synonym
 	else if(Utils().isSynonym(pattern.LEFT_ARG) && Utils().isUnderscore(pattern.RIGHT_ARG)) {
-		std::unordered_set<std::pair<std::string, std::string>> result = patternLeftSynonymRightUnderscore();
+		std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> result = patternLeftSynonymRightUnderscore();
 		if (result.size() == 0) {
 			return false;
 		}
@@ -45,7 +45,7 @@ bool PatternEvaluator::evaluate() {
 		}
 	}
 	else if (Utils().isSynonym(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
-		std::unordered_set<std::pair<std::string, std::string>> result = patternLeftSynonymRightStrictExpression(RIGHT_ARG);
+		std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> result = patternLeftSynonymRightStrictExpression(RIGHT_ARG);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -54,7 +54,7 @@ bool PatternEvaluator::evaluate() {
 		}
 	}
 	else if (Utils().isSynonym(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
-		std::unordered_set<std::pair<std::string, std::string>> result = patternLeftSynonymRightRelaxedExpression(RIGHT_ARG);
+		std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> result = patternLeftSynonymRightRelaxedExpression(RIGHT_ARG);
 		if (result.size() == 0) {
 			return false;
 		}

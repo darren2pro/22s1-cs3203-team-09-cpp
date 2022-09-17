@@ -77,7 +77,11 @@ std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(std::vector<Dec
 
 void QueryExecutor::fillRDBWithVariables(std::vector<Declaration> declarations, ResultsDatabase& rdb) {
 	for (Declaration decl : declarations) {
-		std::unordered_set<std::string> resultsFromPKB = pkb.getAllVariableAssignment(decl.name);
+
+		// UNCOMMENTED OUT. Need to implement with PKB. Currently adding empty lists a: { } 
+		//std::unordered_set<std::string> resultsFromPKB = pkb.getAllVariableAssignment(decl.name);
+		std::unordered_set<std::string> resultsFromPKB = { };
+
 		rdb.insertList(decl.name, resultsFromPKB);
 	}
 }

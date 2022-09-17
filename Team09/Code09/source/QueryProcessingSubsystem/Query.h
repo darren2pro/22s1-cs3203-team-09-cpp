@@ -10,7 +10,7 @@ public:
 	Relation relations;
 	Pattern patterns;
 	std::vector<Declaration> declarations;
-	std::string target;
+	Declaration target;
 	std::vector<std::string> results;
 
 
@@ -18,6 +18,6 @@ public:
 		relations(Relation()),
 		patterns(Pattern()),
 		declarations(std::vector<Declaration>()),
-		target(std::string()),
+		target(Declaration()),
 		results(std::vector<std::string>()) {};
 };

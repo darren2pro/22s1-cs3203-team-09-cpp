@@ -4,20 +4,68 @@
 #include "Evaluator.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 #include <iostream>
+#include <cassert>
+
+typedef std::string LineNum;
+typedef std::string Variable;
 
 using namespace std;
 
 class UsesEvaluator: public Evaluator {
 public:
-	UsesEvaluator(std::vector<std::string> declarations, Relation relations, PKBStorage pkb) :
-	Evaluator(declarations, relations, pkb) {}; // Constructor
+	UsesEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKB::PKBStorage pkb) :
+	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
-	std::unordered_set<std::string> UsesEvaluator::leftSynonymRightSynonym(std::string LEFT_ARG, std::string RIGHT_ARG) override {
-		// Example: such that Uses(a, "x")
-		// Call PKB API here.
-		//std::unordered_set<std::string> results = pkb.getAllUses();
-		//return results;
-		
-		return { "<PKB Uses API Return Result Here>" };
-	};
+	std::unordered_set<std::string> UsesEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
+		// Uses(a, 'x') List
+		std::unordered_set<LineNum> results = pkb.getUsesStmtByVar(RIGHT_ARG);
+		return results;
+	}
+
+	std::unordered_set<std::pair<std::string, std::string>> UsesEvaluator::leftSynonymRightSynonym() override {
+		// Uses(a, v) ListPair
+		std::unordered_set<std::pair<LineNum, Variable>> results = pkb.getAllUses();
+		return results;
+	}
+
+	std::unordered_set<std::string> UsesEvaluator::leftSynonymRightUnderscore() override {
+		// Uses(a, _) List
+		std::unordered_set<LineNum> results = pkb.getUsesStmtByUS();
+		return results;
+	}
+
+	std::unordered_set<std::string> UsesEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
+		// Uses(1, a) List
+		std::unordered_set<Variable> results = pkb.getUsesVarByStmt(LEFT_ARG);
+		return results;
+
+	}
+
+	bool UsesEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
+		// Uses(1, _) Boolean
+		bool results = pkb.getUsesUS(LEFT_ARG);
+		return results;
+
+	}
+
+	bool UsesEvaluator::leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+		// Uses(1, 'x') Boolean
+		bool results = pkb.getUses(LEFT_ARG, RIGHT_ARG);
+		return results;
+	}
+
+	std::unordered_set<std::string> UsesEvaluator::leftUnderscoreRightSynonym() override {
+		std::cout << "Not Valid Query" << std::endl;
+		assert(false);
+	}
+
+	bool UsesEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
+		std::cout << "Not Valid Query" << std::endl;
+		assert(false);
+	}
+
+	bool UsesEvaluator::leftUnderscoreRightUnderScore() override {
+		std::cout << "Not Valid Query" << std::endl;
+		assert(false);
+	}
 };

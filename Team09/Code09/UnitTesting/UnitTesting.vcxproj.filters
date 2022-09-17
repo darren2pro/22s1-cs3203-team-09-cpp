@@ -22,9 +22,6 @@
     <Filter Include="Source Files\QueryProcessingSubsystem\Validator">
       <UniqueIdentifier>{c92b6562-e3d5-44b5-8800-73791bdc23a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ProgramKnowledgeBase">
-      <UniqueIdentifier>{26026140-3cf7-4154-9bb4-cde9252521ce}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -49,9 +46,6 @@
     </ClCompile>
     <ClCompile Include="QueryProcessingSubsystem\Validator\TestQueryParser.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
-    </ClCompile>
-    <ClCompile Include="ProgramKnowledgeBaseTests\TestPkb.cpp">
-      <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

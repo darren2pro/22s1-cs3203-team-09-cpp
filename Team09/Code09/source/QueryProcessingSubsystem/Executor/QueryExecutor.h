@@ -5,6 +5,7 @@
 #include "../Query.h"
 #include "../Relation.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
+#include "ResultsDatabase/ResultsDatabase.h"
 
 class QueryExecutor {
 private:
@@ -15,10 +16,14 @@ private:
 	std::vector<Declaration> declarations;
 	std::vector<std::string> tokens;
 
-	auto execute(Pattern pattern);
-	auto execute(Relation relation);
+	bool execute(Pattern pattern, ResultsDatabase& rdb);
+	bool execute(Relation relation, ResultsDatabase& rdb);
 
 public:
-	std::unordered_set<std::string> processQuery(Query* query);
 	QueryExecutor(PKB::PKBStorage pkb) : pkb(pkb) {}; // Constructor for taking in PKB
+
+	std::unordered_set<std::string> processQuery(Query* query);
+	std::unordered_set<std::string> getResultsFromRDB(std::vector<Declaration> declarations, Declaration target, ResultsDatabase& rdb);
+	void fillRDBWithVariables(std::vector<Declaration> declarations, ResultsDatabase& rdb);
+
 };

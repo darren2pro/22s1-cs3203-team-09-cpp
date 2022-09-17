@@ -13,8 +13,8 @@ using namespace std;
 
 class ModifiesEvaluator : public Evaluator {
 public:
-	ModifiesEvaluator(std::vector<std::string> declarations, Relation relations, PKB::PKBStorage pkb) :
-	Evaluator(declarations, relations, pkb) {}; // Constructor
+	ModifiesEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKB::PKBStorage pkb) :
+	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<LineNum> ModifiesEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
 		// Modifies(a, 'x') List

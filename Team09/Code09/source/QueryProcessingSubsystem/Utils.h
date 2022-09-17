@@ -14,18 +14,18 @@ public:
 	static bool isUnderscore(std::string argument) {
 		return argument == "_";
 	}
-	static bool isStrictExpression(Pattern::Types type) {
-		return type == Pattern::Types::AssignStrict;
+	static bool isStrictExpression(std::string expr) {
+		return expr.find_first_of("_") == std::string::npos;
 	}
-	static bool isRelaxedExpression(Pattern::Types type) {
-		return type == Pattern::Types::AssignRelaxed;
+	static bool isRelaxedExpression(std::string expr) {
+		return expr.find_first_of("_") != std::string::npos;
 	}
 
 	// NEEDS CHANGING
-	static bool isList(Pattern::Types type) {
-		return type == Pattern::Types::AssignRelaxed;
-	}
-	static bool isListPair(Pattern::Types type) {
-		return type == Pattern::Types::AssignRelaxed;
-	}
+	//static bool isList(Pattern::Types type) {
+	//	return type == Pattern::Types::AssignRelaxed;
+	//}
+	//static bool isListPair(Pattern::Types type) {
+	//	return type == Pattern::Types::AssignRelaxed;
+	//}
 };

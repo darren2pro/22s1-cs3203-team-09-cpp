@@ -3,48 +3,93 @@
 #include "PatternEvaluator.h"
 #include "../Utils.h"
 
-std::unordered_set<std::string> PatternEvaluator::evaluate() {
+bool PatternEvaluator::evaluate() {
 
 	// left underscore
 	if (Utils().isUnderscore(pattern.LEFT_ARG) && Utils().isUnderscore(pattern.RIGHT_ARG)) {
-		std::unordered_set<std::string> results = patternleftUnderscoreRightUnderScore();
-		return results;
+		std::unordered_set<std::string> result = patternLeftUnderscoreRightUnderScore();
+		if (result.size() == 0) {
+			return false;
+		}
+		else {
+			return rdb.insertList(SYNONYM, result);
+		}
 	}
-	else if (Utils().isUnderscore(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.TYPE)) {
-		std::unordered_set<std::string> results = patternleftUnderscoreRightStrictExpression(pattern.RIGHT_ARG);
-		return results;
+	else if (Utils().isUnderscore(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
+		std::unordered_set<std::string> result = patternLeftUnderscoreRightStrictExpression(pattern.RIGHT_ARG);
+		if (result.size() == 0) {
+			return false;
+		}
+		else {
+			return rdb.insertList(SYNONYM, result);
+		}
 	}
-	else if (Utils().isUnderscore(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.TYPE)) {
-		std::unordered_set<std::string> results = patternleftUnderscoreRightRelaxedExpression(pattern.RIGHT_ARG);
-		return results;
+	else if (Utils().isUnderscore(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
+		std::unordered_set<std::string> result = patternLeftUnderscoreRightRelaxedExpression(pattern.RIGHT_ARG);
+		if (result.size() == 0) {
+			return false;
+		}
+		else {
+			return rdb.insertList(SYNONYM, result);
+		}
 	}
 
 	// left synonym
 	else if(Utils().isSynonym(pattern.LEFT_ARG) && Utils().isUnderscore(pattern.RIGHT_ARG)) {
-		std::unordered_set<std::string> results = patternleftSynonymRightUnderscore(pattern.LEFT_ARG);
-		return results;
+		std::unordered_set<std::pair<std::string, std::string>> result = patternLeftSynonymRightUnderscore();
+		if (result.size() == 0) {
+			return false;
+		}
+		else {
+			return rdb.insertPairList(SYNONYM, LEFT_ARG, result);
+		}
 	}
-	else if (Utils().isSynonym(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.TYPE)) {
-		std::unordered_set<std::string> results = patternleftSynonymRightStrictExpression(pattern.LEFT_ARG, pattern.RIGHT_ARG);
-		return results;
+	else if (Utils().isSynonym(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
+		std::unordered_set<std::pair<std::string, std::string>> result = patternLeftSynonymRightStrictExpression(RIGHT_ARG);
+		if (result.size() == 0) {
+			return false;
+		}
+		else {
+			return rdb.insertPairList(SYNONYM, LEFT_ARG, result);
+		}
 	}
-	else if (Utils().isSynonym(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.TYPE)) {
-		std::unordered_set<std::string> results = patternleftSynonymRightRelaxedExpression(pattern.LEFT_ARG, pattern.RIGHT_ARG);
-		return results;
+	else if (Utils().isSynonym(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
+		std::unordered_set<std::pair<std::string, std::string>> result = patternLeftSynonymRightRelaxedExpression(RIGHT_ARG);
+		if (result.size() == 0) {
+			return false;
+		}
+		else {
+			return rdb.insertPairList(SYNONYM, LEFT_ARG, result);
+		}
 	}
 
 	// left simple
 	else if (Utils().isString(pattern.LEFT_ARG) && Utils().isUnderscore(pattern.RIGHT_ARG)) {
-		std::unordered_set<std::string> results = patternleftSimpleRightUnderscore(pattern.RIGHT_ARG);
-		return results;
+		std::unordered_set<std::string> result = patternLeftSimpleRightUnderscore(LEFT_ARG);
+		if (result.size() == 0) {
+			return false;
+		}
+		else {
+			return rdb.insertList(SYNONYM, result);
+		}
 	}
-	else if (Utils().isString(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.TYPE)) {
-		std::unordered_set<std::string> results = patternleftSimpleRightStrictExpression(pattern.LEFT_ARG, pattern.RIGHT_ARG);
-		return results;
+	else if (Utils().isString(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
+		std::unordered_set<std::string> result = patternLeftSimpleRightStrictExpression(LEFT_ARG, RIGHT_ARG);
+		if (result.size() == 0) {
+			return false;
+		}
+		else {
+			return rdb.insertList(SYNONYM, result);
+		}
 	}
-	else if (Utils().isString(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.TYPE)) {
-		std::unordered_set<std::string> results = patternleftSimpleRightRelaxedExpression(pattern.LEFT_ARG, pattern.RIGHT_ARG);
-		return results;
+	else if (Utils().isString(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
+		std::unordered_set<std::string> result = patternLeftSimpleRightRelaxedExpression(LEFT_ARG, RIGHT_ARG);
+		if (result.size() == 0) {
+			return false;
+		}
+		else {
+			return rdb.insertList(SYNONYM, result);
+		}
 	}
 
 

@@ -3,76 +3,88 @@
 void ResultsTables::create(Variable variable, std::unordered_set<Value> list) {
 	columnName.push_back(variable);
 	varToColIndex.insert({variable, columnIndex});
+	columnIndex++;
 
 	// Insertion of elements into the matrix.
-	int count = 0;
-	for (auto& value : list) {
-		if (count == list.size()) {
-			break;
-		}
-		resultsTable.push_back({});
-		resultsTable[count][columnIndex] = value;
-		count++;
+	for (const auto& value : list) {
+		resultsTable.push_back({ value });
 	}
-
-	columnIndex++;
 }
 
 void ResultsTables::create(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair) {
 	columnName.push_back(var1);
 	int firstIndex = columnIndex;
 	varToColIndex.insert({var1, columnIndex});
-	int secondIndex = columnIndex;
+
 	columnName.push_back(var2);
+	int secondIndex = columnIndex;
 	varToColIndex.insert({var2, columnIndex});
 
-	// Insertion
-	int count = 0;
 	for (auto& value : listPair) {
-		if (count == listPair.size()) {
-			break;
-		}
-		resultsTable.push_back({});
-		resultsTable[count][firstIndex] = value.first;
-		resultsTable[count][secondIndex] = value.second;
-		count++;
+		resultsTable.push_back({ value.first, value.second });
 	}
 }
 
-bool ResultsTables::insertIntoTableSameSynonymList(Variable variable, std::unordered_set<Value> list) {
-	int index = varToColIndex.at(variable);
-	bool add = true;
+bool ResultsTables::insertListToTable(Variable variable, std::unordered_set<Value> list) {
+	int index = varToColIndex[variable];
+	auto remover = std::remove_if(resultsTable.begin(), resultsTable.end(),
 
-	// Only values in both list and table can be kept.
-	for (int i = 0; i < resultsTable.size(); i++) {
-		Variable tableValue = resultsTable[i][index];
+		// Capture by reference so that the row can be changed
+		[&](std::vector<std::string>& row) {
+			Value value = row[index];
+			bool found = list.find(value) == list.end();
+			return found;
+		});
 
-		// Value not in both table and list
-		if (list.find(tableValue) == list.end()) {
-
-			// NEEDS CHANGING: HOW TO ERASE?
-			resultsTable[i][index] = "NULL";
-		}
-		
+	resultsTable.erase(remover, resultsTable.end());
+	
+	// To check if Table is empty.
+	if (resultsTable.size() < 0) {
+		return false;
+	}
+	else {
+		return true;
 	}
 }
 
-bool ResultsTables::insertIntoTableNewSynonymListPair(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair) {
+bool ResultsTables::insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair) {
+	int index1 = varToColIndex[var1];
+	int index2 = varToColIndex[var2];
 
+	auto remover = std::remove_if(resultsTable.begin(), resultsTable.end(),
+		[&](std::vector<std::string>& row) {
+			std::string val1 = row[index1];
+			std::string val2 = row[index2];
+			bool found = listPair.find({ val1, val2 }) == listPair.end();
+			return found;
+		});
+
+	resultsTable.erase(remover, resultsTable.end());
+	
+	// To check if Table is empty.
+	if (resultsTable.size() < 0) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }
 
+std::unordered_set<Value> ResultsTables::getResultBySynonym(Variable variable) {
+	std::unordered_set<Value> finalResults;
+	int index = varToColIndex[variable];
+	for (auto& row : resultsTable) {
+		finalResults.insert(row[index]);
+	}
 
-bool ResultsTables::insertIntoTableSameSynonymListPair(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair) {
-	// Only assignments in the list AND the current table can be kept.
-
-}
-
-// IMPLEMENT THE INSERTER -> INSERT AT SPECIFIC ROWS OF THE TABLE.
-// BUT HAVE TO TELL RY CHANGE EVERYTHING TO VECTOR. POSSIBLE?
-// void ResultsTables::inserter() 
-
-std::unordered_set<Value> getResultBySynonym(Variable variable) {
-	//int index = 
+	return finalResults;
+	//size_t col_idx = name_column_map[name];
+	//vector<string> out_column;
+	//out_column.reserve(table.size());
+	//for (auto& row : table) {
+	//	out_column.push_back(row[col_idx]);
+	//}
+	//return out_column;
 }
 
 

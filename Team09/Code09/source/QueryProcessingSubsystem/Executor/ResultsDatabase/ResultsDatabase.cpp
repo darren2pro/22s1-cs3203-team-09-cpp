@@ -11,7 +11,7 @@ bool ResultsDatabase::insertList(Variable variable, std::unordered_set<Value> li
 	}
 	// Variable exists in the RDB, return the table index now.
 	else {
-		return allResultsTables[index].insertIntoTableSameSynonymList(variable, list);
+		return allResultsTables[index].insertListToTable(variable, list);
 	}
 }
 
@@ -25,15 +25,15 @@ bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordere
 	}
 	// Var1 doesn't exist, but there is a table where var2 exists.
 	else if(firstIndex == -1) {
-		return allResultsTables[secondIndex].insertIntoTableNewSynonymListPair(var1, var2, listPair);
+		return allResultsTables[secondIndex].insertListPairToTable(var1, var2, listPair);
 	}
 	// Var2 doesn't exist, but there is a table where var1 exists.
 	else if (secondIndex == -1) {
-		return allResultsTables[firstIndex].insertIntoTableNewSynonymListPair(var1, var2, listPair);
+		return allResultsTables[firstIndex].insertListPairToTable(var1, var2, listPair);
 	}
 	// Both variables exist in same table
 	else if (firstIndex == secondIndex) {
-		return allResultsTables[firstIndex].insertIntoTableSameSynonymListPair(var1, var2, listPair);
+		return allResultsTables[firstIndex].insertListPairToTable(var1, var2, listPair);
 	}
 	// Variables exist in 2 different tables. Need to merge the two tables together.
 	else {
@@ -41,10 +41,6 @@ bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordere
 	}
 	
 
-}
-
-bool ResultsDatabase::insertBoolean(bool boolean) {
-	validQuery = boolean;
 }
 
 int ResultsDatabase::getVariableIndex(Variable variable) {
@@ -74,10 +70,10 @@ bool ResultsDatabase::createDoubleVariableTable(Variable var1, Variable var2, st
 	addNewTableToMap(var2, tableIndex);
 }
 
-std::unordered_set<std::string> ResultsDatabase::getResults(Declaration target) {
+std::unordered_set<std::string> ResultsDatabase::getResults(Declaration& target) {
 	if (validQuery) {
 		int tableIndex = getVariableIndex(target.name);
-		return allResultsTables[tableIndex].getResultBySynonym(target);
+		return allResultsTables[tableIndex].getResultBySynonym(target.name);
 	}
 	else {
 		return { "Invalid Query" };

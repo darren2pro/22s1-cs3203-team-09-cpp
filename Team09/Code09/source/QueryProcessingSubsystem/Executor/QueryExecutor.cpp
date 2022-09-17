@@ -12,80 +12,73 @@
 #include "FollowsTEvaluator.h"
 #include "PatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
+#include "AssignPatternEvaluator.h"
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	relations = query->relations;
 	pattern = query->patterns;
 	declarations = query->declarations;
 	target = query->target;
+	ResultsDatabase rdb;
 
+	// Relations clause
+	bool relClauseResult = execute(relations, rdb);
+	if (!relClauseResult) {
+		return { "Error occurred with relation" };
+	}
 
-	 //COMMENTED OUT FOR MILESTONE 1 INTEGRATION TESTING
-	/*if (!execute(relations)) {
-		return { "Error" };
-	}*/
-	auto suchThatResults = execute(relations);
-	//auto patternResults = execute(patterns);
-	
-	//// CREATE CONSTRAIN DB
-	//ResultsDatabase rdb;
+	// Patterns clause
+	bool patClauseResult = execute(pattern, rdb);
+	if (!patClauseResult) {
+		return { "Error occurred with pattern" };
+	}
 
-	//// INSERT SUCH THAT RESULTS
-	//if (Utils().isList(suchThatResults)) {
-	//	// List
-	//	std::string assignmentSynonym;
-	//	if (Utils().isSynonym(relations.LEFT_ARG)) {
-	//		assignmentSynonym = relations.LEFT_ARG;
-	//	}
-	//	else {
-	//		assignmentSynonym = relations.RIGHT_ARG;
-	//	}
-	//	rdb.insertList(assignmentSynonym, suchThatResults);
+	// IMPLEMENT WITH RUIYAN
+	fillRDBWithVariables(declarations, rdb);
 
-	//} else if(Utils().isListPair(suchThatResults)) {
-	//	// ListPair 
-	//	rdb.insertPairList(relations.LEFT_ARG, relations.RIGHT_ARG, suchThatResults);
-	//}
-	//else {
-	//	// Boolean
-	//	rdb.insertBoolean(suchThatResults);
-	//}
+	std::unordered_set<std::string> results = getResultsFromRDB(declarations, target, rdb);
 
-	//std::unordered_set<std::string> results = rdb.getResults(target);
-
-	std::unordered_set<std::string> results = {};
 	return results;
 }
 
+
 // Relation execute
-auto QueryExecutor::execute(Relation relation) {
+bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
 
 	switch (relations.TYPE) {
 	case Relation::Modifies:
-		// Create the Modifies Evaluator and evaluate it
-		return ModifiesEvaluator({}, relations, pkb).evaluate();
+		return ModifiesEvaluator({}, relations, rdb, pkb).evaluate();
 	case Relation::Uses:
-		return UsesEvaluator({}, relations, pkb).evaluate();
+		return UsesEvaluator({}, relations, rdb, pkb).evaluate();
 	case Relation::Follows:
-		return FollowsEvaluator({}, relations, pkb).evaluate();
+		return FollowsEvaluator({}, relations, rdb, pkb).evaluate();
 	case Relation::FollowsT:
-		return FollowsTEvaluator({}, relations, pkb).evaluate();
+		return FollowsTEvaluator({}, relations, rdb, pkb).evaluate();
 	case Relation::Parent:
-		return ParentEvaluator({}, relations, pkb).evaluate();
+		return ParentEvaluator({}, relations, rdb, pkb).evaluate();
 	case Relation::ParentT:
-		return ParentTEvaluator({}, relations, pkb).evaluate();
+		return ParentTEvaluator({}, relations, rdb, pkb).evaluate();
 	}
 }
 
-// TODO: Pattern execute
-//std::unordered_set<std::string> QueryExecutor::execute(Pattern pattern) {
-//
-//	switch (pattern.TYPE) {
-//	case Pattern::Assign:
-//		return 
-//	}
-//
-//	//std::unordered_set<std::string> results = {};
-//	//return results;
-//}
+// Pattern execute
+bool QueryExecutor::execute(Pattern pattern, ResultsDatabase& rdb) {
+
+	switch (pattern.TYPE) {
+	case Pattern::Assign:
+		return AssignPatternEvaluator({}, pattern, rdb, pkb).evaluate();
+	}
+}
+
+std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(std::vector<Declaration> declarations, Declaration target, ResultsDatabase& rdb) {
+	// Different from JK
+	return rdb.getResults(target);
+}
+
+void QueryExecutor::fillRDBWithVariables(std::vector<Declaration> declarations, ResultsDatabase& rdb) {
+	for (Declaration decl : declarations) {
+		std::unordered_set<std::string> resultsFromPKB = pkb.getAllVariableAssignment(decl.name);
+		rdb.insertList(decl.name, resultsFromPKB);
+	}
+}
 

@@ -23,9 +23,6 @@ public:
 
 	bool insertList(Variable variable, std::unordered_set<Value> list);
 	bool insertPairList(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair);
-	bool insertBoolean(bool boolean);
-
-	std::unordered_set<std::string> getResults();
 
 	// Get index of variable if it exists in tables
 	int getVariableIndex(Variable variable);
@@ -38,7 +35,7 @@ public:
 	bool createDoubleVariableTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>> listPair);
 
 	// Fetching results
-	std::unordered_set<std::string> getResults(Declaration target);
+	std::unordered_set<std::string> getResults(Declaration& target);
 
 	//// Dealing with incoming results
 	//bool mergeListList(std::vector<std::string> list1, std::vector<std::string> list2);

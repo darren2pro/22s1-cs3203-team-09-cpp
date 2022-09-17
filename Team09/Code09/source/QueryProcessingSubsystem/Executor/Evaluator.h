@@ -4,6 +4,7 @@
 #include <unordered_set>
 #include "../Relation.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
+#include "ResultsDatabase/ResultsDatabase.h"
 
 class Evaluator {
 private:
@@ -11,20 +12,22 @@ private:
 	std::string RIGHT_SYNONYM;
 
 public:
+	ResultsDatabase rdb;
 	PKB::PKBStorage pkb;
 	std::vector<std::string> declarations;
 	Relation relations;
 	std::string LEFT_ARG;
 	std::string RIGHT_ARG;
 
-	Evaluator(std::vector<std::string> declarations, Relation relations, PKB::PKBStorage pkb) : // Added PKB
+	Evaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKB::PKBStorage pkb) : // Added PKB
 		declarations(declarations),
 		relations(relations),
 		LEFT_ARG(relations.LEFT_ARG),
 		RIGHT_ARG(relations.RIGHT_ARG),
+		rdb(rdb),
 		pkb(pkb) {};
 
-	std::unordered_set<std::string> evaluate();
+	bool evaluate();
 
 	// Different
 	virtual std::unordered_set<std::string> leftSynonymRightSimple(std::string RIGHT_ARG) = 0; // For Demo in Week 5

@@ -13,8 +13,8 @@ using namespace std;
 
 class UsesEvaluator: public Evaluator {
 public:
-	UsesEvaluator(std::vector<std::string> declarations, Relation relations, PKB::PKBStorage pkb) :
-	Evaluator(declarations, relations, pkb) {}; // Constructor
+	UsesEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKB::PKBStorage pkb) :
+	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> UsesEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
 		// Uses(a, 'x') List

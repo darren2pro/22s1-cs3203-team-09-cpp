@@ -1,42 +1,38 @@
-#include <unordered_set>
-#include <unordered_map>
 #include "PKBStorage.h"
 
-namespace PKB {
-
-LineNum PKB::PKBStorage::getCurrLineNumber() {
+PKBStorage::LineNum PKBStorage::getCurrLineNumber() {
     return std::to_string(lineNum);
 }
 
-void PKB::PKBStorage::incrementCurrLineNumber() {
+void PKBStorage::incrementCurrLineNumber() {
     lineNum += 1;
 }
 
-PKB::PKBStorage::PKBStorage() {}
+PKBStorage::PKBStorage() {}
 
-PKB::PKBStorage::~PKBStorage() {}
+PKBStorage::~PKBStorage() {}
 
-LineNum PKBStorage::storeLine(const Stmt node) {
+PKBStorage::LineNum PKBStorage::storeLine(const Stmt node) {
     const LineNum currLineNum = getCurrLineNumber();
     incrementCurrLineNumber();
     std::visit(
-        [this, currLineNum](const auto& s) {
-            lineToNodeMap[currLineNum] = s;
-            nodeToLineMap[s] = currLineNum;
-        },
-        node);
+            [this, currLineNum](const auto& s) {
+                lineToNodeMap[currLineNum] = s;
+                nodeToLineMap[s] = currLineNum;
+            },
+            node);
 
     return currLineNum;
 }
 
-LineNum PKBStorage::getLineFromNode(const Stmt node) {
+PKBStorage::LineNum PKBStorage::getLineFromNode(const Stmt node) {
     return std::visit(
-        [this](const auto& s) {
-            if (nodeToLineMap.find(s) != nodeToLineMap.end()) {
-                return nodeToLineMap.at(s);
-            }
-        },
-        node);
+            [this](const auto& s) {
+                if (nodeToLineMap.find(s) != nodeToLineMap.end()) {
+                    return nodeToLineMap.at(s);
+                }
+            },
+            node);
 }
 
 std::shared_ptr<TNode> PKBStorage::getNodeFromLine(const LineNum line) {
@@ -47,36 +43,36 @@ std::shared_ptr<TNode> PKBStorage::getNodeFromLine(const LineNum line) {
 
 //entities
 void PKBStorage::storeVariable(const Variable var) {
-        varSet.insert(var);
-    }
+    varSet.insert(var);
+}
 
 void PKBStorage::storeProcedure(const Procedure proc) {
-        procSet.insert(proc);
-    }
+    procSet.insert(proc);
+}
 
 void PKBStorage::storeConstant(const Constant constant) {
-        constSet.insert(constant);
-    }
+    constSet.insert(constant);
+}
 
 void PKBStorage::storeWhile(const LineNum lineNum) {
-        whileSet.insert(lineNum);
-    }
+    whileSet.insert(lineNum);
+}
 
 void PKBStorage::storeIf(const LineNum lineNum) {
-        ifSet.insert(lineNum);
-    }
+    ifSet.insert(lineNum);
+}
 
 void PKBStorage::storeAssign(const LineNum lineNum) {
-        assignSet.insert(lineNum);
-    }
+    assignSet.insert(lineNum);
+}
 
 void PKBStorage::storeRead(const LineNum lineNum, Variable var) {
-        readSet.insert(lineNum);
-    }
+    readSet.insert(lineNum);
+}
 
 void PKBStorage::storePrint(const LineNum lineNum, Variable var) {
-        printSet.insert(lineNum);
-    }
+    printSet.insert(lineNum);
+}
 
 //relations
 void PKBStorage::storeModifiesS(const LineNum lineNum, const Variable var) {
@@ -114,4 +110,26 @@ void PKBStorage::storeAssignPattern(const Variable var, const LineNum line, cons
     addToSetInMap(assignVarToLineExprMap, var, std::pair<LineNum, ExprStr>(line, expr));
 }
 
+//helper to store variable into usesMap and modifiesMap
+void PKBStorage::addToSetInMap(std::unordered_map<std::string, std::unordered_set<std::string>>& map,
+                               const std::string key, const std::string val) {
+    if (map.find(key) == map.end()) {
+        std::unordered_set<std::string> vals;
+        vals.insert(val);
+        map[key] = vals;
+    } else {
+        map.at(key).insert(val);
+    }
+}
+
+void PKBStorage::addToSetInMap(std::unordered_map<std::string,
+        std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash>>& map,
+                   const std::string key, const std::pair<std::string, std::string> val) {
+    if (map.find(key) == map.end()) {
+        std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> vals;
+        vals.insert(val);
+        map[key] = vals;
+    } else {
+        map.at(key).insert(val);
+    }
 }

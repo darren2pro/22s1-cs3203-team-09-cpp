@@ -27,6 +27,14 @@ private:
 	 */
 	std::string current_token;
 
+	/**
+	 * Query attributes.
+	 */
+	std::vector<Declaration> declarations;
+	Declaration target;
+	Relation suchThatCl;
+	Pattern patternCl;
+
 public:
 	QueryParser(std::vector<std::string> tokens);
 
@@ -40,13 +48,13 @@ public:
 
 	/**
 	 * Checks if the current token matches with the expected token.
-	 * @throws QueryLParserException if the current token does not match the expected token.
+	 * @throws SyntaxError if the current token does not match the expected token.
 	 */
 	void match(std::string token);
 
 	/**
 	 * Checks if the current token matches with the expected regex.
-	 * @throws QueryLParserException if the current token does not match the regex.
+	 * @throws SyntaxError if the current token does not match the regex.
 	 */
 	void match(std::regex re);
 
@@ -54,26 +62,44 @@ public:
 	 * Returns the Declaration::DesignEntity that is equivalent to the token string.
 	 * @returns a Declaration::DesignEntity that is equivalent to the token string.
 	 */
-	Declaration::DesignEntity QueryParser::getDesignEntity(std::string token);
+	Declaration::DesignEntity getDesignEntity(std::string token);
 
 	/**
 	 * Parses declaration.
 	 * @returns the declarations.
-	 * @throws QueryParserException if an expected token is encountered.
+	 * @throws SemanticError if there are duplcate synonyms.
 	 */
 	std::vector<Declaration> declaration();
 
 	/**
-	 * Parses declaration.
-	 * @returns the variable in the select statement.
-	 * @throws QueryParserException if an expected token is encountered.
+	 * Checks if the given name is a synonym in the declaration list.
+	 * @returns The declaration object with the given name.
+	 * @throws SemanticError if the name is not declared.
 	 */
-	std::string select();
+	Declaration findDeclaration(std::string name);
+
+	/**
+	 * Checks that the arguent is a valid stmtRef.
+	 * @throws SemanticError if arg is not valid.
+	 */
+	void validate_stmtRef(Relation::Types rel, std::string arg);
+	
+	/**
+	 * Checks that the arguent is a valid entRef.
+	 * @throws SemanticError if arg is not valid.
+	 */
+	void validate_entRef(std::string arg);
+
+	/**
+	 * Parses declaration.
+	 * @returns the synonym in the select statement.
+	 */
+	Declaration select();
 
 	/**
 	 * Parses declaration.
 	 * @returns the pattern clause.
-	 * @throws QueryParserException if an expected token is encountered.
+	 * @throws SemanticError if an argument is not valid.
 	 */
 	Pattern patternClause();
 
@@ -86,7 +112,7 @@ public:
 	/**
 	 * Parses the such that clause.
 	 * @returns the relation.
-	 * @throws QueryParserException if an expected token is encountered.
+	 * @throws SemanticError if an argument is not valid.
 	 */
 	Relation suchThatClause();
 

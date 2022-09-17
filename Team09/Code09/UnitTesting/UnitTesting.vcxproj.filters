@@ -25,6 +25,9 @@
     <Filter Include="Source Files\ProgramKnowledgeBase">
       <UniqueIdentifier>{26026140-3cf7-4154-9bb4-cde9252521ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\QueryProcessingSubsystem\Executor\ResultsDatabase">
+      <UniqueIdentifier>{913b837f-ca6d-4701-bdbd-2ea2ffe91ff4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -52,6 +55,12 @@
     </ClCompile>
     <ClCompile Include="ProgramKnowledgeBaseTests\TestPkb.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryProcessingSubsystem\Executor\ResultsDatabase\TestResultsTables.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\ResultsDatabase</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryProcessingSubsystem\Executor\TestExecute.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

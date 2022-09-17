@@ -6,13 +6,13 @@ class Relation {
 public:
 	enum Types {
 		Modifies,
-		ModifiesStar,
+		ModifiesT,
 		Uses,
-		UsesStar,
-		Follow,
-		FollowStar,
+		UsesT,
+		Follows,
+		FollowsT,
 		Parent,
-		ParentStar,
+		ParentT,
 		NONE
 	};
 

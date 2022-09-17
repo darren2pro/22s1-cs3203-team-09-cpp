@@ -10,8 +10,8 @@ namespace UnitTesting {
     TEST_CLASS(TestPkb) {
             public:
             TEST_METHOD(TestPkbStorage) {
-                PKB::PKBManager pkbManager;
-                shared_ptr<PKB::PKBStorage> pkbStorage = pkbManager.getPKBStorage();
+                PKBManager pkbManager;
+                shared_ptr<PKBStorage> pkbStorage = pkbManager.getPKBStorage();
                 pkbStorage->storeProcedure("procMain");
                 pkbStorage->storeProcedure("proc1");
                 pkbStorage->storeProcedure("proc2");
@@ -19,12 +19,15 @@ namespace UnitTesting {
                 pkbStorage->storeVariable("var1");
                 pkbStorage->storeVariable("var2");
                 pkbStorage->storeVariable("var3");
-                AssignmentNodePtr assignNode1 = make_shared<AssignmentNode>("var1", make_shared<ConstantNode>("1"));
-                AssignmentNodePtr assignNode2 = make_shared<AssignmentNode>("var2", make_shared<ConstantNode>("2"));
-                AssignmentNodePtr assignNode3 = make_shared<AssignmentNode>("var3", make_shared<ConstantNode>("3"));
-                PKB::LineNum lineNum1 = pkbStorage->storeLine(assignNode1);
-                PKB::LineNum lineNum2 = pkbStorage->storeLine(assignNode2);
-                PKB::LineNum lineNum3 = pkbStorage->storeLine(assignNode3);
+                VariableNodePtr var1 = make_shared<VariableNode>("var1");
+                VariableNodePtr var2 = make_shared<VariableNode>("var2");
+                VariableNodePtr var3 = make_shared<VariableNode>("var3");
+                AssignmentNodePtr assignNode1 = make_shared<AssignmentNode>(var1, make_shared<ConstantNode>("1"));
+                AssignmentNodePtr assignNode2 = make_shared<AssignmentNode>(var2, make_shared<ConstantNode>("2"));
+                AssignmentNodePtr assignNode3 = make_shared<AssignmentNode>(var3, make_shared<ConstantNode>("3"));
+                PKBStorage::LineNum lineNum1 = pkbStorage->storeLine(assignNode1);
+                PKBStorage::LineNum lineNum2 = pkbStorage->storeLine(assignNode2);
+                PKBStorage::LineNum lineNum3 = pkbStorage->storeLine(assignNode3);
                 pkbStorage->storeModifiesS(lineNum1, "var1");
                 pkbStorage->storeModifiesS(lineNum2, "var2");
                 pkbStorage->storeModifiesS(lineNum3, "var3");

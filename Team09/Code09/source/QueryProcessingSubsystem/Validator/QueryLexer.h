@@ -22,7 +22,7 @@ public:
 	/**
 	 * Tokenizes the query string.
 	 * @return A vector of tokens.
-	 * @throws QueryLexerException if an unexpected character is encountered.
+	 * @throws SyntaxError if an unexpected character is encountered.
 	 */
 	std::vector<std::string> lex(); 
 

@@ -4,11 +4,9 @@
 #include "../../TNode/TNode.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 
-using namespace PKB;
-
 class EntityExtraction {
 private:
-    std::shared_ptr<PKBStorage> pkbFacade;
+    std::shared_ptr<PKBStorage> pkbStorage;
 
 public:
     explicit EntityExtraction(std::shared_ptr<PKBStorage> pkbFacade);
@@ -82,9 +80,8 @@ public:
     void extractParentsRls(const std::shared_ptr<ProcedureNode> proc);
     void extractParentsRls(const std::shared_ptr<IfNode> ifNode);
     void extractParentsRls(const std::shared_ptr<WhileNode> whileNode);
-    void extractParentsHelper(const std::shared_ptr<ProcedureNode> proc, const std::vector<ParentLine> parent);
-    void extractParentsStmts(const std::vector<Stmt> stmts, const std::vector<ParentLine> parent);
-    void extractParentsHelper(const std::shared_ptr<IfNode> ifNode, std::vector<ParentLine> parent);
-    void extractParentsHelper(const std::shared_ptr<WhileNode> whileNode, std::vector<ParentLine> parent);
-
+    void extractParentsHelper(const std::shared_ptr<ProcedureNode> proc, const std::vector<PKBStorage::ParentLine> parent);
+    void extractParentsStmts(const std::vector<Stmt> stmts, const std::vector<PKBStorage::ParentLine> parent);
+    void extractParentsHelper(const std::shared_ptr<IfNode> ifNode, std::vector<PKBStorage::ParentLine> parent);
+    void extractParentsHelper(const std::shared_ptr<WhileNode> whileNode, std::vector<PKBStorage::ParentLine> parent);
 };

@@ -5,18 +5,25 @@
 #include "../Query.h"
 #include "../Relation.h"
 #include "../../ProgramKnowledgeBase/PKBManager.h"
+#include "ResultsDatabase/ResultsDatabase.h"
 
 class QueryExecutor {
 private:
-	PKB::PKBManager pkb;
+	PKBManager pkb;
 	Relation relations;
-	std::vector<std::string> patterns;
-	std::vector<std::string> declarations;
+	Pattern pattern;
+	Declaration target;
+	std::vector<Declaration> declarations;
 	std::vector<std::string> tokens;
 
-	std::unordered_set<std::string> execute();
+	bool execute(Pattern pattern, ResultsDatabase& rdb);
+	bool execute(Relation relation, ResultsDatabase& rdb);
 
 public:
+	QueryExecutor(PKBManager pkb) : pkb(pkb) {}; // Constructor for taking in PKB
+
 	std::unordered_set<std::string> processQuery(Query* query);
-	QueryExecutor(PKB::PKBManager pkb) : pkb(pkb) {}; // Constructor for taking in PKB
+	std::unordered_set<std::string> getResultsFromRDB(std::vector<Declaration> declarations, Declaration target, ResultsDatabase& rdb);
+	void fillRDBWithVariables(std::vector<Declaration> declarations, ResultsDatabase& rdb);
+
 };

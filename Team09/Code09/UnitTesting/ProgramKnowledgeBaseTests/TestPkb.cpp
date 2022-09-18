@@ -266,6 +266,7 @@ namespace UnitTesting {
                 pkbStorage->storeParent("1", "2");
                 pkbStorage->storeParent("2", "3");
                 pkbStorage->storeParent("3", "5");
+                pkbStorage->storeParent("3", "7");
 
                 //getParent
                 Assert::IsTrue(pkbManager.getParent("1", "2"));
@@ -289,8 +290,9 @@ namespace UnitTesting {
                 //getParentChildByParent
                 Assert::IsTrue(pkbManager.getParentChildByParent("4") == childSet);
                 Assert::IsTrue(pkbManager.getParentChildByParent("5") == childSet);
-                childSet.insert("2");
-                Assert::IsTrue(pkbManager.getParentChildByParent("1") == childSet);
+                childSet.insert("5");
+                childSet.insert("7");
+                Assert::IsTrue(pkbManager.getParentChildByParent("3") == childSet);
                 Assert::IsFalse(pkbManager.getParentChildByParent("2") == childSet);
 
                 //getParentParentByChild
@@ -306,16 +308,18 @@ namespace UnitTesting {
                 allparentSet.insert("3");
                 Assert::IsTrue(pkbManager.getParentParentByUS() == allparentSet);
 
-                //getParentNextByUS
+                //getParentChildByUS
                 allChildSet.insert("2");
                 allChildSet.insert("3");
                 allChildSet.insert("5");
+                allChildSet.insert("7");
                 Assert::IsTrue(pkbManager.getParentChildByUS() == allChildSet);
 
                 //getAllParent
                 allParentSet.insert(std::make_pair("1", "2"));
                 allParentSet.insert(std::make_pair("2", "3"));
                 allParentSet.insert(std::make_pair("3", "5"));
+                allParentSet.insert(std::make_pair("3", "7"));
                 Assert::IsTrue(pkbManager.getAllParent() == allParentSet);
 
                 //getParentT
@@ -326,15 +330,16 @@ namespace UnitTesting {
                 Assert::IsFalse(pkbManager.getParentT("3", "4"));
                 Assert::IsFalse(pkbManager.getParentT("4", "6"));
 
-                //getParentTNextByPrev
+                //getParentTChildByParent
                 childTSet.insert("2");
                 childTSet.insert("3");
                 childTSet.insert("5");
+                childTSet.insert("7");
                 Assert::IsTrue(pkbManager.getParentTChildByParent("1") == childTSet);
                 Assert::IsFalse(pkbManager.getParentTChildByParent("4") == childTSet);
                 Assert::IsFalse(pkbManager.getParentTChildByParent("2") == childTSet);
 
-                //getParentTPrevByNext
+                //getParentTParentByChild
                 parentTSet.insert("3");
                 parentTSet.insert("2");
                 parentTSet.insert("1");
@@ -346,22 +351,78 @@ namespace UnitTesting {
                 allParentTSet.insert(std::make_pair("1", "2"));
                 allParentTSet.insert(std::make_pair("1", "3"));
                 allParentTSet.insert(std::make_pair("1", "5"));
+                allParentTSet.insert(std::make_pair("1", "7"));
                 allParentTSet.insert(std::make_pair("2", "3"));
                 allParentTSet.insert(std::make_pair("2", "5"));
+                allParentTSet.insert(std::make_pair("2", "7"));
                 allParentTSet.insert(std::make_pair("3", "5"));
+                allParentTSet.insert(std::make_pair("3", "7"));
                 Assert::IsTrue(pkbManager.getAllParentT() == allParentTSet);
 
+
+                std::unordered_set<PKBStorage::LineNum> assignLineSet1;
+                std::unordered_set<PKBStorage::LineNum> assignLineSet2;
+                std::unordered_set<PKBStorage::LineNum> assignLineSet3;
+                std::unordered_set<PKBStorage::LineNum> assignLineSet4;
+                std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> assignPairSet1;
+                std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> assignPairSet2;
+
+                pkbStorage->storeAssign("1");
+                pkbStorage->storeAssign("2");
+                pkbStorage->storeAssign("3");
+                pkbStorage->storeAssign("4");
+                pkbStorage->storeAssign("5");
+
+                pkbStorage->storeAssignPattern("var1", "1", "BinOpNode(-, BinOpNode(+, VariableNode(x), BinOpNode(*, VariableNode(y), VariableNode(z))), ConstantNode(1))");
+                pkbStorage->storeAssignPattern("var2", "2", "BinOpNode(-, BinOpNode(+, VariableNode(x), BinOpNode(*, VariableNode(y), VariableNode(z))), ConstantNode(1))");
+                pkbStorage->storeAssignPattern("var1", "3", "BinOpNode(+, VariableNode(x), BinOpNode(*, VariableNode(y), VariableNode(z)))");
+                pkbStorage->storeAssignPattern("var3", "4", "BinOpNode(*, VariableNode(y), VariableNode(z))");
+                pkbStorage->storeAssignPattern("var3", "5", "VariableNode(y)");
+
+
                 //getAssignLineByVarUS
+                Assert::IsTrue(pkbManager.getAssignLineByVarUS("var4") == assignLineSet1);
+                assignLineSet1.insert("1");
+                assignLineSet1.insert("3");
+                Assert::IsTrue(pkbManager.getAssignLineByVarUS("var1") == assignLineSet1);
+                Assert::IsFalse(pkbManager.getAssignLineByVarUS("var2") == assignLineSet1);
+
 
                 //getAssignLineByVarMatchPartial
+                assignLineSet2.insert("1");
+                assignLineSet2.insert("3");
+                Assert::IsTrue(pkbManager.getAssignLineByVarMatchPartial("var1", "_z_") == assignLineSet2);
+                Assert::IsFalse(pkbManager.getAssignLineByVarMatchPartial("var1", "_1_") == assignLineSet2);
 
                 //getAssignLineVarByUS
+                assignPairSet1.insert(std::make_pair("1", "var1"));
+                assignPairSet1.insert(std::make_pair("2", "var2"));
+                assignPairSet1.insert(std::make_pair("3", "var1"));
+                assignPairSet1.insert(std::make_pair("4", "var3"));
+                assignPairSet1.insert(std::make_pair("5", "var3"));
+                Assert::IsTrue(pkbManager.getAssignLineVarByUS() == assignPairSet1);
 
                 //getAssignLineVarByMatchPartial
+                assignPairSet2.insert(std::make_pair("1", "var1"));
+                assignPairSet2.insert(std::make_pair("2", "var2"));
+                assignPairSet2.insert(std::make_pair("3", "var1"));
+                Assert::IsTrue(pkbManager.getAssignLineVarByMatchPartial("_x_") == assignPairSet2);
 
                 //getAssignLineByUSUS
+                assignLineSet3.insert("1");
+                assignLineSet3.insert("2");
+                assignLineSet3.insert("3");
+                assignLineSet3.insert("4");
+                assignLineSet3.insert("5");
+                Assert::IsTrue(pkbManager.getAssignLineByUSUS() == assignLineSet3);
 
                 //getAssignLineByUSMatchPartial
+                assignLineSet4.insert("1");
+                assignLineSet4.insert("2");
+                assignLineSet4.insert("3");
+                assignLineSet4.insert("4");
+                assignLineSet4.insert("5");
+                Assert::IsTrue(pkbManager.getAssignLineByUSMatchPartial("_  y  _") == assignLineSet4);
             }
     };
 }

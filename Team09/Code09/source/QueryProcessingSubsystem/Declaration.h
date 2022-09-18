@@ -18,6 +18,7 @@ public:
 		NONE
 	};
 
+	// Add a TYPE enum class for underscore/synonym/simple in the future after MS1.
 
 	DesignEntity TYPE;
 	std::string name;

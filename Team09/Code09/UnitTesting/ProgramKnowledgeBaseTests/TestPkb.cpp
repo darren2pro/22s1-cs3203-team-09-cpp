@@ -11,7 +11,13 @@ namespace UnitTesting {
             public:
             TEST_METHOD(TestPkbStorage) {
                 PKBManager pkbManager;
-                shared_ptr<PKBStorage> pkbStorage = pkbManager.getPKBStorage();    
+                shared_ptr<PKBStorage> pkbStorage = pkbManager.getPKBStorage();
+
+                //Check if statement lines are assigned and stored correctly
+                PKBStorage::LineNum line = pkbStorage->storeLine(std::make_shared<AssignmentNode>
+                    (std::make_shared<VariableNode>("var1"), std::make_shared<ConstantNode>("1")));
+                Assert::IsTrue(pkbStorage->stmtSet.find(line) != pkbStorage->stmtSet.end());
+                Assert::IsTrue(pkbStorage->stmtSet.find("2") == pkbStorage->stmtSet.end());
 
                 //Check if entity population is correct
                 pkbStorage->storeVariable("var1");
@@ -74,6 +80,12 @@ namespace UnitTesting {
                 std::unordered_set<PKBStorage::Variable> varSet;
                 lineSet.insert("1");
                 varSet.insert("var1");
+                Assert::IsTrue(pkbStorage->usesSet.find(std::make_pair("1", "var1")) != pkbStorage->usesSet.end());
+                Assert::IsTrue(pkbStorage->usesSet.find(std::make_pair("1", "var2")) != pkbStorage->usesSet.end());
+                Assert::IsTrue(pkbStorage->usesLineToVarMap.find("1") != pkbStorage->usesLineToVarMap.end());
+                Assert::IsTrue(pkbStorage->usesLineToVarMap.find("2") == pkbStorage->usesLineToVarMap.end());
+                Assert::IsTrue(pkbStorage->usesVarToLineMap.find("var1") != pkbStorage->usesVarToLineMap.end());
+                Assert::IsTrue(pkbStorage->usesVarToLineMap.find("var2") == pkbStorage->usesVarToLineMap.end());
             }
     };
 }

@@ -453,11 +453,17 @@ void PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::string, st
                                     std::unordered_map<std::string, std::unordered_set<std::string>>& star,
                                     const std::unordered_map<std::string, std::unordered_set<std::string>> base,
                                     std::string key) {
-    std::string currKey = key;
-    while (base.find(currKey) != base.end()) {
-        std::string val = *(base.at(currKey).begin());
-        set.insert(std::make_pair(key, val));
-        this->pkbStorage->addToSetInMap(star, key, val);
-        currKey = val;
+    std::vector<std::string> list;
+    list.push_back(key);
+    while (!list.empty()) {
+        std::string currKey = list.back();
+        list.pop_back();
+        for (const auto& val : base.at(currKey)) {
+            set.insert(std::make_pair(key, val));
+            this->pkbStorage->addToSetInMap(star, key, val);
+            if (base.find(val) != base.end()) {
+                list.push_back(val);
+            }
+        }
     }
 }

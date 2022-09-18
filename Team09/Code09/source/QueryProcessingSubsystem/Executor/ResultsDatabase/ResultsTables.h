@@ -34,7 +34,7 @@ public:
 	bool combineTableWith(ResultsTables& otherTable);
 
 
-	std::unordered_map<std::string, std::vector<int>> hashColumn(Variable var);
+	//std::unordered_map<std::string, std::vector<int>> hashColumn(Variable var);
 
 	// Fetching results
 	std::unordered_set<Value> getResultBySynonym(Variable variable);

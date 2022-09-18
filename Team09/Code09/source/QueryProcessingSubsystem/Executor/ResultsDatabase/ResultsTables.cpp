@@ -75,22 +75,16 @@ bool ResultsTables::combineTableWith(ResultsTables& otherTable) {
 
 	std::vector<std::vector<std::string>> new_table;
 
-	//int count = 0;
 	for (std::vector<Variable> row1 : resultsTable) {
 		for (std::vector<Variable> row2 : otherTable.resultsTable) {
 			std::vector<Variable> temp;
 			for (int i = 0; i < row1.size(); i++)
 				temp.push_back(row1[i]);
 
-			// Concat the two rows
 			for (int i = 0; i < row2.size(); i++)
 				temp.push_back(row2[i]);
-			//temp.insert(row1.end(), row2.begin(), row2.end());
 
-			// Insert new row into new table
-			// ERROR HERE
 			new_table.push_back(temp);
-			//count++;
 		}
 	}
 
@@ -101,8 +95,10 @@ bool ResultsTables::combineTableWith(ResultsTables& otherTable) {
 	std::vector<Variable> varInTable2 = otherTable.columnName;
 	for (Variable var : varInTable2) {
 		varToColIndex[var] = columnIndex;
+		columnName.push_back(var);
 		columnIndex++;
 	}
+
 
 	return resultsTable.size() > 0;
 }
@@ -151,24 +147,24 @@ bool ResultsTables::combineTableWith(ResultsTables& otherTable) {
 //	return resultsTable.size() > 0;
 //}
 
-std::unordered_map<std::string, std::vector<int>> ResultsTables::hashColumn(
-	Variable var) {
-	int variableIndex = varToColIndex[var];
-	std::unordered_map<std::string, std::vector<int>> out_map;
-	int index = 0;
-	for (auto& row : resultsTable) {
-		auto join_val = row[variableIndex];
-		if (out_map.find(join_val) == out_map.end()) {
-			out_map.insert({ join_val, {index} });
-		}
-		else {
-			out_map[join_val].push_back(index);
-		}
-		index++;
-	}
-
-	return out_map;
-}
+//std::unordered_map<std::string, std::vector<int>> ResultsTables::hashColumn(
+//	Variable var) {
+//	int variableIndex = varToColIndex[var];
+//	std::unordered_map<std::string, std::vector<int>> out_map;
+//	int index = 0;
+//	for (auto& row : resultsTable) {
+//		auto join_val = row[variableIndex];
+//		if (out_map.find(join_val) == out_map.end()) {
+//			out_map.insert({ join_val, {index} });
+//		}
+//		else {
+//			out_map[join_val].push_back(index);
+//		}
+//		index++;
+//	}
+//
+//	return out_map;
+//}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 

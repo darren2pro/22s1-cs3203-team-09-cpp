@@ -294,3 +294,45 @@ void EntityExtraction::extractParentsHelper(const std::shared_ptr<WhileNode> whi
     parent.push_back(lnNum);
     extractParentsStmts(whileNode->stmtList, parent);
 }
+
+
+//Assign pattern relations
+void EntityExtraction::extractAssignPattern(const std::shared_ptr<ProgramNode> astRoot) {
+    for (const auto& proc : astRoot-> procList) {
+        extractAssignPattern(proc);
+    }
+}
+
+void EntityExtraction::extractAssignPattern(const std::shared_ptr<ProcedureNode> proc) {
+    extractAssignStmts(proc->stmtList);
+
+}
+
+void EntityExtraction::extractAssignStmts(const std::vector<Stmt> stmts) {
+    for (const auto& stmt : stmts) {
+        std::visit([this](const auto& s) { extractAssignPattern(s); }, stmt);
+    }
+}
+
+void EntityExtraction::extractAssignPattern(const std::shared_ptr<AssignmentNode> assign) {
+    const PKBStorage::Variable varName = assign->var->varName;
+    const PKBStorage::LineNum lnNum = pkbStorage->getLineFromNode(assign);
+    const PKBStorage::ExprStr  exprs =
+        std::visit([this](const auto& s) { return s->toString(); }, assign->expr);
+    pkbStorage->storeAssignPattern(varName, lnNum, exprs);
+}
+
+void EntityExtraction::extractAssignPattern(const std::shared_ptr<IfNode> ifNode) {
+    extractAssignStmts(ifNode->thenStmtList);
+    extractAssignStmts(ifNode->elseStmtList);
+}
+
+void EntityExtraction::extractAssignPattern(const std::shared_ptr<WhileNode> whileNode) {
+    extractAssignStmts(whileNode->stmtList);
+}
+
+void EntityExtraction::extractAssignPattern(const std::shared_ptr<ReadNode>) {}
+
+void EntityExtraction::extractAssignPattern(const std::shared_ptr<CallNode>) {}
+
+void EntityExtraction::extractAssignPattern(const std::shared_ptr<PrintNode>) {}

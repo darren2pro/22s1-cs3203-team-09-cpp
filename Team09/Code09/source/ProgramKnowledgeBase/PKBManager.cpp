@@ -213,8 +213,7 @@ std::unordered_set<PKBStorage::NextLine> PKBManager::getFollowsTNextByPrev(const
 }
 
 std::unordered_set<PKBStorage::PrevLine> PKBManager::getFollowsTPrevByNext(const PKBStorage::NextLine next) {
-    setStarFromBaseMap(pkbStorage->followsTSet, pkbStorage->followsTNextToPrevMap,
-                       pkbStorage->followsNextToPrevMap, next);
+    setStarFromBaseMap(pkbStorage->followsTNextToPrevMap, pkbStorage->followsNextToPrevMap, next);
     if (pkbStorage->followsTNextToPrevMap.find(next) != pkbStorage->followsTNextToPrevMap.end()) {
         return pkbStorage->followsTNextToPrevMap.at(next);
     } else {
@@ -320,8 +319,7 @@ std::unordered_set< PKBStorage::ChildLine> PKBManager::getParentTChildByParent(c
 
 std::unordered_set< PKBStorage::ParentLine> PKBManager::getParentTParentByChild(const  PKBStorage::ChildLine child) {
     
-    setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTChildToParentMap,
-        pkbStorage->parentChildToParentMap, child);
+    setStarFromBaseMap(pkbStorage->parentTChildToParentMap, pkbStorage->parentChildToParentMap, child);
     if (pkbStorage->parentTChildToParentMap.find(child) != pkbStorage->parentTChildToParentMap.end()) {
         return pkbStorage->parentTChildToParentMap.at(child);
     }
@@ -470,3 +468,21 @@ void PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::string, st
         }
     }
 }
+
+void PKBManager::setStarFromBaseMap(std::unordered_map<std::string, std::unordered_set<std::string>>& star,
+    const std::unordered_map<std::string, std::unordered_set<std::string>> base,
+    std::string key) {
+    std::vector<std::string> list;
+    list.push_back(key);
+    while (!list.empty()) {
+        std::string currKey = list.back();
+        list.pop_back();
+        for (const auto& val : base.at(currKey)) {
+            this->pkbStorage->addToSetInMap(star, key, val);
+            if (base.find(val) != base.end()) {
+                list.push_back(val);
+            }
+        }
+    }
+}
+

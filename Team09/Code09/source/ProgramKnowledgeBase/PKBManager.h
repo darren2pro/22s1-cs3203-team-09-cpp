@@ -106,4 +106,5 @@ public:
     void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash>& set,
                             std::unordered_map<std::string, std::unordered_set<std::string>>& star,
                             const std::unordered_map<std::string, std::unordered_set<std::string>> base, std::string key);
+    void setStarFromBaseMap(std::unordered_map<std::string, std::unordered_set<std::string>>& star, const std::unordered_map<std::string, std::unordered_set<std::string>> base, std::string key);
 };

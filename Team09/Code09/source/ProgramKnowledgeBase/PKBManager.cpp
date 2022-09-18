@@ -49,6 +49,10 @@ std::unordered_set<PKBStorage::LineNum> PKBManager::getPrintSet() {
     return pkbStorage->printSet;
 }
 
+std::unordered_set<PKBStorage::LineNum> PKBManager::getStmtSet() {
+    return pkbStorage->stmtSet;
+}
+
 //Modifies
 bool PKBManager::getModifies(const PKBStorage::LineNum lineNum, const PKBStorage::Variable var) {
     return pkbStorage->modifiesSet.find(std::make_pair(lineNum, var)) != pkbStorage->modifiesSet.end();

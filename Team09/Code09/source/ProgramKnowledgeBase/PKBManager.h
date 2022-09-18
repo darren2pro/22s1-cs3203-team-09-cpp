@@ -28,6 +28,7 @@ public:
     std::unordered_set<PKBStorage::LineNum> getAssignSet();
     std::unordered_set<PKBStorage::LineNum> getReadSet();
     std::unordered_set<PKBStorage::LineNum> getPrintSet();
+    std::unordered_set<PKBStorage::LineNum> getStmtSet();
 
 
     //Modifies

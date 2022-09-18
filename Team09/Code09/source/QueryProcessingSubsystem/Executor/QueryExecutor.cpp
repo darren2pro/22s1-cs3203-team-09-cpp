@@ -94,22 +94,31 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 	switch (decl.TYPE) {
 	case Declaration::Assignment:
 		resultsFromPKB = pkb.getAssignSet();
+		break;
 	case Declaration::Variable:
 		resultsFromPKB = pkb.getVariableSet();
+		break;
 	case Declaration::Procedure:
 		resultsFromPKB = pkb.getProcedureSet();
+		break;
 	case Declaration::Constant:
 		resultsFromPKB = pkb.getConstantSet();
+		break;
 	case Declaration::While:
 		resultsFromPKB = pkb.getWhileSet();
+		break;
 	case Declaration::If:
 		resultsFromPKB = pkb.getIfSet();
+		break;
 	case Declaration::Read:
 		resultsFromPKB = pkb.getReadSet();
+		break;
 	case Declaration::Print:
 		resultsFromPKB = pkb.getPrintSet();
+		break;
 	case Declaration::Statement:
 		resultsFromPKB = pkb.getStmtSet();
+		break;
 	}
 
 	rdb.insertList(decl.name, resultsFromPKB);

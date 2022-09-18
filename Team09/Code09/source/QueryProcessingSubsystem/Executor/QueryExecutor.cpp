@@ -27,7 +27,10 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	// Patterns clause
 	bool patClauseResult = execute(pattern, rdb);
 
-	// WHY RETURN FALSE FOR EMPTY PATTERN?
+	// Return empty list if any of them returns False.
+	if (!relClauseResult || !patClauseResult) {
+		return {};
+	}
 
 	// Insert all other variables that have not been inserted.
 	for (Declaration decl : declarations) {

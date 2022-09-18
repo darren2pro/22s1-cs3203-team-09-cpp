@@ -38,7 +38,7 @@ bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordere
 	}
 	// Variables exist in 2 different tables. Need to merge the two tables together.
 	else {
-		combineTables(firstIndex, secondIndex, var1);
+		combineTables(firstIndex, secondIndex);
 		return allResultsTables[firstIndex].insertListPairToTable(var1, var2, listPair);
 	}
 }
@@ -73,14 +73,23 @@ void ResultsDatabase::createDoubleVariableTable(Variable var1, Variable var2, st
 	allVariables.push_back(var1);
 }
 
-bool ResultsDatabase::combineTables(int firstIndex, int secondIndex, Variable var) {
-	auto t1 = allResultsTables[firstIndex];
-	auto t2 = allResultsTables[secondIndex];
+// TableTable Join
+bool ResultsDatabase::combineTables(int firstIndex, int secondIndex) {
+	auto& t1 = allResultsTables[firstIndex];
+	auto& t2 = allResultsTables[secondIndex];
 
 	// Assuming joining table into t1. Remove table 2 index.
+	bool result = t1.combineTableWith(t2);
+	
+	// RESULTS NOT SAVED.
+
+	//// Point all the variables in t2 to the combine table index.
+	//for (auto& var : t2.columnName) {
+	//	varToIndexMap[var] = firstIndex;
+	//}
 	removeTable(secondIndex);
 
-	return t1.combineTableWith(t2, var);
+	return result;
 }
 
 void ResultsDatabase::removeTable(int index) {
@@ -89,19 +98,11 @@ void ResultsDatabase::removeTable(int index) {
 	allResultsTables.erase(iterator + index);
 
 	varToIndexMap.clear();
-	for (size_t i = 0; i < allResultsTables.size(); i++) {
+	for (int i = 0; i < allResultsTables.size(); i++) {
 		for (auto [var_name, col_idx] : allResultsTables[i].varToColIndex) {
 			varToIndexMap.insert({ var_name, i });
 		}
 	}
-
-	//// Rearrange the varToIndex mapping
-	//// If index was greater than old index, just -1
-	//for (auto& pair : varToIndexMap) {
-	//	if (pair.second >= index) {
-	//		pair.second -= 1;
-	//	}
-	//}
 }
 
 std::unordered_set<std::string> ResultsDatabase::getResults(Declaration& target) {

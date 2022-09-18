@@ -20,6 +20,8 @@ public:
 	PKBManager pkb;
 	ResultsDatabase& rdb;
 
+	std::string temporaryStrip(std::string arg);
+
 	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightRelaxedExpression(Expression expr) = 0;
 	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightStrictExpression(Expression expr) = 0;
 	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightUnderScore() = 0;

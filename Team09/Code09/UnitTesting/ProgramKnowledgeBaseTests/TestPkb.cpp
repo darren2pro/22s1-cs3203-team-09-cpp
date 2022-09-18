@@ -240,57 +240,210 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbManager.getUsesStmtByUS() != std::unordered_set<PKBStorage::LineNum>({ "2" });
                 Assert::IsTrue(pkbManager.getUsesStmtByUS() != falseUsesLineSet);
 
-                //getFollows
+                std::unordered_set<PKBStorage::PrevLine> prevSet;
+                std::unordered_set<PKBStorage::PrevLine> prevTSet;
+                std::unordered_set<PKBStorage::PrevLine> allPrevSet;
+                std::unordered_set<PKBStorage::NextLine> nextSet;
+                std::unordered_set<PKBStorage::NextLine> nextTSet;
+                std::unordered_set<PKBStorage::NextLine> allNextSet;
+                std::unordered_set<std::pair<PKBStorage::PrevLine, PKBStorage::NextLine>, PairHasher::pairHash> allFollowsSet;
+                std::unordered_set<std::pair<PKBStorage::PrevLine, PKBStorage::NextLine>, PairHasher::pairHash> allFollowsTSet;
 
+                Assert::IsFalse(pkbManager.getFollowsByUSUS());
+                Assert::IsTrue(pkbManager.getFollowsPrevByUS() == allPrevSet);
+                Assert::IsTrue(pkbManager.getFollowsNextByUS() == allNextSet);
+                Assert::IsTrue(pkbManager.getAllFollows() == allFollowsSet);
+
+                pkbStorage->storeFollows("1", "2");
+                pkbStorage->storeFollows("2", "3");
+                pkbStorage->storeFollows("3", "5");
+
+                //getFollows
+                Assert::IsTrue(pkbManager.getFollows("1", "2"));
+                Assert::IsFalse(pkbManager.getFollows("1", "3"));
+                Assert::IsFalse(pkbManager.getFollows("4", "5"));
+                Assert::IsFalse(pkbManager.getFollows("4", "6"));
+                
                 //getFollowsByPrevUS
+                Assert::IsTrue(pkbManager.getFollowsByPrevUS("1"));
+                Assert::IsFalse(pkbManager.getFollowsByPrevUS("4"));
+                Assert::IsFalse(pkbManager.getFollowsByPrevUS("5"));
 
                 //getFollowsByUSNext
+                Assert::IsTrue(pkbManager.getFollowsByUSNext("2"));
+                Assert::IsFalse(pkbManager.getFollowsByUSNext("4"));
+                Assert::IsFalse(pkbManager.getFollowsByUSNext("1"));
 
                 //getFollowsByUSUS
+                Assert::IsTrue(pkbManager.getFollowsByUSUS());
 
                 //getFollowsNextByPrev
+                Assert::IsTrue(pkbManager.getFollowsNextByPrev("4") == nextSet);
+                Assert::IsTrue(pkbManager.getFollowsNextByPrev("5") == nextSet);
+                nextSet.insert("2");
+                Assert::IsTrue(pkbManager.getFollowsNextByPrev("1") == nextSet);
+                Assert::IsFalse(pkbManager.getFollowsNextByPrev("2") == nextSet);
 
                 //getFollowsPrevByNext
+                Assert::IsTrue(pkbManager.getFollowsPrevByNext("4") == prevSet);
+                Assert::IsTrue(pkbManager.getFollowsPrevByNext("1") == prevSet);
+                prevSet.insert("1");
+                Assert::IsTrue(pkbManager.getFollowsPrevByNext("2") == prevSet);
+                Assert::IsFalse(pkbManager.getFollowsPrevByNext("3") == prevSet);
 
                 //getFollowsPrevByUS
+                allPrevSet.insert("1");
+                allPrevSet.insert("2");
+                allPrevSet.insert("3");
+                Assert::IsTrue(pkbManager.getFollowsPrevByUS() == allPrevSet);
 
                 //getFollowsNextByUS
+                allNextSet.insert("2");
+                allNextSet.insert("3");
+                allNextSet.insert("5");
+                Assert::IsTrue(pkbManager.getFollowsNextByUS() == allNextSet);
 
                 //getAllFollows
+                allFollowsSet.insert(std::make_pair("1", "2"));
+                allFollowsSet.insert(std::make_pair("2", "3"));
+                allFollowsSet.insert(std::make_pair("3", "5"));
+                Assert::IsTrue(pkbManager.getAllFollows() == allFollowsSet);
 
                 //getFollowsT
+                Assert::IsTrue(pkbManager.getFollowsT("1", "2"));
+                Assert::IsTrue(pkbManager.getFollowsT("1", "3"));
+                Assert::IsTrue(pkbManager.getFollowsT("1", "5"));
+                Assert::IsFalse(pkbManager.getFollowsT("4", "5"));
+                Assert::IsFalse(pkbManager.getFollowsT("3", "4"));
+                Assert::IsFalse(pkbManager.getFollowsT("4", "6"));
 
-                //getFollowsNextByPrev
+                //getFollowsTNextByPrev
+                nextTSet.insert("2");
+                nextTSet.insert("3");
+                nextTSet.insert("5");
+                Assert::IsTrue(pkbManager.getFollowsTNextByPrev("1") == nextTSet);
+                Assert::IsFalse(pkbManager.getFollowsTNextByPrev("4") == nextTSet);
+                Assert::IsFalse(pkbManager.getFollowsTNextByPrev("2") == nextTSet);
 
-                //getFollowsPrevByNext
+                //getFollowsTPrevByNext
+                prevTSet.insert("3");
+                prevTSet.insert("2");
+                prevTSet.insert("1");
+                Assert::IsTrue(pkbManager.getFollowsTPrevByNext("5") == prevTSet);
+                Assert::IsFalse(pkbManager.getFollowsTPrevByNext("4") == prevTSet);
+                Assert::IsFalse(pkbManager.getFollowsTPrevByNext("3") == prevTSet);
 
                 //getAllFollowsT
+                allFollowsTSet.insert(std::make_pair("1", "2"));
+                allFollowsTSet.insert(std::make_pair("1", "3"));
+                allFollowsTSet.insert(std::make_pair("1", "5"));
+                allFollowsTSet.insert(std::make_pair("2", "3"));
+                allFollowsTSet.insert(std::make_pair("2", "5"));
+                allFollowsTSet.insert(std::make_pair("3", "5"));
+                Assert::IsTrue(pkbManager.getAllFollowsT() == allFollowsTSet);
+
+
+                std::unordered_set<PKBStorage::ParentLine> parentSet;
+                std::unordered_set<PKBStorage::ParentLine> parentTSet;
+                std::unordered_set<PKBStorage::ParentLine> allparentSet;
+                std::unordered_set<PKBStorage::ChildLine> childSet;
+                std::unordered_set<PKBStorage::ChildLine> childTSet;
+                std::unordered_set<PKBStorage::ChildLine> allChildSet;
+                std::unordered_set<std::pair<PKBStorage::ParentLine, PKBStorage::ChildLine>, PairHasher::pairHash> allParentSet;
+                std::unordered_set<std::pair<PKBStorage::ParentLine, PKBStorage::ChildLine>, PairHasher::pairHash> allParentTSet;
+
+                Assert::IsFalse(pkbManager.getParentByUSUS());
+                Assert::IsTrue(pkbManager.getParentParentByUS() == allparentSet);
+                Assert::IsTrue(pkbManager.getParentChildByUS() == allChildSet);
+                Assert::IsTrue(pkbManager.getAllParent() == allParentSet);
+
+                pkbStorage->storeParent("1", "2");
+                pkbStorage->storeParent("2", "3");
+                pkbStorage->storeParent("3", "5");
 
                 //getParent
+                Assert::IsTrue(pkbManager.getParent("1", "2"));
+                Assert::IsFalse(pkbManager.getParent("1", "3"));
+                Assert::IsFalse(pkbManager.getParent("4", "5"));
+                Assert::IsFalse(pkbManager.getParent("4", "6"));
 
-                //getParentByPrevUS
+                //getParentByParentUS
+                Assert::IsTrue(pkbManager.getParentByParentUS("1"));
+                Assert::IsFalse(pkbManager.getParentByParentUS("4"));
+                Assert::IsFalse(pkbManager.getParentByParentUS("5"));
 
-                //getParentByUSNext
+                //getParentByUSChild
+                Assert::IsTrue(pkbManager.getParentByUSChild("2"));
+                Assert::IsFalse(pkbManager.getParentByUSChild("4"));
+                Assert::IsFalse(pkbManager.getParentByUSChild("1"));
 
                 //getParentByUSUS
+                Assert::IsTrue(pkbManager.getParentByUSUS());
 
-                //getParentNextByPrev
+                //getParentChildByParent
+                Assert::IsTrue(pkbManager.getParentChildByParent("4") == childSet);
+                Assert::IsTrue(pkbManager.getParentChildByParent("5") == childSet);
+                childSet.insert("2");
+                Assert::IsTrue(pkbManager.getParentChildByParent("1") == childSet);
+                Assert::IsFalse(pkbManager.getParentChildByParent("2") == childSet);
 
-                //getParentPrevByNext
+                //getParentParentByChild
+                Assert::IsTrue(pkbManager.getParentParentByChild("4") == parentSet);
+                Assert::IsTrue(pkbManager.getParentParentByChild("1") == parentSet);
+                parentSet.insert("1");
+                Assert::IsTrue(pkbManager.getParentParentByChild("2") == parentSet);
+                Assert::IsFalse(pkbManager.getParentParentByChild("3") == parentSet);
 
-                //getParentPrevByUS
+                //getParentParentByUS
+                allparentSet.insert("1");
+                allparentSet.insert("2");
+                allparentSet.insert("3");
+                Assert::IsTrue(pkbManager.getParentParentByUS() == allparentSet);
 
                 //getParentNextByUS
+                allChildSet.insert("2");
+                allChildSet.insert("3");
+                allChildSet.insert("5");
+                Assert::IsTrue(pkbManager.getParentChildByUS() == allChildSet);
 
                 //getAllParent
+                allParentSet.insert(std::make_pair("1", "2"));
+                allParentSet.insert(std::make_pair("2", "3"));
+                allParentSet.insert(std::make_pair("3", "5"));
+                Assert::IsTrue(pkbManager.getAllParent() == allParentSet);
 
                 //getParentT
+                Assert::IsTrue(pkbManager.getParentT("1", "2"));
+                Assert::IsTrue(pkbManager.getParentT("1", "3"));
+                Assert::IsTrue(pkbManager.getParentT("1", "5"));
+                Assert::IsFalse(pkbManager.getParentT("4", "5"));
+                Assert::IsFalse(pkbManager.getParentT("3", "4"));
+                Assert::IsFalse(pkbManager.getParentT("4", "6"));
 
                 //getParentTNextByPrev
+                childTSet.insert("2");
+                childTSet.insert("3");
+                childTSet.insert("5");
+                Assert::IsTrue(pkbManager.getParentTChildByParent("1") == childTSet);
+                Assert::IsFalse(pkbManager.getParentTChildByParent("4") == childTSet);
+                Assert::IsFalse(pkbManager.getParentTChildByParent("2") == childTSet);
 
                 //getParentTPrevByNext
+                parentTSet.insert("3");
+                parentTSet.insert("2");
+                parentTSet.insert("1");
+                Assert::IsTrue(pkbManager.getParentTParentByChild("5") == parentTSet);
+                Assert::IsFalse(pkbManager.getParentTParentByChild("4") == parentTSet);
+                Assert::IsFalse(pkbManager.getParentTParentByChild("3") == parentTSet);
 
                 //getAllParentT
+                allParentTSet.insert(std::make_pair("1", "2"));
+                allParentTSet.insert(std::make_pair("1", "3"));
+                allParentTSet.insert(std::make_pair("1", "5"));
+                allParentTSet.insert(std::make_pair("2", "3"));
+                allParentTSet.insert(std::make_pair("2", "5"));
+                allParentTSet.insert(std::make_pair("3", "5"));
+                Assert::IsTrue(pkbManager.getAllParentT() == allParentTSet);
 
                 //getAssignLineByVarUS
 

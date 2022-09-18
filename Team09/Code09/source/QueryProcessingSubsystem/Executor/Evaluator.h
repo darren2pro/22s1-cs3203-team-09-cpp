@@ -17,12 +17,12 @@ private:
 public:
 	ResultsDatabase rdb;
 	PKBManager pkb;
-	std::vector<std::string> declarations;
+	std::vector<Declaration> declarations;
 	Relation relations;
 	std::string LEFT_ARG;
 	std::string RIGHT_ARG;
 
-	Evaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKBManager pkb) : // Added PKB
+	Evaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase rdb, PKBManager pkb) : // Added PKB
 		declarations(declarations),
 		relations(relations),
 		LEFT_ARG(relations.LEFT_ARG),

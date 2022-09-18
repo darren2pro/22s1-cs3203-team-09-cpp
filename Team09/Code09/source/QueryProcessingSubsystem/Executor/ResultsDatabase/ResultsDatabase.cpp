@@ -37,10 +37,9 @@ bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordere
 	}
 	// Variables exist in 2 different tables. Need to merge the two tables together.
 	else {
-		assert("Not needed for milestone 1");
+		combineTables(firstIndex, secondIndex, var1);
+		return allResultsTables[firstIndex].insertListPairToTable(var1, var2, listPair);
 	}
-	
-
 }
 
 int ResultsDatabase::getVariableIndex(Variable variable) {
@@ -65,15 +64,48 @@ void ResultsDatabase::createDoubleVariableTable(Variable var1, Variable var2, st
 	ResultsTables resultsTable;
 	resultsTable.create(var1, var2, pairList);
 	allResultsTables.push_back(resultsTable);
-	int tableIndex = allResultsTables.size();
+	int tableIndex = allResultsTables.size() - 1;
 	addNewTableToMap(var1, tableIndex);
 	addNewTableToMap(var2, tableIndex);
+}
+
+bool ResultsDatabase::combineTables(int firstIndex, int secondIndex, Variable var) {
+	auto t1 = allResultsTables[firstIndex];
+	auto t2 = allResultsTables[secondIndex];
+
+	// Assuming joining table into t1. Remove table 2 index.
+	removeTable(secondIndex);
+
+	return t1.combineTableWith(t2, var);
+}
+
+void ResultsDatabase::removeTable(int index) {
+	// Remove the table from allResultsTable
+	auto iterator = allResultsTables.begin();
+	allResultsTables.erase(iterator + index);
+
+	varToIndexMap.clear();
+	for (size_t i = 0; i < allResultsTables.size(); i++) {
+		for (auto [var_name, col_idx] : allResultsTables[i].varToColIndex) {
+			varToIndexMap.insert({ var_name, i });
+		}
+	}
+
+	//// Rearrange the varToIndex mapping
+	//// If index was greater than old index, just -1
+	//for (auto& pair : varToIndexMap) {
+	//	if (pair.second >= index) {
+	//		pair.second -= 1;
+	//	}
+	//}
 }
 
 std::unordered_set<std::string> ResultsDatabase::getResults(Declaration& target) {
 	if (validQuery) {
 		int tableIndex = getVariableIndex(target.name);
-		return allResultsTables[tableIndex].getResultBySynonym(target.name);
+		ResultsTables rt = allResultsTables[tableIndex];
+		auto results = rt.getResultBySynonym(target.name);
+		return results;
 	}
 	else {
 		return { "Invalid Query" };

@@ -12,9 +12,9 @@ typedef std::string Expression;
 
 class PatternEvaluator {
 public:
-	Declaration declaration;
+	std::vector<Declaration> declarations;
 	Pattern pattern;
-	std::string SYNONYM = pattern.synonym;
+	std::string PATTERN_SYNONYM = pattern.synonym;
 	std::string LEFT_ARG = pattern.LEFT_ARG;
 	std::string RIGHT_ARG = pattern.RIGHT_ARG;
 	PKBManager pkb;
@@ -33,7 +33,7 @@ public:
 	virtual std::unordered_set<LineNum> patternLeftSimpleRightUnderscore(Variable var) = 0;
 
 
-	PatternEvaluator(std::vector<std::string> declarations, Pattern pattern, ResultsDatabase rdb, PKBManager pkb) :
-		declaration(declaration), pattern(pattern), rdb(rdb), pkb(pkb) {};
+	PatternEvaluator(std::vector<Declaration> declarations, Pattern pattern, ResultsDatabase rdb, PKBManager pkb) :
+		declarations(declarations), pattern(pattern), rdb(rdb), pkb(pkb) {};
 	bool evaluate();
 };

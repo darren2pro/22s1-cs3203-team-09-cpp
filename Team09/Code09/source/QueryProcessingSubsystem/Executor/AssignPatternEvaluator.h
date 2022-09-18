@@ -13,7 +13,7 @@ using namespace std;
 
 class AssignPatternEvaluator: public PatternEvaluator {
 public:
-	AssignPatternEvaluator(std::vector<std::string> declarations,Pattern patterns, ResultsDatabase rdb, PKBManager pkb) :
+	AssignPatternEvaluator(std::vector<Declaration> declarations,Pattern patterns, ResultsDatabase rdb, PKBManager pkb) :
 	PatternEvaluator(declarations, patterns, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> AssignPatternEvaluator::patternLeftSynonymRightStrictExpression(Expression expr) override {

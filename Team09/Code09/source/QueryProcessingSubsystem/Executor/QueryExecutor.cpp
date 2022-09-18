@@ -23,18 +23,14 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 	// Relations clause
 	bool relClauseResult = execute(relations, rdb);
-	if (!relClauseResult) {
-		return { "Error occurred with relation" };
-	}
 
 	// Patterns clause
 	bool patClauseResult = execute(pattern, rdb);
-	if (!patClauseResult) {
-		return { "Error occurred with pattern" };
-	}
 
-	// IMPLEMENT WITH RUIYAN
-	fillRDBWithVariables(declarations, rdb);
+	// Insert all other variables that have not been inserted.
+	for (Declaration decl : declarations) {
+		insertSynonymSetIntoRDB(decl, rdb, pkb);
+	}
 
 	std::unordered_set<std::string> results = getResultsFromRDB(declarations, target, rdb);
 
@@ -75,14 +71,28 @@ std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(std::vector<Dec
 	return rdb.getResults(target);
 }
 
-void QueryExecutor::fillRDBWithVariables(std::vector<Declaration> declarations, ResultsDatabase& rdb) {
-	for (Declaration decl : declarations) {
+void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager& pkb) {
+	std::unordered_set<std::string> resultsFromPKB;
 
-		// UNCOMMENTED OUT. Need to implement with PKB. Currently adding empty lists a: { } 
-		//std::unordered_set<std::string> resultsFromPKB = pkb.getAllVariableAssignment(decl.name);
-		std::unordered_set<std::string> resultsFromPKB = { };
-
-		rdb.insertList(decl.name, resultsFromPKB);
+	switch (decl.TYPE) {
+	case Declaration::Assignment:
+		resultsFromPKB = pkb.getAssignSet();
+	case Declaration::Variable:
+		resultsFromPKB = pkb.getVariableSet();
+	case Declaration::Procedure:
+		resultsFromPKB = pkb.getProcedureSet();
+	case Declaration::Constant:
+		resultsFromPKB = pkb.getConstantSet();
+	case Declaration::While:
+		resultsFromPKB = pkb.getWhileSet();
+	case Declaration::If:
+		resultsFromPKB = pkb.getIfSet();
+	case Declaration::Read:
+		resultsFromPKB = pkb.getReadSet();
+	case Declaration::Print:
+		resultsFromPKB = pkb.getPrintSet();
 	}
+
+	rdb.insertList(decl.name, resultsFromPKB);
 }
 

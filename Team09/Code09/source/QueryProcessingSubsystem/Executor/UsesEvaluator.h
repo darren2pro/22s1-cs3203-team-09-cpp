@@ -13,7 +13,7 @@ using namespace PairHasher;
 
 class UsesEvaluator: public Evaluator {
 public:
-	UsesEvaluator(std::vector<std::string> declarations, Relation relations, ResultsDatabase rdb, PKBManager pkb) :
+	UsesEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase rdb, PKBManager pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> UsesEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {

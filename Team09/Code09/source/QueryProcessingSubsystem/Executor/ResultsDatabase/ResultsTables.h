@@ -30,6 +30,12 @@ public:
 	// Adding double var listpairs
 	bool insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair);
 
+	// Combine with another table
+	bool combineTableWith(ResultsTables otherTable, Variable var);
+
+
+	std::unordered_map<std::string, std::vector<int>> hashColumn(Variable var);
+
 	// Fetching results
 	std::unordered_set<Value> getResultBySynonym(Variable variable);
 };

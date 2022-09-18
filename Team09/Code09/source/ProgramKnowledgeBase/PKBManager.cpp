@@ -278,7 +278,7 @@ std::unordered_set<PKBStorage::ParentLine> PKBManager::getParentParentByUS() {
 }
 std::unordered_set< PKBStorage::ChildLine> PKBManager::getParentChildByUS() {
     std::unordered_set< PKBStorage::ChildLine> set;
-    for (const auto& elem : pkbStorage->parentParentToChildMap) {
+    for (const auto& elem : pkbStorage->parentChildToParentMap) {
         set.insert(elem.first);
     }
     return set;
@@ -454,6 +454,10 @@ void PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::string, st
                                     std::unordered_map<std::string, std::unordered_set<std::string>>& star,
                                     const std::unordered_map<std::string, std::unordered_set<std::string>> base,
                                     std::string key) {
+    if (base.find(key) == base.end()) {
+        return;
+    }
+
     std::vector<std::string> list;
     list.push_back(key);
     while (!list.empty()) {
@@ -472,6 +476,10 @@ void PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::string, st
 void PKBManager::setStarFromBaseMap(std::unordered_map<std::string, std::unordered_set<std::string>>& star,
     const std::unordered_map<std::string, std::unordered_set<std::string>> base,
     std::string key) {
+    if (base.find(key) == base.end()) {
+        return;
+    }
+
     std::vector<std::string> list;
     list.push_back(key);
     while (!list.empty()) {

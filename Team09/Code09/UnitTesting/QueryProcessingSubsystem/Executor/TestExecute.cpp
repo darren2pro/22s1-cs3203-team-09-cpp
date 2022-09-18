@@ -192,8 +192,8 @@ namespace UnitTesting {
                 // Query 6
                 string query6 = "stmt ss;"
                                 "Select ss such that Uses(ss, \"i\")";
-                Query* q6 = QueryBuilder().buildQuery(query5);
-                unordered_set<string> results6 = executor.processQuery(q5);
+                Query* q6 = QueryBuilder().buildQuery(query6);
+                unordered_set<string> results6 = executor.processQuery(q6);
                 Assert::IsTrue(results6.size() == 3, L"Query 6 fails");
                 // Expected results: 2, 4, 8
                 Assert::IsTrue(results6.find("2") != results6.end());
@@ -205,12 +205,23 @@ namespace UnitTesting {
                                 "Select ss such that Uses(ss, \"x\") pattern aa(\"z\", _)";
                 Query* q7 = QueryBuilder().buildQuery(query7);
                 unordered_set<string> results7 = executor.processQuery(q7);
-                Assert::IsTrue(results7.size() == 2, L"Query 7 fails");
-                // Expected results: 1, 3, 5, 6, 8
+                Assert::IsTrue(results7.size() == 4, L"Query 7 fails");
+                // Expected results: 1, 5, 6, 8
                 Assert::IsTrue(results7.find("1") != results7.end());
                 Assert::IsTrue(results7.find("5") != results7.end());
                 Assert::IsTrue(results7.find("6") != results7.end());
                 Assert::IsTrue(results7.find("8") != results7.end());
+
+                // Query 8
+                string query8 = "assign aa;"
+                                "Select aa pattern aa(\"z\", _)";
+                Query* q8 = QueryBuilder().buildQuery(query8);
+                unordered_set<string> results8 = executor.processQuery(q8);
+                Assert::IsTrue(results8.size() == 3, L"Query 8 fails");
+                // Expected results: 6, 7, 8
+                Assert::IsTrue(results8.find("6") != results8.end());
+                Assert::IsTrue(results8.find("7") != results8.end());
+                Assert::IsTrue(results8.find("8") != results8.end());
             }
     };
 }

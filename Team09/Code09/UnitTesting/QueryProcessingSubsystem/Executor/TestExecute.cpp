@@ -56,7 +56,7 @@ namespace UnitTesting {
                                 "Select s such that Parent*(s, 3)";
                 Query* q4 = QueryBuilder().buildQuery(query4);
                 unordered_set<string> results4 = executor.processQuery(q4);
-                Assert::IsTrue(results4.size() == 0, L"Query 4 fails");
+                Assert::IsTrue(results4.size() == 1, L"Query 4 fails");
                 // Expected results: none
 
                 // Query 5

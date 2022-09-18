@@ -39,6 +39,7 @@ bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordere
 	// Variables exist in 2 different tables. Need to merge the two tables together.
 	else {
 		combineTables(firstIndex, secondIndex);
+		//! For query 12: Here first index is 1, but it needs to be zero. Need to find a way to get the updated index? E.g. combine tables return an index or something.
 		return allResultsTables[firstIndex].insertListPairToTable(var1, var2, listPair);
 	}
 }
@@ -88,6 +89,11 @@ bool ResultsDatabase::combineTables(int firstIndex, int secondIndex) {
 	//	varToIndexMap[var] = firstIndex;
 	//}
 	removeTable(secondIndex);
+	
+	// TODO: 
+	// Chuan you can try to return the index of the new table here because one of the table was removed already so you need to re-map all the other tables in the
+	// varToIndexMap to the new index. Like if you remove table 2, then table 3 will be at index 2, table 4 will be at index 3, etc. Need to map for all the respective
+	// variables I think
 
 	return result;
 }

@@ -371,6 +371,7 @@ std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByVarMatchParti
     std::unordered_set<PKBStorage::LineNum> set;
     std::string pattern = expr;
     pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+    pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
     Expr exprNode = SimpleInterface::parseExpression(pattern);
     PKBStorage::ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
 
@@ -403,6 +404,7 @@ std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHas
     std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> set;
     std::string pattern = expr;
     pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+    pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
     Expr exprNode = SimpleInterface::parseExpression(pattern);
     PKBStorage::ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
 
@@ -436,6 +438,8 @@ std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSMatchPartia
     std::unordered_set<PKBStorage::LineNum> set;
     std::string pattern = expr;
     pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+    pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
+
     Expr exprNode = SimpleInterface::parseExpression(pattern);
     PKBStorage::ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
 

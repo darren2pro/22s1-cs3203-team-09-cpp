@@ -79,7 +79,7 @@ bool PatternEvaluator::evaluate() {
 		else {
 			return rdb.insertPairList(PATTERN_SYNONYM, pattern.LEFT_ARG, result);
 		}
-	} 
+	}
 	else if (isLeftSynonym && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
 		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
 		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);

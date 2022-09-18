@@ -179,15 +179,15 @@ namespace UnitTesting {
                 Assert::IsTrue(results5.find("p") != results5.end());
 
                 // Query 6
-                string query5 = "stmt ss;"
+                string query6 = "stmt ss;"
                                 "Select ss such that Uses(ss, \"i\")";
-                Query* q5 = QueryBuilder().buildQuery(query5);
-                unordered_set<string> results5 = executor.processQuery(q5);
-                Assert::IsTrue(results5.size() == 3, L"Query 6 fails");
+                Query* q6 = QueryBuilder().buildQuery(query5);
+                unordered_set<string> results6 = executor.processQuery(q5);
+                Assert::IsTrue(results6.size() == 3, L"Query 6 fails");
                 // Expected results: 2, 4, 8
-                Assert::IsTrue(results5.find("2") != results5.end());
-                Assert::IsTrue(results5.find("4") != results5.end());
-                Assert::IsTrue(results5.find("8") != results5.end());
+                Assert::IsTrue(results6.find("2") != results6.end());
+                Assert::IsTrue(results6.find("4") != results6.end());
+                Assert::IsTrue(results6.find("8") != results6.end());
 
                 // Query 7
                 string query7 = "stmt ss; assign aa;"

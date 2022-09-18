@@ -308,21 +308,24 @@ bool PKBManager::getParentTByUSUS() {
 }
 
 std::unordered_set< PKBStorage::ChildLine> PKBManager::getParentTChildByParent(const  PKBStorage::ParentLine parent) {
-    setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTChildToParentMap,
-                       pkbStorage->parentChildToParentMap, parent);
-    if (pkbStorage->parentTChildToParentMap.find(parent) != pkbStorage->parentTChildToParentMap.end()) {
-        return pkbStorage->parentTChildToParentMap.at(parent);
-    } else {
+    setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTParentToChildMap,
+        pkbStorage->parentParentToChildMap, parent);
+    if (pkbStorage->parentTParentToChildMap.find(parent) != pkbStorage->parentTParentToChildMap.end()) {
+        return pkbStorage->parentTParentToChildMap.at(parent);
+    }
+    else {
         return std::unordered_set< PKBStorage::ChildLine>();
     }
 }
 
 std::unordered_set< PKBStorage::ParentLine> PKBManager::getParentTParentByChild(const  PKBStorage::ChildLine child) {
-    setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTParentToChildMap,
-                       pkbStorage->parentParentToChildMap, child);
-    if (pkbStorage->parentTParentToChildMap.find(child) != pkbStorage->parentTParentToChildMap.end()) {
-        return pkbStorage->parentTParentToChildMap.at(child);
-    } else {
+    
+    setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTChildToParentMap,
+        pkbStorage->parentChildToParentMap, child);
+    if (pkbStorage->parentTChildToParentMap.find(child) != pkbStorage->parentTChildToParentMap.end()) {
+        return pkbStorage->parentTChildToParentMap.at(child);
+    }
+    else {
         return std::unordered_set< PKBStorage::ParentLine>();
     }
 }

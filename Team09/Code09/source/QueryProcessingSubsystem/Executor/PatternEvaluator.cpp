@@ -35,7 +35,7 @@ bool PatternEvaluator::evaluate() {
 		}
 	}
 	else if (Utils().isUnderscore(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
-		pattern.RIGHT_ARG= temporaryStrip(pattern.RIGHT_ARG);
+		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
 		std::unordered_set<std::string> result = patternLeftUnderscoreRightStrictExpression(pattern.RIGHT_ARG);
 		if (result.size() == 0) {
 			return false;
@@ -45,7 +45,7 @@ bool PatternEvaluator::evaluate() {
 		}
 	}
 	else if (Utils().isUnderscore(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
-		pattern.RIGHT_ARG= temporaryStrip(pattern.RIGHT_ARG);
+		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
 		std::unordered_set<std::string> result = patternLeftUnderscoreRightRelaxedExpression(pattern.RIGHT_ARG);
 		if (result.size() == 0) {
 			return false;

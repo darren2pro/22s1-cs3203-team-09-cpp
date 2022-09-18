@@ -14,6 +14,7 @@ PKBStorage::~PKBStorage() {}
 
 PKBStorage::LineNum PKBStorage::storeLine(const Stmt node) {
     const LineNum currLineNum = getCurrLineNumber();
+    storeStmt(currLineNum);
     incrementCurrLineNumber();
     std::visit(
             [this, currLineNum](const auto& s) {
@@ -39,6 +40,10 @@ std::shared_ptr<TNode> PKBStorage::getNodeFromLine(const LineNum line) {
     if (lineToNodeMap.find(line) != lineToNodeMap.end()) {
         return std::shared_ptr<TNode>(lineToNodeMap.at(line));
     }
+}
+
+void PKBStorage::storeStmt(const LineNum lineNum) {
+    stmtSet.insert(lineNum);
 }
 
 //entities

@@ -55,6 +55,7 @@ public:
     std::unordered_set<LineNum> assignSet;
     std::unordered_set<LineNum> readSet;
     std::unordered_set<LineNum> printSet;
+    std::unordered_set<LineNum> stmtSet;
 
     //Modifies
     std::unordered_set<std::pair<LineNum, Variable>, PairHasher::pairHash> modifiesSet;
@@ -94,6 +95,7 @@ public:
     LineNum storeLine(const Stmt node);
     LineNum getLineFromNode(const Stmt node);
     std::shared_ptr<TNode> getNodeFromLine(const LineNum line);
+    void storeStmt(const LineNum lineNum);
 
     //store entities API
     void storeVariable(const Variable var);

@@ -35,11 +35,11 @@ namespace UnitTesting {
 		}
 
 		TEST_METHOD(OneElementListPair) {
-			//const std::string var1 = "a";
-			//const std::string var2 = "b";
+			const std::string var1 = "a";
+			const std::string var2 = "b";
 
-			//std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> pairList = {};
-			//pairList.insert(std::make_pair(1, 2));
+			std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> pairList = {};
+			pairList.insert(std::make_pair("h", "hello"));
 		}
     };
 }

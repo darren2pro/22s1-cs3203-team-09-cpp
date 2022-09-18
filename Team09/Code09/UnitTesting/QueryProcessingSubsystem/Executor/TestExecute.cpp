@@ -24,7 +24,7 @@ namespace UnitTesting {
                 PKBManager pkb = parser.parse();
                 QueryExecutor executor(pkb);
 
-                //// Query 1
+                // Query 1
                 string query1 = "while w;\n"
                                 "Select w such that Parent(w, 7)";
                 Query* q1 = QueryBuilder().buildQuery(query1);

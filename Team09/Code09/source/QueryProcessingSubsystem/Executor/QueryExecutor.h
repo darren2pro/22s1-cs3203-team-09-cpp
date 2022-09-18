@@ -10,6 +10,7 @@
 class QueryExecutor {
 private:
 	PKBManager pkb;
+	ResultsDatabase rdb;
 	Relation relations;
 	Pattern pattern;
 	Declaration target;

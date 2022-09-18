@@ -18,7 +18,7 @@ public:
 	std::string LEFT_ARG = pattern.LEFT_ARG;
 	std::string RIGHT_ARG = pattern.RIGHT_ARG;
 	PKBManager pkb;
-	ResultsDatabase rdb;
+	ResultsDatabase& rdb;
 
 	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightRelaxedExpression(Expression expr) = 0;
 	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightStrictExpression(Expression expr) = 0;
@@ -33,7 +33,7 @@ public:
 	virtual std::unordered_set<LineNum> patternLeftSimpleRightUnderscore(Variable var) = 0;
 
 
-	PatternEvaluator(std::vector<Declaration> declarations, Pattern pattern, ResultsDatabase rdb, PKBManager pkb) :
+	PatternEvaluator(std::vector<Declaration> declarations, Pattern pattern, ResultsDatabase& rdb, PKBManager pkb) :
 		declarations(declarations), pattern(pattern), rdb(rdb), pkb(pkb) {};
 	bool evaluate();
 };

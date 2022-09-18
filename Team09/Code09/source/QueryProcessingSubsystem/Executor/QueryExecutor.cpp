@@ -19,7 +19,7 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	pattern = query->patterns;
 	declarations = query->declarations;
 	target = query->target;
-	ResultsDatabase rdb;
+	rdb = ResultsDatabase();
 
 	// Relations clause
 	bool relClauseResult = execute(relations, rdb);
@@ -81,6 +81,12 @@ std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(std::vector<Dec
 
 void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager& pkb) {
 	std::unordered_set<std::string> resultsFromPKB;
+	
+	// Check whether RDB already has the variable.
+	auto rdbVarList = rdb.allVariables;
+	if (std::find(rdbVarList.begin(), rdbVarList.end(), decl.name) != rdbVarList.end()) {
+		return;
+	}
 
 	switch (decl.TYPE) {
 	case Declaration::Assignment:
@@ -99,6 +105,8 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 		resultsFromPKB = pkb.getReadSet();
 	case Declaration::Print:
 		resultsFromPKB = pkb.getPrintSet();
+	case Declaration::Statement:
+		resultsFromPKB = pkb.getStmtSet();
 	}
 
 	rdb.insertList(decl.name, resultsFromPKB);

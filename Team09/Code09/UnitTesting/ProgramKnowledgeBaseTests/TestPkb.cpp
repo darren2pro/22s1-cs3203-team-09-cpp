@@ -76,16 +76,136 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->parentChildToParentMap.at("2") == parentSet);
 
                 pkbStorage->storeUsesS("1", "var1");
-                std::unordered_set<PKBStorage::LineNum> lineSet;
-                std::unordered_set<PKBStorage::Variable> varSet;
-                lineSet.insert("1");
-                varSet.insert("var1");
+                std::unordered_set<PKBStorage::LineNum> usesLineSet;
+                std::unordered_set<PKBStorage::Variable> usesVarSet;
+                usesLineSet.insert("1");
+                usesVarSet.insert("var1");
                 Assert::IsTrue(pkbStorage->usesSet.find(std::make_pair("1", "var1")) != pkbStorage->usesSet.end());
-                Assert::IsTrue(pkbStorage->usesSet.find(std::make_pair("1", "var2")) != pkbStorage->usesSet.end());
+                Assert::IsTrue(pkbStorage->usesSet.find(std::make_pair("1", "var2")) == pkbStorage->usesSet.end());
                 Assert::IsTrue(pkbStorage->usesLineToVarMap.find("1") != pkbStorage->usesLineToVarMap.end());
                 Assert::IsTrue(pkbStorage->usesLineToVarMap.find("2") == pkbStorage->usesLineToVarMap.end());
                 Assert::IsTrue(pkbStorage->usesVarToLineMap.find("var1") != pkbStorage->usesVarToLineMap.end());
                 Assert::IsTrue(pkbStorage->usesVarToLineMap.find("var2") == pkbStorage->usesVarToLineMap.end());
+                Assert::IsTrue(pkbStorage->usesLineToVarMap.at("1") == usesVarSet);
+                Assert::IsTrue(pkbStorage->usesVarToLineMap.at("var1") == usesLineSet);
+
+                pkbStorage->storeModifiesS("1", "var1");
+                std::unordered_set<PKBStorage::LineNum> modifiesLineSet;
+                std::unordered_set<PKBStorage::Variable> modifiesVarSet;
+                modifiesLineSet.insert("1");
+                modifiesVarSet.insert("var1");
+                Assert::IsTrue(pkbStorage->modifiesSet.find(std::make_pair("1", "var1")) != pkbStorage->modifiesSet.end());
+                Assert::IsTrue(pkbStorage->modifiesSet.find(std::make_pair("1", "var2")) == pkbStorage->modifiesSet.end());
+                Assert::IsTrue(pkbStorage->modifiesLineToVarMap.find("1") != pkbStorage->modifiesLineToVarMap.end());
+                Assert::IsTrue(pkbStorage->modifiesLineToVarMap.find("2") == pkbStorage->modifiesLineToVarMap.end());
+                Assert::IsTrue(pkbStorage->modifiesVarToLineMap.find("var1") != pkbStorage->modifiesVarToLineMap.end());
+                Assert::IsTrue(pkbStorage->modifiesVarToLineMap.find("var2") == pkbStorage->modifiesVarToLineMap.end());
+                Assert::IsTrue(pkbStorage->modifiesLineToVarMap.at("1") == modifiesVarSet);
+                Assert::IsTrue(pkbStorage->modifiesVarToLineMap.at("var1") == modifiesLineSet);
+
+                pkbStorage->storeAssignPattern("var1", "1", "1");
+                std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> lineVarSet;
+                std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::ExprStr>, PairHasher::pairHash> lineExprSet;
+                lineVarSet.insert(std::make_pair("1", "var1"));
+                lineExprSet.insert(std::make_pair("1", "1"));
+                Assert::IsTrue(pkbStorage->assignLineVarSet.find(std::make_pair("1", "var1")) != pkbStorage->assignLineVarSet.end());
+                Assert::IsTrue(pkbStorage->assignLineVarSet.find(std::make_pair("1", "var2")) == pkbStorage->assignLineVarSet.end());
+                Assert::IsTrue(pkbStorage->assignVarToLineExprMap.find("var1") != pkbStorage->assignVarToLineExprMap.end());
+                Assert::IsTrue(pkbStorage->assignVarToLineExprMap.find("var2") == pkbStorage->assignVarToLineExprMap.end());
+                Assert::IsTrue(pkbStorage->assignExprToLineVarMap.find("1") != pkbStorage->assignExprToLineVarMap.end());
+                Assert::IsTrue(pkbStorage->assignExprToLineVarMap.find("2") == pkbStorage->assignExprToLineVarMap.end());
+                Assert::IsTrue(pkbStorage->assignExprToLineVarMap.at("1") == lineVarSet);
+                Assert::IsTrue(pkbStorage->assignVarToLineExprMap.at("var1") == lineExprSet);
+            }
+
+            TEST_METHOD(TestPkbManager) {
+                //getModifies
+
+                //getModifiesUS
+
+                //getModifiesVarByStmt
+
+                //getModifesStmtByVar
+
+                //getAllModifies
+
+                //getModifiesStmtByUS
+
+                //getUses
+
+                //getUsesUS
+
+                //getUsesVarByStmt
+
+                //getUsesStmtByVar
+
+                //getAllUses
+
+                //getUsesStmtByUS
+
+                //getFollows
+
+                //getFollowsByPrevUS
+
+                //getFollowsByUSNext
+
+                //getFollowsByUSUS
+
+                //getFollowsNextByPrev
+
+                //getFollowsPrevByNext
+
+                //getFollowsPrevByUS
+
+                //getFollowsNextByUS
+
+                //getAllFollows
+
+                //getFollowsT
+
+                //getFollowsNextByPrev
+
+                //getFollowsPrevByNext
+
+                //getAllFollowsT
+
+                //getParent
+
+                //getParentByPrevUS
+
+                //getParentByUSNext
+
+                //getParentByUSUS
+
+                //getParentNextByPrev
+
+                //getParentPrevByNext
+
+                //getParentPrevByUS
+
+                //getParentNextByUS
+
+                //getAllParent
+
+                //getParentT
+
+                //getParentTNextByPrev
+
+                //getParentTPrevByNext
+
+                //getAllParentT
+
+                //getAssignLineByVarUS
+
+                //getAssignLineByVarMatchPartial
+
+                //getAssignLineVarByUS
+
+                //getAssignLineVarByMatchPartial
+
+                //getAssignLineByUSUS
+
+                //getAssignLineByUSMatchPartial
             }
     };
 }

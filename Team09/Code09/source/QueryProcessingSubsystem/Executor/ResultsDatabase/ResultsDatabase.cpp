@@ -22,6 +22,7 @@ bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordere
 	// There are no tables with both variables already inside
 	if (firstIndex == -1 && secondIndex == -1) {
 		createDoubleVariableTable(var1, var2, listPair);
+		return true;
 	}
 	// Var1 doesn't exist, but there is a table where var2 exists.
 	else if(firstIndex == -1) {
@@ -56,8 +57,9 @@ void ResultsDatabase::createSingleVariableTable(Variable variable, std::unordere
 	ResultsTables resultsTable;
 	resultsTable.create(variable, list);
 	allResultsTables.push_back(resultsTable);
-	int tableIndex = allResultsTables.size();
+	int tableIndex = allResultsTables.size() - 1;
 	addNewTableToMap(variable, tableIndex);
+	allVariables.push_back(variable);
 }
 
 void ResultsDatabase::createDoubleVariableTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> pairList) {
@@ -67,6 +69,8 @@ void ResultsDatabase::createDoubleVariableTable(Variable var1, Variable var2, st
 	int tableIndex = allResultsTables.size() - 1;
 	addNewTableToMap(var1, tableIndex);
 	addNewTableToMap(var2, tableIndex);
+	allVariables.push_back(var2);
+	allVariables.push_back(var1);
 }
 
 bool ResultsDatabase::combineTables(int firstIndex, int secondIndex, Variable var) {

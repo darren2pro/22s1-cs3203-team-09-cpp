@@ -27,6 +27,8 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	// Patterns clause
 	bool patClauseResult = execute(pattern, rdb);
 
+	// WHY RETURN FALSE FOR EMPTY PATTERN?
+
 	// Insert all other variables that have not been inserted.
 	for (Declaration decl : declarations) {
 		insertSynonymSetIntoRDB(decl, rdb, pkb);
@@ -43,26 +45,32 @@ bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
 
 	switch (relations.TYPE) {
 	case Relation::Modifies:
-		return ModifiesEvaluator({}, relations, rdb, pkb).evaluate();
+		return ModifiesEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::Uses:
-		return UsesEvaluator({}, relations, rdb, pkb).evaluate();
+		return UsesEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::Follows:
-		return FollowsEvaluator({}, relations, rdb, pkb).evaluate();
+		return FollowsEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::FollowsT:
-		return FollowsTEvaluator({}, relations, rdb, pkb).evaluate();
+		return FollowsTEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::Parent:
-		return ParentEvaluator({}, relations, rdb, pkb).evaluate();
+		return ParentEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::ParentT:
-		return ParentTEvaluator({}, relations, rdb, pkb).evaluate();
+		return ParentTEvaluator(declarations, relations, rdb, pkb).evaluate();
+	default:
+		return true;
 	}
 }
-
+ 
 // Pattern execute
 bool QueryExecutor::execute(Pattern pattern, ResultsDatabase& rdb) {
 
 	switch (pattern.TYPE) {
 	case Pattern::Assign:
-		return AssignPatternEvaluator({}, pattern, rdb, pkb).evaluate();
+		return AssignPatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
+	case Pattern::None:
+		return true;
+	default:
+		return true;
 	}
 }
 

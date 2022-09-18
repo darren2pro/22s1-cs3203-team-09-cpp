@@ -1,6 +1,6 @@
 #include "ResultsTables.h"
 
-void ResultsTables::create(Variable variable, std::unordered_set<Value> list) {
+void ResultsTables::create(Variable variable, std::unordered_set<Value>& list) {
 	columnName.push_back(variable);
 	varToColIndex.insert({variable, columnIndex});
 	columnIndex++;
@@ -11,7 +11,7 @@ void ResultsTables::create(Variable variable, std::unordered_set<Value> list) {
 	}
 }
 
-void ResultsTables::create(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair) {
+void ResultsTables::create(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash>& listPair) {
 	columnName.push_back(var1);
 	int firstIndex = columnIndex;
 	varToColIndex.insert({var1, columnIndex});
@@ -25,7 +25,7 @@ void ResultsTables::create(Variable var1, Variable var2, std::unordered_set<std:
 	}
 }
 
-bool ResultsTables::insertListToTable(Variable variable, std::unordered_set<Value> list) {
+bool ResultsTables::insertListToTable(Variable variable, std::unordered_set<Value>& list) {
 	int index = varToColIndex[variable];
 	auto remover = std::remove_if(resultsTable.begin(), resultsTable.end(),
 
@@ -39,7 +39,7 @@ bool ResultsTables::insertListToTable(Variable variable, std::unordered_set<Valu
 	resultsTable.erase(remover, resultsTable.end());
 	
 	// To check if Table is empty.
-	if (resultsTable.size() < 0) {
+	if (resultsTable.size() <= 0) {
 		return false;
 	}
 	else {
@@ -47,7 +47,7 @@ bool ResultsTables::insertListToTable(Variable variable, std::unordered_set<Valu
 	}
 }
 
-bool ResultsTables::insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair) {
+bool ResultsTables::insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash>& listPair) {
 	int index1 = varToColIndex[var1];
 	int index2 = varToColIndex[var2];
 
@@ -62,7 +62,7 @@ bool ResultsTables::insertListPairToTable(Variable var1, Variable var2, std::uno
 	resultsTable.erase(remover, resultsTable.end());
 	
 	// To check if Table is empty.
-	if (resultsTable.size() < 0) {
+	if (resultsTable.size() <= 0) {
 		return false;
 	}
 	else {
@@ -72,7 +72,7 @@ bool ResultsTables::insertListPairToTable(Variable var1, Variable var2, std::uno
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool ResultsTables::combineTableWith(ResultsTables otherTable, Variable var) {
+bool ResultsTables::combineTableWith(ResultsTables& otherTable, Variable var) {
 	std::unordered_map<std::string, std::vector<int>> col_hash = hashColumn(var);
 	std::vector<std::vector<std::string>> out_table;
 	size_t other_table_join_var_index = otherTable.varToColIndex.at(var);

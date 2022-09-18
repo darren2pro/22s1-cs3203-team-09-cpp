@@ -22,12 +22,12 @@ namespace UnitTesting {
                 std::istringstream iss(program);
                 SimpleParser parser(&iss);
                 PKBManager pkb = parser.parse();
+                QueryExecutor executor(pkb);
 
-                // Query 1
+                //// Query 1
                 string query1 = "while w;\n"
                                 "Select w such that Parent(w, 7)";
                 Query* q1 = QueryBuilder().buildQuery(query1);
-                QueryExecutor executor(pkb);
                 unordered_set<string> results1 = executor.processQuery(q1);
                 Assert::IsTrue(results1.size() == 0, L"Query 1 fails");
 

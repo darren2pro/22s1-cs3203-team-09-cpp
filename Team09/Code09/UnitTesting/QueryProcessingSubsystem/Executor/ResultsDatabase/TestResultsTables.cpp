@@ -11,8 +11,8 @@ namespace UnitTesting {
 
 	public:
 		TEST_METHOD(OneElementList) {
-			const std::string var = "a";
-			const std::unordered_set<std::string> list = {"1"};
+			std::string var = "a";
+			std::unordered_set<std::string> list = {"1"};
 
 			ResultsTables rt;
 			rt.create(var, list);

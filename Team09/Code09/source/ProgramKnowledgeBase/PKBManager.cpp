@@ -1,5 +1,7 @@
 #include "PKBManager.h"
 
+using namespace Simple;
+
 PKBManager::PKBManager() {}
 PKBManager::~PKBManager() {}
 
@@ -57,11 +59,23 @@ bool PKBManager::getModifiesUS(const PKBStorage::LineNum lineNum) {
 }
 
 std::unordered_set<PKBStorage::Variable> PKBManager::getModifiesVarByStmt(const PKBStorage::LineNum lineNum) {
-    return pkbStorage->modifiesLineToVarMap.at(lineNum);
+    if (pkbStorage->modifiesLineToVarMap.find(lineNum) != pkbStorage->modifiesLineToVarMap.end()) {
+        return pkbStorage->modifiesLineToVarMap.at(lineNum);
+    } else {
+        return std::unordered_set<PKBStorage::Variable>();
+    }
+    
+    
 }
 
 std::unordered_set<PKBStorage::LineNum> PKBManager::getModifiesStmtByVar(const PKBStorage::Variable var) {
-    return pkbStorage->modifiesVarToLineMap.at(var);
+    if (pkbStorage->modifiesVarToLineMap.find(var) != pkbStorage->modifiesVarToLineMap.end()) {
+        return pkbStorage->modifiesVarToLineMap.at(var);
+    } else {
+        return std::unordered_set<PKBStorage::LineNum>();
+    }
+    
+    
 }
 
 std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> PKBManager::getAllModifies() {
@@ -86,11 +100,19 @@ bool PKBManager::getUsesUS(const PKBStorage::LineNum lineNum) {
 }
 
 std::unordered_set<PKBStorage::Variable> PKBManager::getUsesVarByStmt(const PKBStorage::LineNum lineNum) {
-    return pkbStorage->usesVarToLineMap.at(lineNum);
+    if (pkbStorage->usesVarToLineMap.find(lineNum) != pkbStorage->usesVarToLineMap.end()) {
+        return pkbStorage->usesVarToLineMap.at(lineNum);
+    } else {
+        return std::unordered_set<PKBStorage::Variable>();
+    }
 }
 
 std::unordered_set<PKBStorage::LineNum> PKBManager::getUsesStmtByVar(const PKBStorage::Variable var) {
-    return pkbStorage->usesVarToLineMap.at(var);
+    if (pkbStorage->usesVarToLineMap.find(var) != pkbStorage->usesVarToLineMap.end()) {
+        return pkbStorage->usesVarToLineMap.at(var);
+    } else {
+        return std::unordered_set<PKBStorage::LineNum>();
+    }
 }
 
 std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> PKBManager::getAllUses() {
@@ -123,11 +145,19 @@ bool PKBManager::getFollowsByUSUS() {
 }
 
 std::unordered_set<PKBStorage::NextLine> PKBManager::getFollowsNextByPrev(const PKBStorage::PrevLine prev) {
-    return pkbStorage->followsPrevToNextMap.at(prev);
+    if (pkbStorage->followsPrevToNextMap.find(prev) != pkbStorage->followsPrevToNextMap.end()) {
+        return pkbStorage->followsPrevToNextMap.at(prev);
+    } else {
+        return std::unordered_set<PKBStorage::NextLine>();
+    }
 }
 
 std::unordered_set<PKBStorage::PrevLine> PKBManager::getFollowsPrevByNext(const PKBStorage::NextLine next) {
-    return pkbStorage->followsNextToPrevMap.at(next);
+    if (pkbStorage->followsNextToPrevMap.find(next) != pkbStorage->followsNextToPrevMap.end()) {
+        return pkbStorage->followsNextToPrevMap.at(next);
+    } else {
+        return std::unordered_set<PKBStorage::PrevLine>();
+    }
 }
 
 std::unordered_set<PKBStorage::PrevLine> PKBManager::getFollowsPrevByUS() {
@@ -171,13 +201,22 @@ bool PKBManager::getFollowsTByUSUS() {
 std::unordered_set<PKBStorage::NextLine> PKBManager::getFollowsTNextByPrev(const PKBStorage::PrevLine prev) {
     setStarFromBaseMap(pkbStorage->followsTSet, pkbStorage->followsTPrevToNextMap,
                        pkbStorage->followsPrevToNextMap, prev);
-    return pkbStorage->followsTPrevToNextMap.at(prev);
+    if (pkbStorage->followsTPrevToNextMap.find(prev) != pkbStorage->followsTPrevToNextMap.end()) {
+        return pkbStorage->followsTPrevToNextMap.at(prev);
+    } else {
+        return std::unordered_set<PKBStorage::NextLine>();
+    }
 }
 
 std::unordered_set<PKBStorage::PrevLine> PKBManager::getFollowsTPrevByNext(const PKBStorage::NextLine next) {
     setStarFromBaseMap(pkbStorage->followsTSet, pkbStorage->followsTNextToPrevMap,
                        pkbStorage->followsNextToPrevMap, next);
-    return pkbStorage->followsTNextToPrevMap.at(next);
+    if (pkbStorage->followsTNextToPrevMap.find(next) != pkbStorage->followsTNextToPrevMap.end()) {
+        return pkbStorage->followsTNextToPrevMap.at(next);
+    } else {
+        return std::unordered_set<PKBStorage::PrevLine>();
+    }
+    
 }
 
 std::unordered_set<PKBStorage::PrevLine> PKBManager::getFollowsTPrevByUS() {
@@ -213,11 +252,19 @@ bool PKBManager::getParentByUSUS() {
 }
 
 std::unordered_set< PKBStorage::ChildLine> PKBManager::getParentChildByParent(const  PKBStorage::ParentLine parent) {
-    return pkbStorage->parentParentToChildMap.at(parent);
+    if (pkbStorage->parentParentToChildMap.find(parent) != pkbStorage->parentParentToChildMap.end()) {
+        return pkbStorage->parentParentToChildMap.at(parent);
+    } else {
+        return std::unordered_set< PKBStorage::ChildLine>();
+    }
 }
 
 std::unordered_set< PKBStorage::ParentLine> PKBManager::getParentParentByChild(const  PKBStorage::ChildLine child) {
-    return pkbStorage->parentChildToParentMap.at(child);
+    if (pkbStorage->parentChildToParentMap.find(child) != pkbStorage->parentChildToParentMap.end()) {
+        return pkbStorage->parentChildToParentMap.at(child);
+    } else {
+        return std::unordered_set< PKBStorage::ParentLine>();
+    }
 }
 std::unordered_set<PKBStorage::ParentLine> PKBManager::getParentParentByUS() {
     std::unordered_set<PKBStorage::ParentLine> set;
@@ -259,13 +306,21 @@ bool PKBManager::getParentTByUSUS() {
 std::unordered_set< PKBStorage::ChildLine> PKBManager::getParentTChildByParent(const  PKBStorage::ParentLine parent) {
     setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTChildToParentMap,
                        pkbStorage->parentChildToParentMap, parent);
-    return pkbStorage->parentTChildToParentMap.at(parent);
+    if (pkbStorage->parentTChildToParentMap.find(parent) != pkbStorage->parentTChildToParentMap.end()) {
+        return pkbStorage->parentTChildToParentMap.at(parent);
+    } else {
+        return std::unordered_set< PKBStorage::ChildLine>();
+    }
 }
 
 std::unordered_set< PKBStorage::ParentLine> PKBManager::getParentTParentByChild(const  PKBStorage::ChildLine child) {
     setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTParentToChildMap,
                        pkbStorage->parentParentToChildMap, child);
-    return pkbStorage->parentTParentToChildMap.at(child);
+    if (pkbStorage->parentTParentToChildMap.find(child) != pkbStorage->parentTParentToChildMap.end()) {
+        return pkbStorage->parentTParentToChildMap.at(child);
+    } else {
+        return std::unordered_set< PKBStorage::ParentLine>();
+    }
 }
 
 std::unordered_set< PKBStorage::ParentLine> PKBManager::getParentTParentByUS() {
@@ -286,25 +341,44 @@ std::unordered_set<std::pair< PKBStorage::ParentLine,  PKBStorage::ChildLine>, P
 //AssignPattern
 std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByVarUS(const PKBStorage::Variable var) {
     std::unordered_set<PKBStorage::LineNum> set;
-    for (const auto& elem : pkbStorage->assignVarToLineExprMap.at(var)) {
-        set.insert(elem.first);
-    }
-    return set;
-}
-
-std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByVarMatchFull(const PKBStorage::Variable var, const  PKBStorage::ExprStr expr) {
-    std::unordered_set<PKBStorage::LineNum> set;
-    for (const auto& elem : pkbStorage->assignExprToLineVarMap.at(expr)) {
-        if (elem.second == var) {
+    if (pkbStorage->assignVarToLineExprMap.find(var) != pkbStorage->assignVarToLineExprMap.end()) {
+        for (const auto& elem : pkbStorage->assignVarToLineExprMap.at(var)) {
             set.insert(elem.first);
         }
     }
     return set;
 }
 
-//todo
+std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByVarMatchFull(const PKBStorage::Variable var, const  PKBStorage::ExprStr expr) {
+    std::unordered_set<PKBStorage::LineNum> set;
+    if (pkbStorage->assignExprToLineVarMap.find(expr) != pkbStorage->assignExprToLineVarMap.end()) {
+        for (const auto& elem : pkbStorage->assignExprToLineVarMap.at(expr)) {
+            if (elem.second == var) {
+                set.insert(elem.first);
+            }
+        }
+    }
+    return set;
+}
+
 std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByVarMatchPartial(const PKBStorage::Variable var, const  PKBStorage::ExprStr expr) {
-    return std::unordered_set<PKBStorage::LineNum>();
+    //get pattern string
+    std::unordered_set<PKBStorage::LineNum> set;
+    /*std::string pattern = expr;
+    pattern.erase(std::remove(expr.begin(), expr.end(), '_'), expr.end());
+    Expr exprNode = SimpleInterface::parseExpression(pattern);
+    PKBStorage::ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+    if (pkbStorage->assignVarToLineExprMap.find(var) != pkbStorage->assignVarToLineExprMap.end()) {
+        for (const auto& elem : pkbStorage->assignVarToLineExprMap.at(var)) {
+            PKBStorage::LineNum line = elem.first;
+            PKBStorage::ExprStr exprStr = elem.second;
+            if (exprStr.find(patternStr) != std::string::npos) {
+                set.insert(line);
+            }
+        }
+    }*/
+    return set;
 }
 
 std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> PKBManager::getAssignLineVarByUS() {
@@ -312,12 +386,30 @@ std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHas
 }
 
 std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> PKBManager::getAssignLineVarByMatchFull(const  PKBStorage::ExprStr expr) {
-    return pkbStorage->assignExprToLineVarMap.at(expr);
+    if (pkbStorage->assignExprToLineVarMap.find(expr) != pkbStorage->assignExprToLineVarMap.end()) {
+        return pkbStorage->assignExprToLineVarMap.at(expr);
+    } else {
+        return std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash>();
+    }
 }
 
-//todo
 std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> PKBManager::getAssignLineVarByMatchPartial(const  PKBStorage::ExprStr expr) {
-    return std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash>();
+    //get pattern string
+    std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> set;
+    /*std::string pattern = expr;
+    pattern.erase(std::remove(expr.begin(), expr.end(), '_'), expr.end());
+    Expr exprNode = SimpleInterface::parseExpression(pattern);
+    PKBStorage::ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+    for (const auto& elem : pkbStorage->assignExprToLineVarMap) {
+        PKBStorage::ExprStr exprStr = elem.first;
+        if (exprStr.find(patternStr) != std::string::npos) {
+            for (const auto& ele : elem.second) {
+                set.insert(ele);
+            }
+        }
+    }*/
+    return set;
 }
 
 std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSUS() {
@@ -326,16 +418,33 @@ std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSUS() {
 
 std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSMatchFull(const  PKBStorage::ExprStr expr) {
     std::unordered_set<PKBStorage::LineNum> set;
-    for (const auto& elem : pkbStorage->assignExprToLineVarMap.at(expr)) {
-        set.insert(elem.first);
+    if (pkbStorage->assignExprToLineVarMap.find(expr) != pkbStorage->assignExprToLineVarMap.end()) {
+        for (const auto& elem : pkbStorage->assignExprToLineVarMap.at(expr)) {
+            set.insert(elem.first);
+        }
     }
     return set;
 }
 
-//todo
-std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSVarMatchPartial(const  PKBStorage::ExprStr expr) {
-    return std::unordered_set<PKBStorage::LineNum>();
+std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSMatchPartial(const  PKBStorage::ExprStr expr) {
+    //get pattern string
+    std::unordered_set<PKBStorage::LineNum> set;
+    /*std::string pattern = expr;
+    pattern.erase(std::remove(expr.begin(), expr.end(), '_'), expr.end());
+    Expr exprNode = SimpleInterface::parseExpression(pattern);
+    PKBStorage::ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+    for (const auto& elem : pkbStorage->assignExprToLineVarMap) {
+        PKBStorage::ExprStr exprStr = elem.first;
+        if (exprStr.find(patternStr) != std::string::npos) {
+            for (const auto& ele : elem.second) {
+                set.insert(ele.first);
+            }
+        }
+    }*/
+    return set;
 }
+
 void PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash>& set,
                                     std::unordered_map<std::string, std::unordered_set<std::string>>& star,
                                     const std::unordered_map<std::string, std::unordered_set<std::string>> base,

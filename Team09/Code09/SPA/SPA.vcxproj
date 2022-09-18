@@ -13,6 +13,11 @@
   <ItemGroup>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBManager.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\interface.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\lexer.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\parser.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\pratt.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\token.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp" />
@@ -35,6 +40,12 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBManager.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\pkb_adt.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\exceptions.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\interface.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\lexer.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\parser.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\pratt.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\token.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\AssignPatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.h" />

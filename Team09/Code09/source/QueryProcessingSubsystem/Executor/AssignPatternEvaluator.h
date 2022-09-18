@@ -55,7 +55,7 @@ public:
 	}
 
 	std::unordered_set<std::string> AssignPatternEvaluator::patternLeftUnderscoreRightRelaxedExpression(Expression expr) override {
-		std::unordered_set<std::string> results = pkb.getAssignLineByUSVarMatchPartial(expr);
+		std::unordered_set<std::string> results = pkb.getAssignLineByUSMatchPartial(expr);
 		return results;
 	}
 

@@ -1,9 +1,12 @@
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <unordered_set>
 #include "PKBStorage.h"
+#include "simple_parser/interface.h"
+#include "../TNode/TNode.h"
 
 class PKBManager {
 private:
@@ -96,7 +99,7 @@ public:
     std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> getAssignLineVarByMatchPartial(const PKBStorage::ExprStr);
     std::unordered_set<PKBStorage::LineNum> getAssignLineByUSUS();
     std::unordered_set<PKBStorage::LineNum> getAssignLineByUSMatchFull(const PKBStorage::ExprStr);
-    std::unordered_set<PKBStorage::LineNum> getAssignLineByUSVarMatchPartial(const PKBStorage::ExprStr);
+    std::unordered_set<PKBStorage::LineNum> getAssignLineByUSMatchPartial(const PKBStorage::ExprStr);
 
     // utility
     void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash>& set,

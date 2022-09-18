@@ -31,6 +31,7 @@ public:
 		pkb(pkb) {};
 
 	bool evaluate();
+	std::string temporaryStrip(std::string arg);
 
 	// Different
 	virtual std::unordered_set<std::string> leftSynonymRightSimple(std::string RIGHT_ARG) = 0; // For Demo in Week 5

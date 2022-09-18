@@ -45,6 +45,7 @@ bool Evaluator::evaluate() {
 	}
 
 	else if (isLeftSynonym && (!Utils().isUnderscore(RIGHT_ARG) && !isRightSynonym)) {
+		RIGHT_ARG = temporaryStrip(RIGHT_ARG);
 		std::unordered_set<std::string> result = leftSynonymRightSimple(RIGHT_ARG);
 		if (result.size() == 0) {
 			return false;
@@ -70,6 +71,7 @@ bool Evaluator::evaluate() {
 	}
 
 	else if ((!Utils().isUnderscore(LEFT_ARG) && !isLeftSynonym) && (!Utils().isUnderscore(RIGHT_ARG) && !isRightSynonym)) {
+		RIGHT_ARG = temporaryStrip(RIGHT_ARG);
 		bool result = leftSimpleRightSimple(LEFT_ARG, RIGHT_ARG);
 		return result;
 	}
@@ -85,6 +87,7 @@ bool Evaluator::evaluate() {
 	}
 
 	else if (Utils().isUnderscore(LEFT_ARG) && (!Utils().isUnderscore(RIGHT_ARG) && !isRightSynonym)) {
+		RIGHT_ARG = temporaryStrip(RIGHT_ARG);
 		bool result = leftUnderscoreRightSimple(RIGHT_ARG);
 		return result;
 	}
@@ -93,4 +96,13 @@ bool Evaluator::evaluate() {
 		bool result = leftUnderscoreRightUnderScore();
 		return result;
 	}	
+}
+
+std::string Evaluator::temporaryStrip(std::string arg) {
+	// Check whether there is underscores to strip first
+	if (arg[0] == '"') {
+		arg.erase(0, 1);
+		arg.erase(arg.size() - 1);
+	}
+	return arg;
 }

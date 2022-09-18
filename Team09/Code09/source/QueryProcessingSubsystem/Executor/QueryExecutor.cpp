@@ -2,33 +2,87 @@
 #include <vector>
 #include "QueryExecutor.h"
 #include "../Relation.h"
-#include "ModifiesEvaluator.h"
+#include "../Pattern.h"
+#include "../Utils.h"
 #include "UsesEvaluator.h"
+#include "ModifiesEvaluator.h"
+#include "ParentEvaluator.h"
+#include "ParentTEvaluator.h"
+#include "FollowsEvaluator.h"
+#include "FollowsTEvaluator.h"
+#include "PatternEvaluator.h"
+#include "ResultsDatabase/ResultsDatabase.h"
+#include "AssignPatternEvaluator.h"
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	relations = query->relations;
-	// std::vector<std::string> patterns = query->patterns;
-	// std::vector<std::string> declarations = query->declarations;
-	std::string tokens = query->target;
-	std::unordered_set<std::string> results;
-	// Call the "Relation" execute immediately
-	results = execute();
+	pattern = query->patterns;
+	declarations = query->declarations;
+	target = query->target;
+	ResultsDatabase rdb;
+
+	// Relations clause
+	bool relClauseResult = execute(relations, rdb);
+	if (!relClauseResult) {
+		return { "Error occurred with relation" };
+	}
+
+	// Patterns clause
+	bool patClauseResult = execute(pattern, rdb);
+	if (!patClauseResult) {
+		return { "Error occurred with pattern" };
+	}
+
+	// IMPLEMENT WITH RUIYAN
+	fillRDBWithVariables(declarations, rdb);
+
+	std::unordered_set<std::string> results = getResultsFromRDB(declarations, target, rdb);
+
 	return results;
 }
 
+
 // Relation execute
-std::unordered_set<std::string> QueryExecutor::execute() {
+bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
 
 	switch (relations.TYPE) {
 	case Relation::Modifies:
-		// Create the Modifies Evaluator and evaluate it
-		// return ModifiesEvaluator({}, relations, pkb).evaluate();
-		return {};
+		return ModifiesEvaluator({}, relations, rdb, pkb).evaluate();
 	case Relation::Uses:
-		// return UsesEvaluator({}, relations, pkb).evaluate();
-		return {};
+		return UsesEvaluator({}, relations, rdb, pkb).evaluate();
+	case Relation::Follows:
+		return FollowsEvaluator({}, relations, rdb, pkb).evaluate();
+	case Relation::FollowsT:
+		return FollowsTEvaluator({}, relations, rdb, pkb).evaluate();
+	case Relation::Parent:
+		return ParentEvaluator({}, relations, rdb, pkb).evaluate();
+	case Relation::ParentT:
+		return ParentTEvaluator({}, relations, rdb, pkb).evaluate();
 	}
-
 }
 
-// TODO: Pattern execute
+// Pattern execute
+bool QueryExecutor::execute(Pattern pattern, ResultsDatabase& rdb) {
+
+	switch (pattern.TYPE) {
+	case Pattern::Assign:
+		return AssignPatternEvaluator({}, pattern, rdb, pkb).evaluate();
+	}
+}
+
+std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(std::vector<Declaration> declarations, Declaration target, ResultsDatabase& rdb) {
+	// Different from JK
+	return rdb.getResults(target);
+}
+
+void QueryExecutor::fillRDBWithVariables(std::vector<Declaration> declarations, ResultsDatabase& rdb) {
+	for (Declaration decl : declarations) {
+
+		// UNCOMMENTED OUT. Need to implement with PKB. Currently adding empty lists a: { } 
+		//std::unordered_set<std::string> resultsFromPKB = pkb.getAllVariableAssignment(decl.name);
+		std::unordered_set<std::string> resultsFromPKB = { };
+
+		rdb.insertList(decl.name, resultsFromPKB);
+	}
+}
+

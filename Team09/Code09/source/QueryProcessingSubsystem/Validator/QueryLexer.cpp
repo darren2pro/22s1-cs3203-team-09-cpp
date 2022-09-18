@@ -3,11 +3,14 @@
 #include <string>
 #include <vector>
 #include <regex>
-#include "QPSValidatorException.h"
+#include "SyntaxException.h"
+#include "SemanticException.h"
 
-std::regex whitespace("[ \t\n]+");
-std::regex punctuation("[\(\),;_]");
-std::regex allowed_charas("[A-Za-z0-9\*\+-/%]");
+namespace lexerre {
+    std::regex whitespace("[ \t\n]+");
+    std::regex punctuation("[\(\),;_]");
+    std::regex allowed_charas("[A-Za-z0-9-/%\+\*]");
+}
 
 QueryLexer::QueryLexer(std::string query) {
 	query_string = query;
@@ -24,12 +27,12 @@ std::vector<std::string> QueryLexer::lex() {
 
 	for (int i = 0; i < query_string.length(); i++) {
         const char currentChar = query_string[i];
-        if (std::regex_match(std::string(1, currentChar), whitespace)) {
+        if (std::regex_match(std::string(1, currentChar), lexerre::whitespace)) {
             if (str.length() > 0 && str[0] != '"') {
                 tokens.push_back(str);
                 str.clear();
             }
-        } else if (std::regex_match(std::string(1, currentChar), punctuation)) {
+        } else if (std::regex_match(std::string(1, currentChar), lexerre::punctuation)) {
             if (str.length() > 0) {
                 if (str[0] == '"') {    // check if it's part of an expression
                     str += currentChar;
@@ -49,7 +52,7 @@ std::vector<std::string> QueryLexer::lex() {
                 continue;
             }
             str += currentChar;
-        } else if (std::regex_match(std::string(1, currentChar), allowed_charas)) {
+        } else if (std::regex_match(std::string(1, currentChar), lexerre::allowed_charas)) {
              str += currentChar;
         } else {
             throw SyntaxError("Unexpected character (" + std::string(1, currentChar) + ") while tokenizing\n");

@@ -165,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProgramKnowledgeBaseTests\TestPkb.cpp" />
+    <ClCompile Include="QueryProcessingSubsystem\Executor\ResultsDatabase\TestResultsTables.cpp" />
     <ClCompile Include="QueryProcessingSubsystem\Validator\TestQueryLexer.cpp" />
     <ClCompile Include="QueryProcessingSubsystem\Validator\TestQueryParser.cpp" />
     <ClCompile Include="stdafx.cpp">

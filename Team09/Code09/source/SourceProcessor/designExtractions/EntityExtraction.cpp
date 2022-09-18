@@ -319,46 +319,15 @@ void EntityExtraction::extractAssignPattern(const std::shared_ptr<AssignmentNode
     const PKBStorage::LineNum lnNum = pkbStorage->getLineFromNode(assign);
     const PKBStorage::ExprStr  exprs =
         std::visit([this](const auto& s) { return s->toString(); }, assign->expr);
-    pkbStorage->storeAssignPattern(varName, exprs, lnNum);
+    pkbStorage->storeAssignPattern(varName, lnNum, exprs);
 }
 
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<IfNode> ifNode) {
-    extractPatternHelper(ifNode->condExpr, ifNode);
     extractAssignStmts(ifNode->thenStmtList);
     extractAssignStmts(ifNode->elseStmtList);
 }
-void EntityExtraction::extractPatternHelper(const Expr expr, const Stmt stmt) {
-    std::visit(
-        [this, stmt](const auto& n) { extractPatternHelper(n, stmt); },
-        expr);
-}
-void EntityExtraction::extractPatternHelper(const std::shared_ptr<BinOpNode> bin, const Stmt stmt) {
-    extractPatternHelper(bin->leftExpr, stmt);
-    extractPatternHelper(bin->rightExpr, stmt);
-}
-void EntityExtraction::extractPatternHelper(const std::shared_ptr<CondExprNode> cond,
-    const Stmt stmt) {
-    if (cond == nullptr) {
-        return;
-    }
-    extractPatternHelper(cond->relExpr, stmt);
-    extractPatternHelper(cond->leftCond, stmt);
-    extractPatternHelper(cond->rightCond, stmt);
-}
-
-void EntityExtraction::extractPatternHelper(const std::shared_ptr<RelExprNode> rel,
-    const Stmt stmt) {
-    if (rel == nullptr) {
-        return;
-    }
-    extractPatternHelper(rel->leftRel, stmt);
-    extractPatternHelper(rel->rightRel, stmt);
-}
-void EntityExtraction::extractPatternHelper(const std::shared_ptr<ConstantNode>,
-    const Stmt) {}
 
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<WhileNode> whileNode) {
-    extractPatternHelper(whileNode->condExpr, whileNode);
     extractAssignStmts(whileNode->stmtList);
 }
 

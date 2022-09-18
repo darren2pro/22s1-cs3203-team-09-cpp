@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include <ProgramKnowledgeBase/PKBManager.h>
-#include <ProgramKnowledgeBase/PKBStorage.cpp>
+#include "ProgramKnowledgeBase/PKBManager.h"
+#include "ProgramKnowledgeBase/PKBStorage.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -11,44 +11,69 @@ namespace UnitTesting {
             public:
             TEST_METHOD(TestPkbStorage) {
                 PKBManager pkbManager;
-                shared_ptr<PKBStorage> pkbStorage = pkbManager.getPKBStorage();
-                pkbStorage->storeProcedure("procMain");
-                pkbStorage->storeProcedure("proc1");
-                pkbStorage->storeProcedure("proc2");
-                pkbStorage->storeProcedure("proc3");
+                shared_ptr<PKBStorage> pkbStorage = pkbManager.getPKBStorage();    
+
+                //Check if entity population is correct
                 pkbStorage->storeVariable("var1");
-                pkbStorage->storeVariable("var2");
-                pkbStorage->storeVariable("var3");
-                VariableNodePtr var1 = make_shared<VariableNode>("var1");
-                VariableNodePtr var2 = make_shared<VariableNode>("var2");
-                VariableNodePtr var3 = make_shared<VariableNode>("var3");
-                AssignmentNodePtr assignNode1 = make_shared<AssignmentNode>(var1, make_shared<ConstantNode>("1"));
-                AssignmentNodePtr assignNode2 = make_shared<AssignmentNode>(var2, make_shared<ConstantNode>("2"));
-                AssignmentNodePtr assignNode3 = make_shared<AssignmentNode>(var3, make_shared<ConstantNode>("3"));
-                PKBStorage::LineNum lineNum1 = pkbStorage->storeLine(assignNode1);
-                PKBStorage::LineNum lineNum2 = pkbStorage->storeLine(assignNode2);
-                PKBStorage::LineNum lineNum3 = pkbStorage->storeLine(assignNode3);
-                pkbStorage->storeModifiesS(lineNum1, "var1");
-                pkbStorage->storeModifiesS(lineNum2, "var2");
-                pkbStorage->storeModifiesS(lineNum3, "var3");
+                pkbStorage->storeProcedure("proc1");
+                pkbStorage->storeConstant("1");
+                pkbStorage->storeWhile("1");
+                pkbStorage->storeIf("1");
+                pkbStorage->storeAssign("1");
+                pkbStorage->storeRead("1", "var1");
+                pkbStorage->storePrint("1", "var1");
 
-                // Check that the line numbers are correct
-                Assert::AreEqual("1", lineNum1.c_str());
-                Assert::AreEqual("2", lineNum2.c_str());
-                Assert::AreEqual("3", lineNum3.c_str());
+                Assert::IsTrue(pkbStorage->varSet.find("var1") != pkbStorage->varSet.end());
+                Assert::IsTrue(pkbStorage->varSet.find("var2") == pkbStorage->varSet.end());
+                Assert::IsTrue(pkbStorage->procSet.find("proc1") != pkbStorage->procSet.end());
+                Assert::IsTrue(pkbStorage->procSet.find("proc2") == pkbStorage->procSet.end());
+                Assert::IsTrue(pkbStorage->constSet.find("1") != pkbStorage->constSet.end());
+                Assert::IsTrue(pkbStorage->constSet.find("2") == pkbStorage->constSet.end());
+                Assert::IsTrue(pkbStorage->whileSet.find("1") != pkbStorage->whileSet.end());
+                Assert::IsTrue(pkbStorage->whileSet.find("2") == pkbStorage->whileSet.end());
+                Assert::IsTrue(pkbStorage->ifSet.find("1") != pkbStorage->ifSet.end());
+                Assert::IsTrue(pkbStorage->ifSet.find("2") == pkbStorage->ifSet.end());
+                Assert::IsTrue(pkbStorage->assignSet.find("1") != pkbStorage->assignSet.end());
+                Assert::IsTrue(pkbStorage->assignSet.find("2") == pkbStorage->assignSet.end());
+                Assert::IsTrue(pkbStorage->readSet.find("1") != pkbStorage->readSet.end());
+                Assert::IsTrue(pkbStorage->readSet.find("2") == pkbStorage->readSet.end());
+                Assert::IsTrue(pkbStorage->printSet.find("1") != pkbStorage->printSet.end());
+                Assert::IsTrue(pkbStorage->printSet.find("2") == pkbStorage->printSet.end());
 
-                // Check that the modifiesSet contains the correct stuff
-                Assert::IsTrue(pkbStorage->modifiesSet.find(std::make_pair(lineNum1, "var1")) != pkbStorage->modifiesSet.end());
-                Assert::IsTrue(pkbStorage->modifiesSet.find(std::make_pair(lineNum2, "var2")) != pkbStorage->modifiesSet.end());
-                Assert::IsTrue(pkbStorage->modifiesSet.find(std::make_pair(lineNum3, "var3")) != pkbStorage->modifiesSet.end());
+                //Check if relations population is correct
+                pkbStorage->storeFollows("1", "2");
+                std::unordered_set<PKBStorage::LineNum> prevSet;
+                std::unordered_set<PKBStorage::LineNum> nextSet;
+                prevSet.insert("1");
+                nextSet.insert("2");
+                Assert::IsTrue(pkbStorage->followsSet.find(std::make_pair("1", "2")) != pkbStorage->followsSet.end());
+                Assert::IsTrue(pkbStorage->followsSet.find(std::make_pair("1", "3")) == pkbStorage->followsSet.end());
+                Assert::IsTrue(pkbStorage->followsPrevToNextMap.find("1") != pkbStorage->followsPrevToNextMap.end());
+                Assert::IsTrue(pkbStorage->followsPrevToNextMap.find("2") == pkbStorage->followsPrevToNextMap.end());
+                Assert::IsTrue(pkbStorage->followsNextToPrevMap.find("2") != pkbStorage->followsNextToPrevMap.end());
+                Assert::IsTrue(pkbStorage->followsNextToPrevMap.find("1") == pkbStorage->followsNextToPrevMap.end());
+                Assert::IsTrue(pkbStorage->followsPrevToNextMap.at("1") == nextSet);
+                Assert::IsTrue(pkbStorage->followsNextToPrevMap.at("2") == prevSet);
 
-                // Check that the API returns the correct stuff
-                Assert::IsTrue(pkbManager.getModifies(lineNum1, "var1"));
-                Assert::IsTrue(pkbManager.getModifies(lineNum2, "var2"));
-                Assert::IsTrue(pkbManager.getModifies(lineNum3, "var3"));
-                Assert::IsFalse(pkbManager.getModifies(lineNum1, "var2"));
-                Assert::IsFalse(pkbManager.getModifies(lineNum2, "var3"));
-                Assert::IsFalse(pkbManager.getModifies(lineNum3, "var1"));
+                pkbStorage->storeParent("1", "2");
+                std::unordered_set<PKBStorage::LineNum> parentSet;
+                std::unordered_set<PKBStorage::LineNum> childSet;
+                parentSet.insert("1");
+                childSet.insert("2");
+                Assert::IsTrue(pkbStorage->parentSet.find(std::make_pair("1", "2")) != pkbStorage->parentSet.end());
+                Assert::IsTrue(pkbStorage->parentSet.find(std::make_pair("1", "3")) == pkbStorage->parentSet.end());
+                Assert::IsTrue(pkbStorage->parentParentToChildMap.find("1") != pkbStorage->parentParentToChildMap.end());
+                Assert::IsTrue(pkbStorage->parentParentToChildMap.find("2") == pkbStorage->parentParentToChildMap.end());
+                Assert::IsTrue(pkbStorage->parentChildToParentMap.find("2") != pkbStorage->parentChildToParentMap.end());
+                Assert::IsTrue(pkbStorage->parentChildToParentMap.find("1") == pkbStorage->parentChildToParentMap.end());
+                Assert::IsTrue(pkbStorage->parentParentToChildMap.at("1") == childSet);
+                Assert::IsTrue(pkbStorage->parentChildToParentMap.at("2") == parentSet);
+
+                pkbStorage->storeUsesS("1", "var1");
+                std::unordered_set<PKBStorage::LineNum> lineSet;
+                std::unordered_set<PKBStorage::Variable> varSet;
+                lineSet.insert("1");
+                varSet.insert("var1");
             }
     };
 }

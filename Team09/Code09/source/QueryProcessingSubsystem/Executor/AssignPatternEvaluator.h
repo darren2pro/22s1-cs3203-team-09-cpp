@@ -45,7 +45,6 @@ public:
 		// Uses(1, _) Boolean
 		std::unordered_set<std::string> results = pkb.getAssignLineByVarUS(var);
 		return results;
-
 	}
 
 	std::unordered_set<std::string> AssignPatternEvaluator::patternLeftSimpleRightStrictExpression(Variable var, Expression expr) override {

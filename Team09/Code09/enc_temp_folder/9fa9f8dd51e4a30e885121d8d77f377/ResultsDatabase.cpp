@@ -75,18 +75,11 @@ void ResultsDatabase::createDoubleVariableTable(Variable var1, Variable var2, st
 
 // TableTable Join
 bool ResultsDatabase::combineTables(int firstIndex, int secondIndex) {
-	auto& t1 = allResultsTables[firstIndex];
-	auto& t2 = allResultsTables[secondIndex];
+	auto t1 = allResultsTables[firstIndex];
+	auto t2 = allResultsTables[secondIndex];
 
 	// Assuming joining table into t1. Remove table 2 index.
 	bool result = t1.combineTableWith(t2);
-	
-	// RESULTS NOT SAVED.
-
-	//// Point all the variables in t2 to the combine table index.
-	//for (auto& var : t2.columnName) {
-	//	varToIndexMap[var] = firstIndex;
-	//}
 	removeTable(secondIndex);
 
 	return result;

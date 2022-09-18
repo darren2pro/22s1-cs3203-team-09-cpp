@@ -364,8 +364,8 @@ std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByVarMatchFull(
 std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByVarMatchPartial(const PKBStorage::Variable var, const  PKBStorage::ExprStr expr) {
     //get pattern string
     std::unordered_set<PKBStorage::LineNum> set;
-    /*std::string pattern = expr;
-    pattern.erase(std::remove(expr.begin(), expr.end(), '_'), expr.end());
+    std::string pattern = expr;
+    pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
     Expr exprNode = SimpleInterface::parseExpression(pattern);
     PKBStorage::ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
 
@@ -377,7 +377,7 @@ std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByVarMatchParti
                 set.insert(line);
             }
         }
-    }*/
+    }
     return set;
 }
 
@@ -396,8 +396,8 @@ std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHas
 std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> PKBManager::getAssignLineVarByMatchPartial(const  PKBStorage::ExprStr expr) {
     //get pattern string
     std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> set;
-    /*std::string pattern = expr;
-    pattern.erase(std::remove(expr.begin(), expr.end(), '_'), expr.end());
+    std::string pattern = expr;
+    pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
     Expr exprNode = SimpleInterface::parseExpression(pattern);
     PKBStorage::ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
 
@@ -408,7 +408,7 @@ std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHas
                 set.insert(ele);
             }
         }
-    }*/
+    }
     return set;
 }
 
@@ -429,8 +429,8 @@ std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSMatchFull(c
 std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSMatchPartial(const  PKBStorage::ExprStr expr) {
     //get pattern string
     std::unordered_set<PKBStorage::LineNum> set;
-    /*std::string pattern = expr;
-    pattern.erase(std::remove(expr.begin(), expr.end(), '_'), expr.end());
+    std::string pattern = expr;
+    pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
     Expr exprNode = SimpleInterface::parseExpression(pattern);
     PKBStorage::ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
 
@@ -441,7 +441,7 @@ std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSMatchPartia
                 set.insert(ele.first);
             }
         }
-    }*/
+    }
     return set;
 }
 

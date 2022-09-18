@@ -117,5 +117,95 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->assignExprToLineVarMap.at("1") == lineVarSet);
                 Assert::IsTrue(pkbStorage->assignVarToLineExprMap.at("var1") == lineExprSet);
             }
+
+            TEST_METHOD(TestPkbManager) {
+                //getModifies
+
+                //getModifiesUS
+
+                //getModifiesVarByStmt
+
+                //getModifesStmtByVar
+
+                //getAllModifies
+
+                //getModifiesStmtByUS
+
+                //getUses
+
+                //getUsesUS
+
+                //getUsesVarByStmt
+
+                //getUsesStmtByVar
+
+                //getAllUses
+
+                //getUsesStmtByUS
+
+                //getFollows
+
+                //getFollowsByPrevUS
+
+                //getFollowsByUSNext
+
+                //getFollowsByUSUS
+
+                //getFollowsNextByPrev
+
+                //getFollowsPrevByNext
+
+                //getFollowsPrevByUS
+
+                //getFollowsNextByUS
+
+                //getAllFollows
+
+                //getFollowsT
+
+                //getFollowsNextByPrev
+
+                //getFollowsPrevByNext
+
+                //getAllFollowsT
+
+                //getParent
+
+                //getParentByPrevUS
+
+                //getParentByUSNext
+
+                //getParentByUSUS
+
+                //getParentNextByPrev
+
+                //getParentPrevByNext
+
+                //getParentPrevByUS
+
+                //getParentNextByUS
+
+                //getAllParent
+
+                //getParentT
+
+                //getParentTNextByPrev
+
+                //getParentTPrevByNext
+
+                //getAllParentT
+
+                //getAssignLineByVarUS
+
+                //getAssignLineByVarMatchPartial
+
+                //getAssignLineVarByUS
+
+                //getAssignLineVarByMatchPartial
+
+                //getAssignLineByUSUS
+
+                //getAssignLineByUSMatchPartial
+            }
     };
 }

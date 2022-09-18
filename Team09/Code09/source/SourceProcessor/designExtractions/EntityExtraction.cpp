@@ -115,7 +115,9 @@ void EntityExtraction::extractStatements(const std::vector<Stmt> stmts) {
     }
 }
 
-//Modify relations
+
+
+//! Modify relations
 void EntityExtraction::extractModifyRls(const std::shared_ptr<ProgramNode> astRoot) {
     for (const auto& proc : astRoot->procList) {
         extractModifyRls(proc);
@@ -123,34 +125,111 @@ void EntityExtraction::extractModifyRls(const std::shared_ptr<ProgramNode> astRo
 }
 void EntityExtraction::extractModifyRls(const std::shared_ptr<ProcedureNode> proc) {
     extractModifyStmts(proc->stmtList);
-
 }
 void EntityExtraction::extractModifyStmts(const std::vector<Stmt> stmts) {
     for (const auto& stmt : stmts) {
-        std::visit([this](const auto& s) { extractModifyRls(s); }, stmt);
+        std::visit([&](const auto& s) { extractModifyRls(s); }, stmt);
     }
 }
+
+void EntityExtraction::extractModifyStmts(const std::vector<Stmt> stmts, const std::shared_ptr<IfNode> ifNode) {
+    for (const auto& stmt : stmts) {
+        std::visit([this, &ifNode](const auto& s) { extractModifyRls(s, ifNode); }, stmt);
+    }
+}
+
+void EntityExtraction::extractModifyStmts(const std::vector<Stmt> stmts, const std::shared_ptr<WhileNode> whileNode) {
+    for (const auto& stmt : stmts) {
+        std::visit([this, &whileNode](const auto& s) { extractModifyRls(s, whileNode); }, stmt);
+    }
+}
+
 void EntityExtraction::extractModifyRls(const std::shared_ptr<AssignmentNode> assign) {
     extractModifyHelper(assign->var, assign);
 }
+
+void EntityExtraction::extractModifyRls(const std::shared_ptr<AssignmentNode> assign, const std::shared_ptr<IfNode> ifNode) {
+    extractModifyHelper(assign->var, assign);
+
+    if (ifNode == nullptr) return;
+    const PKBStorage::LineNum lnNum = pkbStorage->getLineFromNode(ifNode);
+    pkbStorage->storeModifiesS(lnNum, assign->var->varName);
+}
+
+void EntityExtraction::extractModifyRls(const std::shared_ptr<AssignmentNode> assign, const std::shared_ptr<WhileNode> whileNode) {
+    extractModifyHelper(assign->var, assign);
+
+    if (whileNode == nullptr) return;
+    const PKBStorage::LineNum lnNum = pkbStorage->getLineFromNode(whileNode);
+    pkbStorage->storeModifiesS(lnNum, assign->var->varName);
+}
+
 void EntityExtraction::extractModifyRls(const std::shared_ptr<PrintNode> print) {}
+void EntityExtraction::extractModifyRls(const std::shared_ptr<PrintNode> print, const std::shared_ptr<IfNode> ifNode) {}
+void EntityExtraction::extractModifyRls(const std::shared_ptr<PrintNode> print, const std::shared_ptr<WhileNode> whileNode) {}
+
 void EntityExtraction::extractModifyRls(const std::shared_ptr<IfNode> ifNode) {
-    extractModifyStmts(ifNode->thenStmtList);
-    extractModifyStmts(ifNode->elseStmtList);
+	extractModifyStmts(ifNode->thenStmtList, ifNode);
+    extractModifyStmts(ifNode->elseStmtList, ifNode);
 }
+
+void EntityExtraction::extractModifyRls(const std::shared_ptr<IfNode> ifNode, const std::shared_ptr<IfNode> parentIfNode) {
+    extractModifyRls(ifNode);
+}
+
+void EntityExtraction::extractModifyRls(const std::shared_ptr<IfNode> ifNode, const std::shared_ptr<WhileNode> parentWhileNode) {
+    extractModifyRls(ifNode);
+}
+
+//! There's a bug here, which is if within an if statement again, we cannot extract modify statements. Right now we only
+//! extract modify statements from single nesting if statement.
+
 void EntityExtraction::extractModifyRls(const std::shared_ptr<WhileNode> whileNode) {
-    extractModifyStmts(whileNode->stmtList);
+	extractModifyStmts(whileNode->stmtList, whileNode);
 }
+
+void EntityExtraction::extractModifyRls(const std::shared_ptr<WhileNode> whileNode, const std::shared_ptr<IfNode> parentIfNode) {
+    // TODO: Fix this
+    extractModifyRls(whileNode);
+}
+
+void EntityExtraction::extractModifyRls(const std::shared_ptr<WhileNode> whileNode, const std::shared_ptr<WhileNode> parentWhileNode) {
+    // TODO: Fix this
+    extractModifyRls(whileNode);
+}
+
 void EntityExtraction::extractModifyRls(const std::shared_ptr<ReadNode> readNode) {
     extractModifyHelper(readNode->var, readNode);
 }
+
+void EntityExtraction::extractModifyRls(const std::shared_ptr<ReadNode> readNode, const std::shared_ptr<IfNode> ifNode) {
+    extractModifyHelper(readNode->var, readNode);
+
+    if (ifNode == nullptr) return;
+    const PKBStorage::LineNum lnNum = pkbStorage->getLineFromNode(ifNode);
+    pkbStorage->storeModifiesS(lnNum, readNode->var->varName);
+}
+
+void EntityExtraction::extractModifyRls(const std::shared_ptr<ReadNode> readNode, const std::shared_ptr<WhileNode> whileNode) {
+    extractModifyHelper(readNode->var, readNode);
+
+    if (whileNode == nullptr) return;
+    const PKBStorage::LineNum lnNum = pkbStorage->getLineFromNode(whileNode);
+    pkbStorage->storeModifiesS(lnNum, readNode->var->varName);
+}
+
+void EntityExtraction::extractModifyRls(const std::shared_ptr<CallNode>) {}
+void EntityExtraction::extractModifyRls(const std::shared_ptr<CallNode>, const std::shared_ptr<IfNode>) {}
+void EntityExtraction::extractModifyRls(const std::shared_ptr<CallNode>, const std::shared_ptr<WhileNode>) {}
+
 void EntityExtraction::extractModifyHelper(const std::shared_ptr<VariableNode> var, const Stmt stmt) {
     const PKBStorage::LineNum lnNum = pkbStorage->getLineFromNode(stmt);
     pkbStorage->storeModifiesS(lnNum, var->varName);
 }
-void EntityExtraction::extractModifyRls(const std::shared_ptr<CallNode>) {}
 
-//Uses relations
+
+
+//! Uses relations
 void EntityExtraction::extractUsesRls(const std::shared_ptr<ProgramNode> astRoot) {
     for (const auto& proc : astRoot->procList) {
         extractUsesRls(proc);

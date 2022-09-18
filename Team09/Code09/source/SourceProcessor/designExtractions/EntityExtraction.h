@@ -39,13 +39,36 @@ public:
     //extracting Modifies relations
     void extractModifyRls(const std::shared_ptr<ProgramNode> astRoot);
     void extractModifyRls(const std::shared_ptr<ProcedureNode> proc);
+
     void extractModifyStmts(const std::vector<Stmt> stmts);
+    void extractModifyStmts(const std::vector<Stmt> stmts, const std::shared_ptr<IfNode> ifNode);
+    void extractModifyStmts(const std::vector<Stmt> stmts, const std::shared_ptr<WhileNode> whileNode);
+
     void extractModifyRls(const std::shared_ptr<AssignmentNode> assign);
+    void extractModifyRls(const std::shared_ptr<AssignmentNode> assign, const std::shared_ptr<IfNode> ifNode);
+    void extractModifyRls(const std::shared_ptr<AssignmentNode> assign, const std::shared_ptr<WhileNode> whileNode);
+
     void extractModifyRls(const std::shared_ptr<PrintNode> print);
+    void extractModifyRls(const std::shared_ptr<PrintNode> print, const std::shared_ptr<IfNode> ifNode);
+    void extractModifyRls(const std::shared_ptr<PrintNode> print, const std::shared_ptr<WhileNode> whileNode);
+
     void extractModifyRls(const std::shared_ptr<IfNode> ifNode);
+    void extractModifyRls(const std::shared_ptr<IfNode> ifNode, const std::shared_ptr<IfNode> parentIfNode);
+    void extractModifyRls(const std::shared_ptr<IfNode> ifNode, const std::shared_ptr<WhileNode> parentWhileNode);
+    //! Need to implement for nested if statements, right now we only can handle one level of nesting. Same for while nodes
+
     void extractModifyRls(const std::shared_ptr<WhileNode> whileNode);
+    void extractModifyRls(const std::shared_ptr<WhileNode> whileNode, const std::shared_ptr<IfNode> parentIfNode);
+    void extractModifyRls(const std::shared_ptr<WhileNode> whileNode, const std::shared_ptr<WhileNode> parentWhileNode);
+
     void extractModifyRls(const std::shared_ptr<ReadNode> readNode);
+    void extractModifyRls(const std::shared_ptr<ReadNode> readNode, const std::shared_ptr<IfNode> ifNode);
+    void extractModifyRls(const std::shared_ptr<ReadNode> readNode, const std::shared_ptr<WhileNode> whileNode);
+
     void extractModifyRls(const std::shared_ptr<CallNode>);
+    void extractModifyRls(const std::shared_ptr<CallNode>, const std::shared_ptr<IfNode> ifNode);
+    void extractModifyRls(const std::shared_ptr<CallNode>, const std::shared_ptr<WhileNode> whileNode);
+
     void extractModifyHelper(const std::shared_ptr<VariableNode> var, const Stmt stmt);
 
     //extracting Uses relations

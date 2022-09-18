@@ -95,14 +95,14 @@ namespace UnitTesting {
                 Assert::IsTrue(results8.find("3") != results8.end());
 
                 // Query 9
-                string query9 = "stmt ssssHi;\n"
-                                "Select ssssHi such that Modifies(ssssHi, _)";
+                string query9 = "stmt ssssHi; variable ssccvv;\n"
+                                "Select ssssHi such that Modifies(ssssHi, ssccvv)";
                 Query* q9 = QueryBuilder().buildQuery(query9);
                 unordered_set<string> results9 = executor.processQuery(q9);
                 Assert::IsTrue(results9.size() == 2, L"Query 9 fails");
                 // Expected results: 2, 3
                 Assert::IsTrue(results9.find("2") != results9.end());
-                Assert::IsTrue(results9.find("3") != results9.end());
+				Assert::IsTrue(results9.find("3") != results9.end());
 
                 // Query 10
                 string query10 = "if ssssif; variable myVar; assign myAssign;\n"

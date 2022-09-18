@@ -80,8 +80,6 @@ bool ResultsDatabase::combineTables(int firstIndex, int secondIndex) {
 
 	// Assuming joining table into t1. Remove table 2 index.
 	bool result = t1.combineTableWith(t2);
-
-	// Add new variables to the varToIndexMap
 	removeTable(secondIndex);
 
 	return result;

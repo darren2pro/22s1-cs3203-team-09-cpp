@@ -31,7 +31,7 @@ public:
 	bool insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash>& listPair);
 
 	// Combine with another table
-	bool combineTableWith(ResultsTables& otherTable, Variable var);
+	bool combineTableWith(ResultsTables& otherTable);
 
 
 	std::unordered_map<std::string, std::vector<int>> hashColumn(Variable var);

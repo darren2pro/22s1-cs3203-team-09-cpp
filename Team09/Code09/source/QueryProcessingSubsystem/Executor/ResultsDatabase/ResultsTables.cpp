@@ -70,48 +70,86 @@ bool ResultsTables::insertListPairToTable(Variable var1, Variable var2, std::uno
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+// My implementation. Consider changing after MS1
+bool ResultsTables::combineTableWith(ResultsTables& otherTable) {
 
-bool ResultsTables::combineTableWith(ResultsTables& otherTable, Variable var) {
-	std::unordered_map<std::string, std::vector<int>> col_hash = hashColumn(var);
-	std::vector<std::vector<std::string>> out_table;
-	size_t other_table_join_var_index = otherTable.varToColIndex.at(var);
+	std::vector<std::vector<std::string>> new_table;
 
-	for (auto row : otherTable.resultsTable) {
-		// Search for the incoming join val in the existing table
-		auto join_val_other_table = row[other_table_join_var_index];
-		if (col_hash.find(join_val_other_table) == col_hash.end()) continue;
+	//int count = 0;
+	for (std::vector<Variable> row1 : resultsTable) {
+		for (std::vector<Variable> row2 : otherTable.resultsTable) {
+			std::vector<Variable> temp;
+			for (int i = 0; i < row1.size(); i++)
+				temp.push_back(row1[i]);
 
-		// Found it - "cross product" incoming row with the rows in original table
-		row.erase(row.begin() + other_table_join_var_index);  // remove join col
-		auto matching_row_indexs = col_hash[join_val_other_table];
-		for (auto row_index : matching_row_indexs) {
-			std::vector<std::string> original_row = resultsTable[row_index];
-			original_row.insert(original_row.end(), row.begin(), row.end());
-			out_table.push_back(original_row);  // inserts joined row
+			// Concat the two rows
+			for (int i = 0; i < row2.size(); i++)
+				temp.push_back(row2[i]);
+			//temp.insert(row1.end(), row2.begin(), row2.end());
+
+			// Insert new row into new table
+			// ERROR HERE
+			new_table.push_back(temp);
+			//count++;
 		}
 	}
 
-	// ** Important -> table is REPLACED with the one with just constructed
-	resultsTable = out_table;
-	int base_t2_column_index = columnIndex;
-	// Update column names from joined table
-	for (auto [name, index] : otherTable.varToColIndex) {
-		if (name != var) {
-			size_t new_col_index = index + base_t2_column_index;
-			if (otherTable.varToColIndex.at(name) > other_table_join_var_index) {
-				// If the column being merged is AFTER the join column, subtract one
-				// from col index when merging.
-				new_col_index--;
-			}
-			varToColIndex[name] = new_col_index;
-			columnIndex++;  // to be consistent with its purpose
-		}
+	// Replace the current table with new table.
+	resultsTable = new_table; 
+
+	// Change variable to col mapping. Table 1 variables have no change. 
+	std::vector<Variable> varInTable2 = otherTable.columnName;
+	for (Variable var : varInTable2) {
+		varToColIndex[var] = columnIndex;
+		columnIndex++;
 	}
 
-	// If size is 0 - no results
 	return resultsTable.size() > 0;
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//bool ResultsTables::combineTableWith(ResultsTables& otherTable, Variable var) {
+//	std::unordered_map<std::string, std::vector<int>> col_hash = hashColumn(var);
+//	std::vector<std::vector<std::string>> out_table;
+//	size_t other_table_join_var_index = otherTable.varToColIndex.at(var);
+//
+//	for (auto row : otherTable.resultsTable) {
+//		// Search for the incoming join val in the existing table
+//		auto join_val_other_table = row[other_table_join_var_index];
+//		if (col_hash.find(join_val_other_table) == col_hash.end()) continue;
+//
+//		// Found it - "cross product" incoming row with the rows in original table
+//		row.erase(row.begin() + other_table_join_var_index);  // remove join col
+//		auto matching_row_indexs = col_hash[join_val_other_table];
+//		for (auto row_index : matching_row_indexs) {
+//			std::vector<std::string> original_row = resultsTable[row_index];
+//			original_row.insert(original_row.end(), row.begin(), row.end());
+//			out_table.push_back(original_row);  // inserts joined row
+//		}
+//	}
+//
+//	// ** Important -> table is REPLACED with the one with just constructed
+//	resultsTable = out_table;
+//	int base_t2_column_index = columnIndex;
+//	// Update column names from joined table
+//	for (auto [name, index] : otherTable.varToColIndex) {
+//		if (name != var) {
+//			size_t new_col_index = index + base_t2_column_index;
+//			if (otherTable.varToColIndex.at(name) > other_table_join_var_index) {
+//				// If the column being merged is AFTER the join column, subtract one
+//				// from col index when merging.
+//				new_col_index--;
+//			}
+//			varToColIndex[name] = new_col_index;
+//			columnIndex++;  // to be consistent with its purpose
+//		}
+//	}
+//
+//	// If size is 0 - no results
+//	return resultsTable.size() > 0;
+//}
 
 std::unordered_map<std::string, std::vector<int>> ResultsTables::hashColumn(
 	Variable var) {

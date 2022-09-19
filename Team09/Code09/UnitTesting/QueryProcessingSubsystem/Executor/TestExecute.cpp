@@ -207,8 +207,9 @@ namespace UnitTesting {
                                 "Select ss such that Uses(ss, \"i\")";
                 Query* q6 = QueryBuilder().buildQuery(query6);
                 unordered_set<string> results6 = executor.processQuery(q6);
-                Assert::IsTrue(results6.size() == 3, L"Query 6 fails");
-                // Expected results: 2, 4, 8
+                Assert::IsTrue(results6.size() == 4, L"Query 6 fails");
+                // Expected results: 1, 2, 4, 8
+                Assert::IsTrue(results6.find("1") != results6.end());
                 Assert::IsTrue(results6.find("2") != results6.end());
                 Assert::IsTrue(results6.find("4") != results6.end());
                 Assert::IsTrue(results6.find("8") != results6.end());

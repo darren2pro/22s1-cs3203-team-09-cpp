@@ -480,5 +480,39 @@ namespace UnitTesting {
                 const bool expr4IsSubtree = ast2Str.find(ast4Str) != std::string::npos;
                 Assert::IsFalse(expr4IsSubtree, L"expr4 should not be a subtree of expr2");
             }
+
+            TEST_METHOD(TestComplexRelCond1) {
+                string program = "procedure myProc {\n"
+                               "    while (1>= 1%((1)) ) {\n"
+                               "        read num1;\n"
+                               "    }\n"
+                               "}\n";
+                std::istringstream iss(program);
+                SimpleParser simpleParser(&iss);
+                Parser* parser = &simpleParser;
+                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleAstBuilder astBuilder(result);
+                AST programNode = astBuilder.build();
+
+                Logger::WriteMessage("[TestComplexRelCond] Printing AST\n");
+                Logger::WriteMessage(programNode->toString().c_str());
+            }
+
+            TEST_METHOD(TestComplexRelCond2) {
+                string prog1 = "procedure myProc {\n"
+                    "    while (! ((1==0) && (1==0))) {\n"
+                    "        read num1;\n"
+                    "    }\n"
+                    "}\n";
+                std::istringstream iss(prog1);
+                SimpleParser simpleParser(&iss);
+                Parser* parser = &simpleParser;
+                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleAstBuilder astBuilder(result);
+                AST programNode = astBuilder.build();
+
+                Logger::WriteMessage("[TestComplexRelCond] Printing AST\n");
+                Logger::WriteMessage(programNode->toString().c_str());
+            }
     };
 }

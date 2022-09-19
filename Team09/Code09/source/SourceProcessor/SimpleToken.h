@@ -42,6 +42,7 @@ public:
         READ,
         AND,
         OR,
+        NOT,
         MODULO,
         END_OF_FILE
     };

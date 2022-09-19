@@ -29,6 +29,9 @@ public:
 
 	// Get index of variable if it exists in tables
 	int getVariableIndex(Variable variable);
+	
+	// Return the correct index after table combine.
+	int getNewTableIndexAfterCombine(int firstIndex, int secondIndex);
 
 	// Adding new table index into the map
 	void addNewTableToMap(Variable variable, int tableIndex);

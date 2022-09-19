@@ -22,6 +22,7 @@ bool PatternEvaluator::evaluate() {
 	if (isLeftSynonym) {
 		Declaration synonym = Utils().getSynonym(LEFT_ARG, declarations);
 		QueryExecutor::insertSynonymSetIntoRDB(synonym, rdb, pkb);
+		// When inserting, assigned it the wrong index.
 	}
 
 	// left underscore

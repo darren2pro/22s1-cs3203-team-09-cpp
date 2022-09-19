@@ -40,7 +40,16 @@ bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordere
 	else {
 		combineTables(firstIndex, secondIndex);
 		//! For query 12: Here first index is 1, but it needs to be zero. Need to find a way to get the updated index? E.g. combine tables return an index or something.
-		return allResultsTables[firstIndex].insertListPairToTable(var1, var2, listPair);
+		// Indices are correct. Same index because they point to the same table.
+
+
+		// After combining tables, firstIndex and secondIndex should point to the same table.
+
+		// Need to check which index is the new index.
+
+		int newIndex = getNewTableIndexAfterCombine(firstIndex, secondIndex);
+
+		return allResultsTables[newIndex].insertListPairToTable(var1, var2, listPair);
 	}
 }
 
@@ -52,6 +61,23 @@ int ResultsDatabase::getVariableIndex(Variable variable) {
 	else {
 		return keyValuePair->second;
 	}
+}
+
+int ResultsDatabase::getNewTableIndexAfterCombine(int firstIndex, int secondIndex) {
+	// Go thru variableToTableMap. The invalid pointer should not be inside the map.
+
+	for (auto& pair : varToIndexMap) {
+		if (pair.second == firstIndex) {
+			return firstIndex;
+		}
+		else if (pair.second == secondIndex) {
+			return secondIndex;
+		}
+		else {
+			assert("Error: Neither indices are found in varToIndexMap");
+		}
+	}
+
 }
 
 void ResultsDatabase::createSingleVariableTable(Variable variable, std::unordered_set<Value> list) {

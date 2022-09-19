@@ -258,5 +258,67 @@ namespace UnitTesting {
                 Assert::IsTrue(results10.find("6") != results10.end());
                 Assert::IsTrue(results10.find("8") != results10.end());
             }
+
+            TEST_METHOD(TestNestedIfWhile) {
+                string program = "procedure mainMain {\n"
+                                 "        if (iii >= 500) then {\n"
+                                 "            while (k <= 111) {\n"
+                                 "                beingModified = num1 + num2;\n"
+                                 "                while (k < 444) {\n"
+                                 "                    beingMod2 = num1 + num2;\n"
+                                 "                }\n"
+                                 "            }\n"
+                                 "        } else {\n"
+                                 "            while (yyy != 7000) {\n"
+                                 "                if (kkk > 666) then {\n"
+                                 "                    beingMod3 = num1 + num2;\n"
+                                 "                } else {\n"
+                                 "                    call AnotherProc;\n"
+                                 "                }\n"
+                                 "            }\n"
+                                 "        }\n"
+                                 "}\n";
+                std::istringstream iss(program);
+                SimpleParser parser(&iss);
+                PKBManager pkb = parser.parse();
+                QueryExecutor executor(pkb);
+
+                // Query 1
+                string query1 = "assign a;"
+                                "Select a pattern a(_, _\"num1\"_)";
+                Query* q1 = QueryBuilder().buildQuery(query1);
+                unordered_set<string> results1 = executor.processQuery(q1);
+                Assert::IsTrue(results1.size() == 3, L"Query 1 fails");
+                // Expected results: 3, 5, 8
+                Assert::IsTrue(results1.find("3") != results1.end());
+                Assert::IsTrue(results1.find("5") != results1.end());
+                Assert::IsTrue(results1.find("8") != results1.end());
+
+                // Query 2
+                string query2 = "stmt ks; variable sVar;\n"
+                                "Select ks such that Modifies(ks, sVar)";
+                Query* q2 = QueryBuilder().buildQuery(query2);
+                unordered_set<string> results2 = executor.processQuery(q2);
+                Assert::IsTrue(results2.size() == 8, L"Query 2 fails");
+                // Expected results: 1, 2, 3, 4, 5, 6, 7, 8
+                Assert::IsTrue(results2.find("1") != results2.end());
+                Assert::IsTrue(results2.find("2") != results2.end());
+                Assert::IsTrue(results2.find("3") != results2.end());
+                Assert::IsTrue(results2.find("4") != results2.end());
+                Assert::IsTrue(results2.find("5") != results2.end());
+                Assert::IsTrue(results2.find("6") != results2.end());
+                Assert::IsTrue(results2.find("7") != results2.end());
+                Assert::IsTrue(results2.find("8") != results2.end());
+
+                // Query 3
+                string query3 = "if kif; variable sVar;\n"
+                                "Select kif such that Modifies(kif, _)";
+                Query* q3 = QueryBuilder().buildQuery(query3);
+                unordered_set<string> results3 = executor.processQuery(q3);
+                Assert::IsTrue(results3.size() == 2, L"Query 3 fails");
+                // Expected results: 1, 7
+                Assert::IsTrue(results3.find("1") != results3.end());
+                Assert::IsTrue(results3.find("7") != results3.end());
+            }
     };
 }

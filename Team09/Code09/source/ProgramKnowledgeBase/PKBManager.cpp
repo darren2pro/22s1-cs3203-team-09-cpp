@@ -203,7 +203,7 @@ bool PKBManager::getFollowsTByUSUS() {
 }
 
 std::unordered_set<PKBStorage::NextLine> PKBManager::getFollowsTNextByPrev(const PKBStorage::PrevLine prev) {
-    setStarFromBaseMap(pkbStorage->followsTSet, pkbStorage->followsTPrevToNextMap,
+    this->pkbStorage->setStarFromBaseMap(pkbStorage->followsTSet, pkbStorage->followsTPrevToNextMap,
                        pkbStorage->followsPrevToNextMap, prev);
     if (pkbStorage->followsTPrevToNextMap.find(prev) != pkbStorage->followsTPrevToNextMap.end()) {
         return pkbStorage->followsTPrevToNextMap.at(prev);
@@ -213,7 +213,7 @@ std::unordered_set<PKBStorage::NextLine> PKBManager::getFollowsTNextByPrev(const
 }
 
 std::unordered_set<PKBStorage::PrevLine> PKBManager::getFollowsTPrevByNext(const PKBStorage::NextLine next) {
-    setStarFromBaseMap(pkbStorage->followsTNextToPrevMap, pkbStorage->followsNextToPrevMap, next);
+    this->pkbStorage->setStarFromBaseMap(pkbStorage->followsTNextToPrevMap, pkbStorage->followsNextToPrevMap, next);
     if (pkbStorage->followsTNextToPrevMap.find(next) != pkbStorage->followsTNextToPrevMap.end()) {
         return pkbStorage->followsTNextToPrevMap.at(next);
     } else {
@@ -307,7 +307,7 @@ bool PKBManager::getParentTByUSUS() {
 }
 
 std::unordered_set< PKBStorage::ChildLine> PKBManager::getParentTChildByParent(const  PKBStorage::ParentLine parent) {
-    setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTParentToChildMap,
+    this->pkbStorage->setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTParentToChildMap,
         pkbStorage->parentParentToChildMap, parent);
     if (pkbStorage->parentTParentToChildMap.find(parent) != pkbStorage->parentTParentToChildMap.end()) {
         return pkbStorage->parentTParentToChildMap.at(parent);
@@ -319,7 +319,7 @@ std::unordered_set< PKBStorage::ChildLine> PKBManager::getParentTChildByParent(c
 
 std::unordered_set< PKBStorage::ParentLine> PKBManager::getParentTParentByChild(const  PKBStorage::ChildLine child) {
     
-    setStarFromBaseMap(pkbStorage->parentTChildToParentMap, pkbStorage->parentChildToParentMap, child);
+    this->pkbStorage->setStarFromBaseMap(pkbStorage->parentTChildToParentMap, pkbStorage->parentChildToParentMap, child);
     if (pkbStorage->parentTChildToParentMap.find(child) != pkbStorage->parentTChildToParentMap.end()) {
         return pkbStorage->parentTChildToParentMap.at(child);
     }
@@ -453,48 +453,3 @@ std::unordered_set<PKBStorage::LineNum> PKBManager::getAssignLineByUSMatchPartia
     }
     return set;
 }
-
-void PKBManager::setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash>& set,
-                                    std::unordered_map<std::string, std::unordered_set<std::string>>& star,
-                                    const std::unordered_map<std::string, std::unordered_set<std::string>> base,
-                                    std::string key) {
-    if (base.find(key) == base.end()) {
-        return;
-    }
-
-    std::vector<std::string> list;
-    list.push_back(key);
-    while (!list.empty()) {
-        std::string currKey = list.back();
-        list.pop_back();
-        for (const auto& val : base.at(currKey)) {
-            set.insert(std::make_pair(key, val));
-            this->pkbStorage->addToSetInMap(star, key, val);
-            if (base.find(val) != base.end()) {
-                list.push_back(val);
-            }
-        }
-    }
-}
-
-void PKBManager::setStarFromBaseMap(std::unordered_map<std::string, std::unordered_set<std::string>>& star,
-    const std::unordered_map<std::string, std::unordered_set<std::string>> base,
-    std::string key) {
-    if (base.find(key) == base.end()) {
-        return;
-    }
-
-    std::vector<std::string> list;
-    list.push_back(key);
-    while (!list.empty()) {
-        std::string currKey = list.back();
-        list.pop_back();
-        for (const auto& val : base.at(currKey)) {
-            this->pkbStorage->addToSetInMap(star, key, val);
-            if (base.find(val) != base.end()) {
-                list.push_back(val);
-            }
-        }
-    }
-}
-

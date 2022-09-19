@@ -59,5 +59,9 @@ std::vector<std::string> QueryLexer::lex() {
         }
 	}
 
+    if (str.length() > 0) {
+        tokens.push_back(str);
+    }
+
 	return tokens;
 }

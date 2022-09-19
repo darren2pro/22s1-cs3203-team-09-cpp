@@ -319,6 +319,14 @@ namespace UnitTesting {
                 // Expected results: 1, 7
                 Assert::IsTrue(results3.find("1") != results3.end());
                 Assert::IsTrue(results3.find("7") != results3.end());
+
+                // TODO: Query 4 - For future milestone
+//                string query4 = "assign a;"
+//                                "Select a pattern a(_, \"num1\")";
+//                Query* q4 = QueryBuilder().buildQuery(query4);
+//                unordered_set<string> results4 = executor.processQuery(q4);
+//                Assert::IsTrue(results4.size() == 0, L"Query 4 fails");
+                // Expected results: none
             }
     };
 }

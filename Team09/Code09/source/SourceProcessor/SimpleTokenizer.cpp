@@ -101,6 +101,9 @@ Parser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenize() {
                 if (peekNextChar() == '=') {
                     currentString += advanceChar();
                     tokens.push_back(new SimpleToken(currentString, SimpleToken::TokenType::NOT_EQUAL_TO));
+                } else {
+                    // It is something like (!  (1>  x ) )
+                    tokens.push_back(new SimpleToken(currentString, SimpleToken::TokenType::NOT));
                 }
             } else if (nextChar == '=') {
                 if (peekNextChar() == '=') {

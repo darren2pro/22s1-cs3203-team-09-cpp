@@ -155,8 +155,11 @@ public:
 
 class CondExprNode : public TNode {
 public:
-    std::string op = "";
+    //! Simple relational expr e.g. (1 >= 6 % 4)
     RelExprNodePtr relExpr = nullptr;
+
+    //! For () && ()
+    std::string op = "";
     CondExprNodePtr leftCond = nullptr;
     CondExprNodePtr rightCond = nullptr;
 

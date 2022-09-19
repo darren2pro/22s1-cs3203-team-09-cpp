@@ -328,5 +328,103 @@ namespace UnitTesting {
 //                Assert::IsTrue(results4.size() == 0, L"Query 4 fails");
                 // Expected results: none
             }
+
+            TEST_METHOD(TestSmallProc1) {
+                string prog1 = "procedure myProc {\n"
+                               "    while (1>= 1%((1)) ) {\n"
+                               "        read num1;\n"
+                               "    }\n"
+                               "}\n";
+                istringstream iss(prog1);
+                SimpleParser parser(&iss);
+                PKBManager pkb = parser.parse();
+                QueryExecutor executor(pkb);
+
+                // Query 1
+                string query1 = "stmt sss;\n"
+                                "Select sss such that Modifies(sss, _)";
+                Query* q1 = QueryBuilder().buildQuery(query1);
+                unordered_set<string> results1 = executor.processQuery(q1);
+                Assert::IsTrue(results1.size() == 2, L"Query 1 fails");
+                // Expected results: 1, 2
+                Assert::IsTrue(results1.find("1") != results1.end());
+                Assert::IsTrue(results1.find("2") != results1.end());
+            }
+
+            TEST_METHOD(TestSmallProc2) {
+				string prog1 = "procedure myProc {\n"
+                               "    while (1>= 1%((0-1)) ) {\n"
+                               "        read num1;\n"
+                               "    }\n"
+                               "}\n";
+                istringstream iss(prog1);
+                SimpleParser parser(&iss);
+                PKBManager pkb = parser.parse();
+                QueryExecutor executor(pkb);
+
+                // Query 1
+                string query1 = "stmt sss;\n"
+                                "Select sss such that Modifies(sss, _)";
+                Query* q1 = QueryBuilder().buildQuery(query1);
+                unordered_set<string> results1 = executor.processQuery(q1);
+                Assert::IsTrue(results1.size() == 2, L"Query 1 fails");
+                // Expected results: 1, 2
+                Assert::IsTrue(results1.find("1") != results1.end());
+                Assert::IsTrue(results1.find("2") != results1.end());
+            }
+
+            TEST_METHOD(TestSmallProc3) {
+                string prog1 = "procedure myProc {\n"
+                               "    while (! ((1==0) && (1==0))) {\n"
+                               "        read num1;\n"
+                               "    }\n"
+                               "}\n";
+                istringstream iss(prog1);
+                SimpleParser parser(&iss);
+                PKBManager pkb = parser.parse();
+            }
+
+            TEST_METHOD(TestMilestone1dash1) {
+                string program = "procedure oneDashone {\n"
+                                 "        while (1>= 1%((1)) ) {\n"
+                                 "            read num1;\n"
+                                 "        }\n"
+                                 "\n"
+                                 "        while (1>= 1%((0-1)) ) {\n"
+                                 "            read num2;\n"
+                                 "        }\n"
+                                 "\n"
+                                 "        while (! ((1==0) && (1==0))) {\n"
+                                 "            read num3;\n"
+                                 "        }\n"
+                                 "\n"
+                                 "        while (1+100  - 4 == 1 % 5 + 66) {\n"
+                                 "            read num4;\n"
+                                 "        }\n"
+                                 "}\n";
+                // Query 1
+//                string query1 = "stmt sss;\n"
+//                                "Select sss";
+//                Query* q1 = QueryBuilder().buildQuery(query1);
+//                unordered_set<string> results1 = executor.processQuery(q1);
+//                Assert::IsTrue(results1.size() == 6, L"Query 1 fails");
+//                // Expected results: 1, 2, 3, 4, 5, 6
+//                Assert::IsTrue(results1.find("1") != results1.end());
+//                Assert::IsTrue(results1.find("2") != results1.end());
+//                Assert::IsTrue(results1.find("3") != results1.end());
+//                Assert::IsTrue(results1.find("4") != results1.end());
+//                Assert::IsTrue(results1.find("5") != results1.end());
+//                Assert::IsTrue(results1.find("6") != results1.end());
+//
+//                // Query 3
+//                string query3 = "stmt sss;\n"
+//                                "Select sss such that Follows*(1, sss)";
+//                Query* q3 = QueryBuilder().buildQuery(query3);
+//                unordered_set<string> results3 = executor.processQuery(q3);
+//                Assert::IsTrue(results1.size() == 2, L"Query 1 fails");
+//                // Expected results: 3, 5
+//                Assert::IsTrue(results1.find("3") != results1.end());
+//                Assert::IsTrue(results1.find("5") != results1.end());
+            }
     };
 }

@@ -31,6 +31,7 @@ public:
 		return results;
 	};
 
+    //! Retrieves all the possible statement numbers which modifies something. Synonym type constraint is not enforced yet.
 	std::unordered_set<LineNum> ModifiesEvaluator::leftSynonymRightUnderscore() override {
 		// Modifies(a, _) List
 		std::unordered_set<LineNum> results = pkb.getModifiesStmtByUS();

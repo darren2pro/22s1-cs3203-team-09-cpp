@@ -26,14 +26,13 @@ void ResultsTables::create(Variable var1, Variable var2, std::unordered_set<std:
 }
 
 bool ResultsTables::insertListToTable(Variable variable, std::unordered_set<Value>& list) {
-	int index = varToColIndex[variable];
+	int colIndex = varToColIndex[variable];
 	auto remover = std::remove_if(resultsTable.begin(), resultsTable.end(),
-
 		// Capture by reference so that the row can be changed
 		[&](std::vector<std::string>& row) {
-			Value value = row[index];
-			bool found = list.find(value) == list.end();
-			return found;
+			Value valueCurrentlyPresent = row[colIndex];
+			bool isFound = list.find(valueCurrentlyPresent) == list.end();
+			return isFound;
 		});
 
 	resultsTable.erase(remover, resultsTable.end());

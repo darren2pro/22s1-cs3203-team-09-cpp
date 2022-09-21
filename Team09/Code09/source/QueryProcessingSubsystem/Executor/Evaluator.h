@@ -9,6 +9,7 @@
 
 using namespace PairHasher;
 
+//! This evaluator is the super class for all of the relations evaluators such as Modifies, Follows.
 class Evaluator {
 private:
 	std::string LEFT_SYNONYM;
@@ -30,13 +31,17 @@ public:
 		rdb(rdb),
 		pkb(pkb) {};
 
+    /**
+     * Evaluates the relation and stores the results in the ResultsDatabase. Returns false if there are no possible results
+     * for this relation evaluation, and returns true if there are at least one possible result.
+     */
 	bool evaluate();
 	std::string temporaryStrip(std::string arg);
 
 	// Different
 	virtual std::unordered_set<std::string> leftSynonymRightSimple(std::string RIGHT_ARG) = 0; // For Demo in Week 5
 	virtual std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> leftSynonymRightSynonym() = 0;
-	virtual std::unordered_set<std::string> leftSynonymRightUnderscore() = 0;
+    virtual std::unordered_set<std::string> leftSynonymRightUnderscore() = 0;
 
 	virtual std::unordered_set<std::string> leftSimpleRightSynonym(std::string LEFT_ARG) = 0; // For Demo in Week 5
 	virtual bool leftSimpleRightUnderscore(std::string LEFT_ARG) = 0;

@@ -85,11 +85,7 @@ std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(std::vector<Dec
 void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager& pkb) {
 	std::unordered_set<std::string> resultsFromPKB;
 	
-	// Check whether RDB already has the variable.
-	auto rdbVarList = rdb.allVariables;
-	if (std::find(rdbVarList.begin(), rdbVarList.end(), decl.name) != rdbVarList.end()) {
-		return;
-	}
+	if (rdb.variableIsPresent(decl.name)) return;
 
 	switch (decl.TYPE) {
 	case Declaration::Assignment:

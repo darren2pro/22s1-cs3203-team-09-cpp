@@ -8,7 +8,7 @@ typedef std::string Variable;
 typedef std::string Value;
 typedef std::string TableIndex;
 
-using namespace PairHasher;
+using namespace PKB;
 
 class ResultsTables {
 public:
@@ -21,14 +21,14 @@ public:
 
 	// Create new tables for list and pairLists
 	void create(Variable variable, std::unordered_set<Value>& list);
-	void create(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash>& list);
+	void create(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, pairHash>& list);
 
 	// Modification to current tables
 	// Adding single var list
 	bool insertListToTable(Variable variable, std::unordered_set<Value>& list);
 
 	// Adding double var listpairs
-	bool insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash>& listPair);
+	bool insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, pairHash>& listPair);
 
 	// Combine with another table
 	bool combineTableWith(ResultsTables& otherTable);

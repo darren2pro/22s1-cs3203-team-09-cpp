@@ -16,8 +16,8 @@ public:
 		return results;
 	}
 
-	std::unordered_set<std::pair<PrevLine, NextLine>, PairHasher::pairHash> FollowsEvaluator::leftSynonymRightSynonym() override {
-		std::unordered_set<std::pair<PrevLine, NextLine>, PairHasher::pairHash> results = pkb.getAllFollows();
+	std::unordered_set<std::pair<PrevLine, NextLine>, PKB::pairHash> FollowsEvaluator::leftSynonymRightSynonym() override {
+		std::unordered_set<std::pair<PrevLine, NextLine>, PKB::pairHash> results = pkb.getAllFollows();
 		return results;
 	}
 

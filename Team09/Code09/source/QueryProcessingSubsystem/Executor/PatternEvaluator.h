@@ -26,9 +26,9 @@ public:
 	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightStrictExpression(Expression expr) = 0;
 	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightUnderScore() = 0;
 
-	virtual std::unordered_set<std::pair<LineNum, Variable>, PairHasher::pairHash> patternLeftSynonymRightRelaxedExpression(Expression expr) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::pair<LineNum, Variable>, PairHasher::pairHash> patternLeftSynonymRightStrictExpression(Expression expr) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::pair<LineNum, Variable>, PairHasher::pairHash> patternLeftSynonymRightUnderscore() = 0;
+	virtual std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> patternLeftSynonymRightRelaxedExpression(Expression expr) = 0; // For Demo in Week 5
+	virtual std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> patternLeftSynonymRightStrictExpression(Expression expr) = 0; // For Demo in Week 5
+	virtual std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> patternLeftSynonymRightUnderscore() = 0;
 
 	virtual std::unordered_set<LineNum> patternLeftSimpleRightRelaxedExpression(Variable var, Expression expr) = 0; // For Demo in Week 5
 	virtual std::unordered_set<LineNum> patternLeftSimpleRightStrictExpression(Variable var, Expression expr) = 0; // For Demo in Week 5

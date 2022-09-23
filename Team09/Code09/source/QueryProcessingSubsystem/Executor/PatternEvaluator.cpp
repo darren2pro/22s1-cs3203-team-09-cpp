@@ -62,7 +62,7 @@ bool PatternEvaluator::evaluate() {
 	// left synonym
 	else if(isLeftSynonym && Utils().isUnderscore(pattern.RIGHT_ARG)) {
 		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
-		std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> result = patternLeftSynonymRightUnderscore();
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightUnderscore();
 		if (result.size() == 0) {
 			return false;
 		}
@@ -73,7 +73,7 @@ bool PatternEvaluator::evaluate() {
 	else if (isLeftSynonym && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
 		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
 		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
-		std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> result = patternLeftSynonymRightStrictExpression(pattern.RIGHT_ARG);
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightStrictExpression(pattern.RIGHT_ARG);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -84,7 +84,7 @@ bool PatternEvaluator::evaluate() {
 	else if (isLeftSynonym && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
 		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
 		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
-		std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> result = patternLeftSynonymRightRelaxedExpression(pattern.RIGHT_ARG);
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightRelaxedExpression(pattern.RIGHT_ARG);
 		if (result.size() == 0) {
 			return false;
 		}

@@ -10,11 +10,11 @@ namespace UnitTesting {
     TEST_CLASS(TestPkb) {
             public:
             TEST_METHOD(TestPkbStorage) {
-                PKBManager pkbManager;
-                shared_ptr<PKBStorage> pkbStorage = pkbManager.getPKBStorage();
+                PKB::PKBManager pkbManager;
+                shared_ptr<PKB::PKBStorage> pkbStorage = pkbManager.getPKBStorage();
 
                 //Check if statement lines are assigned and stored correctly
-                PKBStorage::LineNum line = pkbStorage->storeLine(std::make_shared<AssignmentNode>
+                PKB::LineNum line = pkbStorage->storeLine(std::make_shared<AssignmentNode>
                     (std::make_shared<VariableNode>("var1"), std::make_shared<ConstantNode>("1")));
                 Assert::IsTrue(pkbStorage->stmtSet.find(line) != pkbStorage->stmtSet.end());
                 Assert::IsTrue(pkbStorage->stmtSet.find("2") == pkbStorage->stmtSet.end());
@@ -48,8 +48,8 @@ namespace UnitTesting {
 
                 //Check if relations population is correct
                 pkbStorage->storeFollows("1", "2");
-                std::unordered_set<PKBStorage::LineNum> prevSet;
-                std::unordered_set<PKBStorage::LineNum> nextSet;
+                std::unordered_set<PKB::LineNum> prevSet;
+                std::unordered_set<PKB::LineNum> nextSet;
                 prevSet.insert("1");
                 nextSet.insert("2");
                 Assert::IsTrue(pkbStorage->followsSet.find(std::make_pair("1", "2")) != pkbStorage->followsSet.end());
@@ -62,8 +62,8 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->followsNextToPrevMap.at("2") == prevSet);
 
                 pkbStorage->storeParent("1", "2");
-                std::unordered_set<PKBStorage::LineNum> parentSet;
-                std::unordered_set<PKBStorage::LineNum> childSet;
+                std::unordered_set<PKB::LineNum> parentSet;
+                std::unordered_set<PKB::LineNum> childSet;
                 parentSet.insert("1");
                 childSet.insert("2");
                 Assert::IsTrue(pkbStorage->parentSet.find(std::make_pair("1", "2")) != pkbStorage->parentSet.end());
@@ -76,8 +76,8 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->parentChildToParentMap.at("2") == parentSet);
 
                 pkbStorage->storeUsesS("1", "var1");
-                std::unordered_set<PKBStorage::LineNum> usesLineSet;
-                std::unordered_set<PKBStorage::Variable> usesVarSet;
+                std::unordered_set<PKB::LineNum> usesLineSet;
+                std::unordered_set<PKB::Variable> usesVarSet;
                 usesLineSet.insert("1");
                 usesVarSet.insert("var1");
                 Assert::IsTrue(pkbStorage->usesSet.find(std::make_pair("1", "var1")) != pkbStorage->usesSet.end());
@@ -90,8 +90,8 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->usesVarToLineMap.at("var1") == usesLineSet);
 
                 pkbStorage->storeModifiesS("1", "var1");
-                std::unordered_set<PKBStorage::LineNum> modifiesLineSet;
-                std::unordered_set<PKBStorage::Variable> modifiesVarSet;
+                std::unordered_set<PKB::LineNum> modifiesLineSet;
+                std::unordered_set<PKB::Variable> modifiesVarSet;
                 modifiesLineSet.insert("1");
                 modifiesVarSet.insert("var1");
                 Assert::IsTrue(pkbStorage->modifiesSet.find(std::make_pair("1", "var1")) != pkbStorage->modifiesSet.end());
@@ -104,8 +104,8 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->modifiesVarToLineMap.at("var1") == modifiesLineSet);
 
                 pkbStorage->storeAssignPattern("var1", "1", "1");
-                std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> lineVarSet;
-                std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::ExprStr>, PairHasher::pairHash> lineExprSet;
+                std::unordered_set<std::pair<PKB::LineNum, PKB::Variable>, PKB::pairHash> lineVarSet;
+                std::unordered_set<std::pair<PKB::LineNum, PKB::ExprStr>, PKB::pairHash> lineExprSet;
                 lineVarSet.insert(std::make_pair("1", "var1"));
                 lineExprSet.insert(std::make_pair("1", "1"));
                 Assert::IsTrue(pkbStorage->assignLineVarSet.find(std::make_pair("1", "var1")) != pkbStorage->assignLineVarSet.end());
@@ -119,20 +119,20 @@ namespace UnitTesting {
             }
 
             TEST_METHOD(TestPkbManager) {
-                PKBManager pkbManager;
-                std::shared_ptr<PKBStorage> pkbStorage = pkbManager.getPKBStorage();
+                PKB::PKBManager pkbManager;
+                std::shared_ptr<PKB::PKBStorage> pkbStorage = pkbManager.getPKBStorage();
 
                 ////modifies
                 //pkbStorage->storeModifiesS("1", "var1");
                 //pkbStorage->storeModifiesS("1", "var2");
 
-                //std::unordered_set<PKBStorage::Variable> modifiesVarSet;
-                //std::unordered_set<PKBStorage::LineNum> modifiesLineSet;
-                //std::unordered_set<PKBStorage::Variable> falseModifiesVarSet;
-                //std::unordered_set<PKBStorage::LineNum> falseModifiesLineSet;
-                //std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> modifiesSet;
-                //std::unordered_map<PKBStorage::LineNum, std::unordered_set<PKBStorage::Variable>> modifiesLineToVarMap;
-                //std::unordered_map<PKBStorage::Variable, std::unordered_set<PKBStorage::LineNum>> modifiesVarToLineMap;
+                //std::unordered_set<PKB::Variable> modifiesVarSet;
+                //std::unordered_set<PKB::LineNum> modifiesLineSet;
+                //std::unordered_set<PKB::Variable> falseModifiesVarSet;
+                //std::unordered_set<PKB::LineNum> falseModifiesLineSet;
+                //std::unordered_set<std::pair<PKB::LineNum, PKB::Variable>, PKB::pairHash> modifiesSet;
+                //std::unordered_map<PKB::LineNum, std::unordered_set<PKB::Variable>> modifiesLineToVarMap;
+                //std::unordered_map<PKB::Variable, std::unordered_set<PKB::LineNum>> modifiesVarToLineMap;
 
                 //modifiesSet.insert(std::make_pair("1", "var1"));
                 //modifiesSet.insert(std::make_pair("1", "var2"));
@@ -159,13 +159,13 @@ namespace UnitTesting {
                 ////getModifiesVarByStmt
                 //Assert::IsTrue(pkbManager.getModifiesVarByStmt("1") == modifiesVarSet);
                 //Assert::IsTrue(pkbManager.getModifiesVarByStmt("1") == modifiesLineToVarMap.at("1"));
-                //Assert::IsTrue(pkbManager.getModifiesVarByStmt("3") == std::unordered_set<PKBStorage::Variable>());
+                //Assert::IsTrue(pkbManager.getModifiesVarByStmt("3") == std::unordered_set<PKB::Variable>());
                 //Assert::IsTrue(pkbManager.getModifiesVarByStmt("3") != modifiesLineToVarMap.at("1"));
 
                 ////getModifiesStmtByVar
                 //Assert::IsTrue(pkbManager.getModifiesStmtByVar("var1") != modifiesLineSet);
                 //Assert::IsTrue(pkbManager.getModifiesStmtByVar("var1") == modifiesVarToLineMap.at("var1"));
-                //Assert::IsTrue(pkbManager.getModifiesStmtByVar("var3") == std::unordered_set<PKBStorage::LineNum>());
+                //Assert::IsTrue(pkbManager.getModifiesStmtByVar("var3") == std::unordered_set<PKB::LineNum>());
                 //Assert::IsTrue(pkbManager.getModifiesStmtByVar("var3") != modifiesVarToLineMap.at("var1"));
 
                 ////getAllModifies
@@ -175,21 +175,21 @@ namespace UnitTesting {
 
                 ////getModifiesStmtByUS
                 //Assert::IsTrue(pkbManager.getModifiesStmtByUS() == modifiesLineSet);
-                //Assert::IsTrue(pkbManager.getModifiesStmtByUS() != std::unordered_set<PKBStorage::LineNum>({ "1" }));
-                //Assert::IsTrue(pkbManager.getModifiesStmtByUS() != std::unordered_set<PKBStorage::LineNum>({ "2" }));
+                //Assert::IsTrue(pkbManager.getModifiesStmtByUS() != std::unordered_set<PKB::LineNum>({ "1" }));
+                //Assert::IsTrue(pkbManager.getModifiesStmtByUS() != std::unordered_set<PKB::LineNum>({ "2" }));
                 //Assert::IsTrue(pkbManager.getModifiesStmtByUS() != falseModifiesLineSet);
 
                 ////uses
                 //pkbStorage->storeUsesS("1", "var1");
                 //pkbStorage->storeUsesS("1", "var2");
 
-                //std::unordered_set<PKBStorage::Variable> usesVarSet {"var1", "var2"};
-                //std::unordered_set<PKBStorage::LineNum> usesLineSet {"1", "2"};
-                //std::unordered_set<PKBStorage::Variable> falseUsesVarSet {"var3", "var4"};
-                //std::unordered_set<PKBStorage::LineNum> falseUsesLineSet {"3", "4"};
-                //std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> usesSet;
-                //std::unordered_map<PKBStorage::LineNum, std::unordered_set<PKBStorage::Variable>> usesLineToVarMap;
-                //std::unordered_map<PKBStorage::Variable, std::unordered_set<PKBStorage::LineNum>> usesVarToLineMap;
+                //std::unordered_set<PKB::Variable> usesVarSet {"var1", "var2"};
+                //std::unordered_set<PKB::LineNum> usesLineSet {"1", "2"};
+                //std::unordered_set<PKB::Variable> falseUsesVarSet {"var3", "var4"};
+                //std::unordered_set<PKB::LineNum> falseUsesLineSet {"3", "4"};
+                //std::unordered_set<std::pair<PKB::LineNum, PKB::Variable>, PKB::pairHash> usesSet;
+                //std::unordered_map<PKB::LineNum, std::unordered_set<PKB::Variable>> usesLineToVarMap;
+                //std::unordered_map<PKB::Variable, std::unordered_set<PKB::LineNum>> usesVarToLineMap;
 
                 //usesSet.insert(std::make_pair("1", "var1"));
                 //usesSet.insert(std::make_pair("1", "var2"));
@@ -212,18 +212,18 @@ namespace UnitTesting {
                 //Assert::IsTrue(pkbManager.getUsesUS("1") == (usesLineToVarMap.find("1") != usesLineToVarMap.end()));
                 //Assert::IsTrue(pkbManager.getUsesUS("3") != (usesLineToVarMap.find("3") == usesLineToVarMap.end()));
                 //Assert::IsTrue(pkbManager.getUsesUS("1") == (usesLineToVarMap.at("1") == usesVarSet));
-                //Assert::IsTrue(pkbManager.getUsesUS("3") == (usesLineToVarMap.at("3") == std::unordered_set<PKBStorage::Variable>()));
+                //Assert::IsTrue(pkbManager.getUsesUS("3") == (usesLineToVarMap.at("3") == std::unordered_set<PKB::Variable>()));
 
                 ////getUsesVarByStmt
                 //Assert::IsTrue(pkbManager.getUsesVarByStmt("1") == usesVarSet);
                 //Assert::IsTrue(pkbManager.getUsesVarByStmt("1") == usesLineToVarMap.at("1"));
-                //Assert::IsTrue(pkbManager.getUsesVarByStmt("3") == std::unordered_set<PKBStorage::Variable>());
+                //Assert::IsTrue(pkbManager.getUsesVarByStmt("3") == std::unordered_set<PKB::Variable>());
                 //Assert::IsTrue(pkbManager.getUsesVarByStmt("3") != usesLineToVarMap.at("1"));
 
                 ////getUsesStmtByVar
                 //Assert::IsTrue(pkbManager.getUsesStmtByVar("var1") == usesLineSet);
                 //Assert::IsTrue(pkbManager.getUsesStmtByVar("var1") == usesVarToLineMap.at("var1"));
-                //Assert::IsTrue(pkbManager.getUsesStmtByVar("var3") == std::unordered_set<PKBStorage::LineNum>());
+                //Assert::IsTrue(pkbManager.getUsesStmtByVar("var3") == std::unordered_set<PKB::LineNum>());
                 //Assert::IsTrue(pkbManager.getUsesStmtByVar("var3") != usesVarToLineMap.at("var1"));
 
                 ////getAllUses
@@ -233,18 +233,18 @@ namespace UnitTesting {
 
                 ////getUsesStmtByUS
                 //Assert::IsTrue(pkbManager.getUsesStmtByUS() == usesLineSet);
-                //Assert::IsTrue(pkbManager.getUsesStmtByUS() != std::unordered_set<PKBStorage::LineNum>({ "1" }));
-                //Assert::IsTrue(pkbManager.getUsesStmtByUS() != std::unordered_set<PKBStorage::LineNum>({ "2" }));
+                //Assert::IsTrue(pkbManager.getUsesStmtByUS() != std::unordered_set<PKB::LineNum>({ "1" }));
+                //Assert::IsTrue(pkbManager.getUsesStmtByUS() != std::unordered_set<PKB::LineNum>({ "2" }));
                 //Assert::IsTrue(pkbManager.getUsesStmtByUS() != falseUsesLineSet);
 
-                std::unordered_set<PKBStorage::PrevLine> prevSet;
-                std::unordered_set<PKBStorage::PrevLine> prevTSet;
-                std::unordered_set<PKBStorage::PrevLine> allPrevSet;
-                std::unordered_set<PKBStorage::NextLine> nextSet;
-                std::unordered_set<PKBStorage::NextLine> nextTSet;
-                std::unordered_set<PKBStorage::NextLine> allNextSet;
-                std::unordered_set<std::pair<PKBStorage::PrevLine, PKBStorage::NextLine>, PairHasher::pairHash> allFollowsSet;
-                std::unordered_set<std::pair<PKBStorage::PrevLine, PKBStorage::NextLine>, PairHasher::pairHash> allFollowsTSet;
+                std::unordered_set<PKB::PrevLine> prevSet;
+                std::unordered_set<PKB::PrevLine> prevTSet;
+                std::unordered_set<PKB::PrevLine> allPrevSet;
+                std::unordered_set<PKB::NextLine> nextSet;
+                std::unordered_set<PKB::NextLine> nextTSet;
+                std::unordered_set<PKB::NextLine> allNextSet;
+                std::unordered_set<std::pair<PKB::PrevLine, PKB::NextLine>, PKB::pairHash> allFollowsSet;
+                std::unordered_set<std::pair<PKB::PrevLine, PKB::NextLine>, PKB::pairHash> allFollowsTSet;
 
                 Assert::IsFalse(pkbManager.getFollowsByUSUS());
                 Assert::IsTrue(pkbManager.getFollowsPrevByUS() == allPrevSet);
@@ -340,14 +340,14 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbManager.getAllFollowsT() == allFollowsTSet);
 
 
-                std::unordered_set<PKBStorage::ParentLine> parentSet;
-                std::unordered_set<PKBStorage::ParentLine> parentTSet;
-                std::unordered_set<PKBStorage::ParentLine> allparentSet;
-                std::unordered_set<PKBStorage::ChildLine> childSet;
-                std::unordered_set<PKBStorage::ChildLine> childTSet;
-                std::unordered_set<PKBStorage::ChildLine> allChildSet;
-                std::unordered_set<std::pair<PKBStorage::ParentLine, PKBStorage::ChildLine>, PairHasher::pairHash> allParentSet;
-                std::unordered_set<std::pair<PKBStorage::ParentLine, PKBStorage::ChildLine>, PairHasher::pairHash> allParentTSet;
+                std::unordered_set<PKB::ParentLine> parentSet;
+                std::unordered_set<PKB::ParentLine> parentTSet;
+                std::unordered_set<PKB::ParentLine> allparentSet;
+                std::unordered_set<PKB::ChildLine> childSet;
+                std::unordered_set<PKB::ChildLine> childTSet;
+                std::unordered_set<PKB::ChildLine> allChildSet;
+                std::unordered_set<std::pair<PKB::ParentLine, PKB::ChildLine>, PKB::pairHash> allParentSet;
+                std::unordered_set<std::pair<PKB::ParentLine, PKB::ChildLine>, PKB::pairHash> allParentTSet;
 
                 Assert::IsFalse(pkbManager.getParentByUSUS());
                 Assert::IsTrue(pkbManager.getParentParentByUS() == allparentSet);
@@ -451,12 +451,12 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbManager.getAllParentT() == allParentTSet);
 
 
-                std::unordered_set<PKBStorage::LineNum> assignLineSet1;
-                std::unordered_set<PKBStorage::LineNum> assignLineSet2;
-                std::unordered_set<PKBStorage::LineNum> assignLineSet3;
-                std::unordered_set<PKBStorage::LineNum> assignLineSet4;
-                std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> assignPairSet1;
-                std::unordered_set<std::pair<PKBStorage::LineNum, PKBStorage::Variable>, PairHasher::pairHash> assignPairSet2;
+                std::unordered_set<PKB::LineNum> assignLineSet1;
+                std::unordered_set<PKB::LineNum> assignLineSet2;
+                std::unordered_set<PKB::LineNum> assignLineSet3;
+                std::unordered_set<PKB::LineNum> assignLineSet4;
+                std::unordered_set<std::pair<PKB::LineNum, PKB::Variable>, PKB::pairHash> assignPairSet1;
+                std::unordered_set<std::pair<PKB::LineNum, PKB::Variable>, PKB::pairHash> assignPairSet2;
 
                 pkbStorage->storeAssign("1");
                 pkbStorage->storeAssign("2");

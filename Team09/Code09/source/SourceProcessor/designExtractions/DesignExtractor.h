@@ -7,9 +7,9 @@
 
 class DesignExtractor {	
 public:
-    std::shared_ptr<PKBStorage> pkbFacade;
+    std::shared_ptr<PKB::PKBStorage> pkbFacade;
 	
-    DesignExtractor(std::shared_ptr<PKBStorage> pkb) : pkbFacade(pkb) {};
+    DesignExtractor(std::shared_ptr<PKB::PKBStorage> pkb) : pkbFacade(pkb) {};
 
     ~DesignExtractor();
 

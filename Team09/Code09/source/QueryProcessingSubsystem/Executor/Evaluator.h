@@ -7,7 +7,7 @@
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 #include "ResultsDatabase/ResultsDatabase.h"
 
-using namespace PairHasher;
+using namespace PKB;
 
 class Evaluator {
 private:
@@ -35,7 +35,7 @@ public:
 
 	// Different
 	virtual std::unordered_set<std::string> leftSynonymRightSimple(std::string RIGHT_ARG) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> leftSynonymRightSynonym() = 0;
+	virtual std::unordered_set<std::pair<std::string, std::string>, pairHash> leftSynonymRightSynonym() = 0;
 	virtual std::unordered_set<std::string> leftSynonymRightUnderscore() = 0;
 
 	virtual std::unordered_set<std::string> leftSimpleRightSynonym(std::string LEFT_ARG) = 0; // For Demo in Week 5

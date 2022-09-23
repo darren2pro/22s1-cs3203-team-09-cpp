@@ -9,7 +9,7 @@ typedef std::string LineNum;
 typedef std::string Variable;
 
 using namespace std;
-using namespace PairHasher;
+using namespace PKB;
 
 class UsesEvaluator: public Evaluator {
 public:
@@ -22,9 +22,9 @@ public:
 		return results;
 	}
 
-	std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> UsesEvaluator::leftSynonymRightSynonym() override {
+	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> UsesEvaluator::leftSynonymRightSynonym() override {
 		// Uses(a, v) ListPair
-		std::unordered_set<std::pair<LineNum, Variable>, PairHasher::pairHash> results = pkb.getAllUses();
+		std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> results = pkb.getAllUses();
 		return results;
 	}
 

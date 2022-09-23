@@ -22,12 +22,12 @@ public:
 		return results;
 	}
 
-	std::unordered_set<std::pair<LineNum, Variable>, PairHasher::pairHash> ModifiesEvaluator::leftSynonymRightSynonym() override {
+	std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> ModifiesEvaluator::leftSynonymRightSynonym() override {
 		// Modifies(a, v) PairList
 		//							w   v
 		// Modifies(w, v) PairList {2   a}
 		//						   {10  b}
-		std::unordered_set<std::pair<LineNum, Variable>, PairHasher::pairHash> results = pkb.getAllModifies();
+		std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> results = pkb.getAllModifies();
 		return results;
 	};
 

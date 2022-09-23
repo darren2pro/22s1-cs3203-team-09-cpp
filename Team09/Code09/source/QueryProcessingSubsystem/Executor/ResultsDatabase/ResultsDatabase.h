@@ -11,7 +11,7 @@ typedef std::string Variable;
 typedef std::string Value;
 typedef std::string TableIndex;
 
-using namespace PairHasher;
+using namespace PKB;
 
 class ResultsDatabase {
 public:
@@ -25,7 +25,7 @@ public:
 		allResultsTables(std::vector<ResultsTables>()) {};
 
 	bool insertList(Variable variable, std::unordered_set<Value> list);
-	bool insertPairList(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair);
+	bool insertPairList(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, pairHash> listPair);
 
 	// Get index of variable if it exists in tables
 	int getVariableIndex(Variable variable);
@@ -38,7 +38,7 @@ public:
 
 	// Creating of tables
 	void createSingleVariableTable(Variable variable, std::unordered_set<Value> list);
-	void createDoubleVariableTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PairHasher::pairHash> listPair);
+	void createDoubleVariableTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, pairHash> listPair);
 
 	bool combineTables(int firstIndex, int secondIndex);
 	void removeTable(int index);

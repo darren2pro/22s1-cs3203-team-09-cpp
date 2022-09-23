@@ -16,21 +16,21 @@ public:
 	AssignPatternEvaluator(std::vector<Declaration> declarations,Pattern patterns, ResultsDatabase& rdb, PKBManager pkb) :
 	PatternEvaluator(declarations, patterns, rdb, pkb) {}; // Constructor
 
-	std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> AssignPatternEvaluator::patternLeftSynonymRightStrictExpression(Expression expr) override {
+	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> AssignPatternEvaluator::patternLeftSynonymRightStrictExpression(Expression expr) override {
 		// Uses(a, 'x') List
-		std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> results = pkb.getAssignLineVarByMatchFull(expr);
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> results = pkb.getAssignLineVarByMatchFull(expr);
 		return results;
 	}
 
-	std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> AssignPatternEvaluator::patternLeftSynonymRightRelaxedExpression(Expression expr) override {
+	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> AssignPatternEvaluator::patternLeftSynonymRightRelaxedExpression(Expression expr) override {
 		// Uses(a, v) ListPair
-		std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> results = pkb.getAssignLineVarByMatchPartial(expr);
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> results = pkb.getAssignLineVarByMatchPartial(expr);
 		return results;
 	}
 
-	std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> AssignPatternEvaluator::patternLeftSynonymRightUnderscore() override {
+	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> AssignPatternEvaluator::patternLeftSynonymRightUnderscore() override {
 		// Uses(a, _) List
-		std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> results = pkb.getAssignLineVarByUS();
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> results = pkb.getAssignLineVarByUS();
 		return results;
 	}
 

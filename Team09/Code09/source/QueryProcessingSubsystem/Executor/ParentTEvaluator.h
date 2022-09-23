@@ -17,9 +17,9 @@ public:
 		return results;
 	}
 
-	std::unordered_set<std::pair<std::string, std::string>, PairHasher::pairHash> ParentTEvaluator::leftSynonymRightSynonym() override {
+	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> ParentTEvaluator::leftSynonymRightSynonym() override {
 		// ParentT(a, w) ListPair
-		std::unordered_set<std::pair<ParentLine, ChildLine>, PairHasher::pairHash> results = pkb.getAllParentT();
+		std::unordered_set<std::pair<ParentLine, ChildLine>, PKB::pairHash> results = pkb.getAllParentT();
 		return results;
 	}
 

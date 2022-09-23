@@ -5,6 +5,12 @@
 
 class Utils {
 public:
+    /**
+     * Checks whether the provided arg is a valid synonym by referencing the declarations vector from the query adt.
+     * @param arg string arg to check whether it is a valid synonym
+     * @param declarations vector of declarations from the query adt
+     * @return true if arg is a valid synonym, false otherwise
+     */
 	static bool isSynonym(std::string arg, std::vector<Declaration> declarations) {
 		for (Declaration decl : declarations) {
 			if (decl.name == arg) {
@@ -14,6 +20,9 @@ public:
 		return false;
 	};
 
+    /**
+     * Gets the declaration object for this synonym
+     */
 	static Declaration getSynonym(std::string arg, std::vector<Declaration> declarations) {
 		for (Declaration decl : declarations) {
 			if (decl.name == arg) {

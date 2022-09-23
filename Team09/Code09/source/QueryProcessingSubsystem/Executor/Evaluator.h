@@ -9,6 +9,7 @@
 
 using namespace PKB;
 
+//! This evaluator is the super class for all of the relations evaluators such as Modifies, Follows.
 class Evaluator {
 private:
 	std::string LEFT_SYNONYM;
@@ -30,6 +31,10 @@ public:
 		rdb(rdb),
 		pkb(pkb) {};
 
+    /**
+     * Evaluates the relation and stores the results in the ResultsDatabase. Returns false if there are no possible results
+     * for this relation evaluation, and returns true if there are at least one possible result.
+     */
 	bool evaluate();
 	std::string temporaryStrip(std::string arg);
 

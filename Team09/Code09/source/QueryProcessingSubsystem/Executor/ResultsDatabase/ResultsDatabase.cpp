@@ -1,17 +1,23 @@
 #include <cassert>
 #include "ResultsDatabase.h"
 
+using namespace std;
+
+bool ResultsDatabase::variableIsPresent(Variable var) {
+    const bool isPresent = find(allVariables.begin(), allVariables.end(), var) != allVariables.end();
+    return isPresent;
+}
+
 bool ResultsDatabase::insertList(Variable variable, std::unordered_set<Value> list) {
-	int index = getVariableIndex(variable);
-	// Variable does not exist in RDB, return a new table index.
-	if (index < 0) {
-		// Create a new table
+	int tableIndex = getVariableIndex(variable);
+	// Variable does not exist in RDB, create a new table
+	if (tableIndex < 0) {
 		createSingleVariableTable(variable, list);
 		return true;
 	}
-	// Variable exists in the RDB, return the table index now.
+	// Variable exists in the RDB, add to existing table
 	else {
-		return allResultsTables[index].insertListToTable(variable, list);
+		return allResultsTables[tableIndex].insertListToTable(variable, list);
 	}
 }
 

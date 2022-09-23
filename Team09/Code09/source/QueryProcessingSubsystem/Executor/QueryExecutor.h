@@ -25,6 +25,12 @@ public:
 
 	std::unordered_set<std::string> processQuery(Query* query);
 	std::unordered_set<std::string> getResultsFromRDB(std::vector<Declaration> declarations, Declaration target, ResultsDatabase& rdb);
-	static void insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager& pkb);
+	/**
+	 *
+	 * @param decl
+	 * @param rdb
+	 * @param pkb
+	 */
+    static void insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager& pkb);
 
 };

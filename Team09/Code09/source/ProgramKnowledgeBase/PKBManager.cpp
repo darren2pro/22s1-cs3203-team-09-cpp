@@ -1,6 +1,5 @@
 #include "PKBManager.h"
-
-using namespace Simple;
+#include "../SourceProcessor/SimpleInterface.h"
 
 namespace PKB {
     PKBManager::PKBManager() {}

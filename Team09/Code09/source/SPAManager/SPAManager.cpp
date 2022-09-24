@@ -12,9 +12,8 @@ SPAManager::SPAManager() {
 }
 
 SPAManager::~SPAManager() {
-    // TODO: uncomment this part
-    //delete pkb;
-    //delete qm;
+    delete pkb;
+    delete qm;
 }
 
 void SPAManager::loadSimpleSource(string fileName) {

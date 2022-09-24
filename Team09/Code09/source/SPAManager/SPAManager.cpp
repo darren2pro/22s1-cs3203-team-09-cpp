@@ -6,9 +6,24 @@
 
 using namespace std;
 
+SPAManager::SPAManager() {
+    pkb = nullptr;
+    qm = nullptr;
+}
+
+SPAManager::~SPAManager() {
+    // TODO: uncomment this part
+    //delete pkb;
+    //delete qm;
+}
+
 void SPAManager::loadSimpleSource(string fileName) {
-    if (pkb != nullptr) delete pkb;
-    if (qm != nullptr) delete qm;
+    if (pkb != nullptr) {
+        delete pkb;
+    }
+    if (qm != nullptr) {
+        delete qm;
+    }
     AST ast = SimpleInterface::getAstFromFile(fileName);
     pkb = new PKBManager();
     qm = new QueryExecutor(pkb);
@@ -19,8 +34,12 @@ void SPAManager::loadSimpleSource(string fileName) {
 }
 
 void SPAManager::loadSimpleSourceFromProgram(string program) {
-    if (pkb != nullptr) delete pkb;
-    if (qm != nullptr) delete qm;
+    if (pkb != nullptr) {
+        delete pkb;
+    }
+    if (qm != nullptr) {
+        delete qm;
+    }
     AST ast = SimpleInterface::getAstFromProgram(program);
     pkb = new PKBManager();
     qm = new QueryExecutor(pkb);
@@ -35,9 +54,4 @@ unordered_set<string> SPAManager::query(string& pqlQuery) {
     Query* queryAdt = qb.buildQuery(pqlQuery);
     unordered_set<string> queryResults = qm->processQuery(queryAdt);
     return queryResults;
-}
-
-SPAManager::~SPAManager() {
-    delete pkb;
-    delete qm;
 }

@@ -12,8 +12,9 @@ private:
     QueryExecutor* qm;
 
 public:
+    SPAManager();
+    ~SPAManager();
     void loadSimpleSource(string fileName);
     void loadSimpleSourceFromProgram(string program);
     unordered_set<string> query(string& pqlQuery);
-    ~SPAManager();
 };

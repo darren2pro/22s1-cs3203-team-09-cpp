@@ -9,7 +9,7 @@
 
 class QueryExecutor {
 private:
-	PKBManager pkb;
+	PKBManager* pkb;
 	ResultsDatabase rdb;
 	Relation relations;
 	Pattern pattern;
@@ -21,16 +21,14 @@ private:
 	bool execute(Relation relation, ResultsDatabase& rdb);
 
 public:
-	QueryExecutor(PKBManager pkb) : pkb(pkb) {}; // Constructor for taking in PKB
+	QueryExecutor(PKBManager* pkb) : pkb(pkb) {}; // Constructor for taking in PKB
 
 	std::unordered_set<std::string> processQuery(Query* query);
 	std::unordered_set<std::string> getResultsFromRDB(std::vector<Declaration> declarations, Declaration target, ResultsDatabase& rdb);
-	/**
-	 *
-	 * @param decl
-	 * @param rdb
-	 * @param pkb
-	 */
-    static void insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager& pkb);
+
+    /**
+     * Used to insert all the possible values for this declaration into the ResultsDatabase.
+     */
+    static void insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager* pkb);
 
 };

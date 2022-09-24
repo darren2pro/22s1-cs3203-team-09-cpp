@@ -385,15 +385,3 @@ AssignmentNodePtr SimpleAstBuilder::parseAssign() {
     expect(";");
     return make_shared<AssignmentNode>(move(variable), move(expr));
 }
-
-Expr SimpleAstBuilder::parseArithmeticExpression(string expression) {
-    stringstream ss(expression);
-    SimpleTokenizer tokenizer(&ss);
-    Parser::SOURCE_CODE_TOKENS tokens = tokenizer.tokenize();
-    int currentIndex = 0;
-    //! No need for any relational operators delimiters because we only parse arithmetic
-    unordered_set<string> delimiters;
-    ArithmeticParser arithmeticParser(tokens, &currentIndex, delimiters);
-    Expr expr = arithmeticParser.parse(0);
-    return expr;
-}

@@ -44,8 +44,8 @@ bool Evaluator::evaluate() {
 		}
 	}
 
-	else if (isLeftSynonym && (!Utils().isUnderscore(RIGHT_ARG) && !isRightSynonym)) {
-		RIGHT_ARG = temporaryStrip(RIGHT_ARG);
+	else if (isLeftSynonym && Utils().isBasicQuerySimple(RIGHT_ARG)) {
+		RIGHT_ARG = stripQuotationMarks(RIGHT_ARG);
 		std::unordered_set<std::string> result = leftSynonymRightSimple(RIGHT_ARG);
 		if (result.size() == 0) {
 			return false;
@@ -55,7 +55,7 @@ bool Evaluator::evaluate() {
 		}
 	}
 
-	else if ((!Utils().isUnderscore(LEFT_ARG) && !isLeftSynonym) && isRightSynonym) {
+	else if (Utils().isBasicQuerySimple(LEFT_ARG) && isRightSynonym) {
 		std::unordered_set<std::string> result = leftSimpleRightSynonym(LEFT_ARG);
 		if (result.size() == 0) {
 			return false;
@@ -64,14 +64,14 @@ bool Evaluator::evaluate() {
 			return rdb.insertList(RIGHT_ARG, result);
 		}
 	}
-
-	else if ((!Utils().isUnderscore(LEFT_ARG) && !isLeftSynonym) && Utils().isUnderscore(RIGHT_ARG)) {
+	
+	else if (Utils().isBasicQuerySimple(LEFT_ARG) && Utils().isUnderscore(RIGHT_ARG)) {
 		bool result = leftSimpleRightUnderscore(LEFT_ARG);
 		return result;
 	}
 
-	else if ((!Utils().isUnderscore(LEFT_ARG) && !isLeftSynonym) && (!Utils().isUnderscore(RIGHT_ARG) && !isRightSynonym)) {
-		RIGHT_ARG = temporaryStrip(RIGHT_ARG);
+	else if (Utils().isBasicQuerySimple(LEFT_ARG) && Utils().isBasicQuerySimple(RIGHT_ARG)) {
+		RIGHT_ARG = stripQuotationMarks(RIGHT_ARG);
 		bool result = leftSimpleRightSimple(LEFT_ARG, RIGHT_ARG);
 		return result;
 	}
@@ -86,8 +86,8 @@ bool Evaluator::evaluate() {
 		}
 	}
 
-	else if (Utils().isUnderscore(LEFT_ARG) && (!Utils().isUnderscore(RIGHT_ARG) && !isRightSynonym)) {
-		RIGHT_ARG = temporaryStrip(RIGHT_ARG);
+	else if (Utils().isUnderscore(LEFT_ARG) && Utils().isBasicQuerySimple(RIGHT_ARG)) {
+		RIGHT_ARG = stripQuotationMarks(RIGHT_ARG);
 		bool result = leftUnderscoreRightSimple(RIGHT_ARG);
 		return result;
 	}
@@ -98,11 +98,11 @@ bool Evaluator::evaluate() {
 	}	
 }
 
-std::string Evaluator::temporaryStrip(std::string arg) {
-	// Check whether there is underscores to strip first
-	if (arg[0] == '"') {
+std::string Evaluator::stripQuotationMarks(std::string arg) {
+	//! Check whether there is underscores to strip first
+	if (arg[0] == '"' && arg[arg.length() - 1] == '"') {
 		arg.erase(0, 1);
-		arg.erase(arg.size() - 1);
+		arg.erase(arg.length() - 1, 1);
 	}
 	return arg;
 }

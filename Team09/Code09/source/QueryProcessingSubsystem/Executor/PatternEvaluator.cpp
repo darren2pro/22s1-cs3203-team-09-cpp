@@ -94,7 +94,7 @@ bool PatternEvaluator::evaluate() {
 	}
 
 	// left simple
-	else if (Utils().isString(pattern.LEFT_ARG) && Utils().isUnderscore(pattern.RIGHT_ARG)) {
+	else if (Utils().isBasicQueryString(pattern.LEFT_ARG) && Utils().isUnderscore(pattern.RIGHT_ARG)) {
 		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
 		std::unordered_set<std::string> result = patternLeftSimpleRightUnderscore(pattern.LEFT_ARG);
 		if (result.size() == 0) {
@@ -104,7 +104,7 @@ bool PatternEvaluator::evaluate() {
 			return rdb.insertList(PATTERN_SYNONYM, result);
 		}
 	}
-	else if (Utils().isString(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
+	else if (Utils().isBasicQueryString(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
 		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
 		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
 		std::unordered_set<std::string> result = patternLeftSimpleRightStrictExpression(pattern.LEFT_ARG, pattern.RIGHT_ARG);
@@ -115,7 +115,7 @@ bool PatternEvaluator::evaluate() {
 			return rdb.insertList(PATTERN_SYNONYM, result);
 		}
 	}
-	else if (Utils().isString(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
+	else if (Utils().isBasicQueryString(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
 		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
 		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
 		std::unordered_set<std::string> result = patternLeftSimpleRightRelaxedExpression(pattern.LEFT_ARG, pattern.RIGHT_ARG);

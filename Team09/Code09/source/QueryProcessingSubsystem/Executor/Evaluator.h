@@ -36,7 +36,9 @@ public:
      * for this relation evaluation, and returns true if there are at least one possible result.
      */
 	bool evaluate();
-	std::string temporaryStrip(std::string arg);
+
+    //! Strips the quotation marks from the string. (only if there are quotation marks to strip)
+	std::string stripQuotationMarks(std::string arg);
 
 	// Different
 	virtual std::unordered_set<std::string> leftSynonymRightSimple(std::string RIGHT_ARG) = 0; // For Demo in Week 5

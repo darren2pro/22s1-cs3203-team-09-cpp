@@ -1,5 +1,6 @@
 #include <cassert>
 #include "ResultsDatabase.h"
+#include <stdexcept>
 
 using namespace std;
 
@@ -45,7 +46,7 @@ bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordere
 	// Variables exist in 2 different tables. Need to merge the two tables together.
 	else {
 		combineTables(firstIndex, secondIndex);
-		int newIndex = getNewTableIndexAfterCombine(firstIndex, secondIndex);
+		int newIndex = getNewTableIndexAfterCombine(var1, var2);
 		return allResultsTables[newIndex].insertListPairToTable(var1, var2, listPair);
 	}
 }
@@ -60,21 +61,15 @@ int ResultsDatabase::getVariableIndex(Variable variable) {
 	}
 }
 
-int ResultsDatabase::getNewTableIndexAfterCombine(int firstIndex, int secondIndex) {
-	// Go thru variableToTableMap. The invalid pointer should not be inside the map.
-
-	for (auto& pair : varToIndexMap) {
-		if (pair.second == firstIndex) {
-			return firstIndex;
-		}
-		else if (pair.second == secondIndex) {
-			return secondIndex;
-		}
-		else {
-			assert("Error: Neither indices are found in varToIndexMap");
-		}
-	}
-
+int ResultsDatabase::getNewTableIndexAfterCombine(Variable var1, Variable var2) {
+	int firstIndex = getVariableIndex(var1);
+    int secondIndex = getVariableIndex(var2);
+    if (firstIndex == -1 || secondIndex == -1) throw runtime_error("Variables do not exist in the RDB.");
+    if (firstIndex == secondIndex) {
+        return firstIndex;
+    } else {
+        throw runtime_error("Variables exist in different tables after a combine has been done.");
+    }
 }
 
 void ResultsDatabase::createSingleVariableTable(Variable variable, std::unordered_set<Value> list) {

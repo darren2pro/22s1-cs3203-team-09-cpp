@@ -25,7 +25,6 @@ bool Evaluator::evaluate() {
 
 	if (isLeftSynonym && isRightSynonym) {
 		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = leftSynonymRightSynonym();
-		// Filtering 
 		if (result.size() == 0) {
 			return false;
 		}

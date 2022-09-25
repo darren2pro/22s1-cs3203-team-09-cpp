@@ -38,7 +38,6 @@ bool ResultsTables::insertListToTable(Variable variable, std::unordered_set<Valu
 		});
 	resultsTable.erase(remover, resultsTable.end());
 	
-	// To check if Table is empty.
 	if (resultsTable.size() <= 0) {
 		return false;
 	}
@@ -48,20 +47,19 @@ bool ResultsTables::insertListToTable(Variable variable, std::unordered_set<Valu
 }
 
 bool ResultsTables::insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, PKB::pairHash>& listPair) {
-	int index1 = varToColIndex[var1];
-	int index2 = varToColIndex[var2];
+	int colIdxVar1 = varToColIndex[var1];
+	int colIdxVar2 = varToColIndex[var2];
 
+    //! Removes any element currently in this resultsTable that is not in the listPair which is being passed as argument.
 	auto remover = std::remove_if(resultsTable.begin(), resultsTable.end(),
 		[&](std::vector<std::string>& row) {
-			std::string val1 = row[index1];
-			std::string val2 = row[index2];
-			bool found = listPair.find({ val1, val2 }) == listPair.end();
-			return found;
+			std::string val1 = row[colIdxVar1];
+			std::string val2 = row[colIdxVar2];
+			bool notFound = listPair.find({val1, val2 }) == listPair.end();
+			return notFound;
 		});
-
 	resultsTable.erase(remover, resultsTable.end());
 	
-	// To check if Table is empty.
 	if (resultsTable.size() <= 0) {
 		return false;
 	}

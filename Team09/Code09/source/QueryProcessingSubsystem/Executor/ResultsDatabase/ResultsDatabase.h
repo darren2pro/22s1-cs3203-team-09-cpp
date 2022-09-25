@@ -34,6 +34,7 @@ public:
     bool variableIsPresent(Variable var);
     /**
      * Get index of variable if it exists in this results database. This index is referencing a single table in allResultsTables.
+     * If the variable does not exist in this results database, this method returns -1.
      */
     int getVariableIndex(Variable variable);
     /**
@@ -47,8 +48,9 @@ public:
 	bool insertList(Variable variable, std::unordered_set<Value> list);
 	bool insertPairList(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, pairHash> listPair);
 
-	//! Return the correct index after table combine.
-	int getNewTableIndexAfterCombine(int firstIndex, int secondIndex);
+	//! Return the correct index after table combine. The way we do it is to retrieve the mappings for the
+	//! two variables again. If the index is different, a runtime_error is thrown.
+	int getNewTableIndexAfterCombine(Variable var1, Variable var2);
 
 	//! Adds a new mapping from variable to tableIdx. This tableIdx is referencing allResultsTables.
 	void addNewTableToMap(Variable variable, int tableIndex);

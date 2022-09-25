@@ -77,7 +77,7 @@ namespace UnitTesting {
 
                 // Query 7
                 string query7 = "assign aaa;\n"
-                                "Select aaa such that Modifies(aaa, \"x\")"; // Modifies(aaa, "x")
+                                "Select aaa such that Modifies(aaa, \"x\")";
                 Query* q7 = QueryBuilder().buildQuery(query7);
                 unordered_set<string> results7 = executor.processQuery(q7);
 				Assert::IsTrue(results7.size() == 1, L"Query 7 fails");

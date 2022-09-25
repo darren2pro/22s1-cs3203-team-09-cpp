@@ -30,7 +30,7 @@ public:
 	}
 
 	std::unordered_set<std::string> ParentTEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
-		// ParentT(a, _) List
+		// ParentT(1, s) List
 		std::unordered_set<ChildLine> results = pkb.getParentTChildByParent(LEFT_ARG);
 		return results;
 

@@ -34,11 +34,9 @@ public:
 	// Adding double var listpairs
 	bool insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, pairHash>& listPair);
 
-	//! Combine with another table
+	//! Does a cross product across the two tables so that the two tables merge into this table.
+	//! At the end of this operation, only this table will survive.
 	bool combineTableWith(ResultsTables& otherTable);
-
-
-	//std::unordered_map<std::string, std::vector<int>> hashColumn(Variable var);
 
 	//! Fetching results
 	std::unordered_set<Value> getResultBySynonym(Variable variable);

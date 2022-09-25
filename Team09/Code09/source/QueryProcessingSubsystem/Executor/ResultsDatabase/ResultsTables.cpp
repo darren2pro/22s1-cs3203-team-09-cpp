@@ -27,14 +27,15 @@ void ResultsTables::create(Variable var1, Variable var2, std::unordered_set<std:
 
 bool ResultsTables::insertListToTable(Variable variable, std::unordered_set<Value>& list) {
 	int colIndex = varToColIndex[variable];
+    //! This remover lambda expression together with the erase function call is used to remove any element currently
+    //! in this resultsTable that is not in the list which is being passed as argument.
 	auto remover = std::remove_if(resultsTable.begin(), resultsTable.end(),
 		// Capture by reference so that the row can be changed
 		[&](std::vector<std::string>& row) {
 			Value valueCurrentlyPresent = row[colIndex];
-			bool isFound = list.find(valueCurrentlyPresent) == list.end();
-			return isFound;
+			bool notFound = list.find(valueCurrentlyPresent) == list.end();
+			return notFound;
 		});
-
 	resultsTable.erase(remover, resultsTable.end());
 	
 	// To check if Table is empty.
@@ -175,13 +176,6 @@ std::unordered_set<Value> ResultsTables::getResultBySynonym(Variable variable) {
 	}
 
 	return finalResults;
-	//size_t col_index = name_column_map[name];
-	//vector<string> out_column;
-	//out_column.reserve(table.size());
-	//for (auto& row : table) {
-	//	out_column.push_back(row[col_index]);
-	//}
-	//return out_column;
 }
 
 

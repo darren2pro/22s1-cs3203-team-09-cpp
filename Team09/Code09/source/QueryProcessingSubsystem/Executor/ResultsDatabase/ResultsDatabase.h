@@ -61,13 +61,13 @@ public:
 	void createSingleVariableTable(Variable variable, std::unordered_set<Value> list);
 	void createDoubleVariableTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, pairHash> listPair);
 
+    //! Conbines the two tables into a single table. At the end of this method, only the table for firstIndex will remain.
 	bool combineTables(int firstIndex, int secondIndex);
-	void removeTable(int index);
 
-	// Fetching results
+	//! Removes the resultTable at this index, and re-computes the mapping for all the variables, so that
+	//! they continue to point to the correct table.
+    void removeTable(int index);
+
+	//! Fetching results
 	std::unordered_set<std::string> getResults(Declaration& target);
-
-	//// Dealing with incoming results
-	//bool mergeListList(std::vector<std::string> list1, std::vector<std::string> list2);
-	//bool mergePairListPairList(std::vector<std::pair<std::string, std::string>>)
 };

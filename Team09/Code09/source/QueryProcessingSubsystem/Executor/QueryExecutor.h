@@ -24,12 +24,11 @@ public:
 	QueryExecutor(PKBManager pkb) : pkb(pkb) {}; // Constructor for taking in PKB
 
 	std::unordered_set<std::string> processQuery(Query* query);
-	std::unordered_set<std::string> getResultsFromRDB(std::vector<Declaration> declarations, Declaration target, ResultsDatabase& rdb);
+	std::unordered_set<std::string> getResultsFromRDB(Declaration target, ResultsDatabase& rdb);
 	/**
-	 *
-	 * @param decl
-	 * @param rdb
-	 * @param pkb
+	 * If the rdb already contains constraints on this given declaration, then simply return without doing anything.
+	 * If the rdb does not contain any constaints on this given declaration, then retrieve the full set of possible values
+	 * for this declaration and insert them into the rdb.
 	 */
     static void insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager& pkb);
 

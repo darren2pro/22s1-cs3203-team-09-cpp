@@ -37,7 +37,7 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 		insertSynonymSetIntoRDB(decl, rdb, pkb);
 	}
 
-	std::unordered_set<std::string> results = getResultsFromRDB(declarations, target, rdb);
+	std::unordered_set<std::string> results = getResultsFromRDB(target, rdb);
 
 	return results;
 }
@@ -77,7 +77,7 @@ bool QueryExecutor::execute(Pattern pattern, ResultsDatabase& rdb) {
 	}
 }
 
-std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(std::vector<Declaration> declarations, Declaration target, ResultsDatabase& rdb) {
+std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Declaration target, ResultsDatabase& rdb) {
 	// Different from JK
 	return rdb.getResults(target);
 }

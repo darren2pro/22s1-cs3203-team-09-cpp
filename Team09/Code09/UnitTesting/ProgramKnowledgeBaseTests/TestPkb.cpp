@@ -122,120 +122,85 @@ namespace UnitTesting {
                 PKB::PKBManager pkbManager;
                 std::shared_ptr<PKB::PKBStorage> pkbStorage = pkbManager.getPKBStorage();
 
-                ////modifies
-                //pkbStorage->storeModifiesS("1", "var1");
-                //pkbStorage->storeModifiesS("1", "var2");
+                //modifies
+                pkbStorage->storeModifiesS("1", "var1");
+                pkbStorage->storeModifiesS("1", "var2");
+                std::unordered_set<PKB::Variable> modifiesVarSet;
+                std::unordered_set<PKB::LineNum> modifiesLineSet;
+                std::unordered_set<std::pair<PKB::LineNum, PKB::Variable>, PKB::pairHash> allModifiesSet;
 
-                //std::unordered_set<PKB::Variable> modifiesVarSet;
-                //std::unordered_set<PKB::LineNum> modifiesLineSet;
-                //std::unordered_set<PKB::Variable> falseModifiesVarSet;
-                //std::unordered_set<PKB::LineNum> falseModifiesLineSet;
-                //std::unordered_set<std::pair<PKB::LineNum, PKB::Variable>, PKB::pairHash> modifiesSet;
-                //std::unordered_map<PKB::LineNum, std::unordered_set<PKB::Variable>> modifiesLineToVarMap;
-                //std::unordered_map<PKB::Variable, std::unordered_set<PKB::LineNum>> modifiesVarToLineMap;
+                //getModifies
+                Assert::IsTrue(pkbManager.getModifies("1", "var1"));
+                Assert::IsTrue(pkbManager.getModifies("1", "var2"));
+                Assert::IsFalse(pkbManager.getModifies("2", "var1"));
+                Assert::IsFalse(pkbManager.getModifies("1", "var3"));
 
-                //modifiesSet.insert(std::make_pair("1", "var1"));
-                //modifiesSet.insert(std::make_pair("1", "var2"));
-                //modifiesVarSet.insert("var1");
-                //modifiesVarSet.insert("var2");
-                //modifiesLineSet.insert("1");
-                //modifiesLineSet.insert("2");
-                //modifiesLineToVarMap["1"] = modifiesVarSet;
-                //modifiesVarToLineMap["var1"] = modifiesLineSet;
-                //falseModifiesVarSet.insert("var3");
-                //falseModifiesLineSet.insert("3");
+                //getModifiesUS
+                Assert::IsTrue(pkbManager.getModifiesUS("1"));
+                Assert::IsFalse(pkbManager.getModifiesUS("2"));
 
-                ////getModifies
-                //Assert::IsTrue(pkbManager.getModifies("1", "var1") == (modifiesSet.find(std::make_pair("1", "var1")) != modifiesSet.end()));
-                //Assert::IsTrue(pkbManager.getModifies("1", "var2") == (modifiesSet.find(std::make_pair("1", "var2")) != modifiesSet.end()));
-                //Assert::IsTrue(pkbManager.getModifies("2", "var1") != (modifiesSet.find(std::make_pair("2", "var1")) == modifiesSet.end()));
-                //Assert::IsTrue(pkbManager.getModifies("1", "var3") != (modifiesSet.find(std::make_pair("1", "var3")) == modifiesSet.end()));
+                //getModifiesVarByStmt
+                Assert::IsFalse(pkbManager.getModifiesVarByStmt("1") == modifiesVarSet);
+                modifiesVarSet.insert("var1");
+                modifiesVarSet.insert("var2");
+                Assert::IsTrue(pkbManager.getModifiesVarByStmt("1") == modifiesVarSet);
+                Assert::IsFalse(pkbManager.getModifiesVarByStmt("2") == modifiesVarSet);
 
-                ////getModifiesUS
-                //Assert::IsTrue(pkbManager.getModifiesUS("1") == (modifiesLineToVarMap.find("1") != modifiesLineToVarMap.end()));
-                //Assert::IsTrue(pkbManager.getModifiesUS("3") != (modifiesLineToVarMap.find("3") == modifiesLineToVarMap.end()));
-                //Assert::IsTrue(pkbManager.getModifiesUS("1") == (modifiesLineToVarMap.at("1") == modifiesVarSet));
+                //getModifiesStmtByVar
+                Assert::IsFalse(pkbManager.getModifiesStmtByVar("var1") == modifiesLineSet);
+                modifiesLineSet.insert("1");
+                Assert::IsTrue(pkbManager.getModifiesStmtByVar("var1") == modifiesLineSet);
+                Assert::IsTrue(pkbManager.getModifiesStmtByVar("var2") == modifiesLineSet);
+                Assert::IsFalse(pkbManager.getModifiesStmtByVar("var3") == modifiesLineSet);
 
-                ////getModifiesVarByStmt
-                //Assert::IsTrue(pkbManager.getModifiesVarByStmt("1") == modifiesVarSet);
-                //Assert::IsTrue(pkbManager.getModifiesVarByStmt("1") == modifiesLineToVarMap.at("1"));
-                //Assert::IsTrue(pkbManager.getModifiesVarByStmt("3") == std::unordered_set<PKB::Variable>());
-                //Assert::IsTrue(pkbManager.getModifiesVarByStmt("3") != modifiesLineToVarMap.at("1"));
+                //getAllModifies
+                Assert::IsFalse(pkbManager.getAllModifies() == allModifiesSet);
+                allModifiesSet.insert(std::make_pair("1", "var1"));
+                allModifiesSet.insert(std::make_pair("1", "var2"));
+                Assert::IsTrue(pkbManager.getAllModifies() == allModifiesSet);
 
-                ////getModifiesStmtByVar
-                //Assert::IsTrue(pkbManager.getModifiesStmtByVar("var1") != modifiesLineSet);
-                //Assert::IsTrue(pkbManager.getModifiesStmtByVar("var1") == modifiesVarToLineMap.at("var1"));
-                //Assert::IsTrue(pkbManager.getModifiesStmtByVar("var3") == std::unordered_set<PKB::LineNum>());
-                //Assert::IsTrue(pkbManager.getModifiesStmtByVar("var3") != modifiesVarToLineMap.at("var1"));
+                //getModifiesStmtByUS
+                Assert::IsTrue(pkbManager.getModifiesStmtByUS() == modifiesLineSet);
 
-                ////getAllModifies
-                //Assert::IsTrue(pkbManager.getAllModifies() == modifiesSet);
-                //Assert::IsTrue(pkbManager.getAllModifies().find(std::make_pair("1", "var1")) != pkbManager.getAllModifies().end());
-                //Assert::IsTrue(pkbManager.getAllModifies().find(std::make_pair("1", "var2")) != pkbManager.getAllModifies().end());
+                //uses
+                pkbStorage->storeUsesS("1", "var1");
+                pkbStorage->storeUsesS("1", "var2");
+                std::unordered_set<PKB::Variable> usesVarSet;
+                std::unordered_set<PKB::LineNum> usesLineSet;
+                std::unordered_set<std::pair<PKB::LineNum, PKB::Variable>, PKB::pairHash> allUsesSet;
 
-                ////getModifiesStmtByUS
-                //Assert::IsTrue(pkbManager.getModifiesStmtByUS() == modifiesLineSet);
-                //Assert::IsTrue(pkbManager.getModifiesStmtByUS() != std::unordered_set<PKB::LineNum>({ "1" }));
-                //Assert::IsTrue(pkbManager.getModifiesStmtByUS() != std::unordered_set<PKB::LineNum>({ "2" }));
-                //Assert::IsTrue(pkbManager.getModifiesStmtByUS() != falseModifiesLineSet);
+                //getUses
+                Assert::IsTrue(pkbManager.getUses("1", "var1"));
+                Assert::IsTrue(pkbManager.getUses("1", "var2"));
+                Assert::IsFalse(pkbManager.getUses("2", "var1"));
+                Assert::IsFalse(pkbManager.getUses("1", "var3"));
 
-                ////uses
-                //pkbStorage->storeUsesS("1", "var1");
-                //pkbStorage->storeUsesS("1", "var2");
+                //getUsesUS
+                Assert::IsTrue(pkbManager.getUsesUS("1"));
+                Assert::IsFalse(pkbManager.getUsesUS("2"));
 
-                //std::unordered_set<PKB::Variable> usesVarSet {"var1", "var2"};
-                //std::unordered_set<PKB::LineNum> usesLineSet {"1", "2"};
-                //std::unordered_set<PKB::Variable> falseUsesVarSet {"var3", "var4"};
-                //std::unordered_set<PKB::LineNum> falseUsesLineSet {"3", "4"};
-                //std::unordered_set<std::pair<PKB::LineNum, PKB::Variable>, PKB::pairHash> usesSet;
-                //std::unordered_map<PKB::LineNum, std::unordered_set<PKB::Variable>> usesLineToVarMap;
-                //std::unordered_map<PKB::Variable, std::unordered_set<PKB::LineNum>> usesVarToLineMap;
+                //getUsesVarByStmt
+                Assert::IsFalse(pkbManager.getUsesVarByStmt("1") == usesVarSet);
+                usesVarSet.insert("var1");
+                usesVarSet.insert("var2");
+                Assert::IsTrue(pkbManager.getUsesVarByStmt("1") == usesVarSet);
+                Assert::IsFalse(pkbManager.getUsesVarByStmt("2") == usesVarSet);
 
-                //usesSet.insert(std::make_pair("1", "var1"));
-                //usesSet.insert(std::make_pair("1", "var2"));
-                //usesVarSet.insert("var1");
-                //usesVarSet.insert("var2");
-                //usesLineSet.insert("1");
-                //usesLineSet.insert("2");
-                //usesLineToVarMap["1"] = usesVarSet;
-                //usesVarToLineMap["var1"] = usesLineSet;
-                //falseUsesVarSet.insert("var3");
-                //falseUsesLineSet.insert("3");
+                //getUsesStmtByVar
+                Assert::IsFalse(pkbManager.getUsesStmtByVar("var1") == usesLineSet);
+                usesLineSet.insert("1");
+                Assert::IsTrue(pkbManager.getUsesStmtByVar("var1") == usesLineSet);
+                Assert::IsTrue(pkbManager.getUsesStmtByVar("var2") == usesLineSet);
+                Assert::IsFalse(pkbManager.getUsesStmtByVar("var3") == usesLineSet);
 
-                ////getUses
-                //Assert::IsTrue(pkbManager.getUses("1", "var1") == (usesSet.find(std::make_pair("1", "var1")) != usesSet.end()));
-                //Assert::IsTrue(pkbManager.getUses("1", "var2") == (usesSet.find(std::make_pair("1", "var2")) != usesSet.end()));
-                //Assert::IsTrue(pkbManager.getUses("2", "var1") != (usesSet.find(std::make_pair("2", "var1")) == usesSet.end()));
-                //Assert::IsTrue(pkbManager.getUses("1", "var3") != (usesSet.find(std::make_pair("1", "var3")) == usesSet.end()));
+                //getAllUses
+                Assert::IsFalse(pkbManager.getAllUses() == allUsesSet);
+                allUsesSet.insert(std::make_pair("1", "var1"));
+                allUsesSet.insert(std::make_pair("1", "var2"));
+                Assert::IsTrue(pkbManager.getAllUses() == allUsesSet);
 
-                ////getUsesUS
-                //Assert::IsTrue(pkbManager.getUsesUS("1") == (usesLineToVarMap.find("1") != usesLineToVarMap.end()));
-                //Assert::IsTrue(pkbManager.getUsesUS("3") != (usesLineToVarMap.find("3") == usesLineToVarMap.end()));
-                //Assert::IsTrue(pkbManager.getUsesUS("1") == (usesLineToVarMap.at("1") == usesVarSet));
-                //Assert::IsTrue(pkbManager.getUsesUS("3") == (usesLineToVarMap.at("3") == std::unordered_set<PKB::Variable>()));
-
-                ////getUsesVarByStmt
-                //Assert::IsTrue(pkbManager.getUsesVarByStmt("1") == usesVarSet);
-                //Assert::IsTrue(pkbManager.getUsesVarByStmt("1") == usesLineToVarMap.at("1"));
-                //Assert::IsTrue(pkbManager.getUsesVarByStmt("3") == std::unordered_set<PKB::Variable>());
-                //Assert::IsTrue(pkbManager.getUsesVarByStmt("3") != usesLineToVarMap.at("1"));
-
-                ////getUsesStmtByVar
-                //Assert::IsTrue(pkbManager.getUsesStmtByVar("var1") == usesLineSet);
-                //Assert::IsTrue(pkbManager.getUsesStmtByVar("var1") == usesVarToLineMap.at("var1"));
-                //Assert::IsTrue(pkbManager.getUsesStmtByVar("var3") == std::unordered_set<PKB::LineNum>());
-                //Assert::IsTrue(pkbManager.getUsesStmtByVar("var3") != usesVarToLineMap.at("var1"));
-
-                ////getAllUses
-                //Assert::IsTrue(pkbManager.getAllUses() == usesSet);
-                //Assert::IsTrue(pkbManager.getAllUses().find(std::make_pair("1", "var1")) != pkbManager.getAllUses().end());
-                //Assert::IsTrue(pkbManager.getAllUses().find(std::make_pair("1", "var2")) != pkbManager.getAllUses().end());
-
-                ////getUsesStmtByUS
-                //Assert::IsTrue(pkbManager.getUsesStmtByUS() == usesLineSet);
-                //Assert::IsTrue(pkbManager.getUsesStmtByUS() != std::unordered_set<PKB::LineNum>({ "1" }));
-                //Assert::IsTrue(pkbManager.getUsesStmtByUS() != std::unordered_set<PKB::LineNum>({ "2" }));
-                //Assert::IsTrue(pkbManager.getUsesStmtByUS() != falseUsesLineSet);
+                //getUsesStmtByUS
+                Assert::IsTrue(pkbManager.getUsesStmtByUS() == usesLineSet);
 
                 std::unordered_set<PKB::PrevLine> prevSet;
                 std::unordered_set<PKB::PrevLine> prevTSet;

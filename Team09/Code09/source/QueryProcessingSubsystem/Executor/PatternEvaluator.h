@@ -17,7 +17,7 @@ public:
 	std::string PATTERN_SYNONYM = pattern.synonym;
 	std::string LEFT_ARG = pattern.LEFT_ARG;
 	std::string RIGHT_ARG = pattern.RIGHT_ARG;
-	PKBManager pkb;
+	PKBManager* pkb;
 	ResultsDatabase& rdb;
 
 	std::string temporaryStrip(std::string arg);
@@ -35,7 +35,7 @@ public:
 	virtual std::unordered_set<LineNum> patternLeftSimpleRightUnderscore(Variable var) = 0;
 
 
-	PatternEvaluator(std::vector<Declaration> declarations, Pattern pattern, ResultsDatabase& rdb, PKBManager pkb) :
+	PatternEvaluator(std::vector<Declaration> declarations, Pattern pattern, ResultsDatabase& rdb, PKBManager* pkb) :
 		declarations(declarations), pattern(pattern), rdb(rdb), pkb(pkb) {};
 	bool evaluate();
 };

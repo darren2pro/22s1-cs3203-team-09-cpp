@@ -1,6 +1,6 @@
 /*!
  * \file   interface.h
- * \brief  Interface for the SIMPLE language.
+ * \brief  SimpleInterface for the SIMPLE language.
  *
  * The bridging interface for SIMPLE subcomponents with the SPA manager.
  *

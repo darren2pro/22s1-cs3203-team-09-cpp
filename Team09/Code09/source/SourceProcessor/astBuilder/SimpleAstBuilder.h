@@ -131,11 +131,4 @@ public:
      * as per needed for the statements in the procedure block.
      */
     AST build();
-
-    /**
-     * @brief Builds an arithmetic AST from a given string, using the Pratt algorithm
-     * @details This method is generally only used by the PKB to build arithmetic ASTs from the user query arguments,
-     * then compare subtrees with the source program AST
-     */
-     Expr parseArithmeticExpression(string expression);
 };

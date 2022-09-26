@@ -13,12 +13,12 @@ using namespace std;
 
 class ModifiesEvaluator : public Evaluator {
 public:
-	ModifiesEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb,PKBManager pkb) :
+	ModifiesEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb,PKBManager* pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<LineNum> ModifiesEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
 		// Modifies(a, 'x') List
-		std::unordered_set<LineNum> results = pkb.getModifiesStmtByVar(RIGHT_ARG);
+		std::unordered_set<LineNum> results = pkb->getModifiesStmtByVar(RIGHT_ARG);
 		return results;
 	}
 
@@ -27,27 +27,27 @@ public:
 		//							w   v
 		// Modifies(w, v) PairList {2   a}
 		//						   {10  b}
-		std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> results = pkb.getAllModifies();
+		std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> results = pkb->getAllModifies();
 		return results;
 	};
 
     //! Retrieves all the possible statement numbers which modifies something. Synonym type constraint is not enforced yet.
 	std::unordered_set<LineNum> ModifiesEvaluator::leftSynonymRightUnderscore() override {
 		// Modifies(a, _) List
-		std::unordered_set<LineNum> results = pkb.getModifiesStmtByUS();
+		std::unordered_set<LineNum> results = pkb->getModifiesStmtByUS();
 		return results;
 	}
 
 	std::unordered_set<Variable> ModifiesEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
 		// Modifies(1, v) List 
-		std::unordered_set<Variable> results = pkb.getModifiesVarByStmt(LEFT_ARG);
+		std::unordered_set<Variable> results = pkb->getModifiesVarByStmt(LEFT_ARG);
 		return results;
 
 	}
 
 	bool ModifiesEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
 		// Modifies(1, _) Boolean
-		bool results = pkb.getModifiesUS(LEFT_ARG);
+		bool results = pkb->getModifiesUS(LEFT_ARG);
 		return results;
 
 	}
@@ -56,7 +56,7 @@ public:
 		// Left LineNum, Right Variable
 		// Modifies(1, 'x')
 		// Returns Boolean
-		bool results = pkb.getModifies(LEFT_ARG, RIGHT_ARG);
+		bool results = pkb->getModifies(LEFT_ARG, RIGHT_ARG);
 		return results;
 	}
 

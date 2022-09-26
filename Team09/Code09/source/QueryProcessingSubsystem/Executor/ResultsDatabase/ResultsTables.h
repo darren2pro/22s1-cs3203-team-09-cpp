@@ -28,17 +28,26 @@ public:
 	/**
 	 * Adds the given list of values to this results table. This is for a single variable list.<br><br>
 	 * Returns false if the resulting modified results table is empty, returns true otherwise.
+	 *
+	 * <br><br>Essentially constraints the values of the variable in this results table some more. I.e. narrows the possible
+	 * values some more.
 	 */
     bool insertListToTable(Variable variable, std::unordered_set<Value>& list);
 
-	// Adding double var listpairs
+	/**
+	 * Adds the listPair to this result table. It is assumed that the two variables passed as arguments are indeed present
+	 * in this results table. If they are not present, there will be an error.
+	 *
+	 * <br><br>Returns false if the resulting modified results table is empty, returns true otherwise.
+	 *
+	 *  <br><br>Essentially constraints the values in this table some more. I.e. narrows the possible values that the
+	 *  synonyms can take some more
+	 */
 	bool insertListPairToTable(Variable var1, Variable var2, std::unordered_set<std::pair<Value, Value>, pairHash>& listPair);
 
-	//! Combine with another table
+	//! Does a cross product across the two tables so that the two tables merge into this table.
+	//! At the end of this operation, only this table will survive.
 	bool combineTableWith(ResultsTables& otherTable);
-
-
-	//std::unordered_map<std::string, std::vector<int>> hashColumn(Variable var);
 
 	//! Fetching results
 	std::unordered_set<Value> getResultBySynonym(Variable variable);

@@ -1,5 +1,6 @@
 #include <cassert>
 #include "ResultsDatabase.h"
+#include <stdexcept>
 
 using namespace std;
 
@@ -45,16 +46,7 @@ bool ResultsDatabase::insertPairList(Variable var1, Variable var2, std::unordere
 	// Variables exist in 2 different tables. Need to merge the two tables together.
 	else {
 		combineTables(firstIndex, secondIndex);
-		//! For query 12: Here first index is 1, but it needs to be zero. Need to find a way to get the updated index? E.g. combine tables return an index or something.
-		// Indices are correct. Same index because they point to the same table.
-
-
-		// After combining tables, firstIndex and secondIndex should point to the same table.
-
-		// Need to check which index is the new index.
-
-		int newIndex = getNewTableIndexAfterCombine(firstIndex, secondIndex);
-
+		int newIndex = getNewTableIndexAfterCombine(var1, var2);
 		return allResultsTables[newIndex].insertListPairToTable(var1, var2, listPair);
 	}
 }
@@ -69,21 +61,15 @@ int ResultsDatabase::getVariableIndex(Variable variable) {
 	}
 }
 
-int ResultsDatabase::getNewTableIndexAfterCombine(int firstIndex, int secondIndex) {
-	// Go thru variableToTableMap. The invalid pointer should not be inside the map.
-
-	for (auto& pair : varToIndexMap) {
-		if (pair.second == firstIndex) {
-			return firstIndex;
-		}
-		else if (pair.second == secondIndex) {
-			return secondIndex;
-		}
-		else {
-			assert("Error: Neither indices are found in varToIndexMap");
-		}
-	}
-
+int ResultsDatabase::getNewTableIndexAfterCombine(Variable var1, Variable var2) {
+	int firstIndex = getVariableIndex(var1);
+    int secondIndex = getVariableIndex(var2);
+    if (firstIndex == -1 || secondIndex == -1) throw runtime_error("Variables do not exist in the RDB.");
+    if (firstIndex == secondIndex) {
+        return firstIndex;
+    } else {
+        throw runtime_error("Variables exist in different tables after a combine has been done.");
+    }
 }
 
 void ResultsDatabase::createSingleVariableTable(Variable variable, std::unordered_set<Value> list) {
@@ -113,20 +99,7 @@ bool ResultsDatabase::combineTables(int firstIndex, int secondIndex) {
 
 	// Assuming joining table into t1. Remove table 2 index.
 	bool result = t1.combineTableWith(t2);
-	
-	// RESULTS NOT SAVED.
-
-	//// Point all the variables in t2 to the combine table index.
-	//for (auto& var : t2.columnName) {
-	//	varToIndexMap[var] = firstIndex;
-	//}
 	removeTable(secondIndex);
-	
-	// TODO: 
-	// Chuan you can try to return the index of the new table here because one of the table was removed already so you need to re-map all the other tables in the
-	// varToIndexMap to the new index. Like if you remove table 2, then table 3 will be at index 2, table 4 will be at index 3, etc. Need to map for all the respective
-	// variables I think
-
 	return result;
 }
 
@@ -136,9 +109,9 @@ void ResultsDatabase::removeTable(int index) {
 	allResultsTables.erase(iterator + index);
 
 	varToIndexMap.clear();
-	for (int i = 0; i < allResultsTables.size(); i++) {
-		for (auto [var_name, col_idx] : allResultsTables[i].varToColIndex) {
-			varToIndexMap.insert({ var_name, i });
+	for (int currentTableIdx = 0; currentTableIdx < allResultsTables.size(); currentTableIdx++) {
+		for (auto [var_name, col_idx] : allResultsTables[currentTableIdx].varToColIndex) {
+			varToIndexMap.insert({var_name, currentTableIdx });
 		}
 	}
 }

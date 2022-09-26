@@ -30,5 +30,12 @@ public:
      * Used to insert all the possible values for this declaration into the ResultsDatabase.
      */
     static void insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager* pkb);
+	std::unordered_set<std::string> getResultsFromRDB(Declaration target, ResultsDatabase& rdb);
+	/**
+	 * If the rdb already contains constraints on this given declaration, then simply return without doing anything.
+	 * If the rdb does not contain any constaints on this given declaration, then retrieve the full set of possible values
+	 * for this declaration and insert them into the rdb.
+	 */
+    //static void insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager& pkb); comment out just for reference. Need to be removed.
 
 };

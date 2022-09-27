@@ -6,7 +6,6 @@
 #include <unordered_set>
 #include "PKBStorage.h"
 #include "PKBUtils.h"
-#include "simple_parser/interface.h"
 #include "../TNode/TNode.h"
 
 namespace PKB {

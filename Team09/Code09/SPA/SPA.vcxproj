@@ -32,9 +32,11 @@
     <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp" />
     <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp" />
     <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\SimpleInterface.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp" />
+    <ClCompile Include="..\source\SPAManager\SPAManager.cpp" />
     <ClCompile Include="..\source\TNode\TNode.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -77,9 +79,11 @@
     <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h" />
     <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h" />
+    <ClInclude Include="..\source\SourceProcessor\SimpleInterface.h" />
     <ClInclude Include="..\source\SourceProcessor\Parser.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleToken.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h" />
+    <ClInclude Include="..\source\SPAManager\SPAManager.h" />
     <ClInclude Include="..\source\TNode\TNode.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

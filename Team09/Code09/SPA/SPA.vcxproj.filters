@@ -79,6 +79,12 @@
     <Filter Include="Source Files\ProgramKnowledgeBase\simple_parser">
       <UniqueIdentifier>{036f13d3-aa9c-45d1-8af1-696261556267}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SPAManager">
+      <UniqueIdentifier>{a44fa8c3-b2bb-4b62-89ab-d092f8bf9cea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SPAManager">
+      <UniqueIdentifier>{dc18046a-39de-44f0-ad09-731db9152dc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
@@ -155,6 +161,12 @@
     </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBUtils.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SPAManager\SPAManager.cpp">
+      <Filter>Source Files\SPAManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\SimpleInterface.cpp">
+      <Filter>Source Files\SourceProcessor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +292,12 @@
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBUtils.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SPAManager\SPAManager.h">
+      <Filter>Header Files\SPAManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\SimpleInterface.h">
+      <Filter>Header Files\SourceProcessor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Expression.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>

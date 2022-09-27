@@ -1,6 +1,5 @@
 #include "PKBManager.h"
-
-using namespace Simple;
+#include "../SourceProcessor/SimpleInterface.h"
 
 namespace PKB {
     PKBManager::PKBManager() {}
@@ -105,8 +104,8 @@ namespace PKB {
     }
 
     std::unordered_set<Variable> PKBManager::getUsesVarByStmt(const LineNum lineNum) {
-        if (pkbStorage->usesVarToLineMap.find(lineNum) != pkbStorage->usesVarToLineMap.end()) {
-            return pkbStorage->usesVarToLineMap.at(lineNum);
+        if (pkbStorage->usesLineToVarMap.find(lineNum) != pkbStorage->usesLineToVarMap.end()) {
+            return pkbStorage->usesLineToVarMap.at(lineNum);
         } else {
             return std::unordered_set<Variable>();
         }

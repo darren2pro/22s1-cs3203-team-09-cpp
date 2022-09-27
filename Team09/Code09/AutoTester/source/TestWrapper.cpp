@@ -26,40 +26,39 @@ volatile bool TestWrapper::GlobalStop = false;
 TestWrapper::TestWrapper() {
     // create any objects here as instance variables of this class
     // as well as any initialization required for your spa program
-    std::cout << "TestWrapper constructor called" << std::endl;
+    spaManager = new SPAManager();
 }
 
 TestWrapper::~TestWrapper() {
+    delete spaManager;
 }
 
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
-    // read the SIMPLE source file as string and call your simpleParser
-    std::ifstream file(filename);
-    SimpleParser simpleParser = SimpleParser(&file);
     try {
-        this->pkb = simpleParser.parse();
-    } catch (SimpleInvalidSyntaxException& e) {
+        spaManager->loadSimpleSource(filename);
+	}
+	catch (SimpleInvalidSyntaxException& e) {
         std::cout << e.what() << std::endl;
         std::cout << "Invalid syntax. Please input another file." << std::endl;
         exit(1);
-    }
+	}   
 }
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string> &results) {
    try { 
-        Query* queryAdt = QueryBuilder().buildQuery(query);
-        QueryExecutor qe(this->pkb);
-        std::unordered_set<std::string> queryResults = qe.processQuery(queryAdt);
+	    unordered_set<string> queryResults = spaManager->query(query);
         for (std::string result : queryResults) {
             results.push_back(result);
         }
     }
-    catch (SyntaxError&) {
-        results.push_back("SyntaxError");
+    catch (SyntaxError& syntaxException) {
+        std::cout << syntaxException.what() << std::endl;
+		std::cout << "Invalid syntax. Please input another query." << std::endl;
     }
-    catch (SemanticError&) {
-        results.push_back("SemanticError");
+    catch (SemanticError& semanticException) {
+		std::cout << semanticException.what() << std::endl;
+		std::cout << "Semantic error. Please input another query." << std::endl;
     }
 }

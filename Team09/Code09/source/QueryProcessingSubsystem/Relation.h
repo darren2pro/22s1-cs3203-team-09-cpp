@@ -5,12 +5,16 @@
 class Relation {
 public:
 	enum Types {		// Relations
-		Modifies,
-		Uses,
+		Modifies, // ModifiesS
+		ModifiesP,
+		Uses, // UsesS
+		UsesP,
 		Follows,
 		FollowsT,
 		Parent,
 		ParentT,
+		Calls,
+		CallsT,
 		NONE
 	};
 

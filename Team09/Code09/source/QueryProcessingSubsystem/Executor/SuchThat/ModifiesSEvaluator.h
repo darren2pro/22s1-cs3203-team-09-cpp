@@ -11,68 +11,68 @@ typedef std::string Variable;
 
 using namespace std;
 
-class ModifiesEvaluator : public Evaluator {
+class ModifiesSEvaluator : public Evaluator {
 public:
-	ModifiesEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb,PKBManager* pkb) :
+	ModifiesSEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb,PKBManager* pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
-	std::unordered_set<LineNum> ModifiesEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
-		// Modifies(a, 'x') List
+	std::unordered_set<LineNum> ModifiesSEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
+		// ModifiesS(a, 'x') List
 		std::unordered_set<LineNum> results = pkb->getModifiesStmtByVar(RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> ModifiesEvaluator::leftSynonymRightSynonym() override {
-		// Modifies(a, v) PairList
+	std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> ModifiesSEvaluator::leftSynonymRightSynonym() override {
+		// ModifiesS(a, v) PairList
 		//							w   v
-		// Modifies(w, v) PairList {2   a}
+		// ModifiesS(w, v) PairList {2   a}
 		//						   {10  b}
 		std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> results = pkb->getAllModifies();
 		return results;
 	};
 
     //! Retrieves all the possible statement numbers which modifies something. Synonym type constraint is not enforced yet.
-	std::unordered_set<LineNum> ModifiesEvaluator::leftSynonymRightUnderscore() override {
-		// Modifies(a, _) List
+	std::unordered_set<LineNum> ModifiesSEvaluator::leftSynonymRightUnderscore() override {
+		// ModifiesS(a, _) List
 		std::unordered_set<LineNum> results = pkb->getModifiesStmtByUS();
 		return results;
 	}
 
-	std::unordered_set<Variable> ModifiesEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
-		// Modifies(1, v) List 
+	std::unordered_set<Variable> ModifiesSEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
+		// ModifiesS(1, v) List 
 		std::unordered_set<Variable> results = pkb->getModifiesVarByStmt(LEFT_ARG);
 		return results;
 
 	}
 
-	bool ModifiesEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
-		// Modifies(1, _) Boolean
+	bool ModifiesSEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
+		// ModifiesS(1, _) Boolean
 		bool results = pkb->getModifiesUS(LEFT_ARG);
 		return results;
 
 	}
 
-	bool ModifiesEvaluator::leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
+	bool ModifiesSEvaluator::leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
 		// Left LineNum, Right Variable
-		// Modifies(1, 'x')
+		// ModifiesS(1, 'x')
 		// Returns Boolean
 		bool results = pkb->getModifies(LEFT_ARG, RIGHT_ARG);
 		return results;
 	}
 
-	std::unordered_set<std::string> ModifiesEvaluator::leftUnderscoreRightSynonym() override {
+	std::unordered_set<std::string> ModifiesSEvaluator::leftUnderscoreRightSynonym() override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
 		return {};
 	}
 
-	bool ModifiesEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
+	bool ModifiesSEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
 		return false;
 	}
 
-	bool ModifiesEvaluator::leftUnderscoreRightUnderScore() override {
+	bool ModifiesSEvaluator::leftUnderscoreRightUnderScore() override {
 		std::cout << "Not Valid Query" << std::endl;
 		assert(false);
 		return false;

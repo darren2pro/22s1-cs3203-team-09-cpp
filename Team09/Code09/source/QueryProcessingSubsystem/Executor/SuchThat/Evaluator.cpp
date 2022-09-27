@@ -3,8 +3,8 @@
 #include <unordered_set>
 #include <iostream>
 #include "Evaluator.h"
-#include "QueryExecutor.h"
-#include "../Utils.h"
+#include "../QueryExecutor.h"
+#include "../../Utils.h"
 
 bool Evaluator::evaluate() {
 	// Check the left and right argument. If they are synonyms, must

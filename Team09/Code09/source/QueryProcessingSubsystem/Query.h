@@ -10,8 +10,8 @@ public:
 	Relation relations;
 	Pattern patterns;
 	std::vector<Declaration> declarations;
-	Declaration target;
-	std::vector<std::string> results;
+	Declaration target;					// (sprint 4) type Result	-->		Enum {Declaration, Boolean, Tuple}
+	std::vector<std::string> results;	// (sprint 4) vector of Results? 
 
 
 	Query() :

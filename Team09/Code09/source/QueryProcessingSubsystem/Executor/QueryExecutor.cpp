@@ -70,7 +70,7 @@ bool QueryExecutor::execute(Pattern pattern, ResultsDatabase& rdb) {
 	switch (pattern.TYPE) {
 	case Pattern::Assign:
 		return AssignPatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
-	case Pattern::None:
+	case Pattern::NONE:
 		return true;
 	default:
 		return true;

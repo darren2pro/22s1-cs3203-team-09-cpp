@@ -311,5 +311,11 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Expression.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Reference.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

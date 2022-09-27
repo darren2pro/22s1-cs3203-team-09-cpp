@@ -4,15 +4,15 @@
 #include "../Relation.h"
 #include "../Pattern.h"
 #include "../Utils.h"
-#include "UsesEvaluator.h"
-#include "ModifiesEvaluator.h"
-#include "ParentEvaluator.h"
-#include "ParentTEvaluator.h"
-#include "FollowsEvaluator.h"
-#include "FollowsTEvaluator.h"
-#include "PatternEvaluator.h"
+#include "SuchThat/UsesEvaluator.h"
+#include "SuchThat/ModifiesEvaluator.h"
+#include "SuchThat/ParentEvaluator.h"
+#include "SuchThat/ParentTEvaluator.h"
+#include "SuchThat/FollowsEvaluator.h"
+#include "SuchThat/FollowsTEvaluator.h"
+#include "Pattern/PatternEvaluator.h"
+#include "Pattern/AssignPatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
-#include "AssignPatternEvaluator.h"
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	relations = query->relations;

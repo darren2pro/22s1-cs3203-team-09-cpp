@@ -1,8 +1,8 @@
 #include <string>
 #include <vector>
 #include "PatternEvaluator.h"
-#include "QueryExecutor.h"
-#include "../Utils.h"
+#include "../QueryExecutor.h"
+#include "../../Utils.h"
 
 bool PatternEvaluator::evaluate() {
 	// Check the left and right argument. If they are synonyms, must

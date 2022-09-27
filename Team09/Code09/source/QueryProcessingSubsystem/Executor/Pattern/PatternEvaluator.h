@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "../../ProgramKnowledgeBase/PKBManager.h"
-#include "../Pattern.h"
-#include "../Declaration.h"
-#include "ResultsDatabase/ResultsDatabase.h"
+#include "../../../ProgramKnowledgeBase/PKBManager.h"
+#include "../../Pattern.h"
+#include "../../Declaration.h"
+#include "../ResultsDatabase/ResultsDatabase.h"
 
 typedef std::string LineNum;
 typedef std::string Variable;

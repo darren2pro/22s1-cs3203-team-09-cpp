@@ -85,6 +85,18 @@
     <Filter Include="Header Files\SPAManager">
       <UniqueIdentifier>{dc18046a-39de-44f0-ad09-731db9152dc3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\QueryProcessingSubsystem\Executor\Pattern">
+      <UniqueIdentifier>{372c0a7e-30ba-4f33-89db-e264842f6530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\QueryProcessingSubsystem\Executor\SuchThat">
+      <UniqueIdentifier>{4047a54b-ca11-452e-8c87-cccb853466bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\QueryProcessingSubsystem\Executor\Pattern">
+      <UniqueIdentifier>{da0112c8-afa8-4d3e-be34-4c35d6aa78fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QueryProcessingSubsystem\Executor\SuchThat">
+      <UniqueIdentifier>{7d7f35fe-fc1d-4b6e-a095-3fd11d02a4af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
@@ -110,12 +122,6 @@
     </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.cpp">
-      <Filter>Source Files\QueryProcessingSubsystem\Executor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.cpp">
-      <Filter>Source Files\QueryProcessingSubsystem\Executor</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor</Filter>
@@ -168,6 +174,12 @@
     <ClCompile Include="..\source\SourceProcessor\SimpleInterface.cpp">
       <Filter>Source Files\SourceProcessor</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\SourceProcessor\Parser.h">
@@ -212,27 +224,6 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Utils.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Evaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\FollowsTEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ModifiesEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ParentTEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\PatternEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
@@ -248,9 +239,6 @@
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.h">
       <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\UsesEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
@@ -262,9 +250,6 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SemanticException.h">
       <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\AssignPatternEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBManager.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
@@ -298,6 +283,33 @@
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\SimpleInterface.h">
       <Filter>Header Files\SourceProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\FollowsEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\FollowsTEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ModifiesEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ParentEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ParentTEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\UsesEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\AssignPatternEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

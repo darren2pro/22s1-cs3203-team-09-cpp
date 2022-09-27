@@ -48,6 +48,7 @@ std::string QueryParser::getNextToken() {
 	return token;
 }
 
+// return cuurent token
 void QueryParser::match(std::string token) {
 	if (current_token == token) {
 		current_token = getNextToken();
@@ -57,6 +58,7 @@ void QueryParser::match(std::string token) {
 	}
 }
 
+// return cuurent token
 void QueryParser::match(std::regex re) {
 	if (std::regex_match(current_token, re)) {
 		current_token = getNextToken();
@@ -66,7 +68,8 @@ void QueryParser::match(std::regex re) {
 	}
 }
 
-Declaration::DesignEntity QueryParser::getDesignEntity(std::string token) {
+// move to Declarationclass
+Declaration::DesignEntity QueryParser::getDesignEntity(std::string token) {	
 	if (token == "stmt") {
 		return Declaration::DesignEntity::Statement;
 	}
@@ -244,7 +247,8 @@ Pattern QueryParser::patternClause() {
 	return Pattern(syn_assign, left_arg, right_arg);
 }
 
-Relation::Types QueryParser::getType(std::string token) {
+// Move to Relation class
+Relation::Types QueryParser::getType(std::string token) {		// getRelation
 	if (token == "Follows") {
 		return Relation::Types::Follows;
 	}
@@ -292,8 +296,7 @@ Relation QueryParser::suchThatClause() {
 
 	// check the right argument
 	std::string right_arg = current_token;
-	if (type == Relation::Types::Uses || type == Relation::Types::UsesT
-		|| type == Relation::Types::Modifies || type == Relation::Types::ModifiesT) {		
+	if (type == Relation::Types::Uses || type == Relation::Types::Modifies) {		
 		
 		if (left_arg == "_") {
 			throw SemanticError("First args for uses/modifies can't be _");

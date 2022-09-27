@@ -281,5 +281,11 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBUtils.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Expression.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Reference.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

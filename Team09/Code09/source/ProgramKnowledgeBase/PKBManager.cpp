@@ -53,79 +53,153 @@ namespace PKB {
         return pkbStorage->stmtSet;
     }
 
-    //Modifies
-    bool PKBManager::getModifies(const LineNum lineNum, const Variable var) {
-        return pkbStorage->modifiesSet.find(std::make_pair(lineNum, var)) != pkbStorage->modifiesSet.end();
+    //ModifiesS
+    bool PKBManager::getModifiesS(const LineNum lineNum, const Variable var) {
+        return pkbStorage->modifiesSSet.find(std::make_pair(lineNum, var)) != pkbStorage->modifiesSSet.end();
     }
 
-    bool PKBManager::getModifiesUS(const LineNum lineNum) {
-        return pkbStorage->modifiesLineToVarMap.find(lineNum) != pkbStorage->modifiesLineToVarMap.end();
+    bool PKBManager::getModifiesSUS(const LineNum lineNum) {
+        return pkbStorage->modifiesSLineToVarMap.find(lineNum) != pkbStorage->modifiesSLineToVarMap.end();
     }
 
-    std::unordered_set<Variable> PKBManager::getModifiesVarByStmt(const LineNum lineNum) {
-        if (pkbStorage->modifiesLineToVarMap.find(lineNum) != pkbStorage->modifiesLineToVarMap.end()) {
-            return pkbStorage->modifiesLineToVarMap.at(lineNum);
+    std::unordered_set<Variable> PKBManager::getModifiesSVarByStmt(const LineNum lineNum) {
+        if (pkbStorage->modifiesSLineToVarMap.find(lineNum) != pkbStorage->modifiesSLineToVarMap.end()) {
+            return pkbStorage->modifiesSLineToVarMap.at(lineNum);
         } else {
             return std::unordered_set<Variable>();
         }
-    
-    
     }
 
-    std::unordered_set<LineNum> PKBManager::getModifiesStmtByVar(const Variable var) {
-        if (pkbStorage->modifiesVarToLineMap.find(var) != pkbStorage->modifiesVarToLineMap.end()) {
-            return pkbStorage->modifiesVarToLineMap.at(var);
+    std::unordered_set<LineNum> PKBManager::getModifiesSStmtByVar(const Variable var) {
+        if (pkbStorage->modifiesSVarToLineMap.find(var) != pkbStorage->modifiesSVarToLineMap.end()) {
+            return pkbStorage->modifiesSVarToLineMap.at(var);
         } else {
             return std::unordered_set<LineNum>();
         }
-    
-    
     }
 
-    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBManager::getAllModifies() {
-        return pkbStorage->modifiesSet;
+    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBManager::getAllModifiesS() {
+        return pkbStorage->modifiesSSet;
     }
 
-    std::unordered_set<LineNum> PKBManager::getModifiesStmtByUS() {
+    std::unordered_set<LineNum> PKBManager::getModifiesSStmtByUS() {
         std::unordered_set<LineNum> set;
-        for (const auto& elem : pkbStorage->modifiesLineToVarMap) {
+        for (const auto& elem : pkbStorage->modifiesSLineToVarMap) {
             set.insert(elem.first);
         }
         return set;
     }
 
-    //Uses
-    bool PKBManager::getUses(const LineNum lineNum, const Variable var) {
-        return pkbStorage->usesSet.find(std::make_pair(lineNum, var)) != pkbStorage->usesSet.end();
+    //ModifiesP
+    bool PKBManager::getModifiesP(const Procedure proc, const Variable var) {
+        return pkbStorage->modifiesPSet.find(std::make_pair(proc, var)) != pkbStorage->modifiesPSet.end();
     }
 
-    bool PKBManager::getUsesUS(const LineNum lineNum) {
-        return pkbStorage->usesLineToVarMap.find(lineNum) != pkbStorage->usesLineToVarMap.end();
+    bool PKBManager::getModifiesPUS(const Procedure proc) {
+        return pkbStorage->modifiesPProcToVarMap.find(proc) != pkbStorage->modifiesPProcToVarMap.end();
     }
 
-    std::unordered_set<Variable> PKBManager::getUsesVarByStmt(const LineNum lineNum) {
-        if (pkbStorage->usesLineToVarMap.find(lineNum) != pkbStorage->usesLineToVarMap.end()) {
-            return pkbStorage->usesLineToVarMap.at(lineNum);
+    std::unordered_set<Variable> PKBManager::getModifiesPVarByProc(const Procedure proc) {
+        if (pkbStorage->modifiesPProcToVarMap.find(proc) != pkbStorage->modifiesPProcToVarMap.end()) {
+            return pkbStorage->modifiesPProcToVarMap.at(proc);
+        }
+        else {
+            return std::unordered_set<Variable>();
+        }
+    }
+
+    std::unordered_set<Procedure> PKBManager::getModifiesPProcByVar(const Variable var) {
+        if (pkbStorage->modifiesPVarToProcMap.find(var) != pkbStorage->modifiesPVarToProcMap.end()) {
+            return pkbStorage->modifiesPVarToProcMap.at(var);
+        }
+        else {
+            return std::unordered_set<Procedure>();
+        }
+    }
+
+    std::unordered_set<std::pair<Procedure, Variable>, pairHash> PKBManager::getAllModifiesP() {
+        return pkbStorage->modifiesPSet;
+    }
+
+    std::unordered_set<Procedure> PKBManager::getModifiesPProcByUS() {
+        std::unordered_set<Procedure> set;
+        for (const auto& elem : pkbStorage->modifiesPProcToVarMap) {
+            set.insert(elem.first);
+        }
+        return set;
+    }
+
+    //UsesS
+    bool PKBManager::getUsesS(const LineNum lineNum, const Variable var) {
+        return pkbStorage->usesSSet.find(std::make_pair(lineNum, var)) != pkbStorage->usesSSet.end();
+    }
+
+    bool PKBManager::getUsesSUS(const LineNum lineNum) {
+        return pkbStorage->usesSLineToVarMap.find(lineNum) != pkbStorage->usesSLineToVarMap.end();
+    }
+
+    std::unordered_set<Variable> PKBManager::getUsesSVarByStmt(const LineNum lineNum) {
+        if (pkbStorage->usesSLineToVarMap.find(lineNum) != pkbStorage->usesSLineToVarMap.end()) {
+            return pkbStorage->usesSLineToVarMap.at(lineNum);
         } else {
             return std::unordered_set<Variable>();
         }
     }
 
-    std::unordered_set<LineNum> PKBManager::getUsesStmtByVar(const Variable var) {
-        if (pkbStorage->usesVarToLineMap.find(var) != pkbStorage->usesVarToLineMap.end()) {
-            return pkbStorage->usesVarToLineMap.at(var);
+    std::unordered_set<LineNum> PKBManager::getUsesSStmtByVar(const Variable var) {
+        if (pkbStorage->usesSVarToLineMap.find(var) != pkbStorage->usesSVarToLineMap.end()) {
+            return pkbStorage->usesSVarToLineMap.at(var);
         } else {
             return std::unordered_set<LineNum>();
         }
     }
 
-    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBManager::getAllUses() {
-        return pkbStorage->usesSet;
+    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBManager::getAllUsesS() {
+        return pkbStorage->usesSSet;
     }
 
-    std::unordered_set<LineNum> PKBManager::getUsesStmtByUS() {
+    std::unordered_set<LineNum> PKBManager::getUsesSStmtByUS() {
         std::unordered_set<LineNum> set;
-        for (const auto& elem : pkbStorage->usesLineToVarMap) {
+        for (const auto& elem : pkbStorage->usesSLineToVarMap) {
+            set.insert(elem.first);
+        }
+        return set;
+    }
+
+    //UsesP
+    bool PKBManager::getUsesP(const Procedure proc, const Variable var) {
+        return pkbStorage->usesPSet.find(std::make_pair(proc, var)) != pkbStorage->usesPSet.end();
+    }
+
+    bool PKBManager::getUsesPUS(const Procedure proc) {
+        return pkbStorage->usesPProcToVarMap.find(proc) != pkbStorage->usesPProcToVarMap.end();
+    }
+
+    std::unordered_set<Variable> PKBManager::getUsesPVarByProc(const Procedure proc) {
+        if (pkbStorage->usesPProcToVarMap.find(proc) != pkbStorage->usesPProcToVarMap.end()) {
+            return pkbStorage->usesPProcToVarMap.at(proc);
+        }
+        else {
+            return std::unordered_set<Variable>();
+        }
+    }
+
+    std::unordered_set<Procedure> PKBManager::getUsesPProcByVar(const Variable var) {
+        if (pkbStorage->usesPVarToProcMap.find(var) != pkbStorage->usesPVarToProcMap.end()) {
+            return pkbStorage->usesPVarToProcMap.at(var);
+        }
+        else {
+            return std::unordered_set<Procedure>();
+        }
+    }
+
+    std::unordered_set<std::pair<Procedure, Variable>, pairHash> PKBManager::getAllUsesP() {
+        return pkbStorage->usesPSet;
+    }
+
+    std::unordered_set<Procedure> PKBManager::getUsesPProcByUS() {
+        std::unordered_set<Procedure> set;
+        for (const auto& elem : pkbStorage->usesPProcToVarMap) {
             set.insert(elem.first);
         }
         return set;

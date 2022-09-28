@@ -18,39 +18,39 @@ public:
 
 	std::unordered_set<std::string> UsesSEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
 		// UsesS(a, 'x') List
-		std::unordered_set<LineNum> results = pkb->getUsesStmtByVar(RIGHT_ARG);
+		std::unordered_set<LineNum> results = pkb->getUsesSStmtByVar(RIGHT_ARG);
 		return results;
 	}
 
 	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> UsesSEvaluator::leftSynonymRightSynonym() override {
 		// UsesS(a, v) ListPair
-		std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> results = pkb->getAllUses();
+		std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> results = pkb->getAllUsesS();
 		return results;
 	}
 
 	std::unordered_set<std::string> UsesSEvaluator::leftSynonymRightUnderscore() override {
 		// UsesS(a, _) List
-		std::unordered_set<LineNum> results = pkb->getUsesStmtByUS();
+		std::unordered_set<LineNum> results = pkb->getUsesSStmtByUS();
 		return results;
 	}
 
 	std::unordered_set<std::string> UsesSEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
 		// UsesS(1, a) List
-		std::unordered_set<Variable> results = pkb->getUsesVarByStmt(LEFT_ARG);
+		std::unordered_set<Variable> results = pkb->getUsesSVarByStmt(LEFT_ARG);
 		return results;
 
 	}
 
 	bool UsesSEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
 		// UsesS(1, _) Boolean
-		bool results = pkb->getUsesUS(LEFT_ARG);
+		bool results = pkb->getUsesSUS(LEFT_ARG);
 		return results;
 
 	}
 
 	bool UsesSEvaluator::leftSimpleRightSimple(std::string LEFT_ARG, std::string RIGHT_ARG) override {
 		// UsesS(1, 'x') Boolean
-		bool results = pkb->getUses(LEFT_ARG, RIGHT_ARG);
+		bool results = pkb->getUsesS(LEFT_ARG, RIGHT_ARG);
 		return results;
 	}
 

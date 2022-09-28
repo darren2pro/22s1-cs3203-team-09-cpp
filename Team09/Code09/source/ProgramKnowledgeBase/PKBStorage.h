@@ -28,14 +28,20 @@ namespace PKB {
         std::unordered_set<LineNum> stmtSet;
 
         //Modifies
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> modifiesSet;
-        std::unordered_map<LineNum, std::unordered_set<Variable>> modifiesLineToVarMap;
-        std::unordered_map<Variable, std::unordered_set<LineNum>> modifiesVarToLineMap;
+        std::unordered_set<std::pair<LineNum, Variable>, pairHash> modifiesSSet;
+        std::unordered_map<LineNum, std::unordered_set<Variable>> modifiesSLineToVarMap;
+        std::unordered_map<Variable, std::unordered_set<LineNum>> modifiesSVarToLineMap;
+        std::unordered_set<std::pair<Procedure, Variable>, pairHash> modifiesPSet;
+        std::unordered_map<Procedure, std::unordered_set<Variable>> modifiesPProcToVarMap;
+        std::unordered_map<Variable, std::unordered_set<Procedure>> modifiesPVarToProcMap;
 
         //Uses
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> usesSet;
-        std::unordered_map<LineNum, std::unordered_set<Variable>> usesLineToVarMap;
-        std::unordered_map<Variable, std::unordered_set<LineNum>> usesVarToLineMap;
+        std::unordered_set<std::pair<LineNum, Variable>, pairHash> usesSSet;
+        std::unordered_map<LineNum, std::unordered_set<Variable>> usesSLineToVarMap;
+        std::unordered_map<Variable, std::unordered_set<LineNum>> usesSVarToLineMap;
+        std::unordered_set<std::pair<Procedure, Variable>, pairHash> usesPSet;
+        std::unordered_map<Procedure, std::unordered_set<Variable>> usesPProcToVarMap;
+        std::unordered_map<Variable, std::unordered_set<Procedure>> usesPVarToProcMap;
 
         //Follows
         std::unordered_set<std::pair<PrevLine, NextLine>, pairHash> followsSet;
@@ -83,7 +89,9 @@ namespace PKB {
         void storeParent(const ParentLine, const ChildLine);
         void storeParentT(const ParentLine, const ChildLine);
         void storeUsesS(const LineNum, const Variable);
+        void storeUsesP(const Procedure, const Variable);
         void storeModifiesS(const LineNum, const Variable);
+        void storeModifiesP(const Procedure, const Variable);
         void storeAssignPattern(const Variable, const LineNum, const ExprStr);
     };
 }

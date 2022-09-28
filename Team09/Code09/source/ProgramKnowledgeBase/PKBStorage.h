@@ -79,7 +79,9 @@ namespace PKB {
 
         //store relations API
         void storeFollows(const PrevLine, const NextLine);
+        void storeFollowsT(const PrevLine, const NextLine);
         void storeParent(const ParentLine, const ChildLine);
+        void storeParentT(const ParentLine, const ChildLine);
         void storeUsesS(const LineNum, const Variable);
         void storeModifiesS(const LineNum, const Variable);
         void storeAssignPattern(const Variable, const LineNum, const ExprStr);

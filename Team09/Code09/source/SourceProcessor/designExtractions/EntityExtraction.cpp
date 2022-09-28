@@ -150,7 +150,6 @@ void EntityExtraction::extractModifyHelper(const std::shared_ptr<VariableNode> v
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmt);
     pkbStorage->storeModifiesS(lnNum, var->varName);
 
-    PKB::setStarFromBaseMap(pkbStorage->parentTChildToParentMap, pkbStorage->parentChildToParentMap, lnNum);
     if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
         for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
             pkbStorage->storeModifiesS(elem, var->varName);
@@ -220,7 +219,6 @@ void EntityExtraction::extractUsesHelper(const std::shared_ptr<VariableNode> var
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmt);
     pkbStorage->storeUsesS(lnNum, var->varName);
 
-    PKB::setStarFromBaseMap(pkbStorage->parentTChildToParentMap, pkbStorage->parentChildToParentMap, lnNum);
     if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
         for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
             pkbStorage->storeUsesS(elem, var->varName);
@@ -244,6 +242,15 @@ void EntityExtraction::extractFollowsStmts(const std::vector<Stmt> stmts) {
         const PKB::LineNum nextLn = pkbStorage->getLineFromNode(stmts[i + 1]);
         pkbStorage->storeFollows(lnNum, nextLn);
     }
+
+    for (std::size_t i = 0; i < stmts.size() - 1; i++) {
+        for (std::size_t j = i + 1; j < stmts.size(); j++) {
+            const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmts[i]);
+            const PKB::LineNum nextLn = pkbStorage->getLineFromNode(stmts[j]);
+            pkbStorage->storeFollowsT(lnNum, nextLn);
+        }
+    }
+
     for (const auto& stmt : stmts) {
         std::visit(
                 [this](const auto& s) {
@@ -285,6 +292,10 @@ void EntityExtraction::extractParentsStmts(const std::vector<Stmt> stmts, const 
         for (const auto& stmt : stmts) {
             const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmt);
             pkbStorage->storeParent(lastP, lnNum);
+
+            for (const auto& currP : parent) {
+                pkbStorage->storeParentT(currP, lnNum);
+            }
         }
     }
     for (const auto& stmt : stmts) {

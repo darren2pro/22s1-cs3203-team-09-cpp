@@ -186,7 +186,6 @@ namespace PKB {
 
     //FollowsT
     bool PKBManager::getFollowsT(const PrevLine prev, const NextLine next) {
-        getFollowsTNextByPrev(prev);
         return pkbStorage->followsTSet.find(std::make_pair(prev, next)) != pkbStorage->followsTSet.end();
     }
 
@@ -203,8 +202,6 @@ namespace PKB {
     }
 
     std::unordered_set<NextLine> PKBManager::getFollowsTNextByPrev(const PrevLine prev) {
-        PKB::setStarFromBaseMap(pkbStorage->followsTSet, pkbStorage->followsTPrevToNextMap,
-                           pkbStorage->followsPrevToNextMap, prev);
         if (pkbStorage->followsTPrevToNextMap.find(prev) != pkbStorage->followsTPrevToNextMap.end()) {
             return pkbStorage->followsTPrevToNextMap.at(prev);
         } else {
@@ -213,7 +210,6 @@ namespace PKB {
     }
 
     std::unordered_set<PrevLine> PKBManager::getFollowsTPrevByNext(const NextLine next) {
-        PKB::setStarFromBaseMap(pkbStorage->followsTNextToPrevMap, pkbStorage->followsNextToPrevMap, next);
         if (pkbStorage->followsTNextToPrevMap.find(next) != pkbStorage->followsTNextToPrevMap.end()) {
             return pkbStorage->followsTNextToPrevMap.at(next);
         } else {
@@ -231,22 +227,19 @@ namespace PKB {
     }
 
     std::unordered_set<std::pair<PrevLine, NextLine>, pairHash> PKBManager::getAllFollowsT() {
-        for (const auto& elem : pkbStorage->followsSet) {
-            getFollowsTNextByPrev(elem.first);
-        }
         return pkbStorage->followsTSet;
     }
 
     //Parent
-    bool PKBManager::getParent(const  ParentLine parent, const  ChildLine child) {
+    bool PKBManager::getParent(const ParentLine parent, const ChildLine child) {
         return pkbStorage->parentSet.find(std::make_pair(parent, child)) != pkbStorage->parentSet.end();
     }
 
-    bool PKBManager::getParentByParentUS(const  ParentLine parent) {
+    bool PKBManager::getParentByParentUS(const ParentLine parent) {
         return pkbStorage->parentParentToChildMap.find(parent) != pkbStorage->parentParentToChildMap.end();
     }
 
-    bool PKBManager::getParentByUSChild(const  ChildLine child) {
+    bool PKBManager::getParentByUSChild(const ChildLine child) {
         return pkbStorage->parentChildToParentMap.find(child) != pkbStorage->parentChildToParentMap.end();
     }
 
@@ -254,19 +247,19 @@ namespace PKB {
         return !(pkbStorage->parentSet.empty());
     }
 
-    std::unordered_set< ChildLine> PKBManager::getParentChildByParent(const  ParentLine parent) {
+    std::unordered_set<ChildLine> PKBManager::getParentChildByParent(const ParentLine parent) {
         if (pkbStorage->parentParentToChildMap.find(parent) != pkbStorage->parentParentToChildMap.end()) {
             return pkbStorage->parentParentToChildMap.at(parent);
         } else {
-            return std::unordered_set< ChildLine>();
+            return std::unordered_set<ChildLine>();
         }
     }
 
-    std::unordered_set< ParentLine> PKBManager::getParentParentByChild(const  ChildLine child) {
+    std::unordered_set<ParentLine> PKBManager::getParentParentByChild(const ChildLine child) {
         if (pkbStorage->parentChildToParentMap.find(child) != pkbStorage->parentChildToParentMap.end()) {
             return pkbStorage->parentChildToParentMap.at(child);
         } else {
-            return std::unordered_set< ParentLine>();
+            return std::unordered_set<ParentLine>();
         }
     }
     std::unordered_set<ParentLine> PKBManager::getParentParentByUS() {
@@ -276,29 +269,28 @@ namespace PKB {
         }
         return set;
     }
-    std::unordered_set< ChildLine> PKBManager::getParentChildByUS() {
-        std::unordered_set< ChildLine> set;
+    std::unordered_set<ChildLine> PKBManager::getParentChildByUS() {
+        std::unordered_set<ChildLine> set;
         for (const auto& elem : pkbStorage->parentChildToParentMap) {
             set.insert(elem.first);
         }
         return set;
     }
 
-    std::unordered_set<std::pair< ParentLine,  ChildLine>, pairHash> PKBManager::getAllParent() {
+    std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> PKBManager::getAllParent() {
         return pkbStorage->parentSet;
     }
 
     //ParentT
-    bool PKBManager::getParentT(const  ParentLine parent, const  ChildLine child) {
-        getParentTChildByParent(child);
-        return pkbStorage->followsTSet.find(std::make_pair(parent, child)) != pkbStorage->followsTSet.end();
+    bool PKBManager::getParentT(const ParentLine parent, const ChildLine child) {
+        return pkbStorage->parentTSet.find(std::make_pair(parent, child)) != pkbStorage->parentTSet.end();
     }
 
-    bool PKBManager::getParentTByParentUS(const  ParentLine parent) {
+    bool PKBManager::getParentTByParentUS(const ParentLine parent) {
         return getParentByParentUS(parent);
     }
 
-    bool PKBManager::getParentTByUSChild(const  ChildLine child) {
+    bool PKBManager::getParentTByUSChild(const ChildLine child) {
         return getParentByUSChild(child);
     }
 
@@ -306,39 +298,33 @@ namespace PKB {
         return getParentByUSUS();
     }
 
-    std::unordered_set< ChildLine> PKBManager::getParentTChildByParent(const  ParentLine parent) {
-        PKB::setStarFromBaseMap(pkbStorage->parentTSet, pkbStorage->parentTParentToChildMap,
-            pkbStorage->parentParentToChildMap, parent);
+    std::unordered_set<ChildLine> PKBManager::getParentTChildByParent(const ParentLine parent) {
         if (pkbStorage->parentTParentToChildMap.find(parent) != pkbStorage->parentTParentToChildMap.end()) {
             return pkbStorage->parentTParentToChildMap.at(parent);
         }
         else {
-            return std::unordered_set< ChildLine>();
+            return std::unordered_set<ChildLine>();
         }
     }
 
-    std::unordered_set< ParentLine> PKBManager::getParentTParentByChild(const  ChildLine child) {
-        PKB::setStarFromBaseMap(pkbStorage->parentTChildToParentMap, pkbStorage->parentChildToParentMap, child);
+    std::unordered_set<ParentLine> PKBManager::getParentTParentByChild(const ChildLine child) {
         if (pkbStorage->parentTChildToParentMap.find(child) != pkbStorage->parentTChildToParentMap.end()) {
             return pkbStorage->parentTChildToParentMap.at(child);
         }
         else {
-            return std::unordered_set< ParentLine>();
+            return std::unordered_set<ParentLine>();
         }
     }
 
-    std::unordered_set< ParentLine> PKBManager::getParentTParentByUS() {
+    std::unordered_set<ParentLine> PKBManager::getParentTParentByUS() {
         return getParentParentByUS();
     }
 
-    std::unordered_set< ChildLine> PKBManager::getParentTChildByUS() {
+    std::unordered_set<ChildLine> PKBManager::getParentTChildByUS() {
         return getParentChildByUS();
     }
 
-    std::unordered_set<std::pair< ParentLine,  ChildLine>, pairHash> PKBManager::getAllParentT() {
-        for (const auto& elem : pkbStorage->parentSet) {
-            getParentTChildByParent(elem.first);
-        }
+    std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> PKBManager::getAllParentT() {
         return pkbStorage->parentTSet;
     }
 

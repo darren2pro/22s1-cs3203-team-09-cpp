@@ -53,6 +53,14 @@ namespace PKB {
         std::unordered_map<ParentLine, std::unordered_set<ChildLine>> parentTParentToChildMap;
         std::unordered_map<ChildLine, std::unordered_set<ParentLine>> parentTChildToParentMap;
 
+        //Calls
+        std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> callsSet;
+        std::unordered_map<CallerProc, std::unordered_set<CalleeProc>> callsCallerToCalleeMap;
+        std::unordered_map<CalleeProc, std::unordered_set<CallerProc>> callsCalleeToCallerMap;
+        std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> callsTSet;
+        std::unordered_map<CallerProc, std::unordered_set<CalleeProc>> callsTCallerToCalleeMap;
+        std::unordered_map<CalleeProc, std::unordered_set<CallerProc>> callsTCalleeToCallerMap;
+
         //pattern map
         std::unordered_set<std::pair<LineNum, Variable>, pairHash> assignLineVarSet;
         std::unordered_map<ExprStr, std::unordered_set<std::pair<LineNum, Variable>, pairHash>> assignExprToLineVarMap;
@@ -82,6 +90,8 @@ namespace PKB {
         void storeFollowsT(const PrevLine, const NextLine);
         void storeParent(const ParentLine, const ChildLine);
         void storeParentT(const ParentLine, const ChildLine);
+        void storeCalls(const CallerProc, const CalleeProc);
+        void storeCallsT(const CallerProc, const CalleeProc);
         void storeUsesS(const LineNum, const Variable);
         void storeModifiesS(const LineNum, const Variable);
         void storeAssignPattern(const Variable, const LineNum, const ExprStr);

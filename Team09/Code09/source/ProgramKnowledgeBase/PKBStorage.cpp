@@ -109,7 +109,6 @@ namespace PKB {
         PKB::addToSetInMap(followsTNextToPrevMap, next, prev);
     }
 
-
     void PKBStorage::storeParent(const ParentLine parent, const ChildLine child) {
         std::pair<ParentLine, ChildLine> pair = std::make_pair(parent, child);
         parentSet.insert(pair);
@@ -122,6 +121,20 @@ namespace PKB {
         parentTSet.insert(pair);
         PKB::addToSetInMap(parentTParentToChildMap, parent, child);
         PKB::addToSetInMap(parentTChildToParentMap, child, parent);
+    }
+
+    void PKBStorage::storeCalls(const CallerProc caller, const CalleeProc callee) {
+        std::pair<CallerProc, CalleeProc> pair = std::make_pair(caller, callee);
+        callsSet.insert(pair);
+        PKB::addToSetInMap(callsCallerToCalleeMap, caller, callee);
+        PKB::addToSetInMap(callsCalleeToCallerMap, callee, caller);
+    }
+
+    void PKBStorage::storeCallsT(const CallerProc caller, const CalleeProc callee) {
+        std::pair<CallerProc, CalleeProc> pair = std::make_pair(caller, callee);
+        callsTSet.insert(pair);
+        PKB::addToSetInMap(callsTCallerToCalleeMap, caller, callee);
+        PKB::addToSetInMap(callsTCalleeToCallerMap, callee, caller);
     }
 
     void PKBStorage::storeAssignPattern(const Variable var, const LineNum line, const ExprStr expr) {

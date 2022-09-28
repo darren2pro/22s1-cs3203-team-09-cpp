@@ -14,6 +14,8 @@ namespace PKB {
 	using Variable = std::string;
 	using Constant = std::string;
 	using Procedure = std::string;
+    using CallerProc = std::string;
+    using CalleeProc = std::string;
 
     struct pairHash {
     public:

@@ -59,12 +59,6 @@ public:
 	void match(std::regex re);
 
 	/**
-	 * Returns the Declaration::DesignEntity that is equivalent to the token string.
-	 * @returns a Declaration::DesignEntity that is equivalent to the token string.
-	 */
-	Declaration::DesignEntity getDesignEntity(std::string token);
-
-	/**
 	 * Parses declaration.
 	 * @returns the declarations.
 	 * @throws SemanticError if there are duplcate synonyms.
@@ -102,12 +96,6 @@ public:
 	 * @throws SemanticError if an argument is not valid.
 	 */
 	Pattern patternClause();
-
-	/**
-	 * Returns the Relation::Types that is equivalent to the token string.
-	 * @returns a Realtion::Types that is equivalent to the token string.
-	 */
-	Relation::Types getType(std::string token);
 
 	/**
 	 * Parses the such that clause.

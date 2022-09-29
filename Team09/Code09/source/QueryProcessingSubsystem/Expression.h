@@ -14,7 +14,10 @@ public:
 	Types TYPE;
 	std::string value;
 
-	bool isUnderscore();
-	bool isStrict();
-	bool isRelaxed();
+	Expression(Types TYPE, std::string value) : TYPE(TYPE), value(value) {};
+	Expression() : TYPE(Types::NONE), value("") {};
+
+	bool isUnderscore() { TYPE == Types::Underscore; }
+	bool isStrict() { TYPE == Types::Strict; }
+	bool isRelaxed() { TYPE == Types::Relaxed; }
 };

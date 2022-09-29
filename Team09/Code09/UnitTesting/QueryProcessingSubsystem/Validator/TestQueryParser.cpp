@@ -113,319 +113,319 @@ namespace UnitTesting {
             Assert::IsFalse(std::regex_match("", parserre::expressionSpec_re));
         }
 
-        TEST_METHOD(TestParser1) {
-            const std::string query = "stmt sss; Select sss ";
-            QueryLexer lexer = QueryLexer(query);
-            std::vector<std::string> tokens = lexer.lex();
-            QueryParser parser = QueryParser(tokens);
+        //TEST_METHOD(TestParser1) {
+        //    const std::string query = "stmt sss; Select sss ";
+        //    QueryLexer lexer = QueryLexer(query);
+        //    std::vector<std::string> tokens = lexer.lex();
+        //    QueryParser parser = QueryParser(tokens);
 
-            Query expectedResult = Query();
+        //    Query expectedResult = Query();
 
-            expectedResult.declarations = std::vector<Declaration>();
-            expectedResult.declarations.push_back(Declaration(Declaration::DesignEntity::Statement, "sss"));
-            expectedResult.target = Declaration(Declaration::DesignEntity::Statement, "sss");
-            expectedResult.relations = Relation();
-            expectedResult.patterns = Pattern();
-            expectedResult.results = std::vector<std::string>();
+        //    expectedResult.declarations = std::vector<Declaration>();
+        //    expectedResult.declarations.push_back(Declaration(Declaration::DesignEntity::Statement, "sss"));
+        //    expectedResult.target = Declaration(Declaration::DesignEntity::Statement, "sss");
+        //    expectedResult.relations = Relation();
+        //    expectedResult.patterns = Pattern();
+        //    expectedResult.results = std::vector<std::string>();
 
-            Query* result = parser.parse();
+        //    Query* result = parser.parse();
 
-            // declarations
-            Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
-            for (int i = 0; i < expectedResult.declarations.size(); i++) {
-                Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
-                Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
-            }
+        //    // declarations
+        //    Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
+        //    for (int i = 0; i < expectedResult.declarations.size(); i++) {
+        //        Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
+        //        Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
+        //    }
 
-            //// target
-            Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
-            Assert::AreEqual(expectedResult.target.name, result->target.name);
+        //    //// target
+        //    Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
+        //    Assert::AreEqual(expectedResult.target.name, result->target.name);
 
-            //// realtion
-            Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
-            Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
-            Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
+        //    //// realtion
+        //    Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
+        //    Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
 
-            //// pattern
-            Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
-            Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
-            Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
+        //    //// pattern
+        //    Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
 
-            //// result
-            Assert::AreEqual(expectedResult.results.size(), result->results.size());
-            for (int i = 0; i < expectedResult.results.size(); i++) {
-                Assert::AreEqual(expectedResult.results[i], result->results[i]);
-            }
-        }
-        TEST_METHOD(TestParser) {
-            const std::string query = "assign a; Select a pattern a(_, _\"x\"_) such that Modifies(a, \"x\")";
-            QueryLexer lexer = QueryLexer(query);
-            std::vector<std::string> tokens = lexer.lex();
-            QueryParser parser = QueryParser(tokens);
+        //    //// result
+        //    Assert::AreEqual(expectedResult.results.size(), result->results.size());
+        //    for (int i = 0; i < expectedResult.results.size(); i++) {
+        //        Assert::AreEqual(expectedResult.results[i], result->results[i]);
+        //    }
+        //}
+        //TEST_METHOD(TestParser) {
+        //    const std::string query = "assign a; Select a pattern a(_, _\"x\"_) such that Modifies(a, \"x\")";
+        //    QueryLexer lexer = QueryLexer(query);
+        //    std::vector<std::string> tokens = lexer.lex();
+        //    QueryParser parser = QueryParser(tokens);
 
-            Query expectedResult = Query();
+        //    Query expectedResult = Query();
 
-            expectedResult.declarations = std::vector<Declaration>();
-            expectedResult.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
-            expectedResult.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult.relations = Relation(Relation::Types::Modifies, "a", "\"x\"");
-            expectedResult.patterns = Pattern("a", "_", "_\"x\"_");
-            expectedResult.results = std::vector<std::string>();
+        //    expectedResult.declarations = std::vector<Declaration>();
+        //    expectedResult.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
+        //    expectedResult.target = Declaration(Declaration::DesignEntity::Assignment, "a");
+        //    expectedResult.relations = Relation(Relation::Types::Modifies, "a", "\"x\"");
+        //    expectedResult.patterns = Pattern("a", "_", "_\"x\"_");
+        //    expectedResult.results = std::vector<std::string>();
 
-            Query* result = parser.parse();
+        //    Query* result = parser.parse();
 
-            // declarations
-            Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
-            for (int i = 0; i < expectedResult.declarations.size(); i++) {
-                Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
-                Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
-            }
+        //    // declarations
+        //    Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
+        //    for (int i = 0; i < expectedResult.declarations.size(); i++) {
+        //        Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
+        //        Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
+        //    }
 
-            //// target
-            Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
-            Assert::AreEqual(expectedResult.target.name, result->target.name);
+        //    //// target
+        //    Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
+        //    Assert::AreEqual(expectedResult.target.name, result->target.name);
 
-            //// realtion
-            Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
-            Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
-            Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
+        //    //// realtion
+        //    Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
+        //    Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
 
-            //// pattern
-            Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
-            Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
-            Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
+        //    //// pattern
+        //    Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
 
-            //// result
-            Assert::AreEqual(expectedResult.results.size(), result->results.size());
-            for (int i = 0; i < expectedResult.results.size(); i++) {
-                Assert::AreEqual(expectedResult.results[i], result->results[i]);
-            }
-        }
+        //    //// result
+        //    Assert::AreEqual(expectedResult.results.size(), result->results.size());
+        //    for (int i = 0; i < expectedResult.results.size(); i++) {
+        //        Assert::AreEqual(expectedResult.results[i], result->results[i]);
+        //    }
+        //}
 
-        TEST_METHOD(TestParserCorrectMultipleDeclarations) {
-            const std::string query = "assign a, a1; variable v, V; stmt s, s1, x; constant Select; Select Select such that Modifies(a, \"x\")";
-            QueryLexer lexer = QueryLexer(query);
-            std::vector<std::string> tokens = lexer.lex();
-            QueryParser parser = QueryParser(tokens);
+        //TEST_METHOD(TestParserCorrectMultipleDeclarations) {
+        //    const std::string query = "assign a, a1; variable v, V; stmt s, s1, x; constant Select; Select Select such that Modifies(a, \"x\")";
+        //    QueryLexer lexer = QueryLexer(query);
+        //    std::vector<std::string> tokens = lexer.lex();
+        //    QueryParser parser = QueryParser(tokens);
 
-            Query expectedResult = Query();
+        //    Query expectedResult = Query();
 
-            expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a"), 
-                                        Declaration(Declaration::DesignEntity::Assignment, "a1"),  Declaration(Declaration::DesignEntity::Variable, "v"),
-                                        Declaration(Declaration::DesignEntity::Variable, "V"),  Declaration(Declaration::DesignEntity::Statement, "s"),
-                                        Declaration(Declaration::DesignEntity::Statement, "s1"),  Declaration(Declaration::DesignEntity::Statement, "x"),
-                                        Declaration(Declaration::DesignEntity::Constant, "Select")});
-            expectedResult.target = Declaration(Declaration::DesignEntity::Constant, "Select");
-            expectedResult.relations = Relation(Relation::Types::Modifies, "a", "\"x\"");
-            expectedResult.patterns = Pattern();
-            expectedResult.results = std::vector<std::string>();
+        //    expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a"), 
+        //                                Declaration(Declaration::DesignEntity::Assignment, "a1"),  Declaration(Declaration::DesignEntity::Variable, "v"),
+        //                                Declaration(Declaration::DesignEntity::Variable, "V"),  Declaration(Declaration::DesignEntity::Statement, "s"),
+        //                                Declaration(Declaration::DesignEntity::Statement, "s1"),  Declaration(Declaration::DesignEntity::Statement, "x"),
+        //                                Declaration(Declaration::DesignEntity::Constant, "Select")});
+        //    expectedResult.target = Declaration(Declaration::DesignEntity::Constant, "Select");
+        //    expectedResult.relations = Relation(Relation::Types::Modifies, "a", "\"x\"");
+        //    expectedResult.patterns = Pattern();
+        //    expectedResult.results = std::vector<std::string>();
 
-            Query* result = parser.parse();
+        //    Query* result = parser.parse();
 
-            // declarations
-            Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
-            for (int i = 0; i < expectedResult.declarations.size(); i++) {
-                Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
-                Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
-            }
+        //    // declarations
+        //    Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
+        //    for (int i = 0; i < expectedResult.declarations.size(); i++) {
+        //        Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
+        //        Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
+        //    }
 
-            //// target
-            Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
-            Assert::AreEqual(expectedResult.target.name, result->target.name);
+        //    //// target
+        //    Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
+        //    Assert::AreEqual(expectedResult.target.name, result->target.name);
 
-            //// realtion
-            Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
-            Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
-            Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
+        //    //// realtion
+        //    Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
+        //    Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
 
-            //// pattern
-            Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
-            Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
-            Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
+        //    //// pattern
+        //    Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
 
-            //// result
-            Assert::AreEqual(expectedResult.results.size(), result->results.size());
-            for (int i = 0; i < expectedResult.results.size(); i++) {
-                Assert::AreEqual(expectedResult.results[i], result->results[i]);
-            }
-        }
+        //    //// result
+        //    Assert::AreEqual(expectedResult.results.size(), result->results.size());
+        //    for (int i = 0; i < expectedResult.results.size(); i++) {
+        //        Assert::AreEqual(expectedResult.results[i], result->results[i]);
+        //    }
+        //}
 
-        TEST_METHOD(TestParserValidFollowsQuery) {
-            std::string query = "assign a; Select a such that Follows(a, _)";
-            QueryLexer lexer = QueryLexer(query);
-            std::vector<std::string> tokens = lexer.lex();
-            QueryParser parser = QueryParser(tokens);
+        //TEST_METHOD(TestParserValidFollowsQuery) {
+        //    std::string query = "assign a; Select a such that Follows(a, _)";
+        //    QueryLexer lexer = QueryLexer(query);
+        //    std::vector<std::string> tokens = lexer.lex();
+        //    QueryParser parser = QueryParser(tokens);
 
-            Query expectedResult = Query();
+        //    Query expectedResult = Query();
 
-            expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
-            expectedResult.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult.relations = Relation(Relation::Types::Follows, "a", "_");
-            expectedResult.patterns = Pattern();
-            expectedResult.results = std::vector<std::string>();
+        //    expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
+        //    expectedResult.target = Declaration(Declaration::DesignEntity::Assignment, "a");
+        //    expectedResult.relations = Relation(Relation::Types::Follows, "a", "_");
+        //    expectedResult.patterns = Pattern();
+        //    expectedResult.results = std::vector<std::string>();
 
-            Query* result = parser.parse();
+        //    Query* result = parser.parse();
 
-            // declarations
-            Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
-            for (int i = 0; i < expectedResult.declarations.size(); i++) {
-                Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
-                Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
-            }
+        //    // declarations
+        //    Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
+        //    for (int i = 0; i < expectedResult.declarations.size(); i++) {
+        //        Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
+        //        Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
+        //    }
 
-            //// target
-            Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
-            Assert::AreEqual(expectedResult.target.name, result->target.name);
+        //    //// target
+        //    Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
+        //    Assert::AreEqual(expectedResult.target.name, result->target.name);
 
-            //// realtion
-            Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
-            Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
-            Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
+        //    //// realtion
+        //    Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
+        //    Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
 
-            //// pattern
-            Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
-            Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
-            Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
+        //    //// pattern
+        //    Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
 
-            //// result
-            Assert::AreEqual(expectedResult.results.size(), result->results.size());
-            for (int i = 0; i < expectedResult.results.size(); i++) {
-                Assert::AreEqual(expectedResult.results[i], result->results[i]);
-            }
-        }
-                
-        TEST_METHOD(TestParserValidUsesQuery) {
-            std::string query = "print a; variable v; Select a such that Uses(a, v)";
-            QueryLexer lexer = QueryLexer(query);
-            std::vector<std::string> tokens = lexer.lex();
-            QueryParser parser = QueryParser(tokens);
+        //    //// result
+        //    Assert::AreEqual(expectedResult.results.size(), result->results.size());
+        //    for (int i = 0; i < expectedResult.results.size(); i++) {
+        //        Assert::AreEqual(expectedResult.results[i], result->results[i]);
+        //    }
+        //}
+        //        
+        //TEST_METHOD(TestParserValidUsesQuery) {
+        //    std::string query = "print a; variable v; Select a such that Uses(a, v)";
+        //    QueryLexer lexer = QueryLexer(query);
+        //    std::vector<std::string> tokens = lexer.lex();
+        //    QueryParser parser = QueryParser(tokens);
 
-            Query expectedResult = Query();
+        //    Query expectedResult = Query();
 
-            expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Print, "a"),  
-                                                                     Declaration(Declaration::DesignEntity::Variable, "v") });
-            expectedResult.target = Declaration(Declaration::DesignEntity::Print, "a");
-            expectedResult.relations = Relation(Relation::Types::Uses, "a", "v");
-            expectedResult.patterns = Pattern();
-            expectedResult.results = std::vector<std::string>();
+        //    expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Print, "a"),  
+        //                                                             Declaration(Declaration::DesignEntity::Variable, "v") });
+        //    expectedResult.target = Declaration(Declaration::DesignEntity::Print, "a");
+        //    expectedResult.relations = Relation(Relation::Types::Uses, "a", "v");
+        //    expectedResult.patterns = Pattern();
+        //    expectedResult.results = std::vector<std::string>();
 
-            Query* result = parser.parse();
+        //    Query* result = parser.parse();
 
-            // declarations
-            Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
-            for (int i = 0; i < expectedResult.declarations.size(); i++) {
-                Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
-                Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
-            }
+        //    // declarations
+        //    Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
+        //    for (int i = 0; i < expectedResult.declarations.size(); i++) {
+        //        Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
+        //        Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
+        //    }
 
-            //// target
-            Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
-            Assert::AreEqual(expectedResult.target.name, result->target.name);
+        //    //// target
+        //    Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
+        //    Assert::AreEqual(expectedResult.target.name, result->target.name);
 
-            //// realtion
-            Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
-            Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
-            Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
+        //    //// realtion
+        //    Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
+        //    Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
 
-            //// pattern
-            Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
-            Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
-            Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
+        //    //// pattern
+        //    Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
 
-            //// result
-            Assert::AreEqual(expectedResult.results.size(), result->results.size());
-            for (int i = 0; i < expectedResult.results.size(); i++) {
-                Assert::AreEqual(expectedResult.results[i], result->results[i]);
-            }
-        }
-        
-        TEST_METHOD(TestParserValidModifiesQuery) {
-            std::string query = "read a; Select a such that Modifies(a, _)";
-            QueryLexer lexer = QueryLexer(query);
-            std::vector<std::string> tokens = lexer.lex();
-            QueryParser parser = QueryParser(tokens);
+        //    //// result
+        //    Assert::AreEqual(expectedResult.results.size(), result->results.size());
+        //    for (int i = 0; i < expectedResult.results.size(); i++) {
+        //        Assert::AreEqual(expectedResult.results[i], result->results[i]);
+        //    }
+        //}
+        //
+        //TEST_METHOD(TestParserValidModifiesQuery) {
+        //    std::string query = "read a; Select a such that Modifies(a, _)";
+        //    QueryLexer lexer = QueryLexer(query);
+        //    std::vector<std::string> tokens = lexer.lex();
+        //    QueryParser parser = QueryParser(tokens);
 
-            Query expectedResult = Query();
+        //    Query expectedResult = Query();
 
-            expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Read, "a") });
-            expectedResult.target = Declaration(Declaration::DesignEntity::Read, "a");
-            expectedResult.relations = Relation(Relation::Types::Modifies, "a", "_");
-            expectedResult.patterns = Pattern();
-            expectedResult.results = std::vector<std::string>();
+        //    expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Read, "a") });
+        //    expectedResult.target = Declaration(Declaration::DesignEntity::Read, "a");
+        //    expectedResult.relations = Relation(Relation::Types::Modifies, "a", "_");
+        //    expectedResult.patterns = Pattern();
+        //    expectedResult.results = std::vector<std::string>();
 
-            Query* result = parser.parse();
+        //    Query* result = parser.parse();
 
-            // declarations
-            Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
-            for (int i = 0; i < expectedResult.declarations.size(); i++) {
-                Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
-                Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
-            }
+        //    // declarations
+        //    Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
+        //    for (int i = 0; i < expectedResult.declarations.size(); i++) {
+        //        Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
+        //        Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
+        //    }
 
-            //// target
-            Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
-            Assert::AreEqual(expectedResult.target.name, result->target.name);
+        //    //// target
+        //    Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
+        //    Assert::AreEqual(expectedResult.target.name, result->target.name);
 
-            //// realtion
-            Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
-            Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
-            Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
+        //    //// realtion
+        //    Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
+        //    Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
 
-            //// pattern
-            Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
-            Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
-            Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
+        //    //// pattern
+        //    Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
 
-            //// result
-            Assert::AreEqual(expectedResult.results.size(), result->results.size());
-            for (int i = 0; i < expectedResult.results.size(); i++) {
-                Assert::AreEqual(expectedResult.results[i], result->results[i]);
-            }
-        }
-        
-        TEST_METHOD(TestParserValidParentQuery) {
-            std::string query = "assign a; Select a such that Parent(_, _)";
-            QueryLexer lexer = QueryLexer(query);
-            std::vector<std::string> tokens = lexer.lex();
-            QueryParser parser = QueryParser(tokens);
+        //    //// result
+        //    Assert::AreEqual(expectedResult.results.size(), result->results.size());
+        //    for (int i = 0; i < expectedResult.results.size(); i++) {
+        //        Assert::AreEqual(expectedResult.results[i], result->results[i]);
+        //    }
+        //}
+        //
+        //TEST_METHOD(TestParserValidParentQuery) {
+        //    std::string query = "assign a; Select a such that Parent(_, _)";
+        //    QueryLexer lexer = QueryLexer(query);
+        //    std::vector<std::string> tokens = lexer.lex();
+        //    QueryParser parser = QueryParser(tokens);
 
-            Query expectedResult = Query();
+        //    Query expectedResult = Query();
 
-            expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
-            expectedResult.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult.relations = Relation(Relation::Types::Parent, "_", "_");
-            expectedResult.patterns = Pattern();
-            expectedResult.results = std::vector<std::string>();
+        //    expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
+        //    expectedResult.target = Declaration(Declaration::DesignEntity::Assignment, "a");
+        //    expectedResult.relations = Relation(Relation::Types::Parent, "_", "_");
+        //    expectedResult.patterns = Pattern();
+        //    expectedResult.results = std::vector<std::string>();
 
-            Query* result = parser.parse();
+        //    Query* result = parser.parse();
 
-            // declarations
-            Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
-            for (int i = 0; i < expectedResult.declarations.size(); i++) {
-                Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
-                Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
-            }
+        //    // declarations
+        //    Assert::AreEqual(expectedResult.declarations.size(), result->declarations.size());
+        //    for (int i = 0; i < expectedResult.declarations.size(); i++) {
+        //        Assert::IsTrue(expectedResult.declarations[i].TYPE == result->declarations[i].TYPE);
+        //        Assert::AreEqual(expectedResult.declarations[i].name, result->declarations[i].name);
+        //    }
 
-            //// target
-            Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
-            Assert::AreEqual(expectedResult.target.name, result->target.name);
+        //    //// target
+        //    Assert::IsTrue(expectedResult.target.TYPE == result->target.TYPE);
+        //    Assert::AreEqual(expectedResult.target.name, result->target.name);
 
-            //// realtion
-            Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
-            Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
-            Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
+        //    //// realtion
+        //    Assert::IsTrue(expectedResult.relations.TYPE == result->relations.TYPE);
+        //    Assert::AreEqual(expectedResult.relations.LEFT_ARG, result->relations.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.relations.RIGHT_ARG, result->relations.RIGHT_ARG);
 
-            //// pattern
-            Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
-            Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
-            Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
+        //    //// pattern
+        //    Assert::AreEqual(expectedResult.patterns.LEFT_ARG, result->patterns.LEFT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.RIGHT_ARG, result->patterns.RIGHT_ARG);
+        //    Assert::AreEqual(expectedResult.patterns.synonym, result->patterns.synonym);
 
-            //// result
-            Assert::AreEqual(expectedResult.results.size(), result->results.size());
-            for (int i = 0; i < expectedResult.results.size(); i++) {
-                Assert::AreEqual(expectedResult.results[i], result->results[i]);
-            }
-        }
+        //    //// result
+        //    Assert::AreEqual(expectedResult.results.size(), result->results.size());
+        //    for (int i = 0; i < expectedResult.results.size(); i++) {
+        //        Assert::AreEqual(expectedResult.results[i], result->results[i]);
+        //    }
+        //}
 
         TEST_METHOD(TestParserDeclarationSyntaxError) {
             // 1

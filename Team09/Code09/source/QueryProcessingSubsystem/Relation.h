@@ -11,7 +11,7 @@ public:
 		FollowsT,
 		Parent,
 		ParentT,
-		NONE
+		NONE		// Add Calls & CallsT
 	};
 
 	Types TYPE;

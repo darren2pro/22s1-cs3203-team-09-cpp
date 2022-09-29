@@ -13,15 +13,15 @@ namespace parserre {
 	std::string integer = "(0|[1-9]([0-9])*)";
 	std::string stmtRef = synonym + "|_|" + integer;
 	std::string entRef = synonym + "|_|\"" + synonym + "\"";
-	std::string expressionSpec = "_|\"(" + synonym + "|" + integer + ")\"";
+	std::string expressionSpec = "_|\"(" + synonym + "|" + integer + ")\"";		// *** FIX THIS ***
 
 	std::regex integer_re(integer);
 	std::regex design_enteties_re("stmt|read|print|while|if|assign|variable|constant|procedure|call");
-	std::regex relation_re("Follows|Follows[\*]|Parent|Parent[\*]|Uses|Modifies");
+	std::regex relation_re("Follows|Follows[\*]|Parent|Parent[\*]|Uses|Modifies");	// *** FIX THIS ***		Include Calls/Calls* relation
 	std::regex synonym_re(synonym);									// synonym: IDENT	--> IDENT: LETTER (LETTER|DIGIT)*
 	std::regex stmtRef_re(stmtRef);									// stmtRef: synonym | '_' | INTEGER
 	std::regex entRef_re(entRef);									// endRef: synonym | '_' | '"' IDENT '"'
-	std::regex expressionSpec_re(expressionSpec);					// var_name | const_value  * update for next milestones
+	std::regex expressionSpec_re(expressionSpec);					// _ | '"' (*) '"' 
 }
 
 QueryParser::QueryParser(std::vector<std::string> tokens) {
@@ -148,7 +148,7 @@ Declaration QueryParser::findDeclaration(std::string name) {
 	throw SemanticError("Synonym not declared");
 }
 
-void QueryParser::validate_stmtRef(Relation::Types rel, std::string arg) {
+void QueryParser::validate_stmtRef(Relation::Types rel, std::string arg) {		// change this to return true/false (is_valid_stmtRef)
 	if (arg == "_" || std::regex_match(arg, parserre::integer_re)) {
 		return;
 	}
@@ -169,7 +169,7 @@ void QueryParser::validate_stmtRef(Relation::Types rel, std::string arg) {
 	throw SemanticError("Invalid synonym type used as an argument");
 }
 
-void QueryParser::validate_entRef(std::string arg) {
+void QueryParser::validate_entRef(std::string arg) {		// change this to return true/false (is_valid_entRef)
 	if (arg == "_" || arg[0] == '"') {
 		return;
 	}
@@ -177,6 +177,8 @@ void QueryParser::validate_entRef(std::string arg) {
 	Declaration d = findDeclaration(arg);
 
 	std::vector<Declaration::DesignEntity> valid_types = std::vector<Declaration::DesignEntity>({Declaration::DesignEntity::Variable});
+
+	// if relation == uses or modifies then add procedure
 	
 	for (Declaration::DesignEntity de : valid_types) {
 		if (d.TYPE == de)
@@ -219,7 +221,7 @@ Pattern QueryParser::patternClause() {
 	}
 	else {
 		match(parserre::entRef_re);
-		validate_entRef(left_arg);
+		validate_entRef(left_arg);		// if !is_valid throw error
 	}
 
 
@@ -248,7 +250,7 @@ Pattern QueryParser::patternClause() {
 }
 
 // Move to Relation class
-Relation::Types QueryParser::getType(std::string token) {		// getRelation
+Relation::Types QueryParser::getType(std::string token) {		// getRelation		*add Calls & CallsT
 	if (token == "Follows") {
 		return Relation::Types::Follows;
 	}
@@ -285,10 +287,13 @@ Relation QueryParser::suchThatClause() {
 	match("(");
 
 
+	// Add validation for Calls/CallsT arguments
+
+
 	// check the left argument
 	std::string left_arg = current_token;
 	match(parserre::stmtRef_re);
-	validate_stmtRef(type, left_arg);
+	validate_stmtRef(type, left_arg);	// if !is_valid throw error
 
 
 	match(",");
@@ -302,12 +307,14 @@ Relation QueryParser::suchThatClause() {
 			throw SemanticError("First args for uses/modifies can't be _");
 		}
 
+		// if !is_valid_stmtRef && !is_valid_entRef throw error
+
 		match(parserre::entRef_re);
-		validate_entRef(right_arg);
-	}
+		validate_entRef(right_arg);	// if !is_valid throw error
+	}	
 	else {
 		match(parserre::stmtRef_re);
-		validate_stmtRef(type, right_arg);
+		validate_stmtRef(type, right_arg);	// if !is_valid throw error
 	}
 
 

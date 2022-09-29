@@ -25,47 +25,4 @@ namespace PKB {
             map.at(key).insert(val);
         }
     }
-    void PKB::setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>, pairHash>& set,
-        std::unordered_map<std::string, std::unordered_set<std::string>>& star,
-        const std::unordered_map<std::string, std::unordered_set<std::string>> base,
-        std::string key) {
-        if (base.find(key) == base.end()) {
-            return;
-        }
-
-        std::vector<std::string> list;
-        list.push_back(key);
-        while (!list.empty()) {
-            std::string currKey = list.back();
-            list.pop_back();
-            for (const auto& val : base.at(currKey)) {
-                set.insert(std::make_pair(key, val));
-                addToSetInMap(star, key, val);
-                if (base.find(val) != base.end()) {
-                    list.push_back(val);
-                }
-            }
-        }
-    }
-
-    void PKB::setStarFromBaseMap(std::unordered_map<std::string, std::unordered_set<std::string>>& star,
-        const std::unordered_map<std::string, std::unordered_set<std::string>> base,
-        std::string key) {
-        if (base.find(key) == base.end()) {
-            return;
-        }
-
-        std::vector<std::string> list;
-        list.push_back(key);
-        while (!list.empty()) {
-            std::string currKey = list.back();
-            list.pop_back();
-            for (const auto& val : base.at(currKey)) {
-                addToSetInMap(star, key, val);
-                if (base.find(val) != base.end()) {
-                    list.push_back(val);
-                }
-            }
-        }
-    }
 }

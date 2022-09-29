@@ -102,12 +102,26 @@ namespace PKB {
         PKB::addToSetInMap(followsNextToPrevMap, next, prev);
     }
 
+    void PKBStorage::storeFollowsT(const PrevLine prev, const NextLine next) {
+        std::pair<PrevLine, NextLine> pair = std::make_pair(prev, next);
+        followsTSet.insert(pair);
+        PKB::addToSetInMap(followsTPrevToNextMap, prev, next);
+        PKB::addToSetInMap(followsTNextToPrevMap, next, prev);
+    }
+
 
     void PKBStorage::storeParent(const ParentLine parent, const ChildLine child) {
         std::pair<ParentLine, ChildLine> pair = std::make_pair(parent, child);
         parentSet.insert(pair);
         PKB::addToSetInMap(parentParentToChildMap, parent, child);
         PKB::addToSetInMap(parentChildToParentMap, child, parent);
+    }
+
+    void PKBStorage::storeParentT(const ParentLine parent, const ChildLine child) {
+        std::pair<ParentLine, ChildLine> pair = std::make_pair(parent, child);
+        parentTSet.insert(pair);
+        PKB::addToSetInMap(parentTParentToChildMap, parent, child);
+        PKB::addToSetInMap(parentTChildToParentMap, child, parent);
     }
 
     void PKBStorage::storeAssignPattern(const Variable var, const LineNum line, const ExprStr expr) {

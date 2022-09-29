@@ -39,9 +39,4 @@ namespace PKB {
     void addToSetInMap(std::unordered_map<std::string,
         std::unordered_set<std::pair<std::string, std::string>, pairHash>>&map,
         const std::string key, const std::pair<std::string, std::string> val);
-    void setStarFromBaseMap(std::unordered_set<std::pair<std::string, std::string>, pairHash>& set,
-        std::unordered_map<std::string, std::unordered_set<std::string>>& star,
-        const std::unordered_map<std::string, std::unordered_set<std::string>> base, std::string key);
-    void setStarFromBaseMap(std::unordered_map<std::string, std::unordered_set<std::string>>& star,
-        const std::unordered_map<std::string, std::unordered_set<std::string>> base, std::string key);
 }

@@ -61,6 +61,34 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->followsPrevToNextMap.at("1") == nextSet);
                 Assert::IsTrue(pkbStorage->followsNextToPrevMap.at("2") == prevSet);
 
+                pkbStorage->storeFollowsT("1", "2");
+                std::unordered_set<PKB::LineNum> prevTSet;
+                std::unordered_set<PKB::LineNum> nextTSet;
+                prevTSet.insert("1");
+                nextTSet.insert("2");
+                Assert::IsTrue(pkbStorage->followsTSet.find(std::make_pair("1", "2")) != pkbStorage->followsTSet.end());
+                Assert::IsTrue(pkbStorage->followsTSet.find(std::make_pair("1", "3")) == pkbStorage->followsTSet.end());
+                Assert::IsTrue(pkbStorage->followsTPrevToNextMap.find("1") != pkbStorage->followsTPrevToNextMap.end());
+                Assert::IsTrue(pkbStorage->followsTPrevToNextMap.find("2") == pkbStorage->followsTPrevToNextMap.end());
+                Assert::IsTrue(pkbStorage->followsTNextToPrevMap.find("2") != pkbStorage->followsTNextToPrevMap.end());
+                Assert::IsTrue(pkbStorage->followsTNextToPrevMap.find("1") == pkbStorage->followsTNextToPrevMap.end());
+                Assert::IsTrue(pkbStorage->followsTPrevToNextMap.at("1") == nextTSet);
+                Assert::IsTrue(pkbStorage->followsTNextToPrevMap.at("2") == prevTSet);
+
+                pkbStorage->storeParentT("1", "2");
+                std::unordered_set<PKB::LineNum> parentTSet;
+                std::unordered_set<PKB::LineNum> childTSet;
+                parentTSet.insert("1");
+                childTSet.insert("2");
+                Assert::IsTrue(pkbStorage->parentTSet.find(std::make_pair("1", "2")) != pkbStorage->parentTSet.end());
+                Assert::IsTrue(pkbStorage->parentTSet.find(std::make_pair("1", "3")) == pkbStorage->parentTSet.end());
+                Assert::IsTrue(pkbStorage->parentTParentToChildMap.find("1") != pkbStorage->parentTParentToChildMap.end());
+                Assert::IsTrue(pkbStorage->parentTParentToChildMap.find("2") == pkbStorage->parentTParentToChildMap.end());
+                Assert::IsTrue(pkbStorage->parentTChildToParentMap.find("2") != pkbStorage->parentTChildToParentMap.end());
+                Assert::IsTrue(pkbStorage->parentTChildToParentMap.find("1") == pkbStorage->parentTChildToParentMap.end());
+                Assert::IsTrue(pkbStorage->parentTParentToChildMap.at("1") == childTSet);
+                Assert::IsTrue(pkbStorage->parentTChildToParentMap.at("2") == parentTSet);
+
                 pkbStorage->storeParent("1", "2");
                 std::unordered_set<PKB::LineNum> parentSet;
                 std::unordered_set<PKB::LineNum> childSet;
@@ -219,6 +247,12 @@ namespace UnitTesting {
                 pkbStorage->storeFollows("1", "2");
                 pkbStorage->storeFollows("2", "3");
                 pkbStorage->storeFollows("3", "5");
+                pkbStorage->storeFollowsT("1", "2");
+                pkbStorage->storeFollowsT("1", "3");
+                pkbStorage->storeFollowsT("1", "5");
+                pkbStorage->storeFollowsT("2", "3");
+                pkbStorage->storeFollowsT("2", "5");
+                pkbStorage->storeFollowsT("3", "5");
 
                 //getFollows
                 Assert::IsTrue(pkbManager.getFollows("1", "2"));
@@ -323,6 +357,15 @@ namespace UnitTesting {
                 pkbStorage->storeParent("2", "3");
                 pkbStorage->storeParent("3", "5");
                 pkbStorage->storeParent("3", "7");
+                pkbStorage->storeParentT("1", "2");
+                pkbStorage->storeParentT("1", "3");
+                pkbStorage->storeParentT("1", "5");
+                pkbStorage->storeParentT("1", "7");
+                pkbStorage->storeParentT("2", "3");
+                pkbStorage->storeParentT("2", "5");
+                pkbStorage->storeParentT("2", "7");
+                pkbStorage->storeParentT("3", "5");
+                pkbStorage->storeParentT("3", "7");
 
                 //getParent
                 Assert::IsTrue(pkbManager.getParent("1", "2"));

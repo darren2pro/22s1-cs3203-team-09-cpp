@@ -4,15 +4,19 @@
 #include "../Relation.h"
 #include "../Pattern.h"
 #include "../Utils.h"
-#include "UsesEvaluator.h"
-#include "ModifiesEvaluator.h"
-#include "ParentEvaluator.h"
-#include "ParentTEvaluator.h"
-#include "FollowsEvaluator.h"
-#include "FollowsTEvaluator.h"
-#include "PatternEvaluator.h"
+#include "SuchThat/UsesSEvaluator.h"
+#include "SuchThat/ModifiesSEvaluator.h"
+#include "SuchThat/ParentEvaluator.h"
+#include "SuchThat/ParentTEvaluator.h"
+#include "SuchThat/FollowsEvaluator.h"
+#include "SuchThat/FollowsTEvaluator.h"
+#include "Pattern/PatternEvaluator.h"
+#include "Pattern/AssignPatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
-#include "AssignPatternEvaluator.h"
+#include "suchthat/CallsTEvaluator.h"
+#include "suchthat/CallsEvaluator.h"
+#include "suchthat/ModifiesPEvaluator.h"
+#include "suchthat/UsesPEvaluator.h"
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	relations = query->relations;
@@ -47,10 +51,14 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
 
 	switch (relations.TYPE) {
-	case Relation::Modifies:
-		return ModifiesEvaluator(declarations, relations, rdb, pkb).evaluate();
-	case Relation::Uses:
-		return UsesEvaluator(declarations, relations, rdb, pkb).evaluate();
+	case Relation::Modifies: // ModifiesS
+		return ModifiesSEvaluator(declarations, relations, rdb, pkb).evaluate();
+	case Relation::ModifiesP:
+		return ModifiesPEvaluator(declarations, relations, rdb, pkb).evaluate();
+	case Relation::Uses: // UsesS
+		return UsesSEvaluator(declarations, relations, rdb, pkb).evaluate();
+	case Relation::UsesP:
+		return UsesPEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::Follows:
 		return FollowsEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::FollowsT:
@@ -59,6 +67,10 @@ bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
 		return ParentEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::ParentT:
 		return ParentTEvaluator(declarations, relations, rdb, pkb).evaluate();
+	case Relation::Calls:
+		return CallsEvaluator(declarations, relations, rdb, pkb).evaluate();
+	case Relation::CallsT:
+		return CallsTEvaluator(declarations, relations, rdb, pkb).evaluate();
 	default:
 		return true;
 	}

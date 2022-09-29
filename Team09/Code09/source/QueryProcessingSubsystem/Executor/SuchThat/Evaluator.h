@@ -2,10 +2,10 @@
 #include <string>
 #include <vector>
 #include <unordered_set>
-#include "../Relation.h"
-#include "../../ProgramKnowledgeBase/PKBManager.h"
-#include "../../ProgramKnowledgeBase/PKBStorage.h"
-#include "ResultsDatabase/ResultsDatabase.h"
+#include "../../Relation.h"
+#include "../../../ProgramKnowledgeBase/PKBManager.h"
+#include "../../../ProgramKnowledgeBase/PKBStorage.h"
+#include "../ResultsDatabase/ResultsDatabase.h"
 
 using namespace PKB;
 

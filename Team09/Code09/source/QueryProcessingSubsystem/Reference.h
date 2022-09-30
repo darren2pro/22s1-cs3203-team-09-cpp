@@ -22,8 +22,8 @@ public:
 	Reference(Types TYPE, Declaration declaration) : TYPE(TYPE), value(""), declaration(declaration) {};
 	Reference() : TYPE(Types::NONE), value(""), declaration(Declaration()) {};
 
-	bool isSynonym() { TYPE == Types::Synonym; }
-	bool isUnderscore() { TYPE == Types::Underscore; }
-	bool isString() { TYPE == Types::String; }
-	bool isStmtNum() { TYPE == Types::StmtNum; }
+	bool isSynonym() { return TYPE == Types::Synonym; }
+	bool isUnderscore() { return TYPE == Types::Underscore; }
+	bool isString() { return TYPE == Types::String; }
+	bool isStmtNum() { return TYPE == Types::StmtNum; }
 };

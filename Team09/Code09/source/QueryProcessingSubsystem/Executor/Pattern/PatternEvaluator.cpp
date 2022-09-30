@@ -9,128 +9,103 @@ bool PatternEvaluator::evaluate() {
 	// get their entire variable set from pkb and populate it first.
 
 	// Pattern synonym is "a" -> pattern a(...) 
-	bool isPatternSynonym = Utils().isSynonym(PATTERN_SYNONYM, declarations);
-	bool isLeftSynonym = Utils().isSynonym(LEFT_ARG, declarations);
+	bool isLeftSynonym = leftArg.isSynonym();
 
-	// Right is definitely not a synonym. It is a matcher
+	// Insert the pattern synonym into RDB. "a" -> pattern a(...)
+	QueryExecutor::insertSynonymSetIntoRDB(patternArg, rdb, pkb);
 
-	if (isPatternSynonym) {
-		Declaration synonym = Utils().getSynonym(PATTERN_SYNONYM, declarations);
-		QueryExecutor::insertSynonymSetIntoRDB(synonym, rdb, pkb);
-	}
-
+	// No need check right. Right will never be synonym.
 	if (isLeftSynonym) {
-		Declaration synonym = Utils().getSynonym(LEFT_ARG, declarations);
+		Declaration synonym = leftArg.declaration;
+		leftSynonym = synonym.name;
 		QueryExecutor::insertSynonymSetIntoRDB(synonym, rdb, pkb);
-		// When inserting, assigned it the wrong index.
 	}
 
 	// left underscore
-	if (Utils().isUnderscore(pattern.LEFT_ARG) && Utils().isUnderscore(pattern.RIGHT_ARG)) {
-		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
+	if (leftArg.isUnderscore() && rightArg.isUnderscore()) {
 		std::unordered_set<std::string> result = patternLeftUnderscoreRightUnderScore();
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertList(PATTERN_SYNONYM, result);
+			return rdb.insertList(patternSynonym, result);
 		}
 	}
-	else if (Utils().isUnderscore(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
-		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
-		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
-		std::unordered_set<std::string> result = patternLeftUnderscoreRightStrictExpression(pattern.RIGHT_ARG);
+	else if (leftArg.isUnderscore() && rightArg.isStrict()) {
+		std::unordered_set<std::string> result = patternLeftUnderscoreRightStrictExpression(rightString);
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertList(PATTERN_SYNONYM, result);
+			return rdb.insertList(patternSynonym, result);
 		}
 	}
-	else if (Utils().isUnderscore(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
-		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
-		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
-		std::unordered_set<std::string> result = patternLeftUnderscoreRightRelaxedExpression(pattern.RIGHT_ARG);
+	else if (leftArg.isUnderscore() && rightArg.isRelaxed()) {
+		std::unordered_set<std::string> result = patternLeftUnderscoreRightRelaxedExpression(rightString);
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertList(PATTERN_SYNONYM, result);
+			return rdb.insertList(patternSynonym, result);
 		}
 	}
 
 	// left synonym
-	else if(isLeftSynonym && Utils().isUnderscore(pattern.RIGHT_ARG)) {
-		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
+	else if(isLeftSynonym && rightArg.isUnderscore()) {
 		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightUnderscore();
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertPairList(PATTERN_SYNONYM, pattern.LEFT_ARG, result);
+			return rdb.insertPairList(patternSynonym, leftSynonym, result);
 		}
 	}
-	else if (isLeftSynonym && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
-		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
-		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
-		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightStrictExpression(pattern.RIGHT_ARG);
+	else if (isLeftSynonym && rightArg.isStrict()) {
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightStrictExpression(rightString);
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertPairList(PATTERN_SYNONYM, pattern.LEFT_ARG, result);
+			return rdb.insertPairList(patternSynonym, leftSynonym, result);
 		}
 	}
-	else if (isLeftSynonym && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
-		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
-		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
-		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightRelaxedExpression(pattern.RIGHT_ARG);
+	else if (isLeftSynonym && rightArg.isRelaxed()) {
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightRelaxedExpression(rightString);
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertPairList(PATTERN_SYNONYM, pattern.LEFT_ARG, result);
+			return rdb.insertPairList(patternSynonym, leftSynonym, result);
 		}
 	}
 
-	// left simple
-	else if (Utils().isBasicQueryString(pattern.LEFT_ARG) && Utils().isUnderscore(pattern.RIGHT_ARG)) {
-		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
-		std::unordered_set<std::string> result = patternLeftSimpleRightUnderscore(pattern.LEFT_ARG);
+	// left simple -> just need to check whether it is a string. It will never be a statement number.
+	else if (leftArg.isString() && rightArg.isUnderscore()) {
+		std::unordered_set<std::string> result = patternLeftSimpleRightUnderscore(leftArg.value);
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertList(PATTERN_SYNONYM, result);
+			return rdb.insertList(patternSynonym, result);
 		}
 	}
-	else if (Utils().isBasicQueryString(pattern.LEFT_ARG) && Utils().isStrictExpression(pattern.RIGHT_ARG)) {
-		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
-		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
-		std::unordered_set<std::string> result = patternLeftSimpleRightStrictExpression(pattern.LEFT_ARG, pattern.RIGHT_ARG);
+	else if (leftArg.isString() && rightArg.isStrict()) {
+		std::unordered_set<std::string> result = patternLeftSimpleRightStrictExpression(leftArg.value, rightString);
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertList(PATTERN_SYNONYM, result);
+			return rdb.insertList(patternSynonym, result);
 		}
 	}
-	else if (Utils().isBasicQueryString(pattern.LEFT_ARG) && Utils().isRelaxedExpression(pattern.RIGHT_ARG)) {
-		pattern.LEFT_ARG = temporaryStrip(pattern.LEFT_ARG);
-		pattern.RIGHT_ARG = temporaryStrip(pattern.RIGHT_ARG);
-		std::unordered_set<std::string> result = patternLeftSimpleRightRelaxedExpression(pattern.LEFT_ARG, pattern.RIGHT_ARG);
+	else if (leftArg.isString() && rightArg.isRelaxed()) {
+		std::unordered_set<std::string> result = patternLeftSimpleRightRelaxedExpression(leftArg.value, rightString);
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertList(PATTERN_SYNONYM, result);
+			return rdb.insertList(patternSynonym, result);
 		}
 	}
-}
-
-std::string PatternEvaluator::temporaryStrip(std::string arg) {
-	// Check whether there is underscores to strip first
-	arg.erase(std::remove(arg.begin(), arg.end(), '"'), arg.end());
-	return arg;
 }
 

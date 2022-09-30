@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "PatternEvaluator.h"
-#include "../../ProgramKnowledgeBase/PKBManager.h"
+#include "../../../ProgramKnowledgeBase/PKBManager.h"
 #include <iostream>
 #include <cassert>
 
@@ -16,13 +16,13 @@ public:
 	AssignPatternEvaluator(std::vector<Declaration> declarations,Pattern patterns, ResultsDatabase& rdb, PKBManager* pkb) :
 	PatternEvaluator(declarations, patterns, rdb, pkb) {}; // Constructor
 
-	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> AssignPatternEvaluator::patternLeftSynonymRightStrictExpression(Expression expr) override {
+	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> AssignPatternEvaluator::patternLeftSynonymRightStrictExpression(std::string expr) override {
 		// Uses(a, 'x') List
 		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> results = pkb->getAssignLineVarByMatchFull(expr);
 		return results;
 	}
 
-	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> AssignPatternEvaluator::patternLeftSynonymRightRelaxedExpression(Expression expr) override {
+	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> AssignPatternEvaluator::patternLeftSynonymRightRelaxedExpression(std::string expr) override {
 		// Uses(a, v) ListPair
 		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> results = pkb->getAssignLineVarByMatchPartial(expr);
 		return results;
@@ -34,7 +34,7 @@ public:
 		return results;
 	}
 
-	std::unordered_set<std::string> AssignPatternEvaluator::patternLeftSimpleRightRelaxedExpression(Variable var, Expression expr) override {
+	std::unordered_set<std::string> AssignPatternEvaluator::patternLeftSimpleRightRelaxedExpression(Variable var, std::string expr) override {
 		// Uses(1, a) List
 		std::unordered_set<Variable> results = pkb->getAssignLineByVarMatchPartial(var, expr);
 		return results;
@@ -47,18 +47,18 @@ public:
 		return results;
 	}
 
-	std::unordered_set<std::string> AssignPatternEvaluator::patternLeftSimpleRightStrictExpression(Variable var, Expression expr) override {
+	std::unordered_set<std::string> AssignPatternEvaluator::patternLeftSimpleRightStrictExpression(Variable var, std::string expr) override {
 		// Uses(1, 'x') Boolean
 		std::unordered_set<std::string> results = pkb->getAssignLineByVarMatchFull(var, expr);
 		return results;
 	}
 
-	std::unordered_set<std::string> AssignPatternEvaluator::patternLeftUnderscoreRightRelaxedExpression(Expression expr) override {
+	std::unordered_set<std::string> AssignPatternEvaluator::patternLeftUnderscoreRightRelaxedExpression(std::string expr) override {
 		std::unordered_set<std::string> results = pkb->getAssignLineByUSMatchPartial(expr);
 		return results;
 	}
 
-	std::unordered_set<std::string> AssignPatternEvaluator::patternLeftUnderscoreRightStrictExpression(Expression expr) override {
+	std::unordered_set<std::string> AssignPatternEvaluator::patternLeftUnderscoreRightStrictExpression(std::string expr) override {
 		std::unordered_set<std::string> results = pkb->getAssignLineByUSMatchFull(expr);
 		return results;
 	}

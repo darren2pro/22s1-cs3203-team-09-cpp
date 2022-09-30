@@ -402,6 +402,109 @@ namespace PKB {
         return pkbStorage->parentTSet;
     }
 
+    //Calls
+    bool PKBManager::getCalls(const CallerProc caller, const CalleeProc callee) {
+        return pkbStorage->callsSet.find(std::make_pair(caller, callee)) != pkbStorage->callsSet.end();
+    }
+
+    bool PKBManager::getCallsByCallerUS(const CallerProc caller) {
+        return pkbStorage->callsCallerToCalleeMap.find(caller) != pkbStorage->callsCallerToCalleeMap.end();
+    }
+
+    bool PKBManager::getCallsByUSCallee(const CalleeProc callee) {
+        return pkbStorage->callsCalleeToCallerMap.find(callee) != pkbStorage->callsCalleeToCallerMap.end();
+    }
+
+    bool PKBManager::getCallsByUSUS() {
+        return !(pkbStorage->callsSet.empty());
+    }
+
+    std::unordered_set<CalleeProc> PKBManager::getCallsCalleeByCaller(const CallerProc caller) {
+        if (pkbStorage->callsCallerToCalleeMap.find(caller) != pkbStorage->callsCallerToCalleeMap.end()) {
+            return pkbStorage->callsCallerToCalleeMap.at(caller);
+        }
+        else {
+            return std::unordered_set<CalleeProc>();
+        }
+    }
+
+    std::unordered_set<CallerProc> PKBManager::getCallsCallerByCallee(const CalleeProc callee) {
+        if (pkbStorage->callsCalleeToCallerMap.find(callee) != pkbStorage->callsCalleeToCallerMap.end()) {
+            return pkbStorage->callsCalleeToCallerMap.at(callee);
+        }
+        else {
+            return std::unordered_set<CallerProc>();
+        }
+    }
+
+    std::unordered_set<CallerProc> PKBManager::getCallsCallerByUS() {
+        std::unordered_set<CallerProc> set;
+        for (const auto& elem : pkbStorage->callsCallerToCalleeMap) {
+            set.insert(elem.first);
+        }
+        return set;
+    }
+
+    std::unordered_set<CalleeProc> PKBManager::getCallsCalleeByUS() {
+        std::unordered_set<CalleeProc> set;
+        for (const auto& elem : pkbStorage->callsCalleeToCallerMap) {
+            set.insert(elem.first);
+        }
+        return set;
+    }
+
+    std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> PKBManager::getAllCalls() {
+        return pkbStorage->callsSet;
+    }
+
+    //CallsT
+    bool PKBManager::getCallsT(const CallerProc caller, const CalleeProc callee) {
+        return pkbStorage->callsTSet.find(std::make_pair(caller, callee)) != pkbStorage->callsTSet.end();
+    }
+
+    bool PKBManager::getCallsTByCallerUS(const CallerProc caller) {
+        return getCallsByCallerUS(caller);
+    }
+
+    bool PKBManager::getCallsTByUSCallee(const CalleeProc callee) {
+        return getCallsByUSCallee(callee);
+    }
+
+    bool PKBManager::getCallsTByUSUS() {
+        return getCallsByUSUS();
+    }
+
+    std::unordered_set<CalleeProc> PKBManager::getCallsTCalleeByCaller(const CallerProc caller) {
+        if (pkbStorage->callsTCallerToCalleeMap.find(caller) != pkbStorage->callsTCallerToCalleeMap.end()) {
+            return pkbStorage->callsTCallerToCalleeMap.at(caller);
+        }
+        else {
+            return std::unordered_set<CalleeProc>();
+        }
+    }
+
+    std::unordered_set<CallerProc> PKBManager::getCallsTCallerByCallee(const CalleeProc callee) {
+        if (pkbStorage->callsTCalleeToCallerMap.find(callee) != pkbStorage->callsTCalleeToCallerMap.end()) {
+            return pkbStorage->callsTCalleeToCallerMap.at(callee);
+        }
+        else {
+            return std::unordered_set<CallerProc>();
+        }
+
+    }
+
+    std::unordered_set<CallerProc> PKBManager::getCallsTCallerByUS() {
+        return getCallsCallerByUS();
+    }
+
+    std::unordered_set<CalleeProc> PKBManager::getCallsTCalleeByUS() {
+        return getCallsCalleeByUS();
+    }
+
+    std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> PKBManager::getAllCallsT() {
+        return pkbStorage->callsTSet;
+    }
+
     //AssignPattern
     std::unordered_set<LineNum> PKBManager::getAssignLineByVarUS(const Variable var) {
         std::unordered_set<LineNum> set;

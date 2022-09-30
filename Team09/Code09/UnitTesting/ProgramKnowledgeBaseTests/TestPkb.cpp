@@ -103,6 +103,34 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->parentParentToChildMap.at("1") == childSet);
                 Assert::IsTrue(pkbStorage->parentChildToParentMap.at("2") == parentSet);
 
+                pkbStorage->storeCallsT("proc1", "proc2");
+                std::unordered_set<PKB::Procedure> callerTSet;
+                std::unordered_set<PKB::Procedure> calleeTSet;
+                callerTSet.insert("proc1");
+                calleeTSet.insert("proc2");
+                Assert::IsFalse(pkbStorage->callsTSet.find(std::make_pair("proc1", "proc2")) == pkbStorage->callsTSet.end());
+                Assert::IsTrue(pkbStorage->callsTSet.find(std::make_pair("proc1", "proc3")) == pkbStorage->callsTSet.end());
+                Assert::IsFalse(pkbStorage->callsTCallerToCalleeMap.find("proc1") == pkbStorage->callsTCallerToCalleeMap.end());
+                Assert::IsTrue(pkbStorage->callsTCallerToCalleeMap.find("proc2") == pkbStorage->callsTCallerToCalleeMap.end());
+                Assert::IsFalse(pkbStorage->callsTCalleeToCallerMap.find("proc2") == pkbStorage->callsTCalleeToCallerMap.end());
+                Assert::IsTrue(pkbStorage->callsTCalleeToCallerMap.find("proc1") == pkbStorage->callsTCalleeToCallerMap.end());
+                Assert::IsTrue(pkbStorage->callsTCallerToCalleeMap.at("proc1") == calleeTSet);
+                Assert::IsTrue(pkbStorage->callsTCalleeToCallerMap.at("proc2") == callerTSet);
+
+                pkbStorage->storeCalls("proc1", "proc2");
+                std::unordered_set<PKB::Procedure> callerSet;
+                std::unordered_set<PKB::Procedure> calleeSet;
+                callerSet.insert("proc1");
+                calleeSet.insert("proc2");
+                Assert::IsFalse(pkbStorage->callsSet.find(std::make_pair("proc1", "proc2")) == pkbStorage->callsSet.end());
+                Assert::IsTrue(pkbStorage->callsSet.find(std::make_pair("proc1", "proc3")) == pkbStorage->callsSet.end());
+                Assert::IsFalse(pkbStorage->callsCallerToCalleeMap.find("proc1") == pkbStorage->callsCallerToCalleeMap.end());
+                Assert::IsTrue(pkbStorage->callsCallerToCalleeMap.find("proc2") == pkbStorage->callsCallerToCalleeMap.end());
+                Assert::IsFalse(pkbStorage->callsCalleeToCallerMap.find("proc2") == pkbStorage->callsCalleeToCallerMap.end());
+                Assert::IsTrue(pkbStorage->callsCalleeToCallerMap.find("proc1") == pkbStorage->callsCalleeToCallerMap.end());
+                Assert::IsTrue(pkbStorage->callsCallerToCalleeMap.at("proc1") == calleeSet);
+                Assert::IsTrue(pkbStorage->callsCalleeToCallerMap.at("proc2") == callerSet);
+
                 pkbStorage->storeUsesS("1", "var1");
                 std::unordered_set<PKB::LineNum> usesSLineSet;
                 std::unordered_set<PKB::Variable> usesSVarSet;
@@ -485,6 +513,117 @@ namespace UnitTesting {
                 allParentTSet.insert(std::make_pair("3", "5"));
                 allParentTSet.insert(std::make_pair("3", "7"));
                 Assert::IsTrue(pkbManager.getAllParentT() == allParentTSet);
+
+                //Calls and CallsT
+                std::unordered_set<PKB::CallerProc> callerSet;
+                std::unordered_set<PKB::CallerProc> callerTSet;
+                std::unordered_set<PKB::CallerProc> allCallerSet;
+                std::unordered_set<PKB::CalleeProc> calleeSet;
+                std::unordered_set<PKB::CalleeProc> calleeTSet;
+                std::unordered_set<PKB::CalleeProc> allCalleeSet;
+                std::unordered_set<std::pair<PKB::CallerProc, PKB::CalleeProc>, PKB::pairHash> allCallsSet;
+                std::unordered_set<std::pair<PKB::CallerProc, PKB::CalleeProc>, PKB::pairHash> allCallsTSet;
+
+                Assert::IsFalse(pkbManager.getCallsByUSUS());
+                Assert::IsTrue(pkbManager.getCallsCallerByUS() == allCallerSet);
+                Assert::IsTrue(pkbManager.getCallsCalleeByUS() == allCalleeSet);
+                Assert::IsTrue(pkbManager.getAllCalls() == allCallsSet);
+
+                pkbStorage->storeCalls("proc1", "proc2");
+                pkbStorage->storeCalls("proc2", "proc3");
+                pkbStorage->storeCalls("proc3", "proc5");
+                pkbStorage->storeCallsT("proc1", "proc2");
+                pkbStorage->storeCallsT("proc2", "proc3");
+                pkbStorage->storeCallsT("proc3", "proc5");
+                pkbStorage->storeCallsT("proc1", "proc3");
+                pkbStorage->storeCallsT("proc1", "proc5");
+                pkbStorage->storeCallsT("proc2", "proc5");
+
+                //getCalls
+                Assert::IsTrue(pkbManager.getCalls("proc1", "proc2"));
+                Assert::IsTrue(pkbManager.getCalls("proc2", "proc3"));
+                Assert::IsFalse(pkbManager.getCalls("proc4", "proc5"));
+                Assert::IsFalse(pkbManager.getCalls("proc2", "proc6"));
+
+                //getCallsByCallerUS
+                Assert::IsTrue(pkbManager.getCallsByCallerUS("proc1"));
+                Assert::IsTrue(pkbManager.getCallsByCallerUS("proc3"));
+                Assert::IsFalse(pkbManager.getCallsByCallerUS("proc4"));
+                Assert::IsFalse(pkbManager.getCallsByCallerUS("proc5"));
+
+                //getCallsByUSCallee
+                Assert::IsTrue(pkbManager.getCallsByUSCallee("proc2"));
+                Assert::IsTrue(pkbManager.getCallsByUSCallee("proc3"));
+                Assert::IsFalse(pkbManager.getCallsByUSCallee("proc1"));
+                Assert::IsFalse(pkbManager.getCallsByUSCallee("proc4"));
+
+                //getCallsByUSUS
+                Assert::IsTrue(pkbManager.getCallsByUSUS());
+
+                //getCallsCalleeByCaller
+                Assert::IsTrue(pkbManager.getCallsCalleeByCaller("proc4") == calleeSet);
+                Assert::IsTrue(pkbManager.getCallsCalleeByCaller("proc5") == calleeSet);
+                calleeSet.insert("proc2");
+                Assert::IsTrue(pkbManager.getCallsCalleeByCaller("proc1") == calleeSet);
+                Assert::IsFalse(pkbManager.getCallsCalleeByCaller("proc2") == calleeSet);
+
+                //getCallsCallerByCallee
+                Assert::IsTrue(pkbManager.getCallsCallerByCallee("proc4") == callerSet);
+                Assert::IsTrue(pkbManager.getCallsCallerByCallee("proc1") == callerSet);
+                callerSet.insert("proc1");
+                Assert::IsTrue(pkbManager.getCallsCallerByCallee("proc2") == callerSet);
+                Assert::IsFalse(pkbManager.getCallsCallerByCallee("proc3") == callerSet);
+
+                //getCallsCallerByUS
+                allCallerSet.insert("proc1");
+                allCallerSet.insert("proc2");
+                allCallerSet.insert("proc3");
+                Assert::IsTrue(pkbManager.getCallsCallerByUS() == allCallerSet);
+
+                //getCallsCalleeByUS
+                allCalleeSet.insert("proc2");
+                allCalleeSet.insert("proc3");
+                allCalleeSet.insert("proc5");
+                Assert::IsTrue(pkbManager.getCallsCalleeByUS() == allCalleeSet);
+
+                //getAllCalls
+                allCallsSet.insert(std::make_pair("proc1", "proc2"));
+                allCallsSet.insert(std::make_pair("proc2", "proc3"));
+                allCallsSet.insert(std::make_pair("proc3", "proc5"));
+                Assert::IsTrue(pkbManager.getAllCalls() == allCallsSet);
+
+                //getCallsT
+                Assert::IsTrue(pkbManager.getCallsT("proc1", "proc2"));
+                Assert::IsTrue(pkbManager.getCallsT("proc1", "proc3"));
+                Assert::IsTrue(pkbManager.getCallsT("proc1", "proc5"));
+                Assert::IsFalse(pkbManager.getCallsT("proc4", "proc5"));
+                Assert::IsFalse(pkbManager.getCallsT("proc3", "proc4"));
+                Assert::IsFalse(pkbManager.getCallsT("proc4", "proc6"));
+
+                //getCallsTCalleeByCaller
+                calleeTSet.insert("proc2");
+                calleeTSet.insert("proc3");
+                calleeTSet.insert("proc5");
+                Assert::IsTrue(pkbManager.getCallsTCalleeByCaller("proc1") == calleeTSet);
+                Assert::IsFalse(pkbManager.getCallsTCalleeByCaller("proc4") == calleeTSet);
+                Assert::IsFalse(pkbManager.getCallsTCalleeByCaller("proc2") == calleeTSet);
+
+                //getCallsTCallerByCallee
+                callerTSet.insert("proc3");
+                callerTSet.insert("proc2");
+                callerTSet.insert("proc1");
+                Assert::IsTrue(pkbManager.getCallsTCallerByCallee("proc5") == callerTSet);
+                Assert::IsFalse(pkbManager.getCallsTCallerByCallee("proc4") == callerTSet);
+                Assert::IsFalse(pkbManager.getCallsTCallerByCallee("proc3") == callerTSet);
+
+                //getAllCallsT
+                allCallsTSet.insert(std::make_pair("proc1", "proc2"));
+                allCallsTSet.insert(std::make_pair("proc1", "proc3"));
+                allCallsTSet.insert(std::make_pair("proc1", "proc5"));
+                allCallsTSet.insert(std::make_pair("proc2", "proc3"));
+                allCallsTSet.insert(std::make_pair("proc2", "proc5"));
+                allCallsTSet.insert(std::make_pair("proc3", "proc5"));
+                Assert::IsTrue(pkbManager.getAllCallsT() == allCallsTSet);
 
 
                 std::unordered_set<PKB::LineNum> assignLineSet1;

@@ -107,6 +107,28 @@ namespace PKB {
         std::unordered_set<ChildLine> getParentTChildByUS();
         std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> getAllParentT();
 
+        //Calls
+        bool getCalls(const CallerProc, const CalleeProc);
+        bool getCallsByCallerUS(const CallerProc);
+        bool getCallsByUSCallee(const CalleeProc);
+        bool getCallsByUSUS();
+        std::unordered_set<CalleeProc> getCallsCalleeByCaller(const CallerProc);
+        std::unordered_set<CallerProc> getCallsCallerByCallee(const CalleeProc);
+        std::unordered_set<CallerProc> getCallsCallerByUS();
+        std::unordered_set<CalleeProc> getCallsCalleeByUS();
+        std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> getAllCalls();
+
+        //CallsT
+        bool getCallsT(const CallerProc, const CalleeProc);
+        bool getCallsTByCallerUS(const CallerProc);
+        bool getCallsTByUSCallee(const CalleeProc);
+        bool getCallsTByUSUS();
+        std::unordered_set<CalleeProc> getCallsTCalleeByCaller(const CallerProc);
+        std::unordered_set<CallerProc> getCallsTCallerByCallee(const CalleeProc);
+        std::unordered_set<CallerProc> getCallsTCallerByUS();
+        std::unordered_set<CalleeProc> getCallsTCalleeByUS();
+        std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> getAllCallsT();
+
         //AssignPattern
         std::unordered_set<LineNum> getAssignLineByVarUS(const Variable);
         std::unordered_set<LineNum> getAssignLineByVarMatchFull(const Variable, const ExprStr);

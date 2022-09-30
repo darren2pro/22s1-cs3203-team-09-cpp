@@ -75,16 +75,16 @@ public:
 	Declaration findDeclaration(std::string name);
 
 	/**
-	 * Checks that the arguent is a valid stmtRef.
-	 * @throws SemanticError if arg is not valid.
+	 * Checks that ref is a valid stmtRef.
+	 * @returns true if ref is a valid stmtRef, otherwise returns false.
 	 */
-	void validate_stmtRef(Relation::Types rel, std::string arg);
+	bool is_valid_stmtRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types);
 	
 	/**
-	 * Checks that the arguent is a valid entRef.
-	 * @throws SemanticError if arg is not valid.
-	 */
-	void validate_entRef(std::string arg);
+	* Checks that ref is a valid entRef.
+	* @returns true if ref is a valid entRef, otherwise returns false.
+	*/
+	bool is_valid_entRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types);
 
 	/**
 	 * Parses declaration.

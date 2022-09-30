@@ -5,10 +5,12 @@
 #include "../Relation.h"
 #include "../Pattern.h"
 #include "../Declaration.h"
+#include "../Expression.h"
+#include "../Reference.h"
 #include "SyntaxException.h"
 #include "SemanticException.h"
 
-namespace parserre {
+namespace parser {
 	std::string synonym = "[a-zA-Z]([a-zA-Z0-9])*";
 	std::string integer = "(0|[1-9]([0-9])*)";
 	std::string stmtRef = synonym + "|_|" + integer;
@@ -23,6 +25,26 @@ namespace parserre {
 	std::regex stmtRef_re(stmtRef);									// stmtRef: synonym | '_' | INTEGER
 	std::regex entRef_re(entRef);									// endRef: synonym | '_' | '"' IDENT '"'
 	std::regex expressionSpec_re(expressionSpec);					// _ | '"' (*) '"' 
+
+	// valid stmtRef synonym types for Follows/Parent
+	std::vector<Declaration::DesignEntity> stmtRef_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Statement,	
+															Declaration::DesignEntity::Assignment,Declaration::DesignEntity::If,
+															Declaration::DesignEntity::While, Declaration::DesignEntity::Call,
+															Declaration::DesignEntity::Read , Declaration::DesignEntity::Print });
+	// valid stmtRef synonym types for ModifiesS
+	std::vector<Declaration::DesignEntity> stmtRef_Modifies_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Statement,
+															Declaration::DesignEntity::Assignment,Declaration::DesignEntity::If,
+															Declaration::DesignEntity::While, Declaration::DesignEntity::Call, 
+															Declaration::DesignEntity::Read });
+	// valid stmtRef synonym types for UsesS
+	std::vector<Declaration::DesignEntity> stmtRef_Uses_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Statement,
+															Declaration::DesignEntity::Assignment,Declaration::DesignEntity::If,
+															Declaration::DesignEntity::While, Declaration::DesignEntity::Call,
+															Declaration::DesignEntity::Print });
+	// valid (first arg) entRef synonym types for UsesP/ModifiesP/Calls
+	std::vector<Declaration::DesignEntity> entRef_Proc_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Procedure });
+	// valid (second arg) entRef synonym types for UsesP/ModifiesP/Calls & pattern
+	std::vector<Declaration::DesignEntity> entRef_Var_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Variable });
 }
 
 QueryParser::QueryParser(std::vector<std::string> tokens) {
@@ -75,10 +97,10 @@ std::vector<Declaration> QueryParser::declaration() {
 	std::vector<Declaration> declarations = std::vector<Declaration>();
 	std::vector<std::string> names = std::vector<std::string>();
 
-	while (std::regex_match(current_token, parserre::design_enteties_re)) {
-		Declaration::DesignEntity type = Declaration::getDesignEntity(match(parserre::design_enteties_re));
+	while (std::regex_match(current_token, parser::design_enteties_re)) {
+		Declaration::DesignEntity type = Declaration::getDesignEntity(match(parser::design_enteties_re));
 
-		 std::string name = match(parserre::synonym_re);
+		 std::string name = match(parser::synonym_re);
 		declarations.push_back(Declaration::Declaration(type, name));
 
 		if (std::find(names.begin(), names.end(), name) != names.end()) {		// checks for duplicates
@@ -88,7 +110,7 @@ std::vector<Declaration> QueryParser::declaration() {
 
 		while (current_token != ";") {	// multiple declarations of the same type
 			match(",");
-			 std::string name = match(parserre::synonym_re);
+			 std::string name = match(parser::synonym_re);
 			declarations.push_back(Declaration::Declaration(type, name));
 
 			if (std::find(names.begin(), names.end(), name) != names.end()) {		// checks for duplicates
@@ -111,50 +133,35 @@ Declaration QueryParser::findDeclaration(std::string name) {
 	throw SemanticError("Synonym not declared");
 }
 
-void QueryParser::validate_stmtRef(Relation::Types rel, std::string arg) {		// change this to return true/false (is_valid_stmtRef)
-	if (arg == "_" || std::regex_match(arg, parserre::integer_re)) {
-		return;
+bool QueryParser::is_valid_stmtRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types) {
+	if (ref.isUnderscore() || ref.isStmtNum()) { return true; }
+
+	if (ref.isSynonym()) {
+		for (Declaration::DesignEntity de : valid_types) {
+			if (ref.declaration.TYPE == de)
+				return true;
+		}
 	}
 
-	Declaration d = findDeclaration(arg);
-
-	std::vector<Declaration::DesignEntity> valid_types = std::vector<Declaration::DesignEntity>({Declaration::DesignEntity::Statement, 
-															Declaration::DesignEntity::Assignment,Declaration::DesignEntity::If, 
-															Declaration::DesignEntity::While, Declaration::DesignEntity::Call});
-
-	if (rel != Relation::Types::Modifies) valid_types.push_back(Declaration::DesignEntity::Print);
-	if (rel != Relation::Types::Uses) valid_types.push_back(Declaration::DesignEntity::Read);
-
-	for (Declaration::DesignEntity de : valid_types) {
-		if (d.TYPE == de)
-			return;
-	}
-	throw SemanticError("Invalid synonym type used as an argument");
+	return false;
 }
 
-// change this to return true/false (is_valid_entRef)
-void QueryParser::validate_entRef(std::string arg) {		
-	if (arg == "_" || arg[0] == '"') {
-		return;
+bool QueryParser::is_valid_entRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types) {
+	if (ref.isUnderscore() || ref.isString()) { return true; }
+
+	if (ref.isSynonym()) {
+		for (Declaration::DesignEntity de : valid_types) {
+			if (ref.declaration.TYPE == de)
+				return true;
+		}
 	}
 
-	Declaration d = findDeclaration(arg);
-
-	std::vector<Declaration::DesignEntity> valid_types = std::vector<Declaration::DesignEntity>({Declaration::DesignEntity::Variable});
-
-	// if relation == uses or modifies then add procedure
-	
-	for (Declaration::DesignEntity de : valid_types) {
-		if (d.TYPE == de)
-			return;
-	}
-	throw SemanticError("Invalid synonym type used as an argument");
+	return false;
 }
 
 Declaration QueryParser::select() {
 	match("Select");
-	std::string target = current_token;
-	match(parserre::synonym_re);
+	std::string target = match(parser::synonym_re);
 
 	// checks if target is a declared synonym in the declaration list
 	Declaration d = findDeclaration(target);
@@ -162,15 +169,12 @@ Declaration QueryParser::select() {
 	return d;
 }
 
-// ** HERE **
 Pattern QueryParser::patternClause() {
 	match("pattern");
 
 
 	// check syn-assign
-	std::string syn_assign = current_token;
-	match(parserre::synonym_re);
-	Declaration d = findDeclaration(syn_assign);
+	Declaration d = findDeclaration(match(parser::synonym_re));
 	if (d.TYPE != Declaration::DesignEntity::Assignment) {
 		throw SemanticError("syn-assign is not an Assignment synonym");
 	}
@@ -180,13 +184,18 @@ Pattern QueryParser::patternClause() {
 
 
 	// check the left argument
-	std::string left_arg = current_token;
-	if (current_token == "_") {		// left argument of pattern can only be either a wildcard or entRef
-		match("_");
+	std::string arg = match(parser::entRef_re);
+	Reference left_arg;
+
+	try {
+		left_arg = Reference(findDeclaration(arg));
 	}
-	else {
-		match(parserre::entRef_re);
-		validate_entRef(left_arg);		// ** if !is_valid throw error **
+	catch (SyntaxError&) {
+		left_arg = Reference(arg);
+	}
+
+	if (!is_valid_entRef(left_arg, parser::entRef_Var_de)) {
+		throw SemanticError("Invalid synonym type used as an argument");
 	}
 
 
@@ -194,76 +203,127 @@ Pattern QueryParser::patternClause() {
 
 
 	// check the right argument
-	std::string right_arg = "";
-
+	arg.clear();
 	if (current_token == "_") {
-		right_arg += current_token;
-		match("_");
+		arg += match("_");
 	}
 
-	if (current_token != ")" || right_arg == "") {		// check if right_arg matches '_exprssion_'
-		right_arg += current_token;
-		match(parserre::expressionSpec_re);
-		match("_");
-		right_arg += "_";
+	if (current_token != ")" || arg == "") {		// match 'exprssion'
+		arg += match(parser::expressionSpec_re);
+		
+		if (current_token == "_") {					// match '_expression_'
+			arg += match("_");
+		}
 	}
+
+	Expression right_arg = Expression(arg);
 
 
 	match(")");
 
-	//return Pattern(syn_assign, left_arg, right_arg);
-	return Pattern();		// ** FIX **
+	return Pattern(d, left_arg, right_arg);
 }
 
-// ** HERE **
 Relation QueryParser::suchThatClause() {
 	match("such");
 	match("that");
 
 
 	// check the relation
-	Relation::Types type = Relation::getType(current_token);
-	match(parserre::relation_re);
+	Relation::Types type = Relation::getType(match(parser::relation_re));
+	
 
 
 	match("(");
 
-
-	// ** Add validation for Calls/CallsT arguments **
-
-
-	// check the left argument
-	std::string left_arg = current_token;
-	match(parserre::stmtRef_re);
-	validate_stmtRef(type, left_arg);	// ** if !is_valid throw error **
-
-
-	match(",");
-
-
-	// check the right argument
-	std::string right_arg = current_token;
-	if (type == Relation::Types::Uses || type == Relation::Types::Modifies) {		
-		
-		if (left_arg == "_") {
-			throw SemanticError("First args for uses/modifies can't be _");
+	// check and validate arguments
+	std::string arg;
+	Reference left_arg, right_arg;
+	if (type == Relation::Types::Calls || type == Relation::Types::CallsT) {
+		arg = match(parser::entRef);
+		left_arg = Reference(arg);
+		if (!is_valid_entRef(left_arg, parser::entRef_Proc_de)) {
+			throw SemanticError("Invalid synonym type used as an argument");
 		}
 
-		// ** if !is_valid_stmtRef && !is_valid_entRef throw error **
 
-		match(parserre::entRef_re);
-		validate_entRef(right_arg);	// ** if !is_valid throw error **
-	}	
-	else {
-		match(parserre::stmtRef_re);
-		validate_stmtRef(type, right_arg);	// ** if !is_valid throw error **
+		match(",");
+
+
+		arg = match(parser::entRef);
+		right_arg = Reference(arg);
+		if (!is_valid_entRef(right_arg, parser::entRef_Proc_de)) {
+			throw SemanticError("Invalid synonym type used as an argument");
+		}
 	}
+	else if (type == Relation::Types::Uses || type == Relation::Types::Modifies) {
+		try {
+			arg = match(parser::stmtRef);
+			if (type == Relation::Types::Uses) { type = Relation::Types::UsesS;}
+			if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesS;}
+		}
+		catch (SyntaxError&) {		// if it's not UsesS/ModifiesS then it's UsesP/ModifiesP
+			arg = match(parser::entRef);
+			if (type == Relation::Types::Uses) { type = Relation::Types::UsesP; }
+			if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesP; }
+		}
 
+		left_arg = Reference(arg);
+
+		if (left_arg.isUnderscore()) { throw SemanticError("First args for uses/modifies can't be _"); }
+
+		if (type == Relation::Types::UsesS) {
+			if (!is_valid_stmtRef(left_arg, parser::stmtRef_Uses_de)) {
+				throw SemanticError("Invalid synonym type used as an argument");
+			}
+		}
+		else if (type == Relation::Types::ModifiesS) {
+			if (!is_valid_stmtRef(left_arg, parser::stmtRef_Modifies_de)) {
+				throw SemanticError("Invalid synonym type used as an argument");
+			}
+		} else {	// UsesP/ModifiesP
+			if (!is_valid_entRef(left_arg, parser::entRef_Proc_de)) {
+				throw SemanticError("Invalid synonym type used as an argument");
+			}
+		}
+
+
+		match(",");
+
+
+		arg = match(parser::entRef);
+		right_arg = Reference(arg);
+		if (type == Relation::Types::UsesS || type == Relation::Types::ModifiesS) {
+			if (!is_valid_entRef(right_arg, parser::entRef_Var_de)) {
+				throw SemanticError("Invalid synonym type used as an argument");
+			}
+		} else {	// UsesP/ModifiesP
+			if (!is_valid_entRef(right_arg, parser::entRef_Proc_de)) {
+				throw SemanticError("Invalid synonym type used as an argument");
+			}
+		}
+	}
+	else {		// Follows/Follows*/Parent/Parent*
+		arg = match(parser::stmtRef);
+		left_arg = Reference(arg);
+		if (!is_valid_stmtRef(left_arg, parser::stmtRef_de)) {
+			throw SemanticError("Invalid synonym type used as an argument");
+		}
+
+
+		match(",");
+
+
+		arg = match(parser::stmtRef_re);
+		right_arg = Reference(arg);
+		if (!is_valid_stmtRef(right_arg, parser::stmtRef_de)) {
+			throw SemanticError("Invalid synonym type used as an argument");
+		}
+	}
 
 	match(")");
 
-	//return Relation(type, left_arg, right_arg);
-	return Relation();		 // ** FIX **
+	return Relation(type, left_arg, right_arg);
 }
 
 Query* QueryParser::parse() {

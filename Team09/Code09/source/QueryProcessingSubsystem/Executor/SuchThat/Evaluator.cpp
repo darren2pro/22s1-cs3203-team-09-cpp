@@ -9,16 +9,18 @@
 bool Evaluator::evaluate() {
 	// Check the left and right argument. If they are synonyms, must
 	// get their entire variable set from pkb and populate it first.
-	bool isLeftSynonym = Utils().isSynonym(LEFT_ARG, declarations);
-	bool isRightSynonym = Utils().isSynonym(RIGHT_ARG, declarations);
+	bool isLeftSynonym = leftArg.isSynonym();
+	bool isRightSynonym = rightArg.isSynonym();
 
 	if (isLeftSynonym) {
-		Declaration synonym = Utils().getSynonym(LEFT_ARG, declarations);
+		Declaration synonym = leftArg.declaration;
+		leftSynonym = synonym.name;
 		QueryExecutor::insertSynonymSetIntoRDB(synonym, rdb, pkb);
 	}
 
 	if (isRightSynonym) {
-		Declaration synonym = Utils().getSynonym(RIGHT_ARG, declarations);
+		Declaration synonym = rightArg.declaration;
+		rightSynonym = synonym.name;
 		QueryExecutor::insertSynonymSetIntoRDB(synonym, rdb, pkb);
 	}
 
@@ -29,79 +31,68 @@ bool Evaluator::evaluate() {
 			return false;
 		}
 		else {
-			return rdb.insertPairList(LEFT_ARG, RIGHT_ARG, result);
+			return rdb.insertPairList(leftSynonym, rightSynonym, result);
 		}
 	}
 
-	else if (isLeftSynonym && Utils().isUnderscore(RIGHT_ARG)) {
+	else if (isLeftSynonym && rightArg.isUnderscore()) {
 		std::unordered_set<std::string> result = leftSynonymRightUnderscore();
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertList(LEFT_ARG, result);
+			return rdb.insertList(leftSynonym, result);
 		}
 	}
 
-	else if (isLeftSynonym && Utils().isBasicQuerySimple(RIGHT_ARG)) {
-		RIGHT_ARG = stripQuotationMarks(RIGHT_ARG);
-		std::unordered_set<std::string> result = leftSynonymRightSimple(RIGHT_ARG);
+	else if (isLeftSynonym && rightArg.isString()) {
+		std::unordered_set<std::string> result = leftSynonymRightSimple(rightArg.value);
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertList(LEFT_ARG, result);
+			return rdb.insertList(leftSynonym, result);
 		}
 	}
 
-	else if (Utils().isBasicQuerySimple(LEFT_ARG) && isRightSynonym) {
-		std::unordered_set<std::string> result = leftSimpleRightSynonym(LEFT_ARG);
+	else if (leftArg.isString() && isRightSynonym) {
+		std::unordered_set<std::string> result = leftSimpleRightSynonym(leftArg.value);
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertList(RIGHT_ARG, result);
+			return rdb.insertList(rightSynonym, result);
 		}
 	}
 	
-	else if (Utils().isBasicQuerySimple(LEFT_ARG) && Utils().isUnderscore(RIGHT_ARG)) {
-		bool result = leftSimpleRightUnderscore(LEFT_ARG);
+	else if (leftArg.isString() && rightArg.isUnderscore()) {
+		bool result = leftSimpleRightUnderscore(leftArg.value);
 		return result;
 	}
 
-	else if (Utils().isBasicQuerySimple(LEFT_ARG) && Utils().isBasicQuerySimple(RIGHT_ARG)) {
-		RIGHT_ARG = stripQuotationMarks(RIGHT_ARG);
-		bool result = leftSimpleRightSimple(LEFT_ARG, RIGHT_ARG);
+	else if (leftArg.isString() && rightArg.isString()) {
+		bool result = leftSimpleRightSimple(leftArg.value, rightArg.value);
 		return result;
 	}
 
-	else if (Utils().isUnderscore(LEFT_ARG) && isRightSynonym) {
+	else if (leftArg.isUnderscore() && isRightSynonym) {
 		std::unordered_set<std::string> result = leftUnderscoreRightSynonym();
 		if (result.size() == 0) {
 			return false;
 		}
 		else {
-			return rdb.insertList(RIGHT_ARG, result);
+			return rdb.insertList(rightSynonym, result);
 		}
 	}
 
-	else if (Utils().isUnderscore(LEFT_ARG) && Utils().isBasicQuerySimple(RIGHT_ARG)) {
-		RIGHT_ARG = stripQuotationMarks(RIGHT_ARG);
-		bool result = leftUnderscoreRightSimple(RIGHT_ARG);
+	else if (leftArg.isUnderscore() && rightArg.isString()) {
+		bool result = leftUnderscoreRightSimple(rightArg.value);
 		return result;
 	}
 
-	else if (Utils().isUnderscore(LEFT_ARG) && Utils().isUnderscore(RIGHT_ARG)) {
+	else if (leftArg.isUnderscore() && rightArg.isUnderscore()) {
 		bool result = leftUnderscoreRightUnderScore();
 		return result;
 	}	
 }
 
-std::string Evaluator::stripQuotationMarks(std::string arg) {
-	//! Check whether there is underscores to strip first
-	if (arg[0] == '"' && arg[arg.length() - 1] == '"') {
-		arg.erase(0, 1);
-		arg.erase(arg.length() - 1, 1);
-	}
-	return arg;
-}

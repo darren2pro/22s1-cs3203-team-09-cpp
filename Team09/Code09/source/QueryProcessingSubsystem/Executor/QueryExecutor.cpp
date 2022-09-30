@@ -25,6 +25,10 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	target = query->target;
 	rdb = ResultsDatabase();
 
+	// auto clauses = prioritizeClauses(query)
+	// for clause in clauses:
+	// if(!execute(clause)) { return False }
+
 	// Relations clause
 	bool relClauseResult = execute(relations, rdb);
 

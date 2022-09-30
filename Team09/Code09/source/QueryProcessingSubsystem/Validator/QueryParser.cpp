@@ -49,20 +49,22 @@ std::string QueryParser::getNextToken() {
 	return token;
 }
 
-// return cuurent token
-void QueryParser::match(std::string token) {
+std::string QueryParser::match(std::string token) {
 	if (current_token == token) {
+		std::string temp = current_token;
 		current_token = getNextToken();
+		return temp;
 	}
 	else {
 		throw SyntaxError("Expected " + token + " but found " + current_token);
 	}
 }
 
-// return cuurent token
-void QueryParser::match(std::regex re) {
+std::string QueryParser::match(std::regex re) {
 	if (std::regex_match(current_token, re)) {
+		std::string temp = current_token;
 		current_token = getNextToken();
+		return temp;
 	}
 	else {
 		throw SyntaxError("Unexpected token");
@@ -74,11 +76,9 @@ std::vector<Declaration> QueryParser::declaration() {
 	std::vector<std::string> names = std::vector<std::string>();
 
 	while (std::regex_match(current_token, parserre::design_enteties_re)) {
-		Declaration::DesignEntity type = Declaration::getDesignEntity(current_token);
-		match(parserre::design_enteties_re);
+		Declaration::DesignEntity type = Declaration::getDesignEntity(match(parserre::design_enteties_re));
 
-		std::string name = current_token;
-		match(parserre::synonym_re);
+		 std::string name = match(parserre::synonym_re);
 		declarations.push_back(Declaration::Declaration(type, name));
 
 		if (std::find(names.begin(), names.end(), name) != names.end()) {		// checks for duplicates
@@ -86,10 +86,9 @@ std::vector<Declaration> QueryParser::declaration() {
 		}
 		names.push_back(name);
 
-		while (current_token != ";") {
+		while (current_token != ";") {	// multiple declarations of the same type
 			match(",");
-			std::string name = current_token;
-			match(parserre::synonym_re);
+			 std::string name = match(parserre::synonym_re);
 			declarations.push_back(Declaration::Declaration(type, name));
 
 			if (std::find(names.begin(), names.end(), name) != names.end()) {		// checks for duplicates
@@ -106,7 +105,7 @@ std::vector<Declaration> QueryParser::declaration() {
 Declaration QueryParser::findDeclaration(std::string name) {
 	for (Declaration d: declarations) {
 		if (d.name == name) {
-			return Declaration::Declaration(d.TYPE, d.name);
+			return d;
 		}
 	}
 	throw SemanticError("Synonym not declared");

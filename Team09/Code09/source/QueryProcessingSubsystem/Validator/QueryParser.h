@@ -48,15 +48,17 @@ public:
 
 	/**
 	 * Checks if the current token matches with the expected token.
+	 * @returns the current token.
 	 * @throws SyntaxError if the current token does not match the expected token.
 	 */
-	void match(std::string token);
+	std::string match(std::string token);
 
 	/**
 	 * Checks if the current token matches with the expected regex.
+	 * @returns the current token.
 	 * @throws SyntaxError if the current token does not match the regex.
 	 */
-	void match(std::regex re);
+	std::string match(std::regex re);
 
 	/**
 	 * Parses declaration.

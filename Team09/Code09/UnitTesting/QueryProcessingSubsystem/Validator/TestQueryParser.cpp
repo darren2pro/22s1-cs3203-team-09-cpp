@@ -19,98 +19,98 @@ namespace UnitTesting {
     TEST_CLASS(TestQueryParser) {
 
     public:
-        TEST_METHOD(TestParserRegex) {
+        TEST_METHOD(Testparsergex) {
             // check that the regular expressions are correct
 
             // integer_re
-            Assert::IsTrue(std::regex_match("0", parserre::integer_re));
-            Assert::IsTrue(std::regex_match("10000", parserre::integer_re));
-            Assert::IsTrue(std::regex_match("4329", parserre::integer_re));
-            Assert::IsTrue(std::regex_match("502", parserre::integer_re));
+            Assert::IsTrue(std::regex_match("0", parser::integer_re));
+            Assert::IsTrue(std::regex_match("10000", parser::integer_re));
+            Assert::IsTrue(std::regex_match("4329", parser::integer_re));
+            Assert::IsTrue(std::regex_match("502", parser::integer_re));
 
-            Assert::IsFalse(std::regex_match("01", parserre::integer_re));
-            Assert::IsFalse(std::regex_match("000", parserre::integer_re));
-            Assert::IsFalse(std::regex_match("1a", parserre::integer_re));
-            Assert::IsFalse(std::regex_match("a", parserre::integer_re));
-            Assert::IsFalse(std::regex_match("", parserre::integer_re));
+            Assert::IsFalse(std::regex_match("01", parser::integer_re));
+            Assert::IsFalse(std::regex_match("000", parser::integer_re));
+            Assert::IsFalse(std::regex_match("1a", parser::integer_re));
+            Assert::IsFalse(std::regex_match("a", parser::integer_re));
+            Assert::IsFalse(std::regex_match("", parser::integer_re));
 
 
             // synonym_re
-            Assert::IsTrue(std::regex_match("x", parserre::synonym_re));
-            Assert::IsTrue(std::regex_match("X", parserre::synonym_re));
-            Assert::IsTrue(std::regex_match("a0A3", parserre::synonym_re));
+            Assert::IsTrue(std::regex_match("x", parser::synonym_re));
+            Assert::IsTrue(std::regex_match("X", parser::synonym_re));
+            Assert::IsTrue(std::regex_match("a0A3", parser::synonym_re));
 
-            Assert::IsFalse(std::regex_match("1", parserre::synonym_re));
-            Assert::IsFalse(std::regex_match("1B", parserre::synonym_re));
-            Assert::IsFalse(std::regex_match("x_x", parserre::synonym_re));
-            Assert::IsFalse(std::regex_match("", parserre::synonym_re));
+            Assert::IsFalse(std::regex_match("1", parser::synonym_re));
+            Assert::IsFalse(std::regex_match("1B", parser::synonym_re));
+            Assert::IsFalse(std::regex_match("x_x", parser::synonym_re));
+            Assert::IsFalse(std::regex_match("", parser::synonym_re));
 
 
             // design_enteties_re
-            Assert::IsTrue(std::regex_match("stmt", parserre::design_enteties_re));
-            Assert::IsTrue(std::regex_match("read", parserre::design_enteties_re));
-            Assert::IsTrue(std::regex_match("print", parserre::design_enteties_re));
-            Assert::IsTrue(std::regex_match("while", parserre::design_enteties_re));
-            Assert::IsTrue(std::regex_match("if", parserre::design_enteties_re));
-            Assert::IsTrue(std::regex_match("assign", parserre::design_enteties_re));
-            Assert::IsTrue(std::regex_match("variable", parserre::design_enteties_re));
-            Assert::IsTrue(std::regex_match("constant", parserre::design_enteties_re));
-            Assert::IsTrue(std::regex_match("procedure", parserre::design_enteties_re));
-            Assert::IsTrue(std::regex_match("call", parserre::design_enteties_re));
+            Assert::IsTrue(std::regex_match("stmt", parser::design_enteties_re));
+            Assert::IsTrue(std::regex_match("read", parser::design_enteties_re));
+            Assert::IsTrue(std::regex_match("print", parser::design_enteties_re));
+            Assert::IsTrue(std::regex_match("while", parser::design_enteties_re));
+            Assert::IsTrue(std::regex_match("if", parser::design_enteties_re));
+            Assert::IsTrue(std::regex_match("assign", parser::design_enteties_re));
+            Assert::IsTrue(std::regex_match("variable", parser::design_enteties_re));
+            Assert::IsTrue(std::regex_match("constant", parser::design_enteties_re));
+            Assert::IsTrue(std::regex_match("procedure", parser::design_enteties_re));
+            Assert::IsTrue(std::regex_match("call", parser::design_enteties_re));
 
-            Assert::IsFalse(std::regex_match("STMT", parserre::design_enteties_re));
-            Assert::IsFalse(std::regex_match("Read", parserre::design_enteties_re));
-            Assert::IsFalse(std::regex_match("print|while", parserre::design_enteties_re));
-            Assert::IsFalse(std::regex_match("xyz", parserre::design_enteties_re));
-            Assert::IsFalse(std::regex_match("", parserre::design_enteties_re));
+            Assert::IsFalse(std::regex_match("STMT", parser::design_enteties_re));
+            Assert::IsFalse(std::regex_match("Read", parser::design_enteties_re));
+            Assert::IsFalse(std::regex_match("print|while", parser::design_enteties_re));
+            Assert::IsFalse(std::regex_match("xyz", parser::design_enteties_re));
+            Assert::IsFalse(std::regex_match("", parser::design_enteties_re));
 
 
             // relation_re
-            Assert::IsTrue(std::regex_match("Follows", parserre::relation_re));
-            Assert::IsTrue(std::regex_match("Follows*", parserre::relation_re));
-            Assert::IsTrue(std::regex_match("Parent", parserre::relation_re));
-            Assert::IsTrue(std::regex_match("Parent*", parserre::relation_re));
-            Assert::IsTrue(std::regex_match("Uses", parserre::relation_re));
-            Assert::IsTrue(std::regex_match("Modifies", parserre::relation_re));
+            Assert::IsTrue(std::regex_match("Follows", parser::relation_re));
+            Assert::IsTrue(std::regex_match("Follows*", parser::relation_re));
+            Assert::IsTrue(std::regex_match("Parent", parser::relation_re));
+            Assert::IsTrue(std::regex_match("Parent*", parser::relation_re));
+            Assert::IsTrue(std::regex_match("Uses", parser::relation_re));
+            Assert::IsTrue(std::regex_match("Modifies", parser::relation_re));
 
-            Assert::IsFalse(std::regex_match("modifies", parserre::relation_re));
-            Assert::IsFalse(std::regex_match("USES", parserre::relation_re));
-            Assert::IsFalse(std::regex_match("xyz", parserre::relation_re));
-            Assert::IsFalse(std::regex_match("", parserre::relation_re));
+            Assert::IsFalse(std::regex_match("modifies", parser::relation_re));
+            Assert::IsFalse(std::regex_match("USES", parser::relation_re));
+            Assert::IsFalse(std::regex_match("xyz", parser::relation_re));
+            Assert::IsFalse(std::regex_match("", parser::relation_re));
 
 
             // stmtRef_re
-            Assert::IsTrue(std::regex_match("_", parserre::stmtRef_re));
-            Assert::IsTrue(std::regex_match("0", parserre::stmtRef_re));
-            Assert::IsTrue(std::regex_match("x", parserre::stmtRef_re));
-            Assert::IsTrue(std::regex_match("Follows", parserre::stmtRef_re));
-            Assert::IsTrue(std::regex_match("Select", parserre::stmtRef_re));
+            Assert::IsTrue(std::regex_match("_", parser::stmtRef_re));
+            Assert::IsTrue(std::regex_match("0", parser::stmtRef_re));
+            Assert::IsTrue(std::regex_match("x", parser::stmtRef_re));
+            Assert::IsTrue(std::regex_match("Follows", parser::stmtRef_re));
+            Assert::IsTrue(std::regex_match("Select", parser::stmtRef_re));
 
-            Assert::IsFalse(std::regex_match("011", parserre::stmtRef_re));
-            Assert::IsFalse(std::regex_match("\"x\"", parserre::stmtRef_re));
-            Assert::IsFalse(std::regex_match("\"0\"", parserre::stmtRef_re));
-            Assert::IsFalse(std::regex_match("", parserre::stmtRef_re));
+            Assert::IsFalse(std::regex_match("011", parser::stmtRef_re));
+            Assert::IsFalse(std::regex_match("\"x\"", parser::stmtRef_re));
+            Assert::IsFalse(std::regex_match("\"0\"", parser::stmtRef_re));
+            Assert::IsFalse(std::regex_match("", parser::stmtRef_re));
 
 
             // entRef_re
-            Assert::IsTrue(std::regex_match("_", parserre::entRef_re));
-            Assert::IsTrue(std::regex_match("x", parserre::entRef_re));
-            Assert::IsTrue(std::regex_match("\"x\"", parserre::entRef_re));
-            Assert::IsTrue(std::regex_match("\"y1\"", parserre::entRef_re));
+            Assert::IsTrue(std::regex_match("_", parser::entRef_re));
+            Assert::IsTrue(std::regex_match("x", parser::entRef_re));
+            Assert::IsTrue(std::regex_match("\"x\"", parser::entRef_re));
+            Assert::IsTrue(std::regex_match("\"y1\"", parser::entRef_re));
 
-            Assert::IsFalse(std::regex_match("0", parserre::entRef_re));
-            Assert::IsFalse(std::regex_match("\"0\"", parserre::entRef_re));
-            Assert::IsFalse(std::regex_match("", parserre::entRef_re));
+            Assert::IsFalse(std::regex_match("0", parser::entRef_re));
+            Assert::IsFalse(std::regex_match("\"0\"", parser::entRef_re));
+            Assert::IsFalse(std::regex_match("", parser::entRef_re));
 
 
             // expressionSpec_re
-            Assert::IsTrue(std::regex_match("_", parserre::expressionSpec_re));
-            Assert::IsTrue(std::regex_match("\"x\"", parserre::expressionSpec_re));
-            Assert::IsTrue(std::regex_match("\"0\"", parserre::expressionSpec_re));
+            Assert::IsTrue(std::regex_match("_", parser::expressionSpec_re));
+            Assert::IsTrue(std::regex_match("\"x\"", parser::expressionSpec_re));
+            Assert::IsTrue(std::regex_match("\"0\"", parser::expressionSpec_re));
 
-            Assert::IsFalse(std::regex_match("x", parserre::expressionSpec_re));
-            Assert::IsFalse(std::regex_match("0", parserre::expressionSpec_re));
-            Assert::IsFalse(std::regex_match("", parserre::expressionSpec_re));
+            Assert::IsFalse(std::regex_match("x", parser::expressionSpec_re));
+            Assert::IsFalse(std::regex_match("0", parser::expressionSpec_re));
+            Assert::IsFalse(std::regex_match("", parser::expressionSpec_re));
         }
 
         //TEST_METHOD(TestParser1) {

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <regex>
 #include "Validator/SyntaxException.h"
 
 class Expression {

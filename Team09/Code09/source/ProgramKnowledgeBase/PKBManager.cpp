@@ -428,9 +428,6 @@ namespace PKB {
     }
 
     std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> PKBManager::getAllCallsT() {
-        for (const auto& elem : pkbStorage->callsSet) {
-            getCallsTCalleeByCaller(elem.first);
-        }
         return pkbStorage->callsTSet;
     }
 

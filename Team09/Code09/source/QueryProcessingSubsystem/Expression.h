@@ -36,6 +36,10 @@ public:
 
 	Expression() : TYPE(Types::NONE), value("") {};
 
+	bool operator==(const Expression& e) const {
+		return TYPE == e.TYPE && value == e.value;
+	}
+
 	bool isUnderscore() { return TYPE == Types::Underscore; }
 	bool isStrict() { return TYPE == Types::Strict; }
 	bool isRelaxed() { return TYPE == Types::Relaxed; }

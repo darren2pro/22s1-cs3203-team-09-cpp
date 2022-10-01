@@ -37,9 +37,13 @@ public:
 		this->value = value;
 	}
 
-	Reference(Declaration declaration) : TYPE(Types::Synonym), value(""), declaration(declaration) {};
+	Reference(Declaration declaration) : TYPE(Types::Synonym), value(declaration.name), declaration(declaration) {};
 
 	Reference() : TYPE(Types::NONE), value(""), declaration(Declaration()) {};
+
+	bool operator==(const Reference& r) const {
+		return TYPE == r.TYPE && value == r.value && declaration == r.declaration;
+	}
 
 	bool isSynonym() { return TYPE == Types::Synonym; }
 	bool isUnderscore() { return TYPE == Types::Underscore; }

@@ -61,4 +61,8 @@ public:
 			return Relation::Types::NONE;
 		}
 	}
+
+	bool operator==(const Relation& r) const {
+		return TYPE == r.TYPE && LEFT_ARG == r.LEFT_ARG && RIGHT_ARG == r.RIGHT_ARG;
+	}
 };

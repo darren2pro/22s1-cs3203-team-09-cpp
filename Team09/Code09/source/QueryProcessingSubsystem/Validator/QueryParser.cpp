@@ -271,15 +271,30 @@ Relation QueryParser::suchThatClause() {
 		}
 	}
 	else if (type == Relation::Types::Uses || type == Relation::Types::Modifies) {
-		try {
-			arg = match(parser::stmtRef_re);
-			if (type == Relation::Types::Uses) { type = Relation::Types::UsesS;}
-			if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesS;}
+		if (std::regex_match(current_token, parser::synonym_re)) {
+			Declaration d = findDeclaration(current_token);
+			if (d.TYPE == Declaration::DesignEntity::Procedure) {
+				arg = match(parser::entRef_re);
+				if (type == Relation::Types::Uses) { type = Relation::Types::UsesP; }
+				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesP; }
+			}
+			else {
+				arg = match(parser::stmtRef_re);
+				if (type == Relation::Types::Uses) { type = Relation::Types::UsesS; }
+				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesS; }
+			}
 		}
-		catch (SyntaxError&) {		// if it's not UsesS/ModifiesS then it's UsesP/ModifiesP
-			arg = match(parser::entRef_re);
-			if (type == Relation::Types::Uses) { type = Relation::Types::UsesP; }
-			if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesP; }
+		else {
+			try {
+				arg = match(parser::stmtRef_re);
+				if (type == Relation::Types::Uses) { type = Relation::Types::UsesS; }
+				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesS; }
+			}
+			catch (SyntaxError&) {		// if it's not UsesS/ModifiesS then it's UsesP/ModifiesP
+				arg = match(parser::entRef_re);
+				if (type == Relation::Types::Uses) { type = Relation::Types::UsesP; }
+				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesP; }
+			}
 		}
 
 		try {
@@ -319,14 +334,8 @@ Relation QueryParser::suchThatClause() {
 			right_arg = Reference(findDeclaration(arg));
 		}
 
-		if (type == Relation::Types::UsesS || type == Relation::Types::ModifiesS) {
-			if (!is_valid_entRef(right_arg, parser::entRef_Var_de)) {
-				throw SemanticError("Invalid synonym type used as an argument");
-			}
-		} else {	// UsesP/ModifiesP
-			if (!is_valid_entRef(right_arg, parser::entRef_Proc_de)) {
-				throw SemanticError("Invalid synonym type used as an argument");
-			}
+		if (!is_valid_entRef(right_arg, parser::entRef_Var_de)) {
+			throw SemanticError("Invalid synonym type used as an argument");
 		}
 	}
 	else {		// Follows/Follows*/Parent/Parent*

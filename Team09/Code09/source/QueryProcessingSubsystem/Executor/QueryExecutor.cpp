@@ -55,11 +55,11 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
 
 	switch (relations.TYPE) {
-	case Relation::Modifies: // ModifiesS
+	case Relation::ModifiesS: // ModifiesS
 		return ModifiesSEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::ModifiesP:
 		return ModifiesPEvaluator(declarations, relations, rdb, pkb).evaluate();
-	case Relation::Uses: // UsesS
+	case Relation::UsesS: // UsesS
 		return UsesSEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::UsesP:
 		return UsesPEvaluator(declarations, relations, rdb, pkb).evaluate();

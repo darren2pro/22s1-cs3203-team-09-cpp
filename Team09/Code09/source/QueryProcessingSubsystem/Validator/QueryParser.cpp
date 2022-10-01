@@ -188,10 +188,10 @@ Pattern QueryParser::patternClause() {
 	Reference left_arg;
 
 	try {
-		left_arg = Reference(findDeclaration(arg));
+		left_arg = Reference(arg);
 	}
 	catch (SyntaxError&) {
-		left_arg = Reference(arg);
+		left_arg = Reference(findDeclaration(arg));
 	}
 
 	if (!is_valid_entRef(left_arg, parser::entRef_Var_de)) {
@@ -240,8 +240,15 @@ Relation QueryParser::suchThatClause() {
 	std::string arg;
 	Reference left_arg, right_arg;
 	if (type == Relation::Types::Calls || type == Relation::Types::CallsT) {
-		arg = match(parser::entRef);
-		left_arg = Reference(arg);
+		arg = match(parser::entRef_re);
+
+		try {
+			left_arg = Reference(arg);
+		}
+		catch (SyntaxError&) {
+			left_arg = Reference(findDeclaration(arg));
+		}
+
 		if (!is_valid_entRef(left_arg, parser::entRef_Proc_de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
@@ -250,25 +257,37 @@ Relation QueryParser::suchThatClause() {
 		match(",");
 
 
-		arg = match(parser::entRef);
-		right_arg = Reference(arg);
+		arg = match(parser::entRef_re);
+
+		try {
+			right_arg = Reference(arg);
+		}
+		catch (SyntaxError&) {
+			right_arg = Reference(findDeclaration(arg));
+		}
+
 		if (!is_valid_entRef(right_arg, parser::entRef_Proc_de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
 	}
 	else if (type == Relation::Types::Uses || type == Relation::Types::Modifies) {
 		try {
-			arg = match(parser::stmtRef);
+			arg = match(parser::stmtRef_re);
 			if (type == Relation::Types::Uses) { type = Relation::Types::UsesS;}
 			if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesS;}
 		}
 		catch (SyntaxError&) {		// if it's not UsesS/ModifiesS then it's UsesP/ModifiesP
-			arg = match(parser::entRef);
+			arg = match(parser::entRef_re);
 			if (type == Relation::Types::Uses) { type = Relation::Types::UsesP; }
 			if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesP; }
 		}
 
-		left_arg = Reference(arg);
+		try {
+			left_arg = Reference(arg);
+		}
+		catch (SyntaxError&) {
+			left_arg = Reference(findDeclaration(arg));
+		}
 
 		if (left_arg.isUnderscore()) { throw SemanticError("First args for uses/modifies can't be _"); }
 
@@ -291,8 +310,15 @@ Relation QueryParser::suchThatClause() {
 		match(",");
 
 
-		arg = match(parser::entRef);
-		right_arg = Reference(arg);
+		arg = match(parser::entRef_re);
+
+		try {
+			right_arg = Reference(arg);
+		}
+		catch (SyntaxError&) {
+			right_arg = Reference(findDeclaration(arg));
+		}
+
 		if (type == Relation::Types::UsesS || type == Relation::Types::ModifiesS) {
 			if (!is_valid_entRef(right_arg, parser::entRef_Var_de)) {
 				throw SemanticError("Invalid synonym type used as an argument");
@@ -304,8 +330,15 @@ Relation QueryParser::suchThatClause() {
 		}
 	}
 	else {		// Follows/Follows*/Parent/Parent*
-		arg = match(parser::stmtRef);
-		left_arg = Reference(arg);
+		arg = match(parser::stmtRef_re);
+
+		try {
+			left_arg = Reference(arg);
+		}
+		catch (SyntaxError&) {
+			left_arg = Reference(findDeclaration(arg));
+		}
+
 		if (!is_valid_stmtRef(left_arg, parser::stmtRef_de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
@@ -315,7 +348,14 @@ Relation QueryParser::suchThatClause() {
 
 
 		arg = match(parser::stmtRef_re);
-		right_arg = Reference(arg);
+
+		try {
+			right_arg = Reference(arg);
+		}
+		catch (SyntaxError&) {
+			right_arg = Reference(findDeclaration(arg));
+		}
+
 		if (!is_valid_stmtRef(right_arg, parser::stmtRef_de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}

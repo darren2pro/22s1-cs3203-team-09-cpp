@@ -20,11 +20,11 @@ public:
 		if (value == "_") {
 			this->TYPE = Types::Underscore;
 		}
-		else if (std::regex_match(value, std::regex("_\"(*)\"_"))) {
+		else if (std::regex_match(value, std::regex("_\"(.*)\"_"))) {
 			value.erase(std::remove(value.begin(), value.end(), '"'), value.end());
 			value.erase(std::remove(value.begin(), value.end(), '_'), value.end());
 			this->TYPE = Types::Relaxed;
-		} else if (std::regex_match(value, std::regex("\"(*)\""))) {
+		} else if (std::regex_match(value, std::regex("\"(.*)\""))) {
 			value.erase(std::remove(value.begin(), value.end(), '"'), value.end());
 			this->TYPE = Types::Strict;
 		}

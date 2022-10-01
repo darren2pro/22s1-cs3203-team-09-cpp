@@ -24,7 +24,7 @@ public:
 		if (value == "_") {
 			this->TYPE = Types::Underscore;
 			this->declaration = Declaration();
-		} else if (std::regex_match(value, std::regex("\"(*)\""))) {
+		} else if (std::regex_match(value, std::regex("\"(.*)\""))) {
 			this->TYPE = Types::String;
 			value.erase(std::remove(value.begin(), value.end(), '"'), value.end());
 			this->declaration = Declaration();

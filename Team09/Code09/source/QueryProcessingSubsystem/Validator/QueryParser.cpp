@@ -15,7 +15,7 @@ namespace parser {
 	std::string integer = "(0|[1-9]([0-9])*)";
 	std::string stmtRef = synonym + "|_|" + integer;
 	std::string entRef = synonym + "|_|\"" + synonym + "\"";
-	std::string expressionSpec = "_|\"(*)\"";						// The expression will be validated using the AST parser
+	std::string expressionSpec = "_|\"(.*)\"";						// The expression will be validated using the AST parser
 	//std::string expressionSpec = "_|\"(" + synonym + "|" + integer + ")\"";
 
 	std::regex integer_re(integer);

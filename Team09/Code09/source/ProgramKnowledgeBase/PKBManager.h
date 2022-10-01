@@ -31,21 +31,37 @@ namespace PKB {
         std::unordered_set<LineNum> getStmtSet();
 
 
-        //Modifies
-        bool getModifies(const LineNum, const Variable);
-        bool getModifiesUS(const LineNum);
-        std::unordered_set<Variable> getModifiesVarByStmt(const LineNum);
-        std::unordered_set<LineNum> getModifiesStmtByVar(const Variable);
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAllModifies();
-        std::unordered_set<LineNum> getModifiesStmtByUS();
+        //ModifiesS
+        bool getModifiesS(const LineNum, const Variable);
+        bool getModifiesSUS(const LineNum);
+        std::unordered_set<Variable> getModifiesSVarByStmt(const LineNum);
+        std::unordered_set<LineNum> getModifiesSStmtByVar(const Variable);
+        std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAllModifiesS();
+        std::unordered_set<LineNum> getModifiesSStmtByUS();
 
-        //Uses
-        bool getUses(const LineNum, const Variable);
-        bool getUsesUS(const LineNum);
-        std::unordered_set<Variable> getUsesVarByStmt(const LineNum);
-        std::unordered_set<LineNum> getUsesStmtByVar(const Variable);
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAllUses();
-        std::unordered_set<LineNum> getUsesStmtByUS();
+        //ModifiesP
+        bool getModifiesP(const Procedure, const Variable);
+        bool getModifiesPUS(const Procedure);
+        std::unordered_set<Variable> getModifiesPVarByProc(const Procedure);
+        std::unordered_set<Procedure> getModifiesPProcByVar(const Variable);
+        std::unordered_set<std::pair<Procedure, Variable>, pairHash> getAllModifiesP();
+        std::unordered_set<Procedure> getModifiesPProcByUS();
+
+        //UsesS
+        bool getUsesS(const LineNum, const Variable);
+        bool getUsesSUS(const LineNum);
+        std::unordered_set<Variable> getUsesSVarByStmt(const LineNum);
+        std::unordered_set<LineNum> getUsesSStmtByVar(const Variable);
+        std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAllUsesS();
+        std::unordered_set<LineNum> getUsesSStmtByUS();
+
+        //UsesP
+        bool getUsesP(const Procedure, const Variable);
+        bool getUsesPUS(const Procedure);
+        std::unordered_set<Variable> getUsesPVarByProc(const Procedure);
+        std::unordered_set<Procedure> getUsesPProcByVar(const Variable);
+        std::unordered_set<std::pair<Procedure, Variable>, pairHash> getAllUsesP();
+        std::unordered_set<Procedure> getUsesPProcByUS();
 
         //Follows
         bool getFollows(const PrevLine, const NextLine);
@@ -90,6 +106,28 @@ namespace PKB {
         std::unordered_set<ParentLine> getParentTParentByUS();
         std::unordered_set<ChildLine> getParentTChildByUS();
         std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> getAllParentT();
+
+        //Calls
+        bool getCalls(const CallerProc, const CalleeProc);
+        bool getCallsByCallerUS(const CallerProc);
+        bool getCallsByUSCallee(const CalleeProc);
+        bool getCallsByUSUS();
+        std::unordered_set<CalleeProc> getCallsCalleeByCaller(const CallerProc);
+        std::unordered_set<CallerProc> getCallsCallerByCallee(const CalleeProc);
+        std::unordered_set<CallerProc> getCallsCallerByUS();
+        std::unordered_set<CalleeProc> getCallsCalleeByUS();
+        std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> getAllCalls();
+
+        //CallsT
+        bool getCallsT(const CallerProc, const CalleeProc);
+        bool getCallsTByCallerUS(const CallerProc);
+        bool getCallsTByUSCallee(const CalleeProc);
+        bool getCallsTByUSUS();
+        std::unordered_set<CalleeProc> getCallsTCalleeByCaller(const CallerProc);
+        std::unordered_set<CallerProc> getCallsTCallerByCallee(const CalleeProc);
+        std::unordered_set<CallerProc> getCallsTCallerByUS();
+        std::unordered_set<CalleeProc> getCallsTCalleeByUS();
+        std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> getAllCallsT();
 
         //AssignPattern
         std::unordered_set<LineNum> getAssignLineByVarUS(const Variable);

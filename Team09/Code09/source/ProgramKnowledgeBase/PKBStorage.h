@@ -28,14 +28,20 @@ namespace PKB {
         std::unordered_set<LineNum> stmtSet;
 
         //Modifies
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> modifiesSet;
-        std::unordered_map<LineNum, std::unordered_set<Variable>> modifiesLineToVarMap;
-        std::unordered_map<Variable, std::unordered_set<LineNum>> modifiesVarToLineMap;
+        std::unordered_set<std::pair<LineNum, Variable>, pairHash> modifiesSSet;
+        std::unordered_map<LineNum, std::unordered_set<Variable>> modifiesSLineToVarMap;
+        std::unordered_map<Variable, std::unordered_set<LineNum>> modifiesSVarToLineMap;
+        std::unordered_set<std::pair<Procedure, Variable>, pairHash> modifiesPSet;
+        std::unordered_map<Procedure, std::unordered_set<Variable>> modifiesPProcToVarMap;
+        std::unordered_map<Variable, std::unordered_set<Procedure>> modifiesPVarToProcMap;
 
         //Uses
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> usesSet;
-        std::unordered_map<LineNum, std::unordered_set<Variable>> usesLineToVarMap;
-        std::unordered_map<Variable, std::unordered_set<LineNum>> usesVarToLineMap;
+        std::unordered_set<std::pair<LineNum, Variable>, pairHash> usesSSet;
+        std::unordered_map<LineNum, std::unordered_set<Variable>> usesSLineToVarMap;
+        std::unordered_map<Variable, std::unordered_set<LineNum>> usesSVarToLineMap;
+        std::unordered_set<std::pair<Procedure, Variable>, pairHash> usesPSet;
+        std::unordered_map<Procedure, std::unordered_set<Variable>> usesPProcToVarMap;
+        std::unordered_map<Variable, std::unordered_set<Procedure>> usesPVarToProcMap;
 
         //Follows
         std::unordered_set<std::pair<PrevLine, NextLine>, pairHash> followsSet;
@@ -52,6 +58,14 @@ namespace PKB {
         std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> parentTSet;
         std::unordered_map<ParentLine, std::unordered_set<ChildLine>> parentTParentToChildMap;
         std::unordered_map<ChildLine, std::unordered_set<ParentLine>> parentTChildToParentMap;
+
+        //Calls
+        std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> callsSet;
+        std::unordered_map<CallerProc, std::unordered_set<CalleeProc>> callsCallerToCalleeMap;
+        std::unordered_map<CalleeProc, std::unordered_set<CallerProc>> callsCalleeToCallerMap;
+        std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> callsTSet;
+        std::unordered_map<CallerProc, std::unordered_set<CalleeProc>> callsTCallerToCalleeMap;
+        std::unordered_map<CalleeProc, std::unordered_set<CallerProc>> callsTCalleeToCallerMap;
 
         //pattern map
         std::unordered_set<std::pair<LineNum, Variable>, pairHash> assignLineVarSet;
@@ -82,8 +96,12 @@ namespace PKB {
         void storeFollowsT(const PrevLine, const NextLine);
         void storeParent(const ParentLine, const ChildLine);
         void storeParentT(const ParentLine, const ChildLine);
+        void storeCalls(const CallerProc, const CalleeProc);
+        void storeCallsT(const CallerProc, const CalleeProc);
         void storeUsesS(const LineNum, const Variable);
+        void storeUsesP(const Procedure, const Variable);
         void storeModifiesS(const LineNum, const Variable);
+        void storeModifiesP(const Procedure, const Variable);
         void storeAssignPattern(const Variable, const LineNum, const ExprStr);
     };
 }

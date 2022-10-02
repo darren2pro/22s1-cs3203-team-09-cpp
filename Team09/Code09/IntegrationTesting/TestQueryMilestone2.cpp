@@ -10,8 +10,8 @@ using namespace std;
 namespace IntegrationTesting {
     TEST_CLASS(TestQueryMilestone2) {
             public:
-            TEST_METHOD(TestModifiesProcedure) {
-                string program = "procedure main{\n"
+            string getCurrentProgram(int ref) {
+                string program1 = "procedure main{\n"
                                  "        flag = 0;\n" // line 1
                                  "        call computeCentroid;\n" // line 2
                                  "        call printResults;\n" // line 3
@@ -46,6 +46,17 @@ namespace IntegrationTesting {
                                  "        }\n"
                                  "        normSq = cenX * cenX + cenY * cenY;\n" // line 24
                                  "}";
+				// You can add more program strings here and add more switch cases here
+                switch (ref) {
+                    case 1:
+                        return program1;
+                    default:
+                        return "";
+                }
+            }
+
+            TEST_METHOD(TestModifiesProcedure1) {
+                string program = getCurrentProgram(1);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
@@ -56,6 +67,12 @@ namespace IntegrationTesting {
                 Assert::AreEqual(2, (int) results1.size(), L"Query 1 fails");
                 Assert::IsTrue(results1.find("computeCentroid") != results1.end());
                 Assert::IsTrue(results1.find("main") != results1.end());
+            }
+
+            TEST_METHOD(TestModifiesProcedure2) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 2
                 string query2 = "procedure p; Select p such that Modifies(p, \"x\")";
@@ -65,6 +82,12 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results2.find("computeCentroid") != results2.end());
                 Assert::IsTrue(results2.find("readPoint") != results2.end());
                 Assert::IsTrue(results2.find("main") != results2.end());
+            }
+
+            TEST_METHOD(TestModifiesProcedure3) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 3
                 string query3 = "procedure p; variable v; Select p such that Modifies(p, v)";
@@ -74,6 +97,12 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results3.find("computeCentroid") != results3.end());
                 Assert::IsTrue(results3.find("readPoint") != results3.end());
                 Assert::IsTrue(results3.find("main") != results3.end());
+            }
+
+            TEST_METHOD(TestModifiesProcedure4) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 4
                 string query4 = "procedure p; variable v; Select v such that Modifies(\"computeCentroid\", v)";
@@ -87,6 +116,12 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results4.find("y") != results4.end());
                 Assert::IsTrue(results4.find("flag") != results4.end());
                 Assert::IsTrue(results4.find("normSq") != results4.end());
+            }
+
+            TEST_METHOD(TestModifiesProcedure5) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 5
                 string query5 = "procedure p; variable v; Select v such that Modifies(\"readPoint\", v)";
@@ -95,6 +130,12 @@ namespace IntegrationTesting {
                 Assert::AreEqual(2, (int) results5.size(), L"Query 5 fails");
                 Assert::IsTrue(results5.find("x") != results5.end());
                 Assert::IsTrue(results5.find("y") != results5.end());
+            }
+
+            TEST_METHOD(TestModifiesProcedure6) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 6
                 string query6 = "procedure p; variable v; Select v such that Modifies(\"main\", v)";
@@ -108,12 +149,24 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results6.find("x") != results6.end());
                 Assert::IsTrue(results6.find("y") != results6.end());
                 Assert::IsTrue(results6.find("count") != results6.end());
+            }
+
+            TEST_METHOD(TestModifiesProcedure7) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 7
                 string query7 = "procedure p; variable v; call ccc; Select v such that Modifies(\"printResults\", v)";
                 unordered_set<string> results7 = spaManager.query(query7);
                 // Empty expected results
                 Assert::AreEqual(0, (int) results7.size(), L"Query 7 fails");
+            }
+
+            TEST_METHOD(TestModifiesProcedure8) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 8
                 string query8 = "procedure p; variable v; call ccc; stmt ss; Select p such that Modifies(p, \"flag\")";
@@ -122,6 +175,12 @@ namespace IntegrationTesting {
                 Assert::AreEqual(2, (int) results8.size(), L"Query 8 fails");
                 Assert::IsTrue(results8.find("main") != results8.end());
                 Assert::IsTrue(results8.find("computeCentroid") != results8.end());
+            }
+
+            TEST_METHOD(TestModifiesProcedure9) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 9
                 string query9 = "procedure p; variable v; call ccc; stmt ss; Select p such that Modifies(p, _)";
@@ -131,6 +190,12 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results9.find("main") != results9.end());
                 Assert::IsTrue(results9.find("computeCentroid") != results9.end());
                 Assert::IsTrue(results9.find("readPoint") != results9.end());
+            }
+
+            TEST_METHOD(TestModifiesProcedure10) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 10
                 string query10 = "procedure p; variable v; call ccc; stmt ss; Select p such that Modifies(p, \"y\")";
@@ -549,7 +614,7 @@ namespace IntegrationTesting {
                 try {
                     unordered_set<string> results8 = spaManager.query(query8);
                     Assert::Fail(L"Expected a semantic exception");
-                } catch (SemanticError &e) {
+                } catch (SemanticError& e) {
                     Logger::WriteMessage("Query 8 (Correct) Exception seen: ");
                     Logger::WriteMessage(e.what());
                 }
@@ -560,18 +625,18 @@ namespace IntegrationTesting {
                 try {
                     unordered_set<string> results9 = spaManager.query(query9);
                     Assert::Fail(L"Expected a semantic exception");
-                } catch (SemanticError &e) {
+                } catch (SemanticError& e) {
                     Logger::WriteMessage("Query 9 (Correct) Exception seen: ");
                     Logger::WriteMessage(e.what());
                 }
 
                 //! Query 10 - expecting semantic error
                 string query10 = "procedure p; variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
-                                "Select s such that Calls*(s, \"First\")";
+                                 "Select s such that Calls*(s, \"First\")";
                 try {
                     unordered_set<string> results10 = spaManager.query(query10);
                     Assert::Fail(L"Expected a semantic exception");
-                } catch (SemanticError &e) {
+                } catch (SemanticError& e) {
                     Logger::WriteMessage("Query 10 (Correct) Exception seen: ");
                     Logger::WriteMessage(e.what());
                 }
@@ -778,7 +843,7 @@ namespace IntegrationTesting {
 
                 //! Query 10
                 string query10 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
-                                "Select aa such that Modifies(aa, v) pattern aa(\"var2\", \"var2 + (1 % 100) - 30 + (60 ** 2) / mod2\")";
+                                 "Select aa such that Modifies(aa, v) pattern aa(\"var2\", \"var2 + (1 % 100) - 30 + (60 ** 2) / mod2\")";
                 try {
                     unordered_set<string> results10 = spaManager.query(query10);
                     Assert::Fail(L"Expected SimpleInvalidSyntaxException query 10");
@@ -789,7 +854,7 @@ namespace IntegrationTesting {
 
                 //! Query 11
                 string query11 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
-                                "Select aa such that Modifies(aa, v) pattern aa(\"var2\", \"var2 && (1 % 100) - 30 + (60 * 2) / mod2\")";
+                                 "Select aa such that Modifies(aa, v) pattern aa(\"var2\", \"var2 && (1 % 100) - 30 + (60 * 2) / mod2\")";
                 try {
                     unordered_set<string> results11 = spaManager.query(query11);
                     Assert::Fail(L"Expected SimpleInvalidSyntaxException query 11");
@@ -800,7 +865,7 @@ namespace IntegrationTesting {
 
                 //! Query 12 - unrelated to pattern match full, but adding this here in case to use the program
                 string query12 = "variable v, v1; stmt s; assign aa; if ii; while www, w1; procedure ppp;\n"
-                                "Select ppp  such that    Modifies(2, \"var2\")   pattern aa(\"var2\", _)";
+                                 "Select ppp  such that    Modifies(2, \"var2\")   pattern aa(\"var2\", _)";
                 unordered_set<string> results12 = spaManager.query(query12);
                 // Expected results: read, call
                 Assert::AreEqual(2, (int) results12.size(), L"Query 12 fails");
@@ -912,14 +977,14 @@ namespace IntegrationTesting {
 
                 //! Query 10
                 string query10 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
-                                "Select aa such that Uses(aa, v) pattern aa(v, _\"var2 + 1 % 100 - 30 + 60\"_)";
+                                 "Select aa such that Uses(aa, v) pattern aa(v, _\"var2 + 1 % 100 - 30 + 60\"_)";
                 unordered_set<string> results10 = spaManager.query(query10);
                 // Empty expected results
                 Assert::AreEqual(0, (int) results10.size(), L"Query 10 fails");
 
                 //! Query 11
                 string query11 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
-                                "Select aa such that Uses(aa, v) pattern aa(v, _\"var2 + 1 % 100 - 30\"_)";
+                                 "Select aa such that Uses(aa, v) pattern aa(v, _\"var2 + 1 % 100 - 30\"_)";
                 unordered_set<string> results11 = spaManager.query(query11);
                 // Expected results: 4
                 Assert::AreEqual(1, (int) results11.size(), L"Query 11 fails");

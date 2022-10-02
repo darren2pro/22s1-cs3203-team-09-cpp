@@ -5,15 +5,15 @@
 #include "../Pattern.h"
 #include "../Utils.h"
 #include "SuchThat/UsesSEvaluator.h"
-#include "suchthat/UsesPEvaluator.h"
+#include "Suchthat/UsesPEvaluator.h"
 #include "SuchThat/ModifiesSEvaluator.h"
-#include "suchthat/ModifiesPEvaluator.h"
+#include "Suchthat/ModifiesPEvaluator.h"
 #include "SuchThat/ParentEvaluator.h"
 #include "SuchThat/ParentTEvaluator.h"
 #include "SuchThat/FollowsEvaluator.h"
 #include "SuchThat/FollowsTEvaluator.h"
-#include "suchthat/CallsTEvaluator.h"
-#include "suchthat/CallsEvaluator.h"
+#include "Suchthat/CallsTEvaluator.h"
+#include "Suchthat/CallsEvaluator.h"
 #include "Pattern/PatternEvaluator.h"
 #include "Pattern/AssignPatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
@@ -55,11 +55,11 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
 
 	switch (relations.TYPE) {
-	case Relation::ModifiesS: // ModifiesS
+	case Relation::ModifiesS:
 		return ModifiesSEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::ModifiesP:
 		return ModifiesPEvaluator(declarations, relations, rdb, pkb).evaluate();
-	case Relation::UsesS: // UsesS
+	case Relation::UsesS:
 		return UsesSEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::UsesP:
 		return UsesPEvaluator(declarations, relations, rdb, pkb).evaluate();
@@ -131,9 +131,9 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 	case Declaration::Statement:
 		resultsFromPKB = pkb->getStmtSet();
 		break;
-	//case Declaration::Call:
-	//	resultsFromPKB = pkb->getCallSet();
-	//	break;
+	case Declaration::Call:
+		resultsFromPKB = pkb->getCallSet();
+		break;
 	}
 
 	rdb.insertList(decl.name, resultsFromPKB);

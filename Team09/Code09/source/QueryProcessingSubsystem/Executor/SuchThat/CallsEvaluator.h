@@ -33,7 +33,8 @@ public:
 	}
 
 	bool CallsEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
-		bool results = pkb->getCallsByUSCallee(LEFT_ARG);
+		// Calls(1, _)
+		bool results = pkb->getCallsByCallerUS(LEFT_ARG);
 		return results;
 
 	}
@@ -50,7 +51,7 @@ public:
 
 	bool CallsEvaluator::leftUnderscoreRightSimple(std::string RIGHT_ARG) override {
 		// Calls(_, 1)
-		bool results = pkb->getCallsByCallerUS(RIGHT_ARG);
+		bool results = pkb->getCallsByUSCallee(RIGHT_ARG);
 		return results;
 	}
 

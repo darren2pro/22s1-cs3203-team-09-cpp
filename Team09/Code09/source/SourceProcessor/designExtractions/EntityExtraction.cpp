@@ -107,7 +107,7 @@ void EntityExtraction::extractEntities(const std::shared_ptr<PrintNode> printNod
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<CallNode> callNode) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(callNode);
-     pkbStorage->storeCall(lnNum, callNode -> procName);
+     pkbStorage->storeCall(lnNum, callNode -> proc -> procName);
 }
 void EntityExtraction::extractStatements(const std::vector<Stmt> stmts) {
     for (const auto& stmt : stmts) {
@@ -353,8 +353,8 @@ void EntityExtraction::extractCallsRls(const std::shared_ptr<AssignmentNode>) {}
 void EntityExtraction::extractCallsRls(const std::shared_ptr<CallNode> call) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(call);
     const PKB::Procedure caller = pkbStorage-> getProcedureFromLine(lnNum);
-    pkbStorage->storeCalls(caller, call->procName);
-    pkbStorage->storeCallsT(caller, call->procName);
+    pkbStorage->storeCalls(caller, call->proc->procName);
+    pkbStorage->storeCallsT(caller, call->proc->procName);
 }
 
 

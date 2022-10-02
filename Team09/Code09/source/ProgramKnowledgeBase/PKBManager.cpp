@@ -53,6 +53,10 @@ namespace PKB {
         return pkbStorage->stmtSet;
     }
 
+    std::unordered_set<LineNum> PKBManager::getCallSet() {
+        return pkbStorage->callSet;
+    }
+
     //ModifiesS
     bool PKBManager::getModifiesS(const LineNum lineNum, const Variable var) {
         return pkbStorage->modifiesSSet.find(std::make_pair(lineNum, var)) != pkbStorage->modifiesSSet.end();

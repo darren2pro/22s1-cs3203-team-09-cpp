@@ -29,6 +29,7 @@ namespace PKB {
         std::unordered_set<LineNum> getReadSet();
         std::unordered_set<LineNum> getPrintSet();
         std::unordered_set<LineNum> getStmtSet();
+        std::unordered_set<LineNum> getCallSet();
 
 
         //ModifiesS

@@ -61,4 +61,8 @@ void TestWrapper::evaluate(std::string query, std::list<std::string> &results) {
 		std::cout << semanticException.what() << std::endl;
 		std::cout << "Semantic error. Please input another query." << std::endl;
     }
+    catch (SimpleInvalidSyntaxException& simpleInvalidSyntaxFromParser) {
+        std::cout << simpleInvalidSyntaxFromParser.what() << std::endl;
+        std::cout << "Invalid syntax for this query's arithmetic expression. Please input another query." << std::endl;
+    }
 }

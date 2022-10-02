@@ -37,6 +37,14 @@ namespace PKB {
                 node);
     }
 
+    void PKBStorage::storeLineToProcedure(LineNum lineNum, Procedure proc) {
+        lineToProcMap[lineNum] = proc;
+    }
+
+    Procedure PKBStorage::getProcedureFromLine(LineNum lineNum) {
+        return lineToProcMap.at(lineNum);
+    }
+
     std::shared_ptr<TNode> PKBStorage::getNodeFromLine(const LineNum line) {
         if (lineToNodeMap.find(line) != lineToNodeMap.end()) {
             return std::shared_ptr<TNode>(lineToNodeMap.at(line));
@@ -71,13 +79,20 @@ namespace PKB {
     void PKBStorage::storeAssign(const LineNum lineNum) {
         assignSet.insert(lineNum);
     }
-
+    
+    //todo (figure out what to  do with var)
     void PKBStorage::storeRead(const LineNum lineNum, Variable var) {
         readSet.insert(lineNum);
     }
 
+    //todo (figure out what to  do with var)
     void PKBStorage::storePrint(const LineNum lineNum, Variable var) {
         printSet.insert(lineNum);
+    }
+
+    //todo (figure out what to  do with proc)
+    void PKBStorage::storeCall(const LineNum lineNum, Procedure proc) {
+        callSet.insert(lineNum);
     }
 
     //relations

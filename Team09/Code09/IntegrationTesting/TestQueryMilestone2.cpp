@@ -577,6 +577,106 @@ namespace IntegrationTesting {
                 }
             }
 
+            TEST_METHOD(TestCallsCallsTPart2) {
+                string program = "procedure procOne {\n"
+                                 "        while (1>= 1%((1)) ) {\n" // line 1
+                                 "            print num1;\n"
+                                 "        }\n"
+                                 "        while (1>= 1%((0-1)) ) {\n" // line 3
+                                 "            print num2;\n"
+                                 "        }\n"
+                                 "        while (! ((1==0) && (1==0))) {\n" // line 5
+                                 "            print num3;\n"
+                                 "        }\n"
+                                 "        while (1+100  - 4 == 1 % 5 + 66) {\n" // line 7
+                                 "            print num4;\n"
+                                 "        }\n"
+                                 "}\n"
+                                 "procedure procTwo {\n"
+                                 "    while (! ((1==0) && (1==0))) {\n" // line 9
+                                 "        print num5;\n" // line 10
+                                 "        call procOne;\n" // line 11
+                                 "    }\n"
+                                 "}\n"
+                                 "procedure nested {\n"
+                                 "    if (iii >= 500) then {\n" // line 12
+                                 "        while (1>= 1%((1) * kkk) ) {\n" // line 13
+                                 "            while (!(kkk <= 111)) {\n" // line 14
+                                 "                beingModified = num1 + num2;\n" // line 15
+                                 "                if (yyy != 0) then {\n" // line 16
+                                 "                    beingMod3 = 1 + k * (num1 + num2 * 5);\n" // line 17
+                                 "                } else {\n"
+                                 "                    call procTwo;\n" // line 18
+                                 "                }\n"
+                                 "            }\n"
+                                 "            read num6;\n" // line 19
+                                 "        }\n"
+                                 "    } else {\n"
+                                 "        while (1>= 1%((0-1)) ) {\n" // line 20
+                                 "            read num7;\n" // line 21
+                                 "        }\n"
+                                 "    }\n"
+                                 "}\t";
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
+
+                //! Query 1
+                string query1 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls*(p, \"procOne\")";
+                unordered_set<string> results1 = spaManager.query(query1);
+                // Expected results: procTwo, nested
+                Assert::AreEqual(2, (int) results1.size(), L"Query 1 fails");
+                Assert::IsTrue(results1.find("procTwo") != results1.end());
+                Assert::IsTrue(results1.find("nested") != results1.end());
+
+                //! Query 2
+                string query2 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls*(\"procOne\", p)";
+                unordered_set<string> results2 = spaManager.query(query2);
+                // Empty expected results
+                Assert::AreEqual(0, (int) results2.size(), L"Query 2 fails");
+
+                //! Query 3
+                string query3 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls*(p, \"procTwo\")";
+                unordered_set<string> results3 = spaManager.query(query3);
+                // Expected results: nested
+                Assert::AreEqual(1, (int) results3.size(), L"Query 3 fails");
+                Assert::IsTrue(results3.find("nested") != results3.end());
+
+                //! Query 4
+                string query4 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls*(\"procTwo\", p)";
+                unordered_set<string> results4 = spaManager.query(query4);
+                // Expected results: procOne
+                Assert::AreEqual(1, (int) results4.size(), L"Query 4 fails");
+                Assert::IsTrue(results4.find("procOne") != results4.end());
+
+                //! Query 5
+                string query5 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls*(p, \"nested\")";
+                unordered_set<string> results5 = spaManager.query(query5);
+                // Empty expected results
+                Assert::AreEqual(0, (int) results5.size(), L"Query 5 fails");
+
+                //! Query 6
+                string query6 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls*(\"nested\", p)";
+                unordered_set<string> results6 = spaManager.query(query6);
+                // Expected results: procOne, procTwo
+                Assert::AreEqual(2, (int) results6.size(), L"Query 6 fails");
+                Assert::IsTrue(results6.find("procOne") != results6.end());
+                Assert::IsTrue(results6.find("procTwo") != results6.end());
+
+                //! Query 7
+                string query7 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls(\"nested\", p)";
+                unordered_set<string> results7 = spaManager.query(query7);
+                // Expected results: procTwo
+                Assert::AreEqual(1, (int) results7.size(), L"Query 7 fails");
+                Assert::IsTrue(results7.find("procTwo") != results7.end());
+            }
+
             TEST_METHOD(TestPatternMatchFull) {
                 string program = "procedure read {\n"
                                  "    mod1 = print % (var1 + 1 * var2 - var3);\n" // line 1

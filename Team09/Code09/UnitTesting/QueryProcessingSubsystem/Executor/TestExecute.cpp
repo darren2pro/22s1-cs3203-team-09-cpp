@@ -142,8 +142,6 @@ namespace UnitTesting {
                 Assert::IsTrue(results1.find("3") != results1.end());
                 Assert::IsTrue(results1.find("5") != results1.end());
 
-                // Query 2 - 5 not covered in MS1.
-
 //                // Query 2
 //                string query2 = "proc myProc; assign myAssign; variable myVar;\n"
 //                                "Select myVar such that Modifies(myProc, myVar) pattern myAssign(myVar, _\"2 * y\"_)";

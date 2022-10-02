@@ -5,18 +5,18 @@
 #include "../Pattern.h"
 #include "../Utils.h"
 #include "SuchThat/UsesSEvaluator.h"
+#include "suchthat/UsesPEvaluator.h"
 #include "SuchThat/ModifiesSEvaluator.h"
+#include "suchthat/ModifiesPEvaluator.h"
 #include "SuchThat/ParentEvaluator.h"
 #include "SuchThat/ParentTEvaluator.h"
 #include "SuchThat/FollowsEvaluator.h"
 #include "SuchThat/FollowsTEvaluator.h"
+#include "suchthat/CallsTEvaluator.h"
+#include "suchthat/CallsEvaluator.h"
 #include "Pattern/PatternEvaluator.h"
 #include "Pattern/AssignPatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
-#include "suchthat/CallsTEvaluator.h"
-#include "suchthat/CallsEvaluator.h"
-#include "suchthat/ModifiesPEvaluator.h"
-#include "suchthat/UsesPEvaluator.h"
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	relations = query->relations;
@@ -131,6 +131,9 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 	case Declaration::Statement:
 		resultsFromPKB = pkb->getStmtSet();
 		break;
+	//case Declaration::Call:
+	//	resultsFromPKB = pkb->getCallSet();
+	//	break;
 	}
 
 	rdb.insertList(decl.name, resultsFromPKB);

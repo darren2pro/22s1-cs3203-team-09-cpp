@@ -23,10 +23,6 @@ public:
 	}
 
 	std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> ModifiesPEvaluator::leftSynonymRightSynonym() override {
-		// ModifiesP(a, v) PairList
-		//							w   v
-		// ModifiesP(w, v) PairList {2   a}
-		//						   {10  b}
 		std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> results = pkb->getAllModifiesS();
 		return results;
 	};

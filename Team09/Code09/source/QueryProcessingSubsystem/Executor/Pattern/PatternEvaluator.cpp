@@ -10,6 +10,11 @@ bool PatternEvaluator::evaluate() {
 
 	// Pattern synonym is "a" -> pattern a(...) 
 	bool isLeftSynonym = leftArg.isSynonym();
+	bool isLeftUnderscore = leftArg.isUnderscore();
+	bool isLeftSimple = leftArg.isString(); // Will never be a statement number, so only check if its a string.
+	bool isRightStrict = rightArg.isStrict();
+	bool isRightRelaxed = rightArg.isRelaxed();
+	bool isRightUnderscore = rightArg.isUnderscore();
 
 	// Insert the pattern synonym into RDB. "a" -> pattern a(...)
 	QueryExecutor::insertSynonymSetIntoRDB(patternArg, rdb, pkb);
@@ -22,7 +27,7 @@ bool PatternEvaluator::evaluate() {
 	}
 
 	// left underscore
-	if (leftArg.isUnderscore() && rightArg.isUnderscore()) {
+	if (isLeftUnderscore && isRightUnderscore) {
 		std::unordered_set<std::string> result = patternLeftUnderscoreRightUnderScore();
 		if (result.size() == 0) {
 			return false;
@@ -31,7 +36,7 @@ bool PatternEvaluator::evaluate() {
 			return rdb.insertList(patternSynonym, result);
 		}
 	}
-	else if (leftArg.isUnderscore() && rightArg.isStrict()) {
+	else if (isLeftUnderscore && isRightStrict) {
 		std::unordered_set<std::string> result = patternLeftUnderscoreRightStrictExpression(rightString);
 		if (result.size() == 0) {
 			return false;
@@ -40,7 +45,7 @@ bool PatternEvaluator::evaluate() {
 			return rdb.insertList(patternSynonym, result);
 		}
 	}
-	else if (leftArg.isUnderscore() && rightArg.isRelaxed()) {
+	else if (isLeftUnderscore && isRightRelaxed) {
 		std::unordered_set<std::string> result = patternLeftUnderscoreRightRelaxedExpression(rightString);
 		if (result.size() == 0) {
 			return false;
@@ -51,7 +56,7 @@ bool PatternEvaluator::evaluate() {
 	}
 
 	// left synonym
-	else if(isLeftSynonym && rightArg.isUnderscore()) {
+	else if(isLeftSynonym && isRightUnderscore) {
 		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightUnderscore();
 		if (result.size() == 0) {
 			return false;
@@ -60,7 +65,7 @@ bool PatternEvaluator::evaluate() {
 			return rdb.insertPairList(patternSynonym, leftSynonym, result);
 		}
 	}
-	else if (isLeftSynonym && rightArg.isStrict()) {
+	else if (isLeftSynonym && isRightStrict) {
 		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightStrictExpression(rightString);
 		if (result.size() == 0) {
 			return false;
@@ -69,7 +74,7 @@ bool PatternEvaluator::evaluate() {
 			return rdb.insertPairList(patternSynonym, leftSynonym, result);
 		}
 	}
-	else if (isLeftSynonym && rightArg.isRelaxed()) {
+	else if (isLeftSynonym && isRightRelaxed) {
 		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightRelaxedExpression(rightString);
 		if (result.size() == 0) {
 			return false;
@@ -80,7 +85,7 @@ bool PatternEvaluator::evaluate() {
 	}
 
 	// left simple -> just need to check whether it is a string. It will never be a statement number.
-	else if (leftArg.isString() && rightArg.isUnderscore()) {
+	else if (isLeftSimple && isRightUnderscore) {
 		std::unordered_set<std::string> result = patternLeftSimpleRightUnderscore(leftArg.value);
 		if (result.size() == 0) {
 			return false;
@@ -89,7 +94,7 @@ bool PatternEvaluator::evaluate() {
 			return rdb.insertList(patternSynonym, result);
 		}
 	}
-	else if (leftArg.isString() && rightArg.isStrict()) {
+	else if (isLeftSimple && isRightStrict) {
 		std::unordered_set<std::string> result = patternLeftSimpleRightStrictExpression(leftArg.value, rightString);
 		if (result.size() == 0) {
 			return false;
@@ -98,7 +103,7 @@ bool PatternEvaluator::evaluate() {
 			return rdb.insertList(patternSynonym, result);
 		}
 	}
-	else if (leftArg.isString() && rightArg.isRelaxed()) {
+	else if (isLeftSimple && isRightRelaxed) {
 		std::unordered_set<std::string> result = patternLeftSimpleRightRelaxedExpression(leftArg.value, rightString);
 		if (result.size() == 0) {
 			return false;

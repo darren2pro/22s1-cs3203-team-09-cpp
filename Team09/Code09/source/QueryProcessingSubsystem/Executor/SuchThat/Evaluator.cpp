@@ -11,6 +11,10 @@ bool Evaluator::evaluate() {
 	// get their entire variable set from pkb and populate it first.
 	bool isLeftSynonym = leftArg.isSynonym();
 	bool isRightSynonym = rightArg.isSynonym();
+	bool isLeftSimple = leftArg.isString() || leftArg.isStmtNum();
+	bool isRightSimple = rightArg.isString() || rightArg.isStmtNum();
+	bool isLeftUnderscore = leftArg.isUnderscore();
+	bool isRightUnderscore = rightArg.isUnderscore();
 
 	if (isLeftSynonym) {
 		Declaration synonym = leftArg.declaration;
@@ -25,6 +29,7 @@ bool Evaluator::evaluate() {
 	}
 
 
+	// SYNONYM SYNONYM
 	if (isLeftSynonym && isRightSynonym) {
 		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = leftSynonymRightSynonym();
 		if (result.size() == 0) {
@@ -35,7 +40,8 @@ bool Evaluator::evaluate() {
 		}
 	}
 
-	else if (isLeftSynonym && rightArg.isUnderscore()) {
+	// SYNONYM UNDERSCORE
+	else if (isLeftSynonym && isRightUnderscore) {
 		std::unordered_set<std::string> result = leftSynonymRightUnderscore();
 		if (result.size() == 0) {
 			return false;
@@ -45,7 +51,8 @@ bool Evaluator::evaluate() {
 		}
 	}
 
-	else if (isLeftSynonym && rightArg.isString()) {
+	// SYNONYM SIMPLE
+	else if (isLeftSynonym && isRightSimple) {
 		std::unordered_set<std::string> result = leftSynonymRightSimple(rightArg.value);
 		if (result.size() == 0) {
 			return false;
@@ -55,7 +62,8 @@ bool Evaluator::evaluate() {
 		}
 	}
 
-	else if (leftArg.isString() && isRightSynonym) {
+	// SIMPLE SYNONYM
+	else if (isLeftSimple && isRightSynonym) {
 		std::unordered_set<std::string> result = leftSimpleRightSynonym(leftArg.value);
 		if (result.size() == 0) {
 			return false;
@@ -65,17 +73,20 @@ bool Evaluator::evaluate() {
 		}
 	}
 	
-	else if (leftArg.isString() && rightArg.isUnderscore()) {
+	// SIMPLE UNDERSCORE
+	else if (isLeftSimple && isRightUnderscore) {
 		bool result = leftSimpleRightUnderscore(leftArg.value);
 		return result;
 	}
 
-	else if (leftArg.isString() && rightArg.isString()) {
+	// SIMPLE SIMPLE
+	else if ((leftArg.isString() || leftArg.isStmtNum()) && (rightArg.isString() || rightArg.isStmtNum())) {
 		bool result = leftSimpleRightSimple(leftArg.value, rightArg.value);
 		return result;
 	}
 
-	else if (leftArg.isUnderscore() && isRightSynonym) {
+	// UNDERSCORE SYNONYM
+	else if (isLeftUnderscore && isRightSynonym) {
 		std::unordered_set<std::string> result = leftUnderscoreRightSynonym();
 		if (result.size() == 0) {
 			return false;
@@ -85,12 +96,14 @@ bool Evaluator::evaluate() {
 		}
 	}
 
-	else if (leftArg.isUnderscore() && rightArg.isString()) {
+	// UNDERSCORE SIMPLE
+	else if (isLeftUnderscore && isRightSimple) {
 		bool result = leftUnderscoreRightSimple(rightArg.value);
 		return result;
 	}
 
-	else if (leftArg.isUnderscore() && rightArg.isUnderscore()) {
+	// UNDERSCORE UNDERSCORE
+	else if (isLeftUnderscore && isRightUnderscore) {
 		bool result = leftUnderscoreRightUnderScore();
 		return result;
 	}	

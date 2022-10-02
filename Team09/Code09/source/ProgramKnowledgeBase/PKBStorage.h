@@ -11,6 +11,7 @@ namespace PKB {
         int lineNum = 1;
         std::unordered_map<LineNum, std::shared_ptr<TNode>> lineToNodeMap;
         std::unordered_map<std::shared_ptr<TNode>, LineNum> nodeToLineMap;
+        std::unordered_map<LineNum, Procedure> lineToProcMap;
 
         LineNum getCurrLineNumber();
         void incrementCurrLineNumber();
@@ -26,6 +27,7 @@ namespace PKB {
         std::unordered_set<LineNum> readSet;
         std::unordered_set<LineNum> printSet;
         std::unordered_set<LineNum> stmtSet;
+        std::unordered_set<LineNum> callSet;
 
         //Modifies
         std::unordered_set<std::pair<LineNum, Variable>, pairHash> modifiesSSet;
@@ -78,6 +80,8 @@ namespace PKB {
         //line number API
         LineNum storeLine(const Stmt node);
         LineNum getLineFromNode(const Stmt node);
+        void storeLineToProcedure(LineNum lineNum, Procedure proc);
+        Procedure getProcedureFromLine(LineNum lineNum);
         std::shared_ptr<TNode> getNodeFromLine(const LineNum line);
         void storeStmt(const LineNum lineNum);
 
@@ -90,6 +94,7 @@ namespace PKB {
         void storeAssign(const LineNum lineNum);
         void storeRead(const LineNum lineNum, Variable var);
         void storePrint(const LineNum lineNum, Variable var);
+        void storeCall(const LineNum lineNum, Procedure proc);
 
         //store relations API
         void storeFollows(const PrevLine, const NextLine);

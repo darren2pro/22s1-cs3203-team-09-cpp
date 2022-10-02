@@ -33,7 +33,7 @@ public:
     void extractEntities(const std::shared_ptr<WhileNode> whileNode);
     void extractEntities(const std::shared_ptr<ReadNode> readNode);
     void extractEntities(const std::shared_ptr<PrintNode> printNode);
-    void extractEntities(const std::shared_ptr<CallNode> node);
+    void extractEntities(const std::shared_ptr<CallNode> callNode);
     void extractEntities(const Expr exp);
 
     //extracting Modifies relations
@@ -86,6 +86,17 @@ public:
     void extractParentsHelper(const std::shared_ptr<IfNode> ifNode, std::vector<PKB::ParentLine> parent);
     void extractParentsHelper(const std::shared_ptr<WhileNode> whileNode, std::vector<PKB::ParentLine> parent);
 
+    //extracting Calls relations
+    void extractCallsRls(const std::shared_ptr<ProgramNode> astRoot);
+    void extractCallsRls(const std::shared_ptr<ProcedureNode> proc);
+    void extractCallsStmts(const std::vector<Stmt> stmts);
+    void extractCallsRls(const std::shared_ptr<IfNode> ifNode);
+    void extractCallsRls(const std::shared_ptr<WhileNode> whileNode);
+    void extractCallsRls(const std::shared_ptr<ReadNode>);
+    void extractCallsRls(const std::shared_ptr<PrintNode>);
+    void extractCallsRls(const std::shared_ptr<AssignmentNode>);
+    void extractCallsRls(const std::shared_ptr<CallNode> node);
+
     //extracting Assign pattern relations
     void extractAssignPattern(const std::shared_ptr<ProgramNode> astRoot);
     void extractAssignPattern(const std::shared_ptr<ProcedureNode> proc);
@@ -96,5 +107,4 @@ public:
     void extractAssignPattern(const std::shared_ptr<ReadNode>);
     void extractAssignPattern(const std::shared_ptr<CallNode>);
     void extractAssignPattern(const std::shared_ptr<PrintNode>);
-
 };

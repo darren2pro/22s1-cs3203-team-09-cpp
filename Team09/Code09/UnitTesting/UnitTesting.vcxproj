@@ -177,6 +177,8 @@
     </ClCompile>
     <ClCompile Include="SourceProcessorTests\TestAST.cpp" />
     <ClCompile Include="SourceProcessorTests\TestTokenizer.cpp" />
+    <ClCompile Include="TestExpression.cpp" />
+    <ClCompile Include="TestReference.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

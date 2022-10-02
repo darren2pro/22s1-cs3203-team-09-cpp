@@ -13,4 +13,5 @@ void DesignExtractor::extractDesignAbstractions(const std::shared_ptr<ProgramNod
     entityExtraction.extractModifyRls(astRoot);
     entityExtraction.extractUsesRls(astRoot);
     entityExtraction.extractAssignPattern(astRoot);
+    entityExtraction.extractCallsRls(astRoot);
 }

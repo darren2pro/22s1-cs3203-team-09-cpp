@@ -461,29 +461,29 @@ namespace IntegrationTesting {
 
             TEST_METHOD(TestCallsCallsTPart1) {
                 string program = "procedure First {\n"
-                                 "        read x;\n"
-                                 "        read z;\n"
-                                 "        call Second; }\n"
+                                 "        read x;\n" // line 1
+                                 "        read z;\n" // line 2
+                                 "        call Second; }\n" // line 3
                                  "\n"
                                  "procedure Second {\n"
-                                 "                x = 0;\n"
-                                 "                i = 5;\n"
-                                 "                while (i!=0) {\n"
-                                 "                        x = x + 2*y;\n"
-                                 "                        call Third;\n"
-                                 "                        i = i - 1; }\n"
-                                 "                if (x==1) then {\n"
-                                 "                        x = x+1; }\n"
+                                 "                x = 0;\n" // line 4
+                                 "                i = 5;\n" // line 5
+                                 "                while (i!=0) {\n" // line 6
+                                 "                        x = x + 2*y;\n" // line 7
+                                 "                        call Third;\n" // line 8
+                                 "                        i = i - 1; }\n" // line 9
+                                 "                if (x==1) then {\n" // line 10
+                                 "                        x = x+1; }\n" // line 11
                                  "        else {\n"
-                                 "                        z = 1; }\n"
-                                 "                z = z + x + i;\n"
-                                 "                y = z + 2;\n"
-                                 "                x = x * y + z; }\n"
+                                 "                        z = 1; }\n" // line 12
+                                 "                z = z + x + i;\n" // line 13
+                                 "                y = z + 2;\n" // line 14
+                                 "                x = x * y + z; }\n" // line 15
                                  "\n"
                                  "procedure Third {\n"
-                                 "        z = 5;\n"
-                                 "        v = z;\n"
-                                 "        print v; }";
+                                 "        z = 5;\n" // line 16
+                                 "        v = z;\n" // line 17
+                                 "        print v; }"; // line 18
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
@@ -797,6 +797,15 @@ namespace IntegrationTesting {
                     Logger::WriteMessage("Query 11 (Correct) Exception seen: ");
                     Logger::WriteMessage(simpleInvalidSyntaxFromParser.what());
                 }
+
+                //! Query 12 - unrelated to pattern match full, but adding this here in case to use the program
+                string query12 = "variable v, v1; stmt s; assign aa; if ii; while www, w1; procedure ppp;\n"
+                                "Select ppp  such that    Modifies(2, \"var2\")   pattern aa(\"var2\", _)";
+                unordered_set<string> results12 = spaManager.query(query12);
+                // Expected results: read, call
+                Assert::AreEqual(2, (int) results12.size(), L"Query 12 fails");
+                Assert::IsTrue(results12.find("read") != results12.end());
+                Assert::IsTrue(results12.find("call") != results12.end());
             }
 
             TEST_METHOD(TestPatternMatchPartial) {

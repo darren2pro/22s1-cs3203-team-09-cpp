@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include <SPAManager/SPAManager.h>
+#include <QueryProcessingSubsystem/Validator/SemanticException.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -10,39 +11,39 @@ namespace IntegrationTesting {
             public:
             TEST_METHOD(TestModifiesProcedure) {
                 string program = "procedure main{\n"
-                                 "        flag = 0;\n"
-                                 "        call computeCentroid;\n"
-                                 "        call printResults;\n"
+                                 "        flag = 0;\n" // line 1
+                                 "        call computeCentroid;\n" // line 2
+                                 "        call printResults;\n" // line 3
                                  "}\n"
                                  "procedure readPoint{\n"
-                                 "        read x;\n"
-                                 "        read y;\n"
+                                 "        read x;\n" // line 4
+                                 "        read y;\n" // line 5
                                  "}\n"
                                  "procedure printResults{\n"
-                                 "        print flag;\n"
-                                 "        print cenX;\n"
-                                 "        print cenY;\n"
-                                 "        print normSq;\n"
+                                 "        print flag;\n" // line 6
+                                 "        print cenX;\n" // line 7
+                                 "        print cenY;\n" // line 8
+                                 "        print normSq;\n" // line 9
                                  "}\n"
                                  "procedure computeCentroid{\n"
-                                 "        x = y + 100 * 5;\n"
-                                 "        count = 0;\n"
-                                 "        cenX = 0;\n"
-                                 "        cenY = 0;\n"
-                                 "        call readPoint;\n"
-                                 "        while ((x != 0) && (y != 0)) {\n"
-                                 "            count = count + 1;\n"
-                                 "            cenX = cenX + x;\n"
-                                 "            cenY = cenY + y;\n"
-                                 "            call readPoint;\n"
+                                 "        x = y + 100 * 5;\n" // line 10
+                                 "        count = 0;\n" // line 11
+                                 "        cenX = 0;\n" // line 12
+                                 "        cenY = 0;\n" // line 13
+                                 "        call readPoint;\n" // line 14
+                                 "        while ((x != 0) && (y != 0)) {\n" // line 15
+                                 "            count = count + 1;\n" // line 16
+                                 "            cenX = cenX + x;\n" // line 17
+                                 "            cenY = cenY + y;\n" // line 18
+                                 "            call readPoint;\n" // line 19
                                  "        }\n"
-                                 "        if (count == 0) then {\n"
-                                 "            flag = 1;\n"
+                                 "        if (count == 0) then {\n" // line 20
+                                 "            flag = 1;\n" // line 21
                                  "        } else {\n"
-                                 "            cenX = cenX / count;\n"
-                                 "            cenY = cenY / count;\n"
+                                 "            cenX = cenX / count;\n" // line 22
+                                 "            cenY = cenY / count;\n" // line 23
                                  "        }\n"
-                                 "        normSq = cenX * cenX + cenY * cenY;\n"
+                                 "        normSq = cenX * cenX + cenY * cenY;\n" // line 24
                                  "}";
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -138,6 +139,81 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results10.find("main") != results10.end());
                 Assert::IsTrue(results10.find("computeCentroid") != results10.end());
                 Assert::IsTrue(results10.find("readPoint") != results10.end());
+            }
+
+            TEST_METHOD(TestModifiesAndUsesStatement) {
+                string program = "procedure main{\n"
+                                 "        flag = 0;\n" // line 1
+                                 "        call computeCentroid;\n" // line 2
+                                 "        call printResults;\n" // line 3
+                                 "}\n"
+                                 "procedure readPoint{\n"
+                                 "        read x;\n" // line 4
+                                 "        read y;\n" // line 5
+                                 "}\n"
+                                 "procedure printResults{\n"
+                                 "        print flag;\n" // line 6
+                                 "        print cenX;\n" // line 7
+                                 "        print cenY;\n" // line 8
+                                 "        print normSq;\n" // line 9
+                                 "}\n"
+                                 "procedure computeCentroid{\n"
+                                 "        x = y + 100 * 5;\n" // line 10
+                                 "        count = 0;\n" // line 11
+                                 "        cenX = 0;\n" // line 12
+                                 "        cenY = 0;\n" // line 13
+                                 "        call readPoint;\n" // line 14
+                                 "        while ((x != 0) && (y != 0)) {\n" // line 15
+                                 "            count = count + 1;\n" // line 16
+                                 "            cenX = cenX + x;\n" // line 17
+                                 "            cenY = cenY + y;\n" // line 18
+                                 "            call readPoint;\n" // line 19
+                                 "        }\n"
+                                 "        if (count == 0) then {\n" // line 20
+                                 "            flag = 1;\n" // line 21
+                                 "        } else {\n"
+                                 "            cenX = cenX / count;\n" // line 22
+                                 "            cenY = cenY / count;\n" // line 23
+                                 "        }\n"
+                                 "        normSq = cenX * cenX + cenY * cenY;\n" // line 24
+                                 "}";
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
+
+                //! Query 1
+                string query1 = "procedure p; stmt s; Select s such that Uses(s, \"flag\")";
+                unordered_set<string> results1 = spaManager.query(query1);
+                // Expected results: 6, 3
+                Assert::AreEqual(2, (int) results1.size(), L"Query 1 fails");
+                Assert::IsTrue(results1.find("6") != results1.end());
+                Assert::IsTrue(results1.find("3") != results1.end());
+
+                //! Query 2
+                string query2 = "procedure p; stmt s; Select s such that Modifies(s, \"x\")";
+                unordered_set<string> results2 = spaManager.query(query2);
+                // Expected results: 4, 10, 14, 19
+                Assert::AreEqual(4, (int) results2.size(), L"Query 2 fails");
+                Assert::IsTrue(results2.find("4") != results2.end());
+                Assert::IsTrue(results2.find("10") != results2.end());
+                Assert::IsTrue(results2.find("14") != results2.end());
+                Assert::IsTrue(results2.find("19") != results2.end());
+
+                //! Query 3
+                string query3 = "procedure p; stmt s; call myC;\n"
+                                "Select myC such that Modifies(myC, \"x\")";
+                unordered_set<string> results3 = spaManager.query(query3);
+                // Expected results: 14, 19
+                Assert::AreEqual(2, (int) results3.size(), L"Query 3 fails");
+                Assert::IsTrue(results3.find("14") != results3.end());
+                Assert::IsTrue(results3.find("19") != results3.end());
+
+                //! Query 4
+                string query4 = "procedure p; stmt s; call myC;\n"
+                                "Select myC such that Uses(myC, \"flag\")";
+                unordered_set<string> results4 = spaManager.query(query4);
+                // Expected results: 3
+                Assert::AreEqual(1, (int) results4.size(), L"Query 4 fails");
+                Assert::IsTrue(results4.find("3") != results4.end());
             }
 
             TEST_METHOD(TestUsesProcedure) {
@@ -372,6 +448,136 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results5.find("14") != results5.end());
                 Assert::IsTrue(results5.find("13") != results5.end());
                 Assert::IsTrue(results5.find("12") != results5.end());
+
+                //! Query 6
+                string query6 = "procedure p; variable v, v1; if i; while w; assign a;\n"
+                                "Select a such that Uses(a, \"k\")";
+                unordered_set<string> results6 = spaManager.query(query6);
+                // Expected results: 17
+                Assert::AreEqual(1, (int) results6.size(), L"Query 6 fails");
+                Assert::IsTrue(results6.find("17") != results6.end());
+            }
+
+            TEST_METHOD(TestCallsCallsTPart1) {
+                string program = "procedure First {\n"
+                                 "        read x;\n"
+                                 "        read z;\n"
+                                 "        call Second; }\n"
+                                 "\n"
+                                 "procedure Second {\n"
+                                 "                x = 0;\n"
+                                 "                i = 5;\n"
+                                 "                while (i!=0) {\n"
+                                 "                        x = x + 2*y;\n"
+                                 "                        call Third;\n"
+                                 "                        i = i - 1; }\n"
+                                 "                if (x==1) then {\n"
+                                 "                        x = x+1; }\n"
+                                 "        else {\n"
+                                 "                        z = 1; }\n"
+                                 "                z = z + x + i;\n"
+                                 "                y = z + 2;\n"
+                                 "                x = x * y + z; }\n"
+                                 "\n"
+                                 "procedure Third {\n"
+                                 "        z = 5;\n"
+                                 "        v = z;\n"
+                                 "        print v; }";
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
+
+                //! Query 1
+                string query1 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls(p, \"Second\")";
+                unordered_set<string> results1 = spaManager.query(query1);
+                // Expected results: First
+                Assert::AreEqual(1, (int) results1.size(), L"Query 1 fails");
+                Assert::IsTrue(results1.find("First") != results1.end());
+
+                //! Query 2
+                string query2 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls(p, \"Third\")";
+                unordered_set<string> results2 = spaManager.query(query2);
+                // Expected results: Second
+                Assert::AreEqual(1, (int) results2.size(), L"Query 2 fails");
+                Assert::IsTrue(results2.find("Second") != results2.end());
+
+                //! Query 3
+                string query3 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls(p, \"First\")";
+                unordered_set<string> results3 = spaManager.query(query3);
+                // Expected results: None
+                Assert::AreEqual(0, (int) results3.size(), L"Query 3 fails");
+
+                //! Query 4
+                string query4 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls(p, \"Fourth\")";
+                unordered_set<string> results4 = spaManager.query(query4);
+                // Expected results: None
+                Assert::AreEqual(0, (int) results4.size(), L"Query 4 fails");
+
+                //! Query 5
+                string query5 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls(\"Second\", p)";
+                unordered_set<string> results5 = spaManager.query(query5);
+                // Expected results: Third
+                Assert::AreEqual(1, (int) results5.size(), L"Query 5 fails");
+                Assert::IsTrue(results5.find("Third") != results5.end());
+
+                //! Query 6
+                string query6 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls*(\"First\", p)";
+                unordered_set<string> results6 = spaManager.query(query6);
+                // Expected results: Second, Third
+                Assert::AreEqual(2, (int) results6.size(), L"Query 6 fails");
+                Assert::IsTrue(results6.find("Second") != results6.end());
+                Assert::IsTrue(results6.find("Third") != results6.end());
+
+                //! Query 7
+                string query7 = "procedure p; variable v, v1;\n"
+                                "Select p such that Calls*(p, \"Third\")";
+                unordered_set<string> results7 = spaManager.query(query7);
+                // Expected results: First, Second
+                Assert::AreEqual(2, (int) results7.size(), L"Query 7 fails");
+                Assert::IsTrue(results7.find("First") != results7.end());
+                Assert::IsTrue(results7.find("Second") != results7.end());
+
+                //! Query 8 - expecting semantic error
+                string query8 = "procedure p; variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
+                                "Select s such that Calls*(s, _)";
+                try {
+                    unordered_set<string> results8 = spaManager.query(query8);
+                    Assert::Fail(L"Expected a semantic exception");
+                } catch (SemanticError &e) {
+                    Logger::WriteMessage("Query 8 (Correct) Exception seen: ");
+                    Logger::WriteMessage(e.what());
+                }
+
+                //! Query 9 - expecting semantic error
+                string query9 = "procedure p; variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
+                                "Select s such that Calls*(\"First\", s)";
+                try {
+                    unordered_set<string> results9 = spaManager.query(query9);
+                    Assert::Fail(L"Expected a semantic exception");
+                } catch (SemanticError &e) {
+                    Logger::WriteMessage("Query 9 (Correct) Exception seen: ");
+                    Logger::WriteMessage(e.what());
+                }
+
+                //! Query 10 - expecting semantic error
+                string query10 = "procedure p; variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
+                                "Select s such that Calls*(s, \"First\")";
+                try {
+                    unordered_set<string> results10 = spaManager.query(query10);
+                    Assert::Fail(L"Expected a semantic exception");
+                } catch (SemanticError &e) {
+                    Logger::WriteMessage("Query 10 (Correct) Exception seen: ");
+                    Logger::WriteMessage(e.what());
+                }
+            }
+
+            TEST_METHOD(TestPatternMatchFull) {
+
             }
     };
 }

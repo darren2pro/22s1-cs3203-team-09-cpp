@@ -47,7 +47,7 @@ void TestWrapper::parse(std::string filename) {
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string> &results) {
-   try { 
+   try {
 	    unordered_set<string> queryResults = spaManager->query(query);
         for (std::string result : queryResults) {
             results.push_back(result);

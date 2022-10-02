@@ -107,7 +107,7 @@ void EntityExtraction::extractEntities(const std::shared_ptr<PrintNode> printNod
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<CallNode> callNode) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(callNode);
-    // pkbStorage->storeCall(lnNum, callNode -> proc);
+     pkbStorage->storeCall(lnNum, callNode -> proc -> procName);
 }
 void EntityExtraction::extractStatements(const std::vector<Stmt> stmts) {
     for (const auto& stmt : stmts) {
@@ -323,6 +323,40 @@ void EntityExtraction::extractParentsHelper(const std::shared_ptr<WhileNode> whi
     extractParentsStmts(whileNode->stmtList, parent);
 }
 
+// Calls relations
+void EntityExtraction::extractCallsRls(const std::shared_ptr<ProgramNode> astRoot) {
+    for (const auto& proc : astRoot->procList) {
+        extractCallsRls(proc);
+    }
+}
+void EntityExtraction::extractCallsRls(const std::shared_ptr<ProcedureNode> proc) {
+    extractCallsStmts(proc->stmtList);
+}
+void EntityExtraction::extractCallsStmts(const std::vector<Stmt> stmts) {
+    for (const auto& stmt : stmts) {
+        std::visit([this](const auto& s) { extractCallsRls(s); }, stmt);
+    }
+}
+
+void EntityExtraction::extractCallsRls(const std::shared_ptr<IfNode> ifNode) {
+    extractCallsStmts(ifNode->thenStmtList);
+    extractCallsStmts(ifNode->elseStmtList);
+}
+void EntityExtraction::extractCallsRls(const std::shared_ptr<WhileNode> whileNode) {
+    extractCallsStmts(whileNode->stmtList);
+}
+
+void EntityExtraction::extractCallsRls(const std::shared_ptr<ReadNode>) {}
+void EntityExtraction::extractCallsRls(const std::shared_ptr<PrintNode>) {}
+void EntityExtraction::extractCallsRls(const std::shared_ptr<AssignmentNode>) {}
+
+void EntityExtraction::extractCallsRls(const std::shared_ptr<CallNode> call) {
+    const PKB::LineNum lnNum = pkbStorage->getLineFromNode(call);
+    const PKB::Procedure caller = pkbStorage-> getProcedureFromLine(lnNum);
+    pkbStorage->storeCalls(caller, call->proc->procName);
+    pkbStorage->storeCallsT(caller, call->proc->procName);
+}
+
 
 //Assign pattern relations
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<ProgramNode> astRoot) {
@@ -333,7 +367,6 @@ void EntityExtraction::extractAssignPattern(const std::shared_ptr<ProgramNode> a
 
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<ProcedureNode> proc) {
     extractAssignStmts(proc->stmtList);
-
 }
 
 void EntityExtraction::extractAssignStmts(const std::vector<Stmt> stmts) {

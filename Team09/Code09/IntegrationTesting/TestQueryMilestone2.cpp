@@ -764,11 +764,10 @@ namespace IntegrationTesting {
 
                 //! Query 1
                 string query1 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
-                                "Select aa such that Modifies(aa, v) pattern aa(v, \"var1\")";
+                                "Select aa such that Modifies(aa, v) pattern aa(v, \"var1 + 1 * 100 - var2\")";
                 unordered_set<string> results1 = spaManager.query(query1);
-                // Expected results: 1, 3, 5, 7
-                Assert::AreEqual(4, (int) results1.size(), L"Query 1 fails");
-                Assert::IsTrue(results1.find("1") != results1.end());
+                // Expected results: 3, 5, 7
+                Assert::AreEqual(3, (int) results1.size(), L"Query 1 fails");
                 Assert::IsTrue(results1.find("3") != results1.end());
                 Assert::IsTrue(results1.find("5") != results1.end());
                 Assert::IsTrue(results1.find("7") != results1.end());

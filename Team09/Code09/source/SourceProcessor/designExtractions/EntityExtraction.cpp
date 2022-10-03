@@ -13,27 +13,28 @@ void EntityExtraction::createLineNumbers(const std::shared_ptr<ProgramNode> astR
     }
 }
 void EntityExtraction::createLineNumbers(const std::shared_ptr<ProcedureNode> proc) {
-    traverseLineNumbers(proc->stmtList);
+    traverseLineNumbers(proc->stmtList, proc->procName);
 }
-void EntityExtraction::createLineNumbers( const Stmt stmts) {
+void EntityExtraction::createLineNumbers(const Stmt stmts, const PKB::Procedure procName) {
     const PKB::LineNum lnNum = pkbStorage->storeLine(stmts);
     pkbStorage->getNodeFromLine(lnNum);
+    pkbStorage->storeLineToProcedure(lnNum, procName);
     std::visit(
-            [this](const auto& s) {
+            [this, procName](const auto& s) {
                 using T = std::decay_t<decltype(s)>;
                 if constexpr (std::is_same_v<T, std::shared_ptr<IfNode>>) {
-                    traverseLineNumbers(s->thenStmtList);
-                    traverseLineNumbers(s->elseStmtList);
+                    traverseLineNumbers(s->thenStmtList, procName);
+                    traverseLineNumbers(s->elseStmtList, procName);
                 }
                 else if constexpr (std::is_same_v<T, std::shared_ptr<WhileNode>>) {
-                    traverseLineNumbers(s->stmtList);
+                    traverseLineNumbers(s->stmtList, procName);
                 }
             },
             stmts);
 }
-void EntityExtraction::traverseLineNumbers(const std::vector<Stmt> stmts) {
+void EntityExtraction::traverseLineNumbers(const std::vector<Stmt> stmts, const PKB::Procedure procName) {
     for (const auto& stmt : stmts) {
-        createLineNumbers(stmt);
+        createLineNumbers(stmt, procName);
     }
 }
 
@@ -328,7 +329,29 @@ void EntityExtraction::extractCallsRls(const std::shared_ptr<ProgramNode> astRoo
     for (const auto& proc : astRoot->procList) {
         extractCallsRls(proc);
     }
+
+    extractCallsTRls();
 }
+
+void EntityExtraction::extractCallsTRls() {
+    for (const auto& calls : pkbStorage->callsSet) {
+        PKB::CallerProc caller = calls.first;
+
+        std::vector<PKB::CalleeProc> list;
+        list.push_back(caller);
+        while (!list.empty()) {
+            PKB::CalleeProc currCallee = list.back();
+            list.pop_back();
+            for (const auto& callee : pkbStorage->callsCallerToCalleeMap.at(currCallee)) {
+                pkbStorage->storeCallsT(caller, callee);
+                if (pkbStorage->callsCallerToCalleeMap.find(callee) != pkbStorage->callsCallerToCalleeMap.end()) {
+                    list.push_back(callee);
+                }
+            }
+        }
+    }
+}
+
 void EntityExtraction::extractCallsRls(const std::shared_ptr<ProcedureNode> proc) {
     extractCallsStmts(proc->stmtList);
 }
@@ -354,9 +377,7 @@ void EntityExtraction::extractCallsRls(const std::shared_ptr<CallNode> call) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(call);
     const PKB::Procedure caller = pkbStorage-> getProcedureFromLine(lnNum);
     pkbStorage->storeCalls(caller, call->proc->procName);
-    pkbStorage->storeCallsT(caller, call->proc->procName);
 }
-
 
 //Assign pattern relations
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<ProgramNode> astRoot) {

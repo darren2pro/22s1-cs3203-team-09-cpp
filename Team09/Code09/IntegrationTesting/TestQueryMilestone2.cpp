@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include <SPAManager/SPAManager.h>
 #include <QueryProcessingSubsystem/Validator/SemanticException.h>
+#include <QueryProcessingSubsystem/Validator/SyntaxException.h>
 #include <SourceProcessor/exceptions/SimpleInvalidSyntaxException.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -46,10 +47,26 @@ namespace IntegrationTesting {
                                  "        }\n"
                                  "        normSq = cenX * cenX + cenY * cenY;\n" // line 24
                                  "}";
-				// You can add more program strings here and add more switch cases here
+				string program2 = "procedure read {\n"
+                                  "    mod1 = print % (var1 + 1 * var2 - var3);\n" // line 1
+                                  "    if (var1 - 6 % 1 == (var2 + 1) * 2) then {\n" // line 2
+                                  "        mod2 = var1 + 1 * 100 - var2;\n" // line 3
+                                  "    } else {\n"
+                                  "        var2 = var2 + 1 % 100 - 30 + 60 * 2 / mod2;\n" // line 4
+                                  "    }\n"
+                                  "}\n"
+                                  "procedure call {\n"
+                                  "    mod3 = var1 + 1 * 100 - var2;\n" // line 5
+                                  "    call read1;\n" // line 6
+                                  "    mod4 = var1 + 1 * 100 - var2;\n" // line 7
+                                  "}";
+                // You can add more program strings here and add more switch cases here
                 switch (ref) {
                     case 1:
                         return program1;
+                    case 2:
+                        //! TestPatternMatchFull
+                        return program2;
                     default:
                         return "";
                 }
@@ -745,20 +762,8 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results7.find("procTwo") != results7.end());
             }
 
-            TEST_METHOD(TestPatternMatchFull) {
-                string program = "procedure read {\n"
-                                 "    mod1 = print % (var1 + 1 * var2 - var3);\n" // line 1
-                                 "    if (var1 - 6 % 1 == (var2 + 1) * 2) then {\n" // line 2
-                                 "        mod2 = var1 + 1 * 100 - var2;\n" // line 3
-                                 "    } else {\n"
-                                 "        var2 = var2 + 1 % 100 - 30 + 60 * 2 / mod2;\n" // line 4
-                                 "    }\n"
-                                 "}\n"
-                                 "procedure call {\n"
-                                 "    mod3 = var1 + 1 * 100 - var2;\n" // line 5
-                                 "    call read1;\n" // line 6
-                                 "    mod4 = var1 + 1 * 100 - var2;\n" // line 7
-                                 "}";
+            TEST_METHOD(TestPatternMatchFull1) {
+                string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
@@ -771,6 +776,12 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results1.find("3") != results1.end());
                 Assert::IsTrue(results1.find("5") != results1.end());
                 Assert::IsTrue(results1.find("7") != results1.end());
+            }
+
+            TEST_METHOD(TestPatternMatchFull2) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 2
                 string query2 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
@@ -783,6 +794,12 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results2.find("4") != results2.end());
                 Assert::IsTrue(results2.find("5") != results2.end());
                 Assert::IsTrue(results2.find("7") != results2.end());
+            }
+
+            TEST_METHOD(TestPatternMatchFull3) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 3
                 string query3 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
@@ -790,6 +807,12 @@ namespace IntegrationTesting {
                 unordered_set<string> results3 = spaManager.query(query3);
                 // Empty expected results
                 Assert::AreEqual(0, (int) results3.size(), L"Query 3 fails");
+            }
+
+            TEST_METHOD(TestPatternMatchFull4) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 4
                 string query4 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
@@ -798,6 +821,12 @@ namespace IntegrationTesting {
                 // Expected results: 1
                 Assert::AreEqual(1, (int) results4.size(), L"Query 4 fails");
                 Assert::IsTrue(results4.find("1") != results4.end());
+            }
+
+            TEST_METHOD(TestPatternMatchFull5) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 5
                 string query5 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
@@ -808,6 +837,12 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results5.find("3") != results5.end());
                 Assert::IsTrue(results5.find("5") != results5.end());
                 Assert::IsTrue(results5.find("7") != results5.end());
+            }
+
+            TEST_METHOD(TestPatternMatchFull6) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 6
                 string query6 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
@@ -818,6 +853,12 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results6.find("3") != results6.end());
                 Assert::IsTrue(results6.find("5") != results6.end());
                 Assert::IsTrue(results6.find("7") != results6.end());
+            }
+
+            TEST_METHOD(TestPatternMatchFull7) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 7
                 string query7 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
@@ -826,6 +867,12 @@ namespace IntegrationTesting {
                 // Expected results: 4
                 Assert::AreEqual(1, (int) results7.size(), L"Query 7 fails");
                 Assert::IsTrue(results7.find("4") != results7.end());
+            }
+
+            TEST_METHOD(TestPatternMatchFull8) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 8
                 string query8 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
@@ -834,6 +881,12 @@ namespace IntegrationTesting {
                 // Expected results: 7
                 Assert::AreEqual(1, (int) results8.size(), L"Query 8 fails");
                 Assert::IsTrue(results8.find("7") != results8.end());
+            }
+
+            TEST_METHOD(TestPatternMatchFull9) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 9
                 string query9 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
@@ -842,6 +895,12 @@ namespace IntegrationTesting {
                 // Expected results: 4
                 Assert::AreEqual(1, (int) results9.size(), L"Query 9 fails");
                 Assert::IsTrue(results9.find("4") != results9.end());
+            }
+
+            TEST_METHOD(TestPatternMatchFull10) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 10
                 string query10 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
@@ -853,17 +912,29 @@ namespace IntegrationTesting {
                     Logger::WriteMessage("Query 10 (Correct) Exception seen: ");
                     Logger::WriteMessage(simpleInvalidSyntaxFromParser.what());
                 }
+            }
+
+            TEST_METHOD(TestPatternMatchFull11) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 11
                 string query11 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
                                  "Select aa such that Modifies(aa, v) pattern aa(\"var2\", \"var2 && (1 % 100) - 30 + (60 * 2) / mod2\")";
                 try {
                     unordered_set<string> results11 = spaManager.query(query11);
-                    Assert::Fail(L"Expected SimpleInvalidSyntaxException query 11");
-                } catch (SimpleInvalidSyntaxException& simpleInvalidSyntaxFromParser) {
+                    Assert::Fail(L"Expected query lexer SyntaxError query 11");
+                } catch (SyntaxError& queryLexerSyntaxError) {
                     Logger::WriteMessage("Query 11 (Correct) Exception seen: ");
-                    Logger::WriteMessage(simpleInvalidSyntaxFromParser.what());
+                    Logger::WriteMessage(queryLexerSyntaxError.what());
                 }
+            }
+
+            TEST_METHOD(TestPatternMatchFull12) {
+                string program = getCurrentProgram(2);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 12 - unrelated to pattern match full, but adding this here in case to use the program
                 string query12 = "variable v, v1; stmt s; assign aa; if ii; while www, w1; procedure ppp;\n"

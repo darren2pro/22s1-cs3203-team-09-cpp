@@ -257,19 +257,22 @@ namespace IntegrationTesting {
                 //! Query 2
                 string query2 = "procedure p; stmt s; Select s such that Modifies(s, \"x\")";
                 unordered_set<string> results2 = spaManager.query(query2);
-                // Expected results: 4, 10, 14, 19
-                Assert::AreEqual(4, (int) results2.size(), L"Query 2 fails");
+                // Expected results: 2, 4, 10, 14, 15, 19
+                Assert::AreEqual(6, (int) results2.size(), L"Query 2 fails");
+                Assert::IsTrue(results2.find("2") != results2.end());
                 Assert::IsTrue(results2.find("4") != results2.end());
                 Assert::IsTrue(results2.find("10") != results2.end());
                 Assert::IsTrue(results2.find("14") != results2.end());
+                Assert::IsTrue(results2.find("15") != results2.end());
                 Assert::IsTrue(results2.find("19") != results2.end());
 
                 //! Query 3
                 string query3 = "procedure p; stmt s; call myC;\n"
                                 "Select myC such that Modifies(myC, \"x\")";
                 unordered_set<string> results3 = spaManager.query(query3);
-                // Expected results: 14, 19
-                Assert::AreEqual(2, (int) results3.size(), L"Query 3 fails");
+                // Expected results: 2, 14, 19
+                Assert::AreEqual(3, (int) results3.size(), L"Query 3 fails");
+                Assert::IsTrue(results3.find("2") != results3.end());
                 Assert::IsTrue(results3.find("14") != results3.end());
                 Assert::IsTrue(results3.find("19") != results3.end());
 

@@ -123,7 +123,29 @@ void EntityExtraction::extractModifyRls(const std::shared_ptr<ProgramNode> astRo
     for (const auto& proc : astRoot->procList) {
         extractModifyRls(proc);
     }
+
+    extractIndirectModifyRls();
 }
+
+void EntityExtraction::extractIndirectModifyRls() {
+    for (const auto& lineProc : pkbStorage->callLineProcSet) {
+        PKB::LineNum lnNum = lineProc.first;
+        PKB::Procedure proc = lineProc.second;
+
+        if (pkbStorage->modifiesPProcToVarMap.find(proc) != pkbStorage->modifiesPProcToVarMap.end()) {
+            for (const auto& var : pkbStorage->modifiesPProcToVarMap.at(proc)) {
+                pkbStorage->storeModifiesS(lnNum, var);
+
+                if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
+                    for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
+                        pkbStorage->storeModifiesS(elem, var);
+                    }
+                }
+            }
+        }
+    }
+}
+
 void EntityExtraction::extractModifyRls(const std::shared_ptr<ProcedureNode> proc) {
     extractModifyStmts(proc->stmtList);
 
@@ -149,11 +171,18 @@ void EntityExtraction::extractModifyRls(const std::shared_ptr<ReadNode> readNode
 }
 void EntityExtraction::extractModifyHelper(const std::shared_ptr<VariableNode> var, const Stmt stmt) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmt);
+    const PKB::Procedure proc = pkbStorage->getProcedureFromLine(lnNum);
     pkbStorage->storeModifiesS(lnNum, var->varName);
+    pkbStorage->storeModifiesP(proc, var->varName);
 
     if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
         for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
             pkbStorage->storeModifiesS(elem, var->varName);
+        }
+    }
+    if (pkbStorage->callsTCalleeToCallerMap.find(proc) != pkbStorage->callsTCalleeToCallerMap.end()) {
+        for (const auto& elem : pkbStorage->callsTCalleeToCallerMap.at(proc)) {
+            pkbStorage->storeModifiesP(proc, var->varName);
         }
     }
 }
@@ -164,6 +193,26 @@ void EntityExtraction::extractModifyRls(const std::shared_ptr<CallNode>) {}
 void EntityExtraction::extractUsesRls(const std::shared_ptr<ProgramNode> astRoot) {
     for (const auto& proc : astRoot->procList) {
         extractUsesRls(proc);
+    }
+
+    extractIndirectUsesRls();
+}
+void EntityExtraction::extractIndirectUsesRls() {
+    for (const auto& lineProc : pkbStorage->callLineProcSet) {
+        PKB::LineNum lnNum = lineProc.first;
+        PKB::Procedure proc = lineProc.second;
+
+        if (pkbStorage->usesPProcToVarMap.find(proc) != pkbStorage->usesPProcToVarMap.end()) {
+            for (const auto& var : pkbStorage->usesPProcToVarMap.at(proc)) {
+                pkbStorage->storeUsesS(lnNum, var);
+
+                if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
+                    for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
+                        pkbStorage->storeUsesS(elem, var);
+                    }
+                }
+            }
+        }
     }
 }
 void EntityExtraction::extractUsesRls(const std::shared_ptr<ProcedureNode> proc) {
@@ -218,11 +267,19 @@ void EntityExtraction::extractUsesHelper(const Expr node, const Stmt stmt) {
 }
 void EntityExtraction::extractUsesHelper(const std::shared_ptr<VariableNode> var, const Stmt stmt) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmt);
+    const PKB::Procedure proc = pkbStorage->getProcedureFromLine(lnNum);
     pkbStorage->storeUsesS(lnNum, var->varName);
+    pkbStorage->storeUsesP(proc, var->varName);
 
     if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
         for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
             pkbStorage->storeUsesS(elem, var->varName);
+        }
+    }
+
+    if (pkbStorage->callsTCalleeToCallerMap.find(proc) != pkbStorage->callsTCalleeToCallerMap.end()) {
+        for (const auto& elem : pkbStorage->callsTCalleeToCallerMap.at(proc)) {
+            pkbStorage->storeUsesP(proc, var->varName);
         }
     }
 }

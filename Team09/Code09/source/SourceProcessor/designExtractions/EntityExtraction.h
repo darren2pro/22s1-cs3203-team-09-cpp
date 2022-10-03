@@ -38,6 +38,7 @@ public:
 
     //extracting Modifies relations
     void extractModifyRls(const std::shared_ptr<ProgramNode> astRoot);
+    void extractIndirectModifyRls();
     void extractModifyRls(const std::shared_ptr<ProcedureNode> proc);
     void extractModifyStmts(const std::vector<Stmt> stmts);
     void extractModifyRls(const std::shared_ptr<AssignmentNode> assign);
@@ -51,6 +52,7 @@ public:
 
     //extracting Uses relations
     void extractUsesRls(const std::shared_ptr<ProgramNode> astRoot);
+    void extractIndirectUsesRls();
     void extractUsesRls(const std::shared_ptr<ProcedureNode> proc);
     void extractUsesStmts(const std::vector<Stmt> stmts);
     void extractUsesRls(const std::shared_ptr<AssignmentNode> assign);

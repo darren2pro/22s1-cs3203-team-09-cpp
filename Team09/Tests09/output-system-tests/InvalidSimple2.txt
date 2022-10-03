@@ -1,5 +1,4 @@
 Parameters : ../Tests09/InvalidSimple2_source.txt ../Tests09/Sample_queries.txt ../Tests09/output-system-tests/InvalidSimple2.xml
-TestWrapper constructor called
 Beginning to parse Simple Program.
 Statement list cannot be empty.
 Invalid syntax. Please input another file.

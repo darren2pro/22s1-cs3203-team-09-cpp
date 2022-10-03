@@ -1,0 +1,60 @@
+1 - Simply selecting all procedures
+procedure myPp; while thisW;
+Select myPp
+procedure, computeCentroid, printResults
+5000
+2 - ModifiesP with underscore
+variable aV; procedure myPp; while thisW;
+Select myPp such that Modifies(myPp, _)
+procedure, computeCentroid, printResults
+5000
+3 - ModifiesP with variable
+variable aV; procedure myPp; while thisW;
+Select myPp such that Modifies(myPp, aV)
+procedure, computeCentroid, printResults
+5000
+4 - ModifiesP with constant
+variable aV; procedure myPp; while thisW;
+Select myPp such that Modifies(myPp, "flag")
+procedure
+5000
+5 - UsesP for x
+variable aV; procedure myPp; while thisW;
+Select myPp such that Uses(myPp, "x")
+none
+5000
+6 - UsesP for y
+variable aV; procedure myPp; while thisW;
+Select myPp such that Uses(myPp, "y")
+procedure, computeCentroid, printResults
+5000
+7 - assign pattern underscore
+variable aV; procedure myPp; assign kV;
+Select kV pattern kV(aV, _)
+1, 2, 4, 5
+5000
+8 - assign pattern full
+variable aV; procedure myPp; assign kV;
+Select kV pattern kV(aV, "0")
+1, 5
+5000
+9 - assign pattern partial
+variable aV; procedure myPp; assign kV;
+Select kV pattern kV(aV, _"100 * 5"_)
+4
+5000
+10 - [Advanced SPA] Calls
+variable aV; procedure myPp; while thisW;
+Select myPp such that Calls(myPp, _)
+procedure, printResults
+5000
+11 - [Advanced SPA] Calls*
+variable aV; procedure myPp; while thisW;
+Select myPp such that Calls*(myPp, "computeCentroid")
+procedure, printResults
+5000
+12 - Simply get all call statements
+variable aV; procedure myPp; while thisW; call kkkC;
+Select kkkC
+3, 8
+5000

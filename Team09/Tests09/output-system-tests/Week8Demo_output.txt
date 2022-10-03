@@ -1,0 +1,132 @@
+Parameters : ../Tests09/Week8Demo_source.txt ../Tests09/Week8Demo_queries.txt ../Tests09/output-system-tests/Week8Demo_output.xml
+Beginning to parse Simple Program.
+End of parsing Simple Program.
+Code09
+Beginning to evaluate Query File.
+1 - Simply selecting all procedures
+procedure myPp; while thisW;
+Select myPp
+procedure, computeCentroid, printResults
+5000
+Evaluating query 1 - Simply selecting all procedures
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" CondNum="1" RelNum="0" 
+Your answer: printResults computeCentroid procedure 
+Correct answer: procedure computeCentroid printResults 
+2 - ModifiesP with underscore
+variable aV; procedure myPp; while thisW;
+Select myPp such that Modifies(myPp, _)
+procedure, computeCentroid, printResults
+5000
+Evaluating query 2 - ModifiesP with underscore
+_ is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Modifies="1" UnnamedVar="1" SuchThat="1" CondNum="4" RelNum="1" 
+Your answer: printResults computeCentroid procedure 
+Correct answer: procedure computeCentroid printResults 
+3 - ModifiesP with variable
+variable aV; procedure myPp; while thisW;
+Select myPp such that Modifies(myPp, aV)
+procedure, computeCentroid, printResults
+5000
+Evaluating query 3 - ModifiesP with variable
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: printResults computeCentroid procedure 
+Correct answer: procedure computeCentroid printResults 
+4 - ModifiesP with constant
+variable aV; procedure myPp; while thisW;
+Select myPp such that Modifies(myPp, "flag")
+procedure
+5000
+Evaluating query 4 - ModifiesP with constant
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: procedure 
+Correct answer: procedure 
+5 - UsesP for x
+variable aV; procedure myPp; while thisW;
+Select myPp such that Uses(myPp, "x")
+none
+5000
+Evaluating query 5 - UsesP for x
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Uses="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: 
+Correct answer: 
+6 - UsesP for y
+variable aV; procedure myPp; while thisW;
+Select myPp such that Uses(myPp, "y")
+procedure, computeCentroid, printResults
+5000
+Evaluating query 6 - UsesP for y
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Uses="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: printResults computeCentroid procedure 
+Correct answer: procedure computeCentroid printResults 
+7 - assign pattern underscore
+variable aV; procedure myPp; assign kV;
+Select kV pattern kV(aV, _)
+1, 2, 4, 5
+5000
+Evaluating query 7 - assign pattern underscore
+_ is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" UnnamedVar="1" Pattern="1" CondNum="3" RelNum="0" 
+Your answer: 1 2 4 5 
+Correct answer: 1 2 4 5 
+8 - assign pattern full
+variable aV; procedure myPp; assign kV;
+Select kV pattern kV(aV, "0")
+1, 5
+5000
+Evaluating query 8 - assign pattern full
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Pattern="1" CondNum="2" RelNum="0" 
+Your answer: 1 5 
+Correct answer: 1 5 
+9 - assign pattern partial
+variable aV; procedure myPp; assign kV;
+Select kV pattern kV(aV, _"100 * 5"_)
+4
+5000
+Evaluating query 9 - assign pattern partial
+_"100 is an Unnamedvar 
+5"_ is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" UnnamedVar="2" Pattern="1" CondNum="4" RelNum="0" 
+Your answer: 4 
+Correct answer: 4 
+10 - [Advanced SPA] Calls
+variable aV; procedure myPp; while thisW;
+Select myPp such that Calls(myPp, _)
+procedure, printResults
+5000
+Evaluating query 10 - [Advanced SPA] Calls
+_ is an Unnamedvar 
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Calls="1" UnnamedVar="1" SuchThat="1" CondNum="4" RelNum="1" 
+Your answer: printResults procedure 
+Correct answer: procedure printResults 
+11 - [Advanced SPA] Calls*
+variable aV; procedure myPp; while thisW;
+Select myPp such that Calls*(myPp, "computeCentroid")
+procedure, printResults
+5000
+Evaluating query 11 - [Advanced SPA] Calls*
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" Callsstar="1" SuchThat="1" CondNum="3" RelNum="1" 
+Your answer: printResults procedure 
+Correct answer: procedure printResults 
+12 - Simply get all call statements
+variable aV; procedure myPp; while thisW; call kkkC;
+Select kkkC
+3, 8
+5000
+Evaluating query 12 - Simply get all call statements
+No ReturnBoolean, ReturnTuple=1 
+The final tag string is ReturnTuple="1" CondNum="1" RelNum="0" 
+Your answer: 3 8 
+Correct answer: 3 8 
+End of evaluating Query File.
+AutoTester Completed !

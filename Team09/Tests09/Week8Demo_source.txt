@@ -1,0 +1,16 @@
+procedure procedure {
+    flag = 0;
+    kkk = kkk + 100 * kkk;
+    call printResults;
+}
+
+procedure computeCentroid {
+    x = y + 100 * 5;
+    count = 0;   
+}
+
+procedure printResults {
+    print flag;
+    print cenX;
+    call computeCentroid;
+}

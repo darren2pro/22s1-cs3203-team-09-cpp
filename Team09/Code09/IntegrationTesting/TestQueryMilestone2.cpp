@@ -893,12 +893,13 @@ namespace IntegrationTesting {
 
                 //! Query 1
                 string query1 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
-                                "Select aa such that Uses(aa, v) pattern aa(v, _)";
+                                "Select aa such that Uses(aa, v) pattern aa(v1, _)";
                 unordered_set<string> results1 = spaManager.query(query1);
-                // Expected results: 1, 3, 5, 7
-                Assert::AreEqual(4, (int) results1.size(), L"Query 1 fails");
+                // Expected results: 1, 3, 4, 5, 7
+                Assert::AreEqual(5, (int) results1.size(), L"Query 1 fails");
                 Assert::IsTrue(results1.find("1") != results1.end());
                 Assert::IsTrue(results1.find("3") != results1.end());
+                Assert::IsTrue(results1.find("4") != results1.end());
                 Assert::IsTrue(results1.find("5") != results1.end());
                 Assert::IsTrue(results1.find("7") != results1.end());
 
@@ -906,17 +907,18 @@ namespace IntegrationTesting {
                 string query2 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
                                 "Select aa pattern aa(v, _)";
                 unordered_set<string> results2 = spaManager.query(query2);
-                // Expected results: 1, 3, 5, 7, 8
-                Assert::AreEqual(5, (int) results2.size(), L"Query 2 fails");
+                // Expected results: 1, 3, 4, 5, 7, 8
+                Assert::AreEqual(6, (int) results2.size(), L"Query 2 fails");
                 Assert::IsTrue(results2.find("1") != results2.end());
                 Assert::IsTrue(results2.find("3") != results2.end());
+                Assert::IsTrue(results2.find("4") != results2.end());
                 Assert::IsTrue(results2.find("5") != results2.end());
                 Assert::IsTrue(results2.find("7") != results2.end());
                 Assert::IsTrue(results2.find("8") != results2.end());
 
                 //! Query 3
                 string query3 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
-                                "Select aa such that Uses(aa, v) pattern aa(v, _\"var2\"_)";
+                                "Select aa such that Uses(aa, v) pattern aa(v1, _\"var2\"_)";
                 unordered_set<string> results3 = spaManager.query(query3);
                 // Expected results: 1, 3, 4, 5, 7
                 Assert::AreEqual(5, (int) results3.size(), L"Query 3 fails");
@@ -936,7 +938,7 @@ namespace IntegrationTesting {
 
                 //! Query 5
                 string query5 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
-                                "Select aa such that Uses(aa, v) pattern aa(v, _\"var3\"_)";
+                                "Select aa such that Uses(aa, v) pattern aa(v1, _\"var3\"_)";
                 unordered_set<string> results5 = spaManager.query(query5);
                 // Expected results: 1
                 Assert::AreEqual(1, (int) results5.size(), L"Query 5 fails");
@@ -944,7 +946,7 @@ namespace IntegrationTesting {
 
                 //! Query 6
                 string query6 = "variable v, v1; stmt s; assign aa; if ii; while www, w1;\n"
-                                "Select aa such that Uses(aa, v) pattern aa(v, _\"var1 +   (1) *     100\"_)";
+                                "Select aa such that Uses(aa, v) pattern aa(v1, _\"var1 +   (1) *     100\"_)";
                 unordered_set<string> results6 = spaManager.query(query6);
                 // Expected results: 3, 5, 7
                 Assert::AreEqual(3, (int) results6.size(), L"Query 6 fails");

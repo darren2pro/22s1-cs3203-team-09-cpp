@@ -18,36 +18,32 @@ public:
 
 	std::unordered_set<LineNum> ModifiesPEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {
 		// ModifiesP(a, 'x') List
-		std::unordered_set<LineNum> results = pkb->getModifiesSStmtByVar(RIGHT_ARG);
+		std::unordered_set<LineNum> results = pkb->getModifiesPProcByVar(RIGHT_ARG);
 		return results;
 	}
 
 	std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> ModifiesPEvaluator::leftSynonymRightSynonym() override {
-		// ModifiesP(a, v) PairList
-		//							w   v
-		// ModifiesP(w, v) PairList {2   a}
-		//						   {10  b}
-		std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> results = pkb->getAllModifiesS();
+		std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> results = pkb->getAllModifiesP();
 		return results;
 	};
 
     //! Retrieves all the possible statement numbers which modifies something. Synonym type constraint is not enforced yet.
 	std::unordered_set<LineNum> ModifiesPEvaluator::leftSynonymRightUnderscore() override {
 		// ModifiesP(a, _) List
-		std::unordered_set<LineNum> results = pkb->getModifiesSStmtByUS();
+		std::unordered_set<LineNum> results = pkb->getModifiesPProcByUS();
 		return results;
 	}
 
 	std::unordered_set<Variable> ModifiesPEvaluator::leftSimpleRightSynonym(std::string LEFT_ARG) override {
 		// ModifiesP(1, v) List 
-		std::unordered_set<Variable> results = pkb->getModifiesSVarByStmt(LEFT_ARG);
+		std::unordered_set<Variable> results = pkb->getModifiesPVarByProc(LEFT_ARG);
 		return results;
 
 	}
 
 	bool ModifiesPEvaluator::leftSimpleRightUnderscore(std::string LEFT_ARG) override {
 		// ModifiesP(1, _) Boolean
-		bool results = pkb->getModifiesSUS(LEFT_ARG);
+		bool results = pkb->getModifiesPUS(LEFT_ARG);
 		return results;
 
 	}
@@ -56,7 +52,7 @@ public:
 		// Left LineNum, Right Variable
 		// ModifiesP(1, 'x')
 		// Returns Boolean
-		bool results = pkb->getModifiesS(LEFT_ARG, RIGHT_ARG);
+		bool results = pkb->getModifiesP(LEFT_ARG, RIGHT_ARG);
 		return results;
 	}
 

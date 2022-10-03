@@ -5,18 +5,18 @@
 #include "../Pattern.h"
 #include "../Utils.h"
 #include "SuchThat/UsesSEvaluator.h"
+#include "Suchthat/UsesPEvaluator.h"
 #include "SuchThat/ModifiesSEvaluator.h"
+#include "Suchthat/ModifiesPEvaluator.h"
 #include "SuchThat/ParentEvaluator.h"
 #include "SuchThat/ParentTEvaluator.h"
 #include "SuchThat/FollowsEvaluator.h"
 #include "SuchThat/FollowsTEvaluator.h"
+#include "Suchthat/CallsTEvaluator.h"
+#include "Suchthat/CallsEvaluator.h"
 #include "Pattern/PatternEvaluator.h"
 #include "Pattern/AssignPatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
-#include "suchthat/CallsTEvaluator.h"
-#include "suchthat/CallsEvaluator.h"
-#include "suchthat/ModifiesPEvaluator.h"
-#include "suchthat/UsesPEvaluator.h"
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	relations = query->relations;
@@ -24,6 +24,10 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	declarations = query->declarations;
 	target = query->target;
 	rdb = ResultsDatabase();
+
+	// auto clauses = prioritizeClauses(query)
+	// for clause in clauses:
+	// if(!execute(clause)) { return False }
 
 	// Relations clause
 	bool relClauseResult = execute(relations, rdb);
@@ -51,11 +55,11 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
 
 	switch (relations.TYPE) {
-	case Relation::Modifies: // ModifiesS
+	case Relation::ModifiesS:
 		return ModifiesSEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::ModifiesP:
 		return ModifiesPEvaluator(declarations, relations, rdb, pkb).evaluate();
-	case Relation::Uses: // UsesS
+	case Relation::UsesS:
 		return UsesSEvaluator(declarations, relations, rdb, pkb).evaluate();
 	case Relation::UsesP:
 		return UsesPEvaluator(declarations, relations, rdb, pkb).evaluate();
@@ -126,6 +130,9 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 		break;
 	case Declaration::Statement:
 		resultsFromPKB = pkb->getStmtSet();
+		break;
+	case Declaration::Call:
+		resultsFromPKB = pkb->getCallSet();
 		break;
 	}
 

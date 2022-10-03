@@ -1,13 +1,16 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "Reference.h"
 
 class Relation {
 public:
-	enum Types {		// Relations
-		Modifies, // ModifiesS
+	enum Types {
+		Modifies,
+		ModifiesS,
 		ModifiesP,
-		Uses, // UsesS
+		Uses,
+		UsesS,
 		UsesP,
 		Follows,
 		FollowsT,
@@ -19,9 +22,47 @@ public:
 	};
 
 	Types TYPE;
-	std::string LEFT_ARG;		// Reference type
-	std::string RIGHT_ARG;		// Reference type
+	Reference LEFT_ARG;
+	Reference RIGHT_ARG;
 
-	Relation(Types TYPE, std::string LEFT_ARG, std::string RIGHT_ARG) : TYPE(TYPE), LEFT_ARG(LEFT_ARG), RIGHT_ARG(RIGHT_ARG) {};
-	Relation() : TYPE(Relation::NONE), LEFT_ARG(""), RIGHT_ARG("") {}; // Needed to ensure initialization of empty relation in Query.h
+	Relation(Types TYPE, Reference LEFT_ARG, Reference RIGHT_ARG) : TYPE(TYPE), LEFT_ARG(LEFT_ARG), RIGHT_ARG(RIGHT_ARG) {};
+	Relation() : TYPE(Relation::NONE), LEFT_ARG(Reference()), RIGHT_ARG(Reference()) {}; // Needed to ensure initialization of empty relation in Query.h
+
+	/**
+	 * Returns the Relation::Types that is equivalent to the string.
+	 * @returns a Realtion::Types that is equivalent to the string.
+	 */
+	static Types getType(std::string str) {
+		if (str == "Follows") {
+			return Relation::Types::Follows;
+		}
+		else if (str == "Follows*") {
+			return Relation::Types::FollowsT;
+		}
+		else if (str == "Parent") {
+			return Relation::Types::Parent;
+		}
+		else if (str == "Parent*") {
+			return Relation::Types::ParentT;
+		}
+		else if (str == "Uses") {
+			return Relation::Types::Uses;
+		}
+		else if (str == "Modifies") {
+			return Relation::Types::Modifies;
+		}		
+		else if (str == "Calls") {
+			return Relation::Types::Calls;
+		}		
+		else if (str == "Calls*") {
+			return Relation::Types::CallsT;
+		}
+		else {
+			return Relation::Types::NONE;
+		}
+	}
+
+	bool operator==(const Relation& r) const {
+		return TYPE == r.TYPE && LEFT_ARG == r.LEFT_ARG && RIGHT_ARG == r.RIGHT_ARG;
+	}
 };

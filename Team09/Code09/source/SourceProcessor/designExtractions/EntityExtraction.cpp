@@ -182,7 +182,7 @@ void EntityExtraction::extractModifyHelper(const std::shared_ptr<VariableNode> v
     }
     if (pkbStorage->callsTCalleeToCallerMap.find(proc) != pkbStorage->callsTCalleeToCallerMap.end()) {
         for (const auto& elem : pkbStorage->callsTCalleeToCallerMap.at(proc)) {
-            pkbStorage->storeModifiesP(proc, var->varName);
+            pkbStorage->storeModifiesP(elem, var->varName);
         }
     }
 }
@@ -279,7 +279,7 @@ void EntityExtraction::extractUsesHelper(const std::shared_ptr<VariableNode> var
 
     if (pkbStorage->callsTCalleeToCallerMap.find(proc) != pkbStorage->callsTCalleeToCallerMap.end()) {
         for (const auto& elem : pkbStorage->callsTCalleeToCallerMap.at(proc)) {
-            pkbStorage->storeUsesP(proc, var->varName);
+            pkbStorage->storeUsesP(elem, var->varName);
         }
     }
 }

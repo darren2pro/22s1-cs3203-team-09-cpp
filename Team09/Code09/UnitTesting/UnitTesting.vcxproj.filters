@@ -62,5 +62,11 @@
     <ClCompile Include="QueryProcessingSubsystem\Executor\TestExecute.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor</Filter>
     </ClCompile>
+    <ClCompile Include="TestReference.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="TestExpression.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

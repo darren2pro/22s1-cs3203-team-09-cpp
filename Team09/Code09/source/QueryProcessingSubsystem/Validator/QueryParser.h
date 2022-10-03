@@ -48,21 +48,17 @@ public:
 
 	/**
 	 * Checks if the current token matches with the expected token.
+	 * @returns the current token.
 	 * @throws SyntaxError if the current token does not match the expected token.
 	 */
-	void match(std::string token);
+	std::string match(std::string token);
 
 	/**
 	 * Checks if the current token matches with the expected regex.
+	 * @returns the current token.
 	 * @throws SyntaxError if the current token does not match the regex.
 	 */
-	void match(std::regex re);
-
-	/**
-	 * Returns the Declaration::DesignEntity that is equivalent to the token string.
-	 * @returns a Declaration::DesignEntity that is equivalent to the token string.
-	 */
-	Declaration::DesignEntity getDesignEntity(std::string token);
+	std::string match(std::regex re);
 
 	/**
 	 * Parses declaration.
@@ -79,16 +75,16 @@ public:
 	Declaration findDeclaration(std::string name);
 
 	/**
-	 * Checks that the arguent is a valid stmtRef.
-	 * @throws SemanticError if arg is not valid.
+	 * Checks that ref is a valid stmtRef.
+	 * @returns true if ref is a valid stmtRef, otherwise returns false.
 	 */
-	void validate_stmtRef(Relation::Types rel, std::string arg);
+	bool is_valid_stmtRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types);
 	
 	/**
-	 * Checks that the arguent is a valid entRef.
-	 * @throws SemanticError if arg is not valid.
-	 */
-	void validate_entRef(std::string arg);
+	* Checks that ref is a valid entRef.
+	* @returns true if ref is a valid entRef, otherwise returns false.
+	*/
+	bool is_valid_entRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types);
 
 	/**
 	 * Parses declaration.
@@ -102,12 +98,6 @@ public:
 	 * @throws SemanticError if an argument is not valid.
 	 */
 	Pattern patternClause();
-
-	/**
-	 * Returns the Relation::Types that is equivalent to the token string.
-	 * @returns a Realtion::Types that is equivalent to the token string.
-	 */
-	Relation::Types getType(std::string token);
 
 	/**
 	 * Parses the such that clause.

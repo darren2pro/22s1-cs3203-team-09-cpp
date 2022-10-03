@@ -16,8 +16,8 @@ public:
     //creating line numbers
     void createLineNumbers(const std::shared_ptr<ProgramNode> astRoot);
     void createLineNumbers(const std::shared_ptr<ProcedureNode> proc);
-    void createLineNumbers(const Stmt stmts);
-    void traverseLineNumbers(const std::vector<Stmt> stmts);
+    void createLineNumbers(const Stmt stmts, const PKB::Procedure procName);
+    void traverseLineNumbers(const std::vector<Stmt> stmts, const PKB::Procedure procName);
 
     //entity design extractions from ast
     void extractEntities(const std::shared_ptr<ProgramNode> astRoot);
@@ -96,6 +96,7 @@ public:
     void extractCallsRls(const std::shared_ptr<PrintNode>);
     void extractCallsRls(const std::shared_ptr<AssignmentNode>);
     void extractCallsRls(const std::shared_ptr<CallNode> node);
+    void extractCallsTRls();
 
     //extracting Assign pattern relations
     void extractAssignPattern(const std::shared_ptr<ProgramNode> astRoot);

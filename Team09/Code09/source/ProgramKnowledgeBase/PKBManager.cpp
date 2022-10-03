@@ -522,8 +522,15 @@ namespace PKB {
 
     std::unordered_set<LineNum> PKBManager::getAssignLineByVarMatchFull(const Variable var, const  ExprStr expr) {
         std::unordered_set<LineNum> set;
-        if (pkbStorage->assignExprToLineVarMap.find(expr) != pkbStorage->assignExprToLineVarMap.end()) {
-            for (const auto& elem : pkbStorage->assignExprToLineVarMap.at(expr)) {
+        std::string pattern = expr;
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
+
+        Expr exprNode = SimpleInterface::parseExpression(pattern);
+        ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+        if (pkbStorage->assignExprToLineVarMap.find(patternStr) != pkbStorage->assignExprToLineVarMap.end()) {
+            for (const auto& elem : pkbStorage->assignExprToLineVarMap.at(patternStr)) {
                 if (elem.second == var) {
                     set.insert(elem.first);
                 }
@@ -557,15 +564,22 @@ namespace PKB {
         return pkbStorage->assignLineVarSet;
     }
 
-    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBManager::getAssignLineVarByMatchFull(const  ExprStr expr) {
-        if (pkbStorage->assignExprToLineVarMap.find(expr) != pkbStorage->assignExprToLineVarMap.end()) {
-            return pkbStorage->assignExprToLineVarMap.at(expr);
+    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBManager::getAssignLineVarByMatchFull(const ExprStr expr) {
+        std::string pattern = expr;
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
+
+        Expr exprNode = SimpleInterface::parseExpression(pattern);
+        ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+        if (pkbStorage->assignExprToLineVarMap.find(patternStr) != pkbStorage->assignExprToLineVarMap.end()) {
+            return pkbStorage->assignExprToLineVarMap.at(patternStr);
         } else {
             return std::unordered_set<std::pair<LineNum, Variable>, pairHash>();
         }
     }
 
-    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBManager::getAssignLineVarByMatchPartial(const  ExprStr expr) {
+    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBManager::getAssignLineVarByMatchPartial(const ExprStr expr) {
         //get pattern string
         std::unordered_set<std::pair<LineNum, Variable>, pairHash> set;
         std::string pattern = expr;
@@ -589,17 +603,24 @@ namespace PKB {
         return pkbStorage->assignSet;
     }
 
-    std::unordered_set<LineNum> PKBManager::getAssignLineByUSMatchFull(const  ExprStr expr) {
+    std::unordered_set<LineNum> PKBManager::getAssignLineByUSMatchFull(const ExprStr expr) {
         std::unordered_set<LineNum> set;
-        if (pkbStorage->assignExprToLineVarMap.find(expr) != pkbStorage->assignExprToLineVarMap.end()) {
-            for (const auto& elem : pkbStorage->assignExprToLineVarMap.at(expr)) {
+        std::string pattern = expr;
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
+
+        Expr exprNode = SimpleInterface::parseExpression(pattern);
+        ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+        if (pkbStorage->assignExprToLineVarMap.find(patternStr) != pkbStorage->assignExprToLineVarMap.end()) {
+            for (const auto& elem : pkbStorage->assignExprToLineVarMap.at(patternStr)) {
                 set.insert(elem.first);
             }
         }
         return set;
     }
 
-    std::unordered_set<LineNum> PKBManager::getAssignLineByUSMatchPartial(const  ExprStr expr) {
+    std::unordered_set<LineNum> PKBManager::getAssignLineByUSMatchPartial(const ExprStr expr) {
         //get pattern string
         std::unordered_set<LineNum> set;
         std::string pattern = expr;

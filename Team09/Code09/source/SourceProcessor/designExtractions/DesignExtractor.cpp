@@ -8,10 +8,10 @@ void DesignExtractor::extractDesignAbstractions(const std::shared_ptr<ProgramNod
     EntityExtraction entityExtraction = EntityExtraction(pkbFacade);
     entityExtraction.createLineNumbers(astRoot);
     entityExtraction.extractEntities(astRoot);
+    entityExtraction.extractCallsRls(astRoot);
     entityExtraction.extractFollowsRls(astRoot);
     entityExtraction.extractParentsRls(astRoot);
     entityExtraction.extractModifyRls(astRoot);
     entityExtraction.extractUsesRls(astRoot);
     entityExtraction.extractAssignPattern(astRoot);
-    entityExtraction.extractCallsRls(astRoot);
 }

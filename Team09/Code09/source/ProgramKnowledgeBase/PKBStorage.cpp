@@ -93,6 +93,10 @@ namespace PKB {
     //todo (figure out what to  do with proc)
     void PKBStorage::storeCall(const LineNum lineNum, Procedure proc) {
         callSet.insert(lineNum);
+        std::pair<LineNum, Procedure> pair = std::make_pair(lineNum, proc);
+        callLineProcSet.insert(pair);
+        PKB::addToSetInMap(callLineToProcMap, lineNum, proc);
+        PKB::addToSetInMap(callProcToLineMap, proc, lineNum);
     }
 
     //relations

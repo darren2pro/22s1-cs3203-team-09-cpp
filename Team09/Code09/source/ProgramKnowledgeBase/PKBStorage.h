@@ -62,6 +62,9 @@ namespace PKB {
         std::unordered_map<ChildLine, std::unordered_set<ParentLine>> parentTChildToParentMap;
 
         //Calls
+        std::unordered_set<std::pair<LineNum, Procedure>, pairHash> callLineProcSet;
+        std::unordered_map<LineNum, std::unordered_set<Procedure>> callLineToProcMap;
+        std::unordered_map<Procedure, std::unordered_set<LineNum>> callProcToLineMap;
         std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> callsSet;
         std::unordered_map<CallerProc, std::unordered_set<CalleeProc>> callsCallerToCalleeMap;
         std::unordered_map<CalleeProc, std::unordered_set<CallerProc>> callsCalleeToCallerMap;

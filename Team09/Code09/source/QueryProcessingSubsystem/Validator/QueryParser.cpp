@@ -20,7 +20,7 @@ namespace parser {
 
 	std::regex integer_re(integer);
 	std::regex design_enteties_re("stmt|read|print|while|if|assign|variable|constant|procedure|call");
-	std::regex relation_re("Follows|Follows[\*]|Parent|Parent[\*]|Uses|Modifies|Calls|Calls[\*]");
+	std::regex relation_re("Follows|Follows[\*]|Parent|Parent[\*]|Uses|Modifies|Calls|Calls[\*]|Next|Next[\*]|Affects|Affects[\*]");
 	std::regex synonym_re(synonym);									// synonym: IDENT	--> IDENT: LETTER (LETTER|DIGIT)*
 	std::regex stmtRef_re(stmtRef);									// stmtRef: synonym | '_' | INTEGER
 	std::regex entRef_re(entRef);									// endRef: synonym | '_' | '"' IDENT '"'
@@ -40,7 +40,9 @@ namespace parser {
 	std::vector<Declaration::DesignEntity> stmtRef_Uses_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Statement,
 															Declaration::DesignEntity::Assignment,Declaration::DesignEntity::If,
 															Declaration::DesignEntity::While, Declaration::DesignEntity::Call,
-															Declaration::DesignEntity::Print });
+															Declaration::DesignEntity::Print });	
+	// valid stmtRef synonym types for Affects
+	std::vector<Declaration::DesignEntity> stmtRef_Affects_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Assignment });
 	// valid (first arg) entRef synonym types for UsesP/ModifiesP/Calls
 	std::vector<Declaration::DesignEntity> entRef_Proc_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Procedure });
 	// valid (second arg) entRef synonym types for UsesP/ModifiesP/Calls & pattern
@@ -338,8 +340,13 @@ Relation QueryParser::suchThatClause() {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
 	}
-	else {		// Follows/Follows*/Parent/Parent*
+	else {		// Follows/Follows*/Parent/Parent*/Next/Next*/Affects/Affects*
 		arg = match(parser::stmtRef_re);
+
+		std::vector<Declaration::DesignEntity> de = parser::stmtRef_de;
+		if (type == Relation::Types::Affects || type == Relation::Types::AffectsT) {
+			de = parser::stmtRef_Affects_de;
+		}
 
 		try {
 			left_arg = Reference(arg);
@@ -348,7 +355,7 @@ Relation QueryParser::suchThatClause() {
 			left_arg = Reference(findDeclaration(arg));
 		}
 
-		if (!is_valid_stmtRef(left_arg, parser::stmtRef_de)) {
+		if (!is_valid_stmtRef(left_arg, de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
 
@@ -365,7 +372,7 @@ Relation QueryParser::suchThatClause() {
 			right_arg = Reference(findDeclaration(arg));
 		}
 
-		if (!is_valid_stmtRef(right_arg, parser::stmtRef_de)) {
+		if (!is_valid_stmtRef(right_arg, de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
 	}

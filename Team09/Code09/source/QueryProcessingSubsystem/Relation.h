@@ -18,6 +18,10 @@ public:
 		ParentT,
 		Calls,
 		CallsT,
+		Next,
+		NextT,
+		Affects,
+		AffectsT,
 		NONE
 	};
 
@@ -56,6 +60,18 @@ public:
 		}		
 		else if (str == "Calls*") {
 			return Relation::Types::CallsT;
+		}		
+		else if (str == "Next") {
+			return Relation::Types::Next;
+		}		
+		else if (str == "Next*") {
+			return Relation::Types::NextT;
+		}		
+		else if (str == "Affects") {
+			return Relation::Types::Affects;
+		}		
+		else if (str == "Affects*") {
+			return Relation::Types::AffectsT;
 		}
 		else {
 			return Relation::Types::NONE;

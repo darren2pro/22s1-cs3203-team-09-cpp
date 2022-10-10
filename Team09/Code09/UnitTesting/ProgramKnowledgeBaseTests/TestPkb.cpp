@@ -19,6 +19,16 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->stmtSet.find(line) != pkbStorage->stmtSet.end());
                 Assert::IsTrue(pkbStorage->stmtSet.find("2") == pkbStorage->stmtSet.end());
 
+                //Check if CFG is stored correctly
+                pkbStorage->storeCFGEdge("1", "2");
+                pkbStorage->storeCFGEdge("1", "3");
+                std::unordered_set<PKB::LineNum> cfgNextSet;
+                cfgNextSet.insert("2");
+                cfgNextSet.insert("3");
+                Assert::IsTrue(pkbStorage->cfgPrevLineToNextLineMap.find("1") != pkbStorage->cfgPrevLineToNextLineMap.end());
+                Assert::IsTrue(pkbStorage->cfgPrevLineToNextLineMap.find("2") == pkbStorage->cfgPrevLineToNextLineMap.end());
+                Assert::IsTrue(pkbStorage->cfgPrevLineToNextLineMap.at("1") == cfgNextSet);
+
                 //Check if entity population is correct
                 pkbStorage->storeVariable("var1");
                 pkbStorage->storeProcedure("proc1");
@@ -205,6 +215,14 @@ namespace UnitTesting {
             TEST_METHOD(TestPkbManager) {
                 PKB::PKBManager pkbManager;
                 std::shared_ptr<PKB::PKBStorage> pkbStorage = pkbManager.getPKBStorage();
+
+                //CFG
+                pkbStorage->storeCFGEdge("1", "2");
+                pkbStorage->storeCFGEdge("1", "3");
+                std::unordered_set<PKB::NextLine> cfgNextLineMap;
+                cfgNextLineMap.insert("2");
+                cfgNextLineMap.insert("3");
+                Assert::IsTrue(pkbManager.getCFG().at("1") == cfgNextLineMap);
 
                 //modifies
                 pkbStorage->storeModifiesS("1", "var1");

@@ -55,6 +55,10 @@ namespace PKB {
         stmtSet.insert(lineNum);
     }
 
+    void PKBStorage::storeCFGEdge(const PrevLine lineBefore, const NextLine lineAfter) {
+        PKB::addToSetInMap(cfgPrevLineToNextLineMap, lineBefore, lineAfter);
+    }
+
     //entities
     void PKBStorage::storeVariable(const Variable var) {
         varSet.insert(var);

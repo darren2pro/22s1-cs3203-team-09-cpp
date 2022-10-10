@@ -1,8 +1,9 @@
 #pragma once
 
-#include <unordered_set>
 #include <unordered_map>
+#include <unordered_set>
 #include "PKBUtils.h"
+#include "RelationsSetBiMap.h"
 #include "../TNode/TNode.h"
 
 namespace PKB {
@@ -30,47 +31,58 @@ namespace PKB {
         std::unordered_set<LineNum> callSet;
 
         //Modifies
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> modifiesSSet;
-        std::unordered_map<LineNum, std::unordered_set<Variable>> modifiesSLineToVarMap;
-        std::unordered_map<Variable, std::unordered_set<LineNum>> modifiesSVarToLineMap;
-        std::unordered_set<std::pair<Procedure, Variable>, pairHash> modifiesPSet;
-        std::unordered_map<Procedure, std::unordered_set<Variable>> modifiesPProcToVarMap;
-        std::unordered_map<Variable, std::unordered_set<Procedure>> modifiesPVarToProcMap;
+        RelationsSetBiMap<LineNum, Variable> modifiesSRelations;
+        RelationsSetBiMap<Procedure, Variable> modifiesPRelations;
+        //std::unordered_set<std::pair<LineNum, Variable>, pairHash> modifiesSSet;
+        //std::unordered_map<LineNum, std::unordered_set<Variable>> modifiesSLineToVarMap;
+        //std::unordered_map<Variable, std::unordered_set<LineNum>> modifiesSVarToLineMap;
+        //std::unordered_set<std::pair<Procedure, Variable>, pairHash> modifiesPSet;
+        //std::unordered_map<Procedure, std::unordered_set<Variable>> modifiesPProcToVarMap;
+        //std::unordered_map<Variable, std::unordered_set<Procedure>> modifiesPVarToProcMap;
 
         //Uses
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> usesSSet;
-        std::unordered_map<LineNum, std::unordered_set<Variable>> usesSLineToVarMap;
-        std::unordered_map<Variable, std::unordered_set<LineNum>> usesSVarToLineMap;
-        std::unordered_set<std::pair<Procedure, Variable>, pairHash> usesPSet;
-        std::unordered_map<Procedure, std::unordered_set<Variable>> usesPProcToVarMap;
-        std::unordered_map<Variable, std::unordered_set<Procedure>> usesPVarToProcMap;
+        RelationsSetBiMap<LineNum, Variable> usesSRelations;
+        RelationsSetBiMap<Procedure, Variable> usesPRelations;
+        //std::unordered_set<std::pair<LineNum, Variable>, pairHash> usesSSet;
+        //std::unordered_map<LineNum, std::unordered_set<Variable>> usesSLineToVarMap;
+        //std::unordered_map<Variable, std::unordered_set<LineNum>> usesSVarToLineMap;
+        //std::unordered_set<std::pair<Procedure, Variable>, pairHash> usesPSet;
+        //std::unordered_map<Procedure, std::unordered_set<Variable>> usesPProcToVarMap;
+        //std::unordered_map<Variable, std::unordered_set<Procedure>> usesPVarToProcMap;
 
         //Follows
-        std::unordered_set<std::pair<PrevLine, NextLine>, pairHash> followsSet;
-        std::unordered_map<PrevLine, std::unordered_set<NextLine>> followsPrevToNextMap;
-        std::unordered_map<NextLine, std::unordered_set<PrevLine>> followsNextToPrevMap;
-        std::unordered_set<std::pair<PrevLine, NextLine>, pairHash> followsTSet;
-        std::unordered_map<PrevLine, std::unordered_set<NextLine>> followsTPrevToNextMap;
-        std::unordered_map<NextLine, std::unordered_set<PrevLine>> followsTNextToPrevMap;
+        RelationsSetBiMap<PrevLine, NextLine> followsRelations;
+        RelationsSetBiMap<PrevLine, NextLine> followsTRelations;
+        //std::unordered_set<std::pair<PrevLine, NextLine>, pairHash> followsSet;
+        //std::unordered_map<PrevLine, std::unordered_set<NextLine>> followsPrevToNextMap;
+        //std::unordered_map<NextLine, std::unordered_set<PrevLine>> followsNextToPrevMap;
+        //std::unordered_set<std::pair<PrevLine, NextLine>, pairHash> followsTSet;
+        //std::unordered_map<PrevLine, std::unordered_set<NextLine>> followsTPrevToNextMap;
+        //std::unordered_map<NextLine, std::unordered_set<PrevLine>> followsTNextToPrevMap;
 
         //Parent
-        std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> parentSet;
-        std::unordered_map<ParentLine, std::unordered_set<ChildLine>> parentParentToChildMap;
-        std::unordered_map<ChildLine, std::unordered_set<ParentLine>> parentChildToParentMap;
-        std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> parentTSet;
-        std::unordered_map<ParentLine, std::unordered_set<ChildLine>> parentTParentToChildMap;
-        std::unordered_map<ChildLine, std::unordered_set<ParentLine>> parentTChildToParentMap;
+        RelationsSetBiMap<ParentLine, ChildLine> parentRelations;
+        RelationsSetBiMap<ParentLine, ChildLine> parentTRelations;
+        //std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> parentSet;
+        //std::unordered_map<ParentLine, std::unordered_set<ChildLine>> parentParentToChildMap;
+        //std::unordered_map<ChildLine, std::unordered_set<ParentLine>> parentChildToParentMap;
+        //std::unordered_set<std::pair<ParentLine, ChildLine>, pairHash> parentTSet;
+        //std::unordered_map<ParentLine, std::unordered_set<ChildLine>> parentTParentToChildMap;
+        //std::unordered_map<ChildLine, std::unordered_set<ParentLine>> parentTChildToParentMap;
 
         //Calls
-        std::unordered_set<std::pair<LineNum, Procedure>, pairHash> callLineProcSet;
-        std::unordered_map<LineNum, std::unordered_set<Procedure>> callLineToProcMap;
-        std::unordered_map<Procedure, std::unordered_set<LineNum>> callProcToLineMap;
-        std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> callsSet;
-        std::unordered_map<CallerProc, std::unordered_set<CalleeProc>> callsCallerToCalleeMap;
-        std::unordered_map<CalleeProc, std::unordered_set<CallerProc>> callsCalleeToCallerMap;
-        std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> callsTSet;
-        std::unordered_map<CallerProc, std::unordered_set<CalleeProc>> callsTCallerToCalleeMap;
-        std::unordered_map<CalleeProc, std::unordered_set<CallerProc>> callsTCalleeToCallerMap;
+        RelationsSetBiMap<LineNum, Procedure> callRelations;
+        RelationsSetBiMap<CallerProc, CalleeProc> callsRelations;
+        RelationsSetBiMap<CallerProc, CalleeProc> callsTRelations;
+        //std::unordered_set<std::pair<LineNum, Procedure>, pairHash> callLineProcSet;
+        //std::unordered_map<LineNum, std::unordered_set<Procedure>> callLineToProcMap;
+        //std::unordered_map<Procedure, std::unordered_set<LineNum>> callProcToLineMap;
+        //std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> callsSet;
+        //std::unordered_map<CallerProc, std::unordered_set<CalleeProc>> callsCallerToCalleeMap;
+        //std::unordered_map<CalleeProc, std::unordered_set<CallerProc>> callsCalleeToCallerMap;
+        //std::unordered_set<std::pair<CallerProc, CalleeProc>, pairHash> callsTSet;
+        //std::unordered_map<CallerProc, std::unordered_set<CalleeProc>> callsTCallerToCalleeMap;
+        //std::unordered_map<CalleeProc, std::unordered_set<CallerProc>> callsTCalleeToCallerMap;
 
         //pattern map
         std::unordered_set<std::pair<LineNum, Variable>, pairHash> assignLineVarSet;

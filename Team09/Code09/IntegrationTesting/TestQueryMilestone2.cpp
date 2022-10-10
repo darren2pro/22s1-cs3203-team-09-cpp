@@ -762,7 +762,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results7.find("procTwo") != results7.end());
 
                 //! Query 8 - Calls with underscore
-                string query8 = "procedure p; variable v, v1;\n"
+                string query8 = "procedure p; variable v, v1   ;\n"
                                 "Select p such that Calls(\"nested\", _)";
                 unordered_set<string> results8 = spaManager.query(query8);
                 // Expected results: procOne, procTwo, nested

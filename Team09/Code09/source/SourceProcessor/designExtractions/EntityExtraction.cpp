@@ -202,8 +202,8 @@ void EntityExtraction::extractIndirectUsesRls() {
         PKB::LineNum lnNum = lineProc.first;
         PKB::Procedure proc = lineProc.second;
 
-        if (pkbStorage->usesPRelations.containsSecond(proc)) {
-            for (const auto& var : pkbStorage->usesPRelations.getFirstFromSecond(proc)) {
+        if (pkbStorage->usesPRelations.containsFirst(proc)) {
+            for (const auto& var : pkbStorage->usesPRelations.getSecondFromFirst(proc)) {
                 pkbStorage->storeUsesS(lnNum, var);
 
                 if (pkbStorage->parentTRelations.containsSecond(lnNum)) {

@@ -13,12 +13,12 @@ public:
 		While
 	};
 
-	Types TYPE = Types::Assign;		// change in sprint 4
+	Types TYPE;
 	Declaration synonym;
 	Reference LEFT_ARG;
-	Expression RIGHT_ARG;
+	Expression RIGHT_ARG;	// only has value if type is Assign
 
-	Pattern(Declaration synonym, Reference LEFT_ARG, Expression RIGHT_ARG) : synonym(synonym), LEFT_ARG(LEFT_ARG), RIGHT_ARG(RIGHT_ARG) {};
+	Pattern(Types TYPE, Declaration synonym, Reference LEFT_ARG) : TYPE(TYPE), synonym(synonym), LEFT_ARG(LEFT_ARG), RIGHT_ARG(Expression()) {};	// for If and While cases
 	Pattern(Types TYPE, Declaration synonym, Reference LEFT_ARG, Expression RIGHT_ARG) : TYPE(TYPE), synonym(synonym), LEFT_ARG(LEFT_ARG), RIGHT_ARG(RIGHT_ARG) {};
 	Pattern() : TYPE(Types::NONE), synonym(Declaration()), LEFT_ARG(Reference()), RIGHT_ARG(Expression()) {};
 

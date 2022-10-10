@@ -126,8 +126,8 @@ namespace UnitTesting {
             expectedResult.declarations = std::vector<Declaration>();
             expectedResult.declarations.push_back(Declaration(Declaration::DesignEntity::Statement, "sss"));
             expectedResult.target = Declaration(Declaration::DesignEntity::Statement, "sss");
-            expectedResult.relations = Relation();
-            expectedResult.patterns = Pattern();
+            expectedResult.relations = std::vector<Relation>();
+            expectedResult.patterns = std::vector<Pattern>();
             expectedResult.results = std::vector<std::string>();
 
             Query* result = parser.parse();
@@ -146,8 +146,8 @@ namespace UnitTesting {
             expectedResult.declarations = std::vector<Declaration>();
             expectedResult.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
             expectedResult.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult.relations = Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("\"x\""));
-            expectedResult.patterns = Pattern(Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("_"), Expression("_\"x\"_"));
+            expectedResult.relations = std::vector<Relation>({ Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("\"x\"")) });
+            expectedResult.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("_"), Expression("_\"x\"_")) });
             expectedResult.results = std::vector<std::string>();
 
             Query* result = parser.parse();
@@ -169,8 +169,8 @@ namespace UnitTesting {
                                         Declaration(Declaration::DesignEntity::Statement, "s1"),  Declaration(Declaration::DesignEntity::Statement, "x"),
                                         Declaration(Declaration::DesignEntity::Constant, "Select")});
             expectedResult.target = Declaration(Declaration::DesignEntity::Constant, "Select");
-            expectedResult.relations = Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("\"x\""));
-            expectedResult.patterns = Pattern();
+            expectedResult.relations = std::vector<Relation>({ Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("\"x\"")) });
+            expectedResult.patterns = std::vector<Pattern>();
             expectedResult.results = std::vector<std::string>();
 
             Query* result = parser.parse();
@@ -190,8 +190,8 @@ namespace UnitTesting {
             expectedResult1.declarations = std::vector<Declaration>();
             expectedResult1.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
             expectedResult1.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult1.relations = Relation();
-            expectedResult1.patterns = Pattern(Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("_"), Expression("_"));
+            expectedResult1.relations = std::vector<Relation>();
+            expectedResult1.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("_"), Expression("_")) });
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
@@ -210,8 +210,8 @@ namespace UnitTesting {
             expectedResult2.declarations = std::vector<Declaration>();
             expectedResult2.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
             expectedResult2.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult2.relations = Relation();
-            expectedResult2.patterns = Pattern(Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("_"), Expression("_\"x+1\"_"));
+            expectedResult2.relations = std::vector<Relation>();
+            expectedResult2.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("_"), Expression("_\"x+1\"_")) });
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -229,8 +229,8 @@ namespace UnitTesting {
             expectedResult3.declarations = std::vector<Declaration>();
             expectedResult3.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
             expectedResult3.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult3.relations = Relation();
-            expectedResult3.patterns = Pattern(Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("_"), Expression("\"x+1\""));
+            expectedResult2.relations = std::vector<Relation>();
+            expectedResult3.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("_"), Expression("\"x+1\"")) });
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -247,8 +247,8 @@ namespace UnitTesting {
 
             expectedResult4.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a"), Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult4.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult4.relations = Relation();
-            expectedResult4.patterns = Pattern(Declaration(Declaration::DesignEntity::Assignment, "a"), Reference(Declaration(Declaration::DesignEntity::Variable, "v")), Expression("_"));
+            expectedResult4.relations = std::vector<Relation>();
+            expectedResult4.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference(Declaration(Declaration::DesignEntity::Variable, "v")), Expression("_")) });
             expectedResult4.results = std::vector<std::string>();
 
             Query* result4 = parser4.parse();
@@ -265,8 +265,8 @@ namespace UnitTesting {
 
             expectedResult5.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a"), Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult5.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult5.relations = Relation();
-            expectedResult5.patterns = Pattern(Declaration(Declaration::DesignEntity::Assignment, "a"), Reference(Declaration(Declaration::DesignEntity::Variable, "v")), Expression("_\"x+1\"_"));
+            expectedResult5.relations = std::vector<Relation>();
+            expectedResult5.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference(Declaration(Declaration::DesignEntity::Variable, "v")), Expression("_\"x+1\"_")) });
             expectedResult5.results = std::vector<std::string>();
 
             Query* result5 = parser5.parse();
@@ -283,8 +283,8 @@ namespace UnitTesting {
 
             expectedResult6.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a"), Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult6.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult6.relations = Relation();
-            expectedResult6.patterns = Pattern(Declaration(Declaration::DesignEntity::Assignment, "a"), Reference(Declaration(Declaration::DesignEntity::Variable, "v")), Expression("\"x+1\""));
+            expectedResult6.relations = std::vector<Relation>();
+            expectedResult6.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference(Declaration(Declaration::DesignEntity::Variable, "v")), Expression("\"x+1\"")) });
             expectedResult6.results = std::vector<std::string>();
 
             Query* result6 = parser6.parse();
@@ -302,8 +302,8 @@ namespace UnitTesting {
             expectedResult7.declarations = std::vector<Declaration>();
             expectedResult7.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
             expectedResult7.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult7.relations = Relation();
-            expectedResult7.patterns = Pattern(Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("\"x\""), Expression("_"));
+            expectedResult7.relations = std::vector<Relation>();
+            expectedResult7.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("\"x\""), Expression("_")) });
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -321,8 +321,8 @@ namespace UnitTesting {
             expectedResult8.declarations = std::vector<Declaration>();
             expectedResult8.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
             expectedResult8.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult8.relations = Relation();
-            expectedResult8.patterns = Pattern(Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("\"x\""), Expression("_\"x+1\"_"));
+            expectedResult8.relations = std::vector<Relation>();
+            expectedResult8.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("\"x\""), Expression("_\"x+1\"_")) });
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -340,8 +340,8 @@ namespace UnitTesting {
             expectedResult9.declarations = std::vector<Declaration>();
             expectedResult9.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
             expectedResult9.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult9.relations = Relation();
-            expectedResult9.patterns = Pattern(Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("\"x\""), Expression("\"x+1\""));
+            expectedResult9.relations = std::vector<Relation>();
+            expectedResult9.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("\"x\""), Expression("\"x+1\"")) });
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();
@@ -361,14 +361,14 @@ namespace UnitTesting {
 
             expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a1"),  Declaration(Declaration::DesignEntity::Assignment, "a2") });
             expectedResult1.target = Declaration(Declaration::DesignEntity::Assignment, "a1");
-            expectedResult1.relations = Relation(Relation::Types::Follows, Reference(Declaration(Declaration::DesignEntity::Assignment, "a1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "a2")));
-            expectedResult1.patterns = Pattern();
+            expectedResult1.relations = std::vector<Relation>({ Relation(Relation::Types::Follows, Reference(Declaration(Declaration::DesignEntity::Assignment, "a1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "a2"))) });
+            expectedResult1.patterns = std::vector<Pattern>();
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
 
             Assert::IsTrue(*result1 == expectedResult1);
-        
+
             // Follows(synonym, _)
             std::string query2 = "assign a; Select a such that Follows(a, _)";
             QueryLexer lexer2 = QueryLexer(query2);
@@ -379,8 +379,8 @@ namespace UnitTesting {
 
             expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult2.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult2.relations = Relation(Relation::Types::Follows, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_"));
-            expectedResult2.patterns = Pattern();
+            expectedResult2.relations = std::vector<Relation>({ Relation(Relation::Types::Follows, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_")) });
+            expectedResult2.patterns = std::vector<Pattern>();
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -397,8 +397,8 @@ namespace UnitTesting {
 
             expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult3.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult3.relations = Relation(Relation::Types::Follows, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("3"));
-            expectedResult3.patterns = Pattern();
+            expectedResult3.relations = std::vector<Relation>({Relation(Relation::Types::Follows, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("3")) });
+            expectedResult3.patterns = std::vector<Pattern>();
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -415,8 +415,8 @@ namespace UnitTesting {
 
             expectedResult4.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult4.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult4.relations = Relation(Relation::Types::Follows, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a")));
-            expectedResult4.patterns = Pattern();
+            expectedResult4.relations = std::vector<Relation>({Relation(Relation::Types::Follows, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a"))) });
+            expectedResult4.patterns = std::vector<Pattern>();
             expectedResult4.results = std::vector<std::string>();
 
             Query* result4 = parser4.parse();
@@ -433,8 +433,8 @@ namespace UnitTesting {
 
             expectedResult5.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult5.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult5.relations = Relation(Relation::Types::Follows, Reference("_"), Reference("_"));
-            expectedResult5.patterns = Pattern();
+            expectedResult5.relations = std::vector<Relation>({Relation(Relation::Types::Follows, Reference("_"), Reference("_")) });
+            expectedResult5.patterns = std::vector<Pattern>();
             expectedResult5.results = std::vector<std::string>();
 
             Query* result5 = parser5.parse();
@@ -451,8 +451,8 @@ namespace UnitTesting {
 
             expectedResult6.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult6.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult6.relations = Relation(Relation::Types::Follows, Reference("_"), Reference("3"));
-            expectedResult6.patterns = Pattern();
+            expectedResult6.relations = std::vector<Relation>({Relation(Relation::Types::Follows, Reference("_"), Reference("3")) });
+            expectedResult6.patterns = std::vector<Pattern>();
             expectedResult6.results = std::vector<std::string>();
 
             Query* result6 = parser6.parse();
@@ -469,8 +469,8 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult7.relations = Relation(Relation::Types::Follows, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a")));
-            expectedResult7.patterns = Pattern();
+            expectedResult7.relations = std::vector<Relation>({Relation(Relation::Types::Follows, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a"))) });
+            expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -487,8 +487,8 @@ namespace UnitTesting {
 
             expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult8.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult8.relations = Relation(Relation::Types::Follows, Reference("2"), Reference("_"));
-            expectedResult8.patterns = Pattern();
+            expectedResult8.relations = std::vector<Relation>({Relation(Relation::Types::Follows, Reference("2"), Reference("_")) });
+            expectedResult8.patterns = std::vector<Pattern>();
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -505,8 +505,8 @@ namespace UnitTesting {
 
             expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult9.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult9.relations = Relation(Relation::Types::Follows, Reference("2"), Reference("3"));
-            expectedResult9.patterns = Pattern();
+            expectedResult9.relations = std::vector<Relation>({ Relation(Relation::Types::Follows, Reference("2"), Reference("3")) });
+            expectedResult9.patterns = std::vector<Pattern>();
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();
@@ -526,8 +526,8 @@ namespace UnitTesting {
 
             expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a1"),  Declaration(Declaration::DesignEntity::Assignment, "a2") });
             expectedResult1.target = Declaration(Declaration::DesignEntity::Assignment, "a1");
-            expectedResult1.relations = Relation(Relation::Types::FollowsT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "a2")));
-            expectedResult1.patterns = Pattern();
+            expectedResult1.relations = std::vector<Relation>({Relation(Relation::Types::FollowsT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "a2"))) });
+            expectedResult1.patterns = std::vector<Pattern>();
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
@@ -544,8 +544,8 @@ namespace UnitTesting {
 
             expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult2.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult2.relations = Relation(Relation::Types::FollowsT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_"));
-            expectedResult2.patterns = Pattern();
+            expectedResult2.relations = std::vector<Relation>({ Relation(Relation::Types::FollowsT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_")) });
+            expectedResult2.patterns = std::vector<Pattern>();
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -562,8 +562,8 @@ namespace UnitTesting {
 
             expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult3.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult3.relations = Relation(Relation::Types::FollowsT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("3"));
-            expectedResult3.patterns = Pattern();
+            expectedResult3.relations = std::vector<Relation>({ Relation(Relation::Types::FollowsT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("3")) });
+            expectedResult3.patterns = std::vector<Pattern>();
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -580,8 +580,8 @@ namespace UnitTesting {
 
             expectedResult4.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult4.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult4.relations = Relation(Relation::Types::FollowsT, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a")));
-            expectedResult4.patterns = Pattern();
+            expectedResult4.relations = std::vector<Relation>({ Relation(Relation::Types::FollowsT, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a"))) });
+            expectedResult4.patterns = std::vector<Pattern>();
             expectedResult4.results = std::vector<std::string>();
 
             Query* result4 = parser4.parse();
@@ -598,8 +598,8 @@ namespace UnitTesting {
 
             expectedResult5.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult5.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult5.relations = Relation(Relation::Types::FollowsT, Reference("_"), Reference("_"));
-            expectedResult5.patterns = Pattern();
+            expectedResult5.relations = std::vector<Relation>({ Relation(Relation::Types::FollowsT, Reference("_"), Reference("_")) });
+            expectedResult5.patterns = std::vector<Pattern>();
             expectedResult5.results = std::vector<std::string>();
 
             Query* result5 = parser5.parse();
@@ -616,8 +616,8 @@ namespace UnitTesting {
 
             expectedResult6.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult6.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult6.relations = Relation(Relation::Types::FollowsT, Reference("_"), Reference("3"));
-            expectedResult6.patterns = Pattern();
+            expectedResult6.relations = std::vector<Relation>({ Relation(Relation::Types::FollowsT, Reference("_"), Reference("3")) });
+            expectedResult6.patterns = std::vector<Pattern>();
             expectedResult6.results = std::vector<std::string>();
 
             Query* result6 = parser6.parse();
@@ -634,8 +634,8 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult7.relations = Relation(Relation::Types::FollowsT, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a")));
-            expectedResult7.patterns = Pattern();
+            expectedResult7.relations = std::vector<Relation>({ Relation(Relation::Types::FollowsT, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a"))) });
+            expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -652,8 +652,8 @@ namespace UnitTesting {
 
             expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult8.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult8.relations = Relation(Relation::Types::FollowsT, Reference("2"), Reference("_"));
-            expectedResult8.patterns = Pattern();
+            expectedResult8.relations = std::vector<Relation>({ Relation(Relation::Types::FollowsT, Reference("2"), Reference("_")) });
+            expectedResult8.patterns = std::vector<Pattern>();
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -670,15 +670,15 @@ namespace UnitTesting {
 
             expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult9.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult9.relations = Relation(Relation::Types::FollowsT, Reference("2"), Reference("3"));
-            expectedResult9.patterns = Pattern();
+            expectedResult9.relations = std::vector<Relation>({ Relation(Relation::Types::FollowsT, Reference("2"), Reference("3")) });
+            expectedResult9.patterns = std::vector<Pattern>();
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();
 
             Assert::IsTrue(*result9 == expectedResult9);
         }
-                
+
         TEST_METHOD(TestParserValidUsesSQueries) {
             std::string query = "print a; variable v; Select a such that Uses(a, v)";
             QueryLexer lexer = QueryLexer(query);
@@ -687,12 +687,12 @@ namespace UnitTesting {
 
             Query expectedResult = Query();
 
-            expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Print, "a"),  
+            expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Print, "a"),
                                                                      Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult.target = Declaration(Declaration::DesignEntity::Print, "a");
-            expectedResult.relations = Relation(Relation::Types::UsesS, Reference(Declaration(Declaration::DesignEntity::Print, "a")),
-                                                Reference(Declaration(Declaration::DesignEntity::Variable, "v")));
-            expectedResult.patterns = Pattern();
+            expectedResult.relations = std::vector<Relation>({Relation(Relation::Types::UsesS, Reference(Declaration(Declaration::DesignEntity::Print, "a")),
+                                                Reference(Declaration(Declaration::DesignEntity::Variable, "v"))) });
+            expectedResult.patterns = std::vector<Pattern>();
             expectedResult.results = std::vector<std::string>();
 
             Query* result = parser.parse();
@@ -709,8 +709,8 @@ namespace UnitTesting {
 
             expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Statement, "s"),  Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult1.target = Declaration(Declaration::DesignEntity::Statement, "s");
-            expectedResult1.relations = Relation(Relation::Types::UsesS, Reference(Declaration(Declaration::DesignEntity::Statement, "s")), Reference(Declaration(Declaration::DesignEntity::Variable, "v")));
-            expectedResult1.patterns = Pattern();
+            expectedResult1.relations = std::vector<Relation>({ Relation(Relation::Types::UsesS, Reference(Declaration(Declaration::DesignEntity::Statement, "s")), Reference(Declaration(Declaration::DesignEntity::Variable, "v"))) });
+            expectedResult1.patterns = std::vector<Pattern>();
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
@@ -727,8 +727,8 @@ namespace UnitTesting {
 
             expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult2.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult2.relations = Relation(Relation::Types::UsesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_"));
-            expectedResult2.patterns = Pattern();
+            expectedResult2.relations = std::vector<Relation>({ Relation(Relation::Types::UsesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_")) });
+            expectedResult2.patterns = std::vector<Pattern>();
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -745,8 +745,8 @@ namespace UnitTesting {
 
             expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult3.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult3.relations = Relation(Relation::Types::UsesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("\"x\""));
-            expectedResult3.patterns = Pattern();
+            expectedResult3.relations = std::vector<Relation>({ Relation(Relation::Types::UsesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("\"x\"")) });
+            expectedResult3.patterns = std::vector<Pattern>();
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -763,8 +763,8 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Variable, "v");
-            expectedResult7.relations = Relation(Relation::Types::UsesS, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Variable, "v")));
-            expectedResult7.patterns = Pattern();
+            expectedResult7.relations = std::vector<Relation>({ Relation(Relation::Types::UsesS, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Variable, "v"))) });
+            expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -781,8 +781,8 @@ namespace UnitTesting {
 
             expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult8.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult8.relations = Relation(Relation::Types::UsesS, Reference("2"), Reference("_"));
-            expectedResult8.patterns = Pattern();
+            expectedResult8.relations = std::vector<Relation>({ Relation(Relation::Types::UsesS, Reference("2"), Reference("_")) });
+            expectedResult8.patterns = std::vector<Pattern>();
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -799,8 +799,8 @@ namespace UnitTesting {
 
             expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult9.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult9.relations = Relation(Relation::Types::UsesS, Reference("2"), Reference("\"x\""));
-            expectedResult9.patterns = Pattern();
+            expectedResult9.relations = std::vector<Relation>({ Relation(Relation::Types::UsesS, Reference("2"), Reference("\"x\"")) });
+            expectedResult9.patterns = std::vector<Pattern>();
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();
@@ -819,8 +819,8 @@ namespace UnitTesting {
 
             expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p"),  Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult1.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult1.relations = Relation(Relation::Types::UsesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference(Declaration(Declaration::DesignEntity::Variable, "v")));
-            expectedResult1.patterns = Pattern();
+            expectedResult1.relations = std::vector<Relation>({Relation(Relation::Types::UsesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference(Declaration(Declaration::DesignEntity::Variable, "v"))) });
+            expectedResult1.patterns = std::vector<Pattern>();
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
@@ -837,8 +837,8 @@ namespace UnitTesting {
 
             expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult2.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult2.relations = Relation(Relation::Types::UsesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("_"));
-            expectedResult2.patterns = Pattern();
+            expectedResult2.relations = std::vector<Relation>({ Relation(Relation::Types::UsesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("_")) });
+            expectedResult2.patterns = std::vector<Pattern>();
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -855,8 +855,8 @@ namespace UnitTesting {
 
             expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult3.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult3.relations = Relation(Relation::Types::UsesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("\"x\""));
-            expectedResult3.patterns = Pattern();
+            expectedResult3.relations = std::vector<Relation>({ Relation(Relation::Types::UsesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("\"x\"")) });
+            expectedResult3.patterns = std::vector<Pattern>();
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -873,8 +873,8 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Variable, "v");
-            expectedResult7.relations = Relation(Relation::Types::UsesP, Reference("\"p\""), Reference(Declaration(Declaration::DesignEntity::Variable, "v")));
-            expectedResult7.patterns = Pattern();
+            expectedResult7.relations = std::vector<Relation>({ Relation(Relation::Types::UsesP, Reference("\"p\""), Reference(Declaration(Declaration::DesignEntity::Variable, "v"))) });
+            expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -891,8 +891,8 @@ namespace UnitTesting {
 
             expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult8.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult8.relations = Relation(Relation::Types::UsesP, Reference("\"p\""), Reference("_"));
-            expectedResult8.patterns = Pattern();
+            expectedResult8.relations = std::vector<Relation>({ Relation(Relation::Types::UsesP, Reference("\"p\""), Reference("_")) });
+            expectedResult8.patterns = std::vector<Pattern>();
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -909,15 +909,15 @@ namespace UnitTesting {
 
             expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult9.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult9.relations = Relation(Relation::Types::UsesP, Reference("\"p\""), Reference("\"x\""));
-            expectedResult9.patterns = Pattern();
+            expectedResult9.relations = std::vector<Relation>({ Relation(Relation::Types::UsesP, Reference("\"p\""), Reference("\"x\"")) });
+            expectedResult9.patterns = std::vector<Pattern>();
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();
 
             Assert::IsTrue(*result9 == expectedResult9);
         }
-        
+
         TEST_METHOD(TestParserValidModifiesSQueries) {
             std::string query = "read a; Select a such that Modifies(a, _)";
             QueryLexer lexer = QueryLexer(query);
@@ -928,8 +928,8 @@ namespace UnitTesting {
 
             expectedResult.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Read, "a") });
             expectedResult.target = Declaration(Declaration::DesignEntity::Read, "a");
-            expectedResult.relations = Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Read, "a")), Reference("_"));
-            expectedResult.patterns = Pattern();
+            expectedResult.relations = std::vector<Relation>({Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Read, "a")), Reference("_")) });
+            expectedResult.patterns = std::vector<Pattern>();
             expectedResult.results = std::vector<std::string>();
 
             Query* result = parser.parse();
@@ -946,8 +946,8 @@ namespace UnitTesting {
 
             expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Statement, "s"),  Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult1.target = Declaration(Declaration::DesignEntity::Statement, "s");
-            expectedResult1.relations = Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Statement, "s")), Reference(Declaration(Declaration::DesignEntity::Variable, "v")));
-            expectedResult1.patterns = Pattern();
+            expectedResult1.relations = std::vector<Relation>({ Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Statement, "s")), Reference(Declaration(Declaration::DesignEntity::Variable, "v"))) });
+            expectedResult1.patterns = std::vector<Pattern>();
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
@@ -964,8 +964,8 @@ namespace UnitTesting {
 
             expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult2.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult2.relations = Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_"));
-            expectedResult2.patterns = Pattern();
+            expectedResult2.relations = std::vector<Relation>({ Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_")) });
+            expectedResult2.patterns = std::vector<Pattern>();
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -982,8 +982,8 @@ namespace UnitTesting {
 
             expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult3.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult3.relations = Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("\"x\""));
-            expectedResult3.patterns = Pattern();
+            expectedResult3.relations = std::vector<Relation>({ Relation(Relation::Types::ModifiesS, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("\"x\"")) });
+            expectedResult3.patterns = std::vector<Pattern>();
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -1000,8 +1000,8 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Variable, "v");
-            expectedResult7.relations = Relation(Relation::Types::ModifiesS, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Variable, "v")));
-            expectedResult7.patterns = Pattern();
+            expectedResult7.relations = std::vector<Relation>({ Relation(Relation::Types::ModifiesS, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Variable, "v"))) });
+            expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -1018,8 +1018,8 @@ namespace UnitTesting {
 
             expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult8.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult8.relations = Relation(Relation::Types::ModifiesS, Reference("2"), Reference("_"));
-            expectedResult8.patterns = Pattern();
+            expectedResult8.relations = std::vector<Relation>({ Relation(Relation::Types::ModifiesS, Reference("2"), Reference("_")) });
+            expectedResult8.patterns = std::vector<Pattern>();
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -1036,8 +1036,8 @@ namespace UnitTesting {
 
             expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult9.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult9.relations = Relation(Relation::Types::ModifiesS, Reference("2"), Reference("\"x\""));
-            expectedResult9.patterns = Pattern();
+            expectedResult9.relations = std::vector<Relation>({ Relation(Relation::Types::ModifiesS, Reference("2"), Reference("\"x\"")) });
+            expectedResult9.patterns = std::vector<Pattern>();
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();
@@ -1056,8 +1056,8 @@ namespace UnitTesting {
 
             expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p"),  Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult1.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult1.relations = Relation(Relation::Types::ModifiesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference(Declaration(Declaration::DesignEntity::Variable, "v")));
-            expectedResult1.patterns = Pattern();
+            expectedResult1.relations = std::vector<Relation>({Relation(Relation::Types::ModifiesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference(Declaration(Declaration::DesignEntity::Variable, "v"))) });
+            expectedResult1.patterns = std::vector<Pattern>();
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
@@ -1074,8 +1074,8 @@ namespace UnitTesting {
 
             expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult2.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult2.relations = Relation(Relation::Types::ModifiesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("_"));
-            expectedResult2.patterns = Pattern();
+            expectedResult2.relations = std::vector<Relation>({Relation(Relation::Types::ModifiesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("_")) });
+            expectedResult2.patterns = std::vector<Pattern>();
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -1092,8 +1092,8 @@ namespace UnitTesting {
 
             expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult3.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult3.relations = Relation(Relation::Types::ModifiesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("\"x\""));
-            expectedResult3.patterns = Pattern();
+            expectedResult3.relations = std::vector<Relation>({Relation(Relation::Types::ModifiesP, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("\"x\"")) });
+            expectedResult3.patterns = std::vector<Pattern>();
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -1110,8 +1110,8 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Variable, "v") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Variable, "v");
-            expectedResult7.relations = Relation(Relation::Types::ModifiesP, Reference("\"p\""), Reference(Declaration(Declaration::DesignEntity::Variable, "v")));
-            expectedResult7.patterns = Pattern();
+            expectedResult7.relations = std::vector<Relation>({Relation(Relation::Types::ModifiesP, Reference("\"p\""), Reference(Declaration(Declaration::DesignEntity::Variable, "v"))) });
+            expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -1128,8 +1128,8 @@ namespace UnitTesting {
 
             expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult8.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult8.relations = Relation(Relation::Types::ModifiesP, Reference("\"p\""), Reference("_"));
-            expectedResult8.patterns = Pattern();
+            expectedResult8.relations = std::vector<Relation>({Relation(Relation::Types::ModifiesP, Reference("\"p\""), Reference("_")) });
+            expectedResult8.patterns = std::vector<Pattern>();
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -1146,15 +1146,15 @@ namespace UnitTesting {
 
             expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult9.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult9.relations = Relation(Relation::Types::ModifiesP, Reference("\"p\""), Reference("\"x\""));
-            expectedResult9.patterns = Pattern();
+            expectedResult9.relations = std::vector<Relation>({Relation(Relation::Types::ModifiesP, Reference("\"p\""), Reference("\"x\"")) });
+            expectedResult9.patterns = std::vector<Pattern>();
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();
 
             Assert::IsTrue(*result9 == expectedResult9);
         }
-        
+
         TEST_METHOD(TestParserValidParentQueries) {
             // Parent(synonym, synonym)
             std::string query1 = "assign a1, a2; Select a1 such that Parent(a1, a2)";
@@ -1166,8 +1166,8 @@ namespace UnitTesting {
 
             expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a1"),  Declaration(Declaration::DesignEntity::Assignment, "a2") });
             expectedResult1.target = Declaration(Declaration::DesignEntity::Assignment, "a1");
-            expectedResult1.relations = Relation(Relation::Types::Parent, Reference(Declaration(Declaration::DesignEntity::Assignment, "a1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "a2")));
-            expectedResult1.patterns = Pattern();
+            expectedResult1.relations = std::vector<Relation>({Relation(Relation::Types::Parent, Reference(Declaration(Declaration::DesignEntity::Assignment, "a1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "a2"))) });
+            expectedResult1.patterns = std::vector<Pattern>();
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
@@ -1184,8 +1184,8 @@ namespace UnitTesting {
 
             expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult2.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult2.relations = Relation(Relation::Types::Parent, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_"));
-            expectedResult2.patterns = Pattern();
+            expectedResult2.relations = std::vector<Relation>({Relation(Relation::Types::Parent, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_")) });
+            expectedResult2.patterns = std::vector<Pattern>();
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -1202,8 +1202,8 @@ namespace UnitTesting {
 
             expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult3.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult3.relations = Relation(Relation::Types::Parent, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("3"));
-            expectedResult3.patterns = Pattern();
+            expectedResult3.relations = std::vector<Relation>({Relation(Relation::Types::Parent, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("3")) });
+            expectedResult3.patterns = std::vector<Pattern>();
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -1220,8 +1220,8 @@ namespace UnitTesting {
 
             expectedResult4.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult4.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult4.relations = Relation(Relation::Types::Parent, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a")));
-            expectedResult4.patterns = Pattern();
+            expectedResult4.relations = std::vector<Relation>({Relation(Relation::Types::Parent, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a"))) });
+            expectedResult4.patterns = std::vector<Pattern>();
             expectedResult4.results = std::vector<std::string>();
 
             Query* result4 = parser4.parse();
@@ -1238,8 +1238,8 @@ namespace UnitTesting {
 
             expectedResult5.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult5.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult5.relations = Relation(Relation::Types::Parent, Reference("_"), Reference("_"));
-            expectedResult5.patterns = Pattern();
+            expectedResult5.relations = std::vector<Relation>({Relation(Relation::Types::Parent, Reference("_"), Reference("_")) });
+            expectedResult5.patterns = std::vector<Pattern>();
             expectedResult5.results = std::vector<std::string>();
 
             Query* result5 = parser5.parse();
@@ -1256,8 +1256,8 @@ namespace UnitTesting {
 
             expectedResult6.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult6.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult6.relations = Relation(Relation::Types::Parent, Reference("_"), Reference("3"));
-            expectedResult6.patterns = Pattern();
+            expectedResult6.relations = std::vector<Relation>({Relation(Relation::Types::Parent, Reference("_"), Reference("3")) });
+            expectedResult6.patterns = std::vector<Pattern>();
             expectedResult6.results = std::vector<std::string>();
 
             Query* result6 = parser6.parse();
@@ -1274,8 +1274,8 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult7.relations = Relation(Relation::Types::Parent, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a")));
-            expectedResult7.patterns = Pattern();
+            expectedResult7.relations = std::vector<Relation>({Relation(Relation::Types::Parent, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a"))) });
+            expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -1292,8 +1292,8 @@ namespace UnitTesting {
 
             expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult8.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult8.relations = Relation(Relation::Types::Parent, Reference("2"), Reference("_"));
-            expectedResult8.patterns = Pattern();
+            expectedResult8.relations = std::vector<Relation>({Relation(Relation::Types::Parent, Reference("2"), Reference("_")) });
+            expectedResult8.patterns = std::vector<Pattern>();
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -1310,8 +1310,8 @@ namespace UnitTesting {
 
             expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult9.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult9.relations = Relation(Relation::Types::Parent, Reference("2"), Reference("3"));
-            expectedResult9.patterns = Pattern();
+            expectedResult9.relations = std::vector<Relation>({Relation(Relation::Types::Parent, Reference("2"), Reference("3")) });
+            expectedResult9.patterns = std::vector<Pattern>();
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();
@@ -1330,8 +1330,8 @@ namespace UnitTesting {
 
             expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a1"),  Declaration(Declaration::DesignEntity::Assignment, "a2") });
             expectedResult1.target = Declaration(Declaration::DesignEntity::Assignment, "a1");
-            expectedResult1.relations = Relation(Relation::Types::ParentT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "a2")));
-            expectedResult1.patterns = Pattern();
+            expectedResult1.relations = std::vector<Relation>({Relation(Relation::Types::ParentT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "a2"))) });
+            expectedResult1.patterns = std::vector<Pattern>();
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
@@ -1348,8 +1348,8 @@ namespace UnitTesting {
 
             expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult2.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult2.relations = Relation(Relation::Types::ParentT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_"));
-            expectedResult2.patterns = Pattern();
+            expectedResult2.relations = std::vector<Relation>({Relation(Relation::Types::ParentT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("_")) });
+            expectedResult2.patterns = std::vector<Pattern>();
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -1366,8 +1366,8 @@ namespace UnitTesting {
 
             expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult3.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult3.relations = Relation(Relation::Types::ParentT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("3"));
-            expectedResult3.patterns = Pattern();
+            expectedResult3.relations = std::vector<Relation>({Relation(Relation::Types::ParentT, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference("3")) });
+            expectedResult3.patterns = std::vector<Pattern>();
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -1384,8 +1384,8 @@ namespace UnitTesting {
 
             expectedResult4.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult4.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult4.relations = Relation(Relation::Types::ParentT, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a")));
-            expectedResult4.patterns = Pattern();
+            expectedResult4.relations = std::vector<Relation>({Relation(Relation::Types::ParentT, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a"))) });
+            expectedResult4.patterns = std::vector<Pattern>();
             expectedResult4.results = std::vector<std::string>();
 
             Query* result4 = parser4.parse();
@@ -1402,8 +1402,8 @@ namespace UnitTesting {
 
             expectedResult5.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult5.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult5.relations = Relation(Relation::Types::ParentT, Reference("_"), Reference("_"));
-            expectedResult5.patterns = Pattern();
+            expectedResult5.relations = std::vector<Relation>({Relation(Relation::Types::ParentT, Reference("_"), Reference("_")) });
+            expectedResult5.patterns = std::vector<Pattern>();
             expectedResult5.results = std::vector<std::string>();
 
             Query* result5 = parser5.parse();
@@ -1420,8 +1420,8 @@ namespace UnitTesting {
 
             expectedResult6.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult6.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult6.relations = Relation(Relation::Types::ParentT, Reference("_"), Reference("3"));
-            expectedResult6.patterns = Pattern();
+            expectedResult6.relations = std::vector<Relation>({Relation(Relation::Types::ParentT, Reference("_"), Reference("3")) });
+            expectedResult6.patterns = std::vector<Pattern>();
             expectedResult6.results = std::vector<std::string>();
 
             Query* result6 = parser6.parse();
@@ -1438,8 +1438,8 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult7.relations = Relation(Relation::Types::ParentT, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a")));
-            expectedResult7.patterns = Pattern();
+            expectedResult7.relations = std::vector<Relation>({Relation(Relation::Types::ParentT, Reference("2"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a"))) });
+            expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -1456,8 +1456,8 @@ namespace UnitTesting {
 
             expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult8.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult8.relations = Relation(Relation::Types::ParentT, Reference("2"), Reference("_"));
-            expectedResult8.patterns = Pattern();
+            expectedResult8.relations = std::vector<Relation>({Relation(Relation::Types::ParentT, Reference("2"), Reference("_")) });
+            expectedResult8.patterns = std::vector<Pattern>();
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -1474,8 +1474,8 @@ namespace UnitTesting {
 
             expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "a") });
             expectedResult9.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult9.relations = Relation(Relation::Types::ParentT, Reference("2"), Reference("3"));
-            expectedResult9.patterns = Pattern();
+            expectedResult9.relations = std::vector<Relation>({ Relation(Relation::Types::ParentT, Reference("2"), Reference("3")) });
+            expectedResult9.patterns = std::vector<Pattern>();
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();
@@ -1494,8 +1494,8 @@ namespace UnitTesting {
 
             expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p1"),  Declaration(Declaration::DesignEntity::Procedure, "p2") });
             expectedResult1.target = Declaration(Declaration::DesignEntity::Procedure, "p1");
-            expectedResult1.relations = Relation(Relation::Types::Calls, Reference(Declaration(Declaration::DesignEntity::Procedure, "p1")), Reference(Declaration(Declaration::DesignEntity::Procedure, "p2")));
-            expectedResult1.patterns = Pattern();
+            expectedResult1.relations = std::vector<Relation>({Relation(Relation::Types::Calls, Reference(Declaration(Declaration::DesignEntity::Procedure, "p1")), Reference(Declaration(Declaration::DesignEntity::Procedure, "p2")))});
+            expectedResult1.patterns = std::vector<Pattern>();
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
@@ -1512,8 +1512,8 @@ namespace UnitTesting {
 
             expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult2.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult2.relations = Relation(Relation::Types::Calls, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("_"));
-            expectedResult2.patterns = Pattern();
+            expectedResult2.relations = std::vector<Relation>({Relation(Relation::Types::Calls, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("_"))});
+            expectedResult2.patterns = std::vector<Pattern>();
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -1530,8 +1530,8 @@ namespace UnitTesting {
 
             expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult3.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult3.relations = Relation(Relation::Types::Calls, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("\"procA\""));
-            expectedResult3.patterns = Pattern();
+            expectedResult3.relations = std::vector<Relation>({Relation(Relation::Types::Calls, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("\"procA\""))});
+            expectedResult3.patterns = std::vector<Pattern>();
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -1548,8 +1548,8 @@ namespace UnitTesting {
 
             expectedResult4.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult4.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult4.relations = Relation(Relation::Types::Calls, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Procedure, "p")));
-            expectedResult4.patterns = Pattern();
+            expectedResult4.relations = std::vector<Relation>({Relation(Relation::Types::Calls, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Procedure, "p")))});
+            expectedResult4.patterns = std::vector<Pattern>();
             expectedResult4.results = std::vector<std::string>();
 
             Query* result4 = parser4.parse();
@@ -1566,8 +1566,8 @@ namespace UnitTesting {
 
             expectedResult5.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult5.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult5.relations = Relation(Relation::Types::Calls, Reference("_"), Reference("_"));
-            expectedResult5.patterns = Pattern();
+            expectedResult5.relations = std::vector<Relation>({Relation(Relation::Types::Calls, Reference("_"), Reference("_"))});
+            expectedResult5.patterns = std::vector<Pattern>();
             expectedResult5.results = std::vector<std::string>();
 
             Query* result5 = parser5.parse();
@@ -1584,8 +1584,8 @@ namespace UnitTesting {
 
             expectedResult6.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult6.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult6.relations = Relation(Relation::Types::Calls, Reference("_"), Reference("\"procA\""));
-            expectedResult6.patterns = Pattern();
+            expectedResult6.relations = std::vector<Relation>({Relation(Relation::Types::Calls, Reference("_"), Reference("\"procA\""))});
+            expectedResult6.patterns = std::vector<Pattern>();
             expectedResult6.results = std::vector<std::string>();
 
             Query* result6 = parser6.parse();
@@ -1602,8 +1602,8 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult7.relations = Relation(Relation::Types::Calls, Reference("\"procA\""), Reference(Declaration(Declaration::DesignEntity::Procedure, "p")));
-            expectedResult7.patterns = Pattern();
+            expectedResult7.relations = std::vector<Relation>({Relation(Relation::Types::Calls, Reference("\"procA\""), Reference(Declaration(Declaration::DesignEntity::Procedure, "p")))});
+            expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -1620,8 +1620,8 @@ namespace UnitTesting {
 
             expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult8.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult8.relations = Relation(Relation::Types::Calls, Reference("\"procA\""), Reference("_"));
-            expectedResult8.patterns = Pattern();
+            expectedResult8.relations = std::vector<Relation>({Relation(Relation::Types::Calls, Reference("\"procA\""), Reference("_"))});
+            expectedResult8.patterns = std::vector<Pattern>();
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -1638,8 +1638,8 @@ namespace UnitTesting {
 
             expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult9.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult9.relations = Relation(Relation::Types::Calls, Reference("\"procA\""), Reference("\"procB\""));
-            expectedResult9.patterns = Pattern();
+            expectedResult9.relations = std::vector<Relation>({Relation(Relation::Types::Calls, Reference("\"procA\""), Reference("\"procB\""))});
+            expectedResult9.patterns = std::vector<Pattern>();
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();
@@ -1659,8 +1659,8 @@ namespace UnitTesting {
 
             expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p1"),  Declaration(Declaration::DesignEntity::Procedure, "p2") });
             expectedResult1.target = Declaration(Declaration::DesignEntity::Procedure, "p1");
-            expectedResult1.relations = Relation(Relation::Types::CallsT, Reference(Declaration(Declaration::DesignEntity::Procedure, "p1")), Reference(Declaration(Declaration::DesignEntity::Procedure, "p2")));
-            expectedResult1.patterns = Pattern();
+            expectedResult1.relations = std::vector<Relation>({Relation(Relation::Types::CallsT, Reference(Declaration(Declaration::DesignEntity::Procedure, "p1")), Reference(Declaration(Declaration::DesignEntity::Procedure, "p2"))) });
+            expectedResult1.patterns = std::vector<Pattern>();
             expectedResult1.results = std::vector<std::string>();
 
             Query* result1 = parser1.parse();
@@ -1677,8 +1677,8 @@ namespace UnitTesting {
 
             expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult2.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult2.relations = Relation(Relation::Types::CallsT, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("_"));
-            expectedResult2.patterns = Pattern();
+            expectedResult2.relations = std::vector<Relation>({ Relation(Relation::Types::CallsT, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("_")) });
+            expectedResult2.patterns = std::vector<Pattern>();
             expectedResult2.results = std::vector<std::string>();
 
             Query* result2 = parser2.parse();
@@ -1695,8 +1695,8 @@ namespace UnitTesting {
 
             expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult3.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult3.relations = Relation(Relation::Types::CallsT, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("\"procA\""));
-            expectedResult3.patterns = Pattern();
+            expectedResult3.relations = std::vector<Relation>({ Relation(Relation::Types::CallsT, Reference(Declaration(Declaration::DesignEntity::Procedure, "p")), Reference("\"procA\"")) });
+            expectedResult3.patterns = std::vector<Pattern>();
             expectedResult3.results = std::vector<std::string>();
 
             Query* result3 = parser3.parse();
@@ -1713,8 +1713,8 @@ namespace UnitTesting {
 
             expectedResult4.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult4.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult4.relations = Relation(Relation::Types::CallsT, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Procedure, "p")));
-            expectedResult4.patterns = Pattern();
+            expectedResult4.relations = std::vector<Relation>({ Relation(Relation::Types::CallsT, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Procedure, "p"))) });
+            expectedResult4.patterns = std::vector<Pattern>();
             expectedResult4.results = std::vector<std::string>();
 
             Query* result4 = parser4.parse();
@@ -1731,8 +1731,8 @@ namespace UnitTesting {
 
             expectedResult5.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult5.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult5.relations = Relation(Relation::Types::CallsT, Reference("_"), Reference("_"));
-            expectedResult5.patterns = Pattern();
+            expectedResult5.relations = std::vector<Relation>({ Relation(Relation::Types::CallsT, Reference("_"), Reference("_")) });
+            expectedResult5.patterns = std::vector<Pattern>();
             expectedResult5.results = std::vector<std::string>();
 
             Query* result5 = parser5.parse();
@@ -1749,8 +1749,8 @@ namespace UnitTesting {
 
             expectedResult6.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult6.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult6.relations = Relation(Relation::Types::CallsT, Reference("_"), Reference("\"procA\""));
-            expectedResult6.patterns = Pattern();
+            expectedResult6.relations = std::vector<Relation>({ Relation(Relation::Types::CallsT, Reference("_"), Reference("\"procA\"")) });
+            expectedResult6.patterns = std::vector<Pattern>();
             expectedResult6.results = std::vector<std::string>();
 
             Query* result6 = parser6.parse();
@@ -1767,8 +1767,8 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult7.relations = Relation(Relation::Types::CallsT, Reference("\"procA\""), Reference(Declaration(Declaration::DesignEntity::Procedure, "p")));
-            expectedResult7.patterns = Pattern();
+            expectedResult7.relations = std::vector<Relation>({ Relation(Relation::Types::CallsT, Reference("\"procA\""), Reference(Declaration(Declaration::DesignEntity::Procedure, "p"))) });
+            expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -1785,8 +1785,8 @@ namespace UnitTesting {
 
             expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult8.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult8.relations = Relation(Relation::Types::CallsT, Reference("\"procA\""), Reference("_"));
-            expectedResult8.patterns = Pattern();
+            expectedResult8.relations = std::vector<Relation>({ Relation(Relation::Types::CallsT, Reference("\"procA\""), Reference("_")) });
+            expectedResult8.patterns = std::vector<Pattern>();
             expectedResult8.results = std::vector<std::string>();
 
             Query* result8 = parser8.parse();
@@ -1803,8 +1803,8 @@ namespace UnitTesting {
 
             expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Procedure, "p") });
             expectedResult9.target = Declaration(Declaration::DesignEntity::Procedure, "p");
-            expectedResult9.relations = Relation(Relation::Types::CallsT, Reference("\"procA\""), Reference("\"procB\""));
-            expectedResult9.patterns = Pattern();
+            expectedResult9.relations = std::vector<Relation>({ Relation(Relation::Types::CallsT, Reference("\"procA\""), Reference("\"procB\"")) });
+            expectedResult9.patterns = std::vector<Pattern>();
             expectedResult9.results = std::vector<std::string>();
 
             Query* result9 = parser9.parse();

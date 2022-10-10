@@ -1,11 +1,14 @@
 #pragma once
 #include <string>
 #include <regex>
+#include <variant>
 #include <vector>
 #include "../Query.h"
 #include "../Relation.h"
 #include "../Declaration.h"
 #include "../Pattern.h"
+#include "../With.h"
+#include "../AttrReference.h"
 
 /**
  * A QueryParser class to parse the query.
@@ -31,9 +34,10 @@ private:
 	 * Query attributes.
 	 */
 	std::vector<Declaration> declarations;
-	Declaration target;
-	Relation suchThatCl;
-	Pattern patternCl;
+	std::variant<Declaration, AttrReference> target;
+	std::vector<Relation> suchThatCl;
+	std::vector<Pattern> patternCl;
+	std::vector<With> withCl;
 
 public:
 	QueryParser(std::vector<std::string> tokens);
@@ -87,17 +91,29 @@ public:
 	bool is_valid_entRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types);
 
 	/**
-	 * Parses declaration.
-	 * @returns the synonym in the select statement.
+	 * Parses result clause.
+	 * @returns the result clause from the select statement.
 	 */
-	Declaration select();
+	std::variant<Declaration, AttrReference> select();
+
+	AttrReference parseAttrRef();
+	 
+	/**
+	 * Parses with clause.
+	 * @returns the with clause.
+	 */
+	With withClause();
+
+	void parseWith();
 
 	/**
-	 * Parses declaration.
+	 * Parses pattern clause.
 	 * @returns the pattern clause.
 	 * @throws SemanticError if an argument is not valid.
 	 */
 	Pattern patternClause();
+
+	void parsePattern();
 
 	/**
 	 * Parses the such that clause.
@@ -105,6 +121,8 @@ public:
 	 * @throws SemanticError if an argument is not valid.
 	 */
 	Relation suchThatClause();
+
+	void parseSuchThat();
 
 	/**
 	 * Parses the query tokens.

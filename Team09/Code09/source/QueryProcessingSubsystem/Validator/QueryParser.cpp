@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <regex>
+#include <variant>
 #include "QueryParser.h"
 #include "../Relation.h"
 #include "../Pattern.h"
@@ -9,6 +10,8 @@
 #include "../Reference.h"
 #include "SyntaxException.h"
 #include "SemanticException.h"
+#include "../With.h"
+#include "../AttrReference.h"
 
 namespace parser {
 	std::string synonym = "[a-zA-Z]([a-zA-Z0-9])*";
@@ -16,7 +19,7 @@ namespace parser {
 	std::string stmtRef = synonym + "|_|" + integer;
 	std::string entRef = synonym + "|_|\"" + synonym + "\"";
 	std::string expressionSpec = "_|\"(.*)\"";						// The expression will be validated using the AST parser
-	//std::string expressionSpec = "_|\"(" + synonym + "|" + integer + ")\"";
+	std::string attrRef = synonym + "|\"" + synonym + "\"|" + integer;
 
 	std::regex integer_re(integer);
 	std::regex design_enteties_re("stmt|read|print|while|if|assign|variable|constant|procedure|call");
@@ -25,6 +28,8 @@ namespace parser {
 	std::regex stmtRef_re(stmtRef);									// stmtRef: synonym | '_' | INTEGER
 	std::regex entRef_re(entRef);									// endRef: synonym | '_' | '"' IDENT '"'
 	std::regex expressionSpec_re(expressionSpec);					// _ | '"' (*) '"' 
+	std::regex attr_re("procName|varName|value|stmt#");
+	std::regex attrRef_re(attrRef);									// synonym | " IDENT " | INTEGER
 
 	// valid stmtRef synonym types for Follows/Parent
 	std::vector<Declaration::DesignEntity> stmtRef_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Statement,	
@@ -54,9 +59,10 @@ QueryParser::QueryParser(std::vector<std::string> tokens) {
 	index = 0;
 	current_token = getNextToken();
 	declarations = std::vector<Declaration>();
-	target = Declaration();
-	suchThatCl = Relation();
-	patternCl = Pattern();
+	target = std::variant<Declaration, AttrReference>();
+	suchThatCl = std::vector<Relation>();
+	patternCl = std::vector<Pattern>();
+	withCl = std::vector<With>();
 }
 
 QueryParser::~QueryParser() {
@@ -161,26 +167,67 @@ bool QueryParser::is_valid_entRef(Reference ref, std::vector<Declaration::Design
 	return false;
 }
 
-Declaration QueryParser::select() {
+std::variant<Declaration, AttrReference> QueryParser::select() {
 	match("Select");
-	std::string target = match(parser::synonym_re);
+	std::string strelem = match(parser::synonym_re);
 
-	// checks if target is a declared synonym in the declaration list
-	Declaration d = findDeclaration(target);
+	// checks if result is a declared synonym in the declaration list
+	Declaration d = findDeclaration(strelem);
+	
+	// check if its an attribute reference
+	if (current_token == ".") {
+		match(".");
+		AttrReference::Attribute attr = AttrReference::getAttribute(match(parser::attr_re));
+		return AttrReference(d, attr);
+	}
+	else {
+		return d;
+	}
 
-	return d;
+}
+
+AttrReference QueryParser::parseAttrRef() {
+	std::string arg = match(parser::attrRef_re);
+	
+	if (std::regex_match(arg, parser::synonym_re)) {	// synonym.attribute
+		Declaration d = findDeclaration(arg);
+		match(".");
+		AttrReference::Attribute attr = AttrReference::getAttribute(match(parser::attr_re));
+		return AttrReference(d, attr);
+	}
+	else {		// " IDENT " | INTEGER
+		return AttrReference(arg);
+	}
+}
+
+With QueryParser::withClause() {
+	AttrReference ref1 = parseAttrRef();
+	
+	match("=");
+
+	AttrReference ref2 = parseAttrRef();
+	
+	// Check if ref1 and ref2 are the same type (both name or both integer)
+	if (ref1.valueType != ref2.valueType) {
+		throw SemanticError("attribute reference types are not the same");
+	}
+
+	return With(ref1, ref2);
+}
+
+void QueryParser::parseWith() {
+	match("with");
+	withCl.push_back(withClause());
+
+	if (current_token == "and") {
+		match("and");
+		withCl.push_back(withClause());
+	}
 }
 
 Pattern QueryParser::patternClause() {
-	match("pattern");
-
-
 	// check syn-assign
 	Declaration d = findDeclaration(match(parser::synonym_re));
-	if (d.TYPE != Declaration::DesignEntity::Assignment) {
-		throw SemanticError("syn-assign is not an Assignment synonym");
-	}
-
 
 	match("(");
 
@@ -203,37 +250,59 @@ Pattern QueryParser::patternClause() {
 
 	match(",");
 
-
-	// check the right argument
-	arg.clear();
-	if (current_token == "_") {
-		arg += match("_");
-	}
-
-	if (current_token != ")" || arg == "") {		// match 'exprssion'
-		arg += match(parser::expressionSpec_re);
-		
-		if (current_token == "_") {					// match '_expression_'
+	if (d.TYPE == Declaration::DesignEntity::Assignment) {
+		// check the right argument
+		arg.clear();
+		if (current_token == "_") {
 			arg += match("_");
 		}
+
+		if (current_token != ")" || arg == "") {		// match 'exprssion'
+			arg += match(parser::expressionSpec_re);
+
+			if (current_token == "_") {					// match '_expression_'
+				arg += match("_");
+			}
+		}
+
+		Expression right_arg = Expression(arg);
+
+		match(")");
+
+		return Pattern(Pattern::Types::Assign, d, left_arg, right_arg);
+
+	}
+	else if (d.TYPE == Declaration::DesignEntity::While) {
+		match("_");
+		match(")");
+		return Pattern(Pattern::Types::While, d, left_arg);
+	}
+	else if (d.TYPE == Declaration::DesignEntity::If) {
+		match("_");
+		match(",");
+		match("_");
+		match(")");
+		return Pattern(Pattern::Types::If, d, left_arg);
+	}
+	else {
+		throw SemanticError("Invalid synonym type for pattern");
 	}
 
-	Expression right_arg = Expression(arg);
+}
 
+void QueryParser::parsePattern() {
+	match("pattern");
+	patternCl.push_back(patternClause());
 
-	match(")");
-
-	return Pattern(d, left_arg, right_arg);
+	if (current_token == "and") {
+		match("and");
+		patternCl.push_back(patternClause());
+	}
 }
 
 Relation QueryParser::suchThatClause() {
-	match("such");
-	match("that");
-
-
 	// check the relation
-	Relation::Types type = Relation::getType(match(parser::relation_re));
-	
+	Relation::Types type = Relation::getType(match(parser::relation_re));	
 
 
 	match("(");
@@ -382,6 +451,18 @@ Relation QueryParser::suchThatClause() {
 	return Relation(type, left_arg, right_arg);
 }
 
+void QueryParser::parseSuchThat() {
+	match("such");
+	match("that");
+
+	suchThatCl.push_back(suchThatClause());
+
+	if (current_token == "and") {
+		match("and");
+		suchThatCl.push_back(suchThatClause());
+	}
+}
+
 Query* QueryParser::parse() {
 	Query* query = new Query();
 
@@ -391,12 +472,14 @@ Query* QueryParser::parse() {
 	// parse such that and pattern clause
 	while (index < query_tokens.size()) {
 		if (current_token == "such") {
-			suchThatCl = suchThatClause();
+			parseSuchThat();
 		}
 		else if (current_token == "pattern") {
-			patternCl = patternClause();
+			parsePattern();
 		}
-		else {
+		else if (current_token == "with") {
+			parseWith();
+		} else {
 			throw SyntaxError("Unexpected token");
 		}
 	}

@@ -51,6 +51,7 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\parser.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\pratt.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\token.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\IfPatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\WhilePatternEvaluator.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\With.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h" />
     <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h" />

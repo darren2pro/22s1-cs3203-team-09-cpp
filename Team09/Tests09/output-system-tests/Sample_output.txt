@@ -1,5 +1,4 @@
 Parameters : ../Tests09/Sample_source.txt ../Tests09/Sample_queries.txt ../Tests09/output-system-tests/Sample_output.xml
-TestWrapper constructor called
 Beginning to parse Simple Program.
 End of parsing Simple Program.
 Code09
@@ -12,10 +11,8 @@ none
 Evaluating query 1 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Parent="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: Error occurred with relation 
+Your answer: 
 Correct answer: 
-Missing: 
-Additional: Error occurred with relation 
 2 - comment
 if ifs;
 Select ifs such that Follows(5, ifs)
@@ -24,10 +21,8 @@ Select ifs such that Follows(5, ifs)
 Evaluating query 2 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Follows="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: Error occurred with relation 
+Your answer: 6 
 Correct answer: 6 
-Missing: 6 
-Additional: Error occurred with relation 
 3 - comment
 assign a;
 Select a such that Parent*(4, a)
@@ -36,7 +31,8 @@ Select a such that Parent*(4, a)
 Evaluating query 3 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Parentstar="1" SuchThat="1" CondNum="3" RelNum="1" 
-<exception/>
+Your answer: 9 5 7 8 11 
+Correct answer: 5 7 8 9 11 
 4 - comment
 call c;
 Select c such that Follows*(1, c)
@@ -45,10 +41,8 @@ Select c such that Follows*(1, c)
 Evaluating query 4 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Followsstar="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: Error occurred with relation 
+Your answer: 12 
 Correct answer: 12 
-Missing: 12 
-Additional: Error occurred with relation 
 5 - comment
 stmt s;
 Select s such that Modifies(s, "i")
@@ -57,7 +51,8 @@ Select s such that Modifies(s, "i")
 Evaluating query 5 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" 
-<exception/>
+Your answer: 12 3 4 11 13 14 17 
+Correct answer: 3 4 11 12 13 14 17 
 6 - comment
 variable v;
 Select v such that Uses("p", v)
@@ -66,10 +61,8 @@ i, x, y, z
 Evaluating query 6 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Uses="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: SyntaxError 
+Your answer: x z y i 
 Correct answer: i x y z 
-Missing: i x y z 
-Additional: SyntaxError 
 7 - comment
 procedure p;
 Select p such that Calls(p, "q")
@@ -78,10 +71,8 @@ Example, p
 Evaluating query 7 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Calls="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: SyntaxError 
+Your answer: Example p 
 Correct answer: Example p 
-Missing: Example p 
-Additional: SyntaxError 
 8 - comment
 procedure p;
 Select p such that Calls*("Example", p)
@@ -90,10 +81,8 @@ p, q
 Evaluating query 8 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Callsstar="1" SuchThat="1" CondNum="3" RelNum="1" 
-Your answer: SyntaxError 
+Your answer: p q 
 Correct answer: p q 
-Missing: p q 
-Additional: SyntaxError 
 9 - comment
 prog_line n;
 Select n such that Next(4, n)
@@ -103,6 +92,8 @@ Evaluating query 9 - comment
 prog_line is an Unnamedvar 
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Next="1" UnnamedVar="1" SuchThat="1" CondNum="4" RelNum="1" 
+Expected Select but found prog
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: 5 12 
 Missing: 12 5 
@@ -116,6 +107,8 @@ Evaluating query 10 - comment
 prog_line is an Unnamedvar 
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Nextstar="1" UnnamedVar="1" SuchThat="1" CondNum="4" RelNum="1" 
+Expected Select but found prog
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: 1 2 3 4 5 6 7 8 9 10 11 
 Missing: 1 10 11 2 3 4 5 6 7 8 9 
@@ -128,6 +121,8 @@ Select a such that Affects(a, 9)
 Evaluating query 11 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Affects="1" SuchThat="1" CondNum="3" RelNum="1" 
+Unexpected token
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: 2 3 5 7 11 
 Missing: 11 2 3 5 7 
@@ -140,6 +135,8 @@ Select a such that Affects*(11, a)
 Evaluating query 12 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Affectsstar="1" SuchThat="1" CondNum="3" RelNum="1" 
+Unexpected token
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: 9 11 
 Missing: 11 9 
@@ -153,6 +150,8 @@ Evaluating query 13 - comment
 _"x+i" is an Unnamedvar 
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" UnnamedVar="1" Pattern="1" CondNum="3" RelNum="0" 
+invalid expression value
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: 
 Missing: 
@@ -168,10 +167,8 @@ _"x is an Unnamedvar
 1"_ is an Unnamedvar 
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" UnnamedVar="3" Pattern="1" CondNum="5" RelNum="0" 
-Your answer: SyntaxError 
+Your answer: 7 18 23 
 Correct answer: 7 18 23 
-Missing: 18 23 7 
-Additional: SyntaxError 
 15 - comment
 assign a;
 Select a pattern a(_, " 3  +  2 ")
@@ -181,10 +178,8 @@ Evaluating query 15 - comment
 _, is an Unnamedvar 
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" UnnamedVar="1" Pattern="1" CondNum="3" RelNum="0" 
-Your answer: SyntaxError 
+Your answer: 
 Correct answer: 
-Missing: 
-Additional: SyntaxError 
 16 - comment
 while w; variable v;
 Select w such that Modifies(w, v) with v.varName = "x"
@@ -193,6 +188,9 @@ Select w such that Modifies(w, v) with v.varName = "x"
 Evaluating query 16 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Modifies="1" SuchThat="1" With="1" CondNum="4" RelNum="1" 
+Unexpected character (.) while tokenizing
+
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: 4 14 
 Missing: 14 4 
@@ -205,6 +203,9 @@ x, z
 Evaluating query 17 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Uses="1" SuchThat="1" With="1" CondNum="4" RelNum="1" 
+Unexpected character (.) while tokenizing
+
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: x z 
 Missing: x z 
@@ -216,6 +217,9 @@ TRUE
 5000
 Evaluating query 18 - comment
 The final tag string is ReturnBoolean="1" Calls="1" SuchThat="1" With="1" CondNum="4" RelNum="1" 
+Unexpected character (.) while tokenizing
+
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: TRUE 
 Missing: TRUE 
@@ -229,6 +233,9 @@ Evaluating query 19 - comment
 The happen is 2
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Followsstar="2" Modifies="1" Uses="1" SuchThat="1" With="1" CondNum="7" RelNum="4" 
+Unexpected character (.) while tokenizing
+
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: 6 
 Missing: 6 
@@ -242,6 +249,8 @@ Evaluating query 20 - comment
 prog_line is an Unnamedvar 
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Nextstar="1" Parentstar="1" UnnamedVar="1" SuchThat="1" CondNum="5" RelNum="2" 
+Expected Select but found prog
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: 13 14 
 Missing: 13 14 
@@ -255,6 +264,8 @@ Evaluating query 21 - comment
 prog_line is an Unnamedvar 
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Affectsstar="1" Nextstar="1" UnnamedVar="1" SuchThat="1" CondNum="5" RelNum="2" 
+Expected Select but found prog
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: 17 18 19 20 
 Missing: 17 18 19 20 
@@ -267,6 +278,9 @@ Example p i, Example p x, Example p y, Example p z, Example q i, Example q x, Ex
 Evaluating query 22 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Calls="1" Modifies="1" SuchThat="1" CondNum="4" RelNum="2" 
+Unexpected character (<) while tokenizing
+
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: Example p i Example p x Example p y Example p z Example q i Example q x Example q y Example q z p q i p q x p q z 
 Missing: Example p i Example p x Example p y Example p z Example q i Example q x Example q y Example q z p q i p q x p q z 
@@ -280,6 +294,8 @@ Evaluating query 23 - comment
 _, is an Unnamedvar 
 _ is an Unnamedvar 
 The final tag string is Affects="1" ReturnBoolean="1" Followsstar="1" UnnamedVar="2" Uses="1" SuchThat="1" CondNum="7" RelNum="3" 
+Synonym not declared
+Semantic error. Please input another query.
 Your answer: SemanticError 
 Correct answer: TRUE 
 Missing: TRUE 
@@ -293,6 +309,8 @@ Evaluating query 24 - comment
 _ is an Unnamedvar 
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Affectsstar="1" UnnamedVar="1" Uses="1" Pattern="1" SuchThat="1" CondNum="6" RelNum="2" 
+Unexpected token
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: i x z 
 Missing: i x z 
@@ -307,6 +325,8 @@ prog_line is an Unnamedvar
 The happen is 2
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Modifies="2" Nextstar="1" UnnamedVar="1" Uses="1" SuchThat="1" CondNum="7" RelNum="4" 
+Expected Select but found prog
+Invalid syntax. Please input another query.
 Your answer: SyntaxError 
 Correct answer: 10 12 16 
 Missing: 10 12 16 

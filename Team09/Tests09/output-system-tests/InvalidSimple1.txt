@@ -1,5 +1,4 @@
 Parameters : ../Tests09/InvalidSimple1_source.txt ../Tests09/Sample_queries.txt ../Tests09/output-system-tests/InvalidSimple1.xml
-TestWrapper constructor called
 Beginning to parse Simple Program.
 Expected then, got {.
 Invalid syntax. Please input another file.

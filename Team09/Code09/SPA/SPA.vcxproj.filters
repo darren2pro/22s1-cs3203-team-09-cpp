@@ -341,6 +341,12 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsT.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\WhilePatternEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClInclude>

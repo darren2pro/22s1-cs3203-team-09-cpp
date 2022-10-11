@@ -52,6 +52,8 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\pratt.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\token.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\IfPatternEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\WhilePatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsT.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\CallsTEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.h" />

@@ -27,6 +27,6 @@ public:
 		results(std::vector<std::string>()) {};
 
 	bool operator==(const Query& q) const {
-		return relations == q.relations && patterns == q.patterns && declarations == q.declarations && target == q.target && results == q.results;
+		return relations == q.relations && patterns == q.patterns && declarations == q.declarations && target == q.target && results == q.results && withs == q.withs;
 	}
 };

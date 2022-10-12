@@ -88,7 +88,7 @@ public:
 	}
 
 	bool operator==(const AttrReference& a) const {
-		return declaration == a.declaration && attr == a.attr && TYPE == a.TYPE && valueType == a.valueType;
+		return declaration == a.declaration && attr == a.attr && TYPE == a.TYPE && valueType == a.valueType && value == a.value;
 	}
 
 	// Types

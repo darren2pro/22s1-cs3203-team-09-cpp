@@ -68,5 +68,8 @@
     <ClCompile Include="TestExpression.cpp">
       <Filter>Source Files\QueryProcessingSubsystem</Filter>
     </ClCompile>
+    <ClCompile Include="QueryProcessingSubsystem\TestAttrReference.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

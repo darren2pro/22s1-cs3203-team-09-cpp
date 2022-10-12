@@ -36,7 +36,7 @@ public:
     void createCFG(const std::shared_ptr<PrintNode>, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>>);
     void createCFG(const std::shared_ptr<AssignmentNode>, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>>);
     void createCFG(const std::shared_ptr<CallNode>, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>>);
-    
+  
     //entity design extractions from ast
     void extractEntities(const std::shared_ptr<ProgramNode> astRoot);
     void extractEntities(const std::shared_ptr<ProcedureNode> proc);
@@ -128,4 +128,5 @@ public:
     void extractAssignPattern(const std::shared_ptr<ReadNode>);
     void extractAssignPattern(const std::shared_ptr<CallNode>);
     void extractAssignPattern(const std::shared_ptr<PrintNode>);
+    void extractProcStartAndEnd(const std::shared_ptr<ProgramNode> astRoot);
 };

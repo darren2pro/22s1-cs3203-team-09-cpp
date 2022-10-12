@@ -62,9 +62,9 @@ void EntityExtraction::traverseCFG(
         auto terminating = extractTerminatingLines(stmts[i], cache);
         const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmts[i + 1]);
 
-        //for (const auto& line : terminating) {
-        //    pkbStorage->storeCFGEdge(line, lnNum);// PKB API
-        //}
+        for (const auto& line : terminating) {
+            pkbStorage->storeCFGEdge(line, lnNum);
+        }
     }
 }
 
@@ -175,8 +175,8 @@ std::unordered_set<const PKB::LineNum> EntityExtraction::extractTerminatingLines
                 pkbStorage->getLineFromNode(ifNode->thenStmtList.front());
             const PKB::ChildLine elseChild =
                 pkbStorage->getLineFromNode(ifNode->elseStmtList.front());
-            //pkbStorage->storeCFGEdge(parent, thenChild); //PKB API
-            //pkbStorage->storeCFGEdge(parent, elseChild); //PKB API
+            pkbStorage->storeCFGEdge(parent, thenChild); 
+            pkbStorage->storeCFGEdge(parent, elseChild);
 
             traverseCFG(ifNode->thenStmtList, cache);
             traverseCFG(ifNode->elseStmtList, cache);
@@ -187,10 +187,10 @@ std::unordered_set<const PKB::LineNum> EntityExtraction::extractTerminatingLines
      const PKB::ParentLine parent = pkbStorage->getLineFromNode(whileNode);
      const PKB::ChildLine child = pkbStorage->getLineFromNode(whileNode->stmtList.front());
      auto terminating = extractTerminatingLines(whileNode->stmtList.back(), cache);
-     //for (const auto& line : terminating) {
-     //    pkbStorage->storeCFGEdge(line, parent); //PKB API
-     //}
-     //pkbStorage->storeCFGEdge(parent, child);//PKB API
+     for (const auto& line : terminating) {
+         pkbStorage->storeCFGEdge(line, parent);
+     }
+     pkbStorage->storeCFGEdge(parent, child);
      traverseCFG(whileNode->stmtList, cache);
  }
 
@@ -647,3 +647,4 @@ void EntityExtraction::extractAssignPattern(const std::shared_ptr<ReadNode>) {}
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<CallNode>) {}
 
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<PrintNode>) {}
+

@@ -17,6 +17,8 @@ namespace PKB {
         void incrementCurrLineNumber();
 
     public:
+        std::unordered_map<PrevLine, std::unordered_set<NextLine>> cfgPrevLineToNextLineMap;
+
         //entity set
         std::unordered_set<Variable> varSet;
         std::unordered_set<Procedure> procSet;
@@ -87,6 +89,7 @@ namespace PKB {
         Procedure getProcedureFromLine(LineNum lineNum);
         std::shared_ptr<TNode> getNodeFromLine(const LineNum line);
         void storeStmt(const LineNum lineNum);
+        void storeCFGEdge(const PrevLine lineBefore, const NextLine lineAfter);
 
         //store entities API
         void storeVariable(const Variable var);

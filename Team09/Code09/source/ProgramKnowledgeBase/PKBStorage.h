@@ -18,6 +18,7 @@ namespace PKB {
 
     public:
         std::unordered_map<PrevLine, std::unordered_set<NextLine>> cfgPrevLineToNextLineMap;
+        std::unordered_map<PrevLine, std::unordered_set<NextLine>> cfgProcPrevLineToNextLineMap;
 
         //entity set
         std::unordered_set<Variable> varSet;
@@ -90,6 +91,7 @@ namespace PKB {
         std::shared_ptr<TNode> getNodeFromLine(const LineNum line);
         void storeStmt(const LineNum lineNum);
         void storeCFGEdge(const PrevLine lineBefore, const NextLine lineAfter);
+        void storeCFGEdgeProc(const PrevLine lineBefore, const NextLine lineAfter);
 
         //store entities API
         void storeVariable(const Variable var);

@@ -219,10 +219,10 @@ namespace UnitTesting {
                 //CFG
                 pkbStorage->storeCFGEdge("1", "2");
                 pkbStorage->storeCFGEdge("1", "3");
-                std::unordered_set<PKB::NextLine> cfgNextLineMap;
-                cfgNextLineMap.insert("2");
-                cfgNextLineMap.insert("3");
-                Assert::IsTrue(pkbManager.getCFG().at("1") == cfgNextLineMap);
+                std::unordered_set<PKB::NextLine> cfgNextLineSet;
+                cfgNextLineSet.insert("2");
+                cfgNextLineSet.insert("3");
+                Assert::IsTrue(pkbManager.getCFG().at("1") == cfgNextLineSet);
 
                 //modifies
                 pkbStorage->storeModifiesS("1", "var1");

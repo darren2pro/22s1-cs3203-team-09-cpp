@@ -31,12 +31,14 @@ public:
 	Declaration declaration;		// for SYNONYM AttrReference, otherwise will be an empty declaration
 	Attribute attr;					// for SYNONYM AttrReference, otherwise will be NONE
 	ValueType valueType;
+	std::string value;				// for IDENT & INTEGER to store their value, will be "" if it was a synonym
 
 	AttrReference(Declaration declaration, Attribute attr) {
 		this->declaration = declaration;
 		this->attr = attr;
 		this->TYPE = SYNONYM;
 		this->valueType = getValueType(attr);
+		this->value = "";
 
 		if (!isValidalidAttributeType(attr, declaration)) {
 			throw SyntaxError("Invalid synonym type for attribute");
@@ -60,7 +62,7 @@ public:
 			throw SyntaxError("Invalid str");
 		}
 
-
+		this->value = str;
 	}
 
 	static Attribute getAttribute(std::string str) {
@@ -88,6 +90,17 @@ public:
 	bool operator==(const AttrReference& a) const {
 		return declaration == a.declaration && attr == a.attr && TYPE == a.TYPE && valueType == a.valueType;
 	}
+
+	// Types
+	bool isIdent() { return TYPE == Types::IDENT; }
+	bool isInteger() { return TYPE == Types::INTEGER; }
+	bool isSynonym() { return TYPE == Types::SYNONYM; }
+
+	// Attributes
+	bool isProcName() { return attr == Attribute::ProcName; }
+	bool isVarName() { return attr == Attribute::VarName; }
+	bool isValue() { return attr == Attribute::Value; }
+	bool isStmtNum() { return attr == Attribute::StmtNum; }
 
 private:
 	ValueType getValueType(Attribute attr) {

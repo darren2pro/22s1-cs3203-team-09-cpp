@@ -183,6 +183,14 @@ namespace PKB {
         PKB::addToSetInMap(assignExprToLineVarMap, expr, std::pair<LineNum, Variable>(line, var));
         PKB::addToSetInMap(assignVarToLineExprMap, var, std::pair<LineNum, ExprStr>(line, expr));
     }
+
+    void PKBStorage::storeProcFirstLine(const Procedure proc, const LineNum firstLine) {
+        procFirstLineMap[proc] = firstLine; //can only have 1 first line for each proc
+    }
+
+    void PKBStorage::storeProcLastLine(const Procedure proc, const LineNum lastLine) {
+        PKB::addToSetInMap(procLastLineMap, proc, lastLine);
+    }
 }
 
 

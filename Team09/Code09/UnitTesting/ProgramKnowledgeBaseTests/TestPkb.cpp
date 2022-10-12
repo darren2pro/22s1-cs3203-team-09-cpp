@@ -210,6 +210,27 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->assignExprToLineVarMap.find("2") == pkbStorage->assignExprToLineVarMap.end());
                 Assert::IsTrue(pkbStorage->assignExprToLineVarMap.at("1") == lineVarSet);
                 Assert::IsTrue(pkbStorage->assignVarToLineExprMap.at("var1") == lineExprSet);
+
+                pkbStorage->storeProcFirstLine("proc1", "3");
+                pkbStorage->storeProcFirstLine("proc2", "10");
+                Assert::IsTrue(pkbStorage->procFirstLineMap.find("proc1") != pkbStorage->procFirstLineMap.end());
+                Assert::IsTrue(pkbStorage->procFirstLineMap.find("proc2") != pkbStorage->procFirstLineMap.end());
+                Assert::IsTrue(pkbStorage->procFirstLineMap.find("proc3") == pkbStorage->procFirstLineMap.end());
+                Assert::IsTrue(pkbStorage->procFirstLineMap.at("proc1") == "3");
+                Assert::IsTrue(pkbStorage->procFirstLineMap.at("proc2") == "10");
+                Assert::IsTrue(pkbStorage->procFirstLineMap.at("proc1") != "1");
+                Assert::IsTrue(pkbStorage->procFirstLineMap.at("proc2") != "1");
+
+                pkbStorage->storeProcLastLine("proc1", "3");
+                pkbStorage->storeProcLastLine("proc1", "5");
+                pkbStorage->storeProcLastLine("proc1", "7");
+                std::unordered_set<PKB::LineNum> lastLineSet;
+                lastLineSet.insert("3");
+                lastLineSet.insert("5");
+                lastLineSet.insert("7");
+                Assert::IsTrue(pkbStorage->procLastLineMap.find("proc1") != pkbStorage->procLastLineMap.end());
+                Assert::IsTrue(pkbStorage->procLastLineMap.find("proc2") == pkbStorage->procLastLineMap.end());
+                Assert::IsTrue(pkbStorage->procLastLineMap.at("proc1") == lastLineSet);
             }
 
             TEST_METHOD(TestPkbManager) {

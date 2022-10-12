@@ -80,6 +80,9 @@ namespace PKB {
         std::unordered_map<ExprStr, std::unordered_set<std::pair<LineNum, Variable>, pairHash>> assignExprToLineVarMap;
         std::unordered_map<Variable, std::unordered_set<std::pair<LineNum, ExprStr>, pairHash>> assignVarToLineExprMap;
 
+        std::unordered_map<Procedure, LineNum> procFirstLineMap;
+        std::unordered_map<Procedure, std::unordered_set<LineNum>> procLastLineMap;
+
         PKBStorage();
         ~PKBStorage();
 
@@ -116,5 +119,7 @@ namespace PKB {
         void storeModifiesS(const LineNum, const Variable);
         void storeModifiesP(const Procedure, const Variable);
         void storeAssignPattern(const Variable, const LineNum, const ExprStr);
+        void storeProcFirstLine(const Procedure, const LineNum);
+        void storeProcLastLine(const Procedure, const LineNum);
     };
 }

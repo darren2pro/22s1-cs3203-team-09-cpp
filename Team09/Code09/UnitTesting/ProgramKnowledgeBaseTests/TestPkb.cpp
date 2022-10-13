@@ -19,6 +19,16 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->stmtSet.find(line) != pkbStorage->stmtSet.end());
                 Assert::IsTrue(pkbStorage->stmtSet.find("2") == pkbStorage->stmtSet.end());
 
+                //Check if CFG is stored correctly
+                pkbStorage->storeCFGEdge("1", "2");
+                pkbStorage->storeCFGEdge("1", "3");
+                std::unordered_set<PKB::LineNum> cfgNextSet;
+                cfgNextSet.insert("2");
+                cfgNextSet.insert("3");
+                Assert::IsTrue(pkbStorage->cfgPrevLineToNextLineMap.find("1") != pkbStorage->cfgPrevLineToNextLineMap.end());
+                Assert::IsTrue(pkbStorage->cfgPrevLineToNextLineMap.find("2") == pkbStorage->cfgPrevLineToNextLineMap.end());
+                Assert::IsTrue(pkbStorage->cfgPrevLineToNextLineMap.at("1") == cfgNextSet);
+
                 //Check if entity population is correct
                 pkbStorage->storeVariable("var1");
                 pkbStorage->storeProcedure("proc1");
@@ -200,11 +210,40 @@ namespace UnitTesting {
                 Assert::IsTrue(pkbStorage->assignExprToLineVarMap.find("2") == pkbStorage->assignExprToLineVarMap.end());
                 Assert::IsTrue(pkbStorage->assignExprToLineVarMap.at("1") == lineVarSet);
                 Assert::IsTrue(pkbStorage->assignVarToLineExprMap.at("var1") == lineExprSet);
+
+                pkbStorage->storeProcFirstLine("proc1", "3");
+                pkbStorage->storeProcFirstLine("proc2", "10");
+                Assert::IsTrue(pkbStorage->procFirstLineMap.find("proc1") != pkbStorage->procFirstLineMap.end());
+                Assert::IsTrue(pkbStorage->procFirstLineMap.find("proc2") != pkbStorage->procFirstLineMap.end());
+                Assert::IsTrue(pkbStorage->procFirstLineMap.find("proc3") == pkbStorage->procFirstLineMap.end());
+                Assert::IsTrue(pkbStorage->procFirstLineMap.at("proc1") == "3");
+                Assert::IsTrue(pkbStorage->procFirstLineMap.at("proc2") == "10");
+                Assert::IsTrue(pkbStorage->procFirstLineMap.at("proc1") != "1");
+                Assert::IsTrue(pkbStorage->procFirstLineMap.at("proc2") != "1");
+
+                pkbStorage->storeProcLastLine("proc1", "3");
+                pkbStorage->storeProcLastLine("proc1", "5");
+                pkbStorage->storeProcLastLine("proc1", "7");
+                std::unordered_set<PKB::LineNum> lastLineSet;
+                lastLineSet.insert("3");
+                lastLineSet.insert("5");
+                lastLineSet.insert("7");
+                Assert::IsTrue(pkbStorage->procLastLineMap.find("proc1") != pkbStorage->procLastLineMap.end());
+                Assert::IsTrue(pkbStorage->procLastLineMap.find("proc2") == pkbStorage->procLastLineMap.end());
+                Assert::IsTrue(pkbStorage->procLastLineMap.at("proc1") == lastLineSet);
             }
 
             TEST_METHOD(TestPkbManager) {
                 PKB::PKBManager pkbManager;
                 std::shared_ptr<PKB::PKBStorage> pkbStorage = pkbManager.getPKBStorage();
+
+                //CFG
+                pkbStorage->storeCFGEdge("1", "2");
+                pkbStorage->storeCFGEdge("1", "3");
+                std::unordered_set<PKB::NextLine> cfgNextLineSet;
+                cfgNextLineSet.insert("2");
+                cfgNextLineSet.insert("3");
+                Assert::IsTrue(pkbManager.getCFG().at("1") == cfgNextLineSet);
 
                 //modifies
                 pkbStorage->storeModifiesS("1", "var1");

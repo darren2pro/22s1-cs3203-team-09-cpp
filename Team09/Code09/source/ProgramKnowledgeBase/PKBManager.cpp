@@ -10,6 +10,10 @@ namespace PKB {
         return pkbStorage;
     }
 
+    std::unordered_map<PrevLine, std::unordered_set<NextLine>> PKBManager::getCFG() {
+        return pkbStorage->cfgPrevLineToNextLineMap;
+    }
+
     std::unordered_set<Variable> PKBManager::getVariableSet() {
         return pkbStorage->varSet;
     }

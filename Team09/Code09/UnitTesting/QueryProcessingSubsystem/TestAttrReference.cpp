@@ -55,7 +55,7 @@ public:
         AttrReference ref = AttrReference(Declaration(Declaration::DesignEntity::Procedure, "p"), AttrReference::Attribute::ProcName);
 
         Assert::IsTrue(ref.TYPE == AttrReference::Types::SYNONYM);
-        Assert::IsTrue(ref.declaration == Declaration());
+        Assert::IsTrue(ref.declaration == Declaration(Declaration::DesignEntity::Procedure, "p"));
         Assert::IsTrue(ref.attr == AttrReference::Attribute::ProcName);
         Assert::IsTrue(ref.valueType == AttrReference::ValueType::NAME);
         Assert::IsTrue(ref.value == "");
@@ -159,7 +159,7 @@ public:
         v3.push_back(AttrReference(Declaration(Declaration::DesignEntity::If, "x"), AttrReference::Attribute::StmtNum));
         v3.push_back(AttrReference(Declaration(Declaration::DesignEntity::Assignment, "x"), AttrReference::Attribute::StmtNum));
 
-        for (AttrReference ref : v1) {
+        for (AttrReference ref : v3) {
             Assert::IsTrue(ref.valueType == AttrReference::ValueType::INTEGER_V);
 
             Assert::IsFalse(ref.isIdent());

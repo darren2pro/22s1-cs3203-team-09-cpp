@@ -10,9 +10,9 @@ using namespace std;
 namespace IntegrationTesting {
     TEST_CLASS(TestQueryMilestone2MultipleClauses) {
             //! Remove or comment out this block to test your code
-            BEGIN_TEST_CLASS_ATTRIBUTE(TestQueryMilestone2MultipleClauses)
+            /*BEGIN_TEST_CLASS_ATTRIBUTE(TestQueryMilestone2MultipleClauses)
             TEST_CLASS_ATTRIBUTE(L"Ignore", L"true")
-            END_TEST_CLASS_ATTRIBUTE()
+            END_TEST_CLASS_ATTRIBUTE()*/
 
             string getCurrentProgram(int ref) {
                 string program1 = "procedure procOne {\n"
@@ -210,8 +210,10 @@ namespace IntegrationTesting {
                 string query8 = "assign a; stmt s, anotherS; procedure p; \n"
                                 "Select s such that Uses(anotherS, \"num1\") such that Modifies(s, \"num6\")";
                 unordered_set<string> queryResults8 = spaManager.query(query8);
-                // Expected results: 18
-                Assert::AreEqual(1, (int) queryResults8.size());
+                // Expected results: 11, 12, 18
+                Assert::AreEqual(3, (int) queryResults8.size());
+                Assert::IsTrue(queryResults8.find("11") != queryResults8.end());
+                Assert::IsTrue(queryResults8.find("12") != queryResults8.end());
                 Assert::IsTrue(queryResults8.find("18") != queryResults8.end());
             }
 
@@ -222,7 +224,7 @@ namespace IntegrationTesting {
 
                 //! Query 9
                 string query9 = "assign a; stmt parentS, childS; procedure p; \n"
-                                "Select parentS such that Parent*(childS, parentS) such that Modifies(childS, \"num6\")";
+                                "Select parentS such that Parent*(parentS, childS) such that Modifies(childS, \"num6\")";
                 unordered_set<string> queryResults9 = spaManager.query(query9);
                 // Expected results: 12, 11
                 Assert::AreEqual(2, (int) queryResults9.size());
@@ -237,7 +239,7 @@ namespace IntegrationTesting {
 
                 //! Query 10 - similar to 9 but additional pattern for assign. Should not affect results.
                 string query10 = "assign a; stmt parentS, childS; procedure p; \n"
-                                 "Select parentS such that Parent*(childS, parentS) such that Modifies(childS, \"num6\") pattern a(\"beingModified\", \"num1  +   num2\")";
+                                 "Select parentS such that Parent*(parentS, childS) such that Modifies(childS, \"num6\") pattern a(\"beingModified\", \"num1  +   num2\")";
                 unordered_set<string> queryResults10 = spaManager.query(query10);
                 // Expected results: 12, 11
                 Assert::AreEqual(2, (int) queryResults10.size());
@@ -252,7 +254,7 @@ namespace IntegrationTesting {
 
                 //! Query 11 - similar to 10 but it has such that with pattern. Get all parentS that has a childS that modifies num7, and has another childA which modifies beingModified.
                 string query11 = "assign childA; stmt parentS, childS; procedure p; \n"
-                                 "Select parentS such that Parent*(childS, parentS) such that Modifies(childS, \"num7\") pattern childA(\"beingModified\", \"num1  +   num2\") such that Parent*(childA, parentS)";
+                                 "Select parentS such that Parent*(parentS, childS) such that Modifies(childS, \"num7\") pattern childA(\"beingModified\", \"num1  +   num2\") such that Parent*(parentS, childA)";
                 unordered_set<string> queryResults11 = spaManager.query(query11);
                 // Expected results: 11
                 Assert::AreEqual(1, (int) queryResults11.size());
@@ -265,8 +267,8 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 12 - get call statements which calls something, and also uses num5
-                string query12 = "call c; stmt s; \n"
-                                 "Select s such that Calls(s, _) such that Uses(s, \"num5\")";
+                string query12 = "call c; stmt s; procedure p1, p2; \n"
+                                 "Select c such that Calls(p1, _) such that Uses(c, \"num5\")";
                 unordered_set<string> queryResults12 = spaManager.query(query12);
                 // Expected results: 17
                 Assert::AreEqual(1, (int) queryResults12.size());
@@ -308,12 +310,10 @@ namespace IntegrationTesting {
 
                 //! Query 15 - get procedures such that <something true>
                 string query15 = "procedure p, p1; call c; stmt s;  read r; \n"
-                                 "Select p such that Calls(c, p1) such that Modifies(r, \"num7\")  ";
+					"Select p such that Calls(p, p1) such that Modifies(r, \"num7\") such that Modifies(p, \"num7\")   ";
                 unordered_set<string> queryResults15 = spaManager.query(query15);
-                // Expected results: procOne, procTwo, nested
-                Assert::AreEqual(3, (int) queryResults15.size());
-                Assert::IsTrue(queryResults15.find("procOne") != queryResults15.end());
-                Assert::IsTrue(queryResults15.find("procTwo") != queryResults15.end());
+                // Expected results: nested
+                Assert::AreEqual(1, (int) queryResults15.size());
                 Assert::IsTrue(queryResults15.find("nested") != queryResults15.end());
             }
 
@@ -324,7 +324,7 @@ namespace IntegrationTesting {
 
                 //! Query 16 - get procedures such that <something false>
                 string query16 = "procedure p, p1; call c; stmt s;  read r; assign a; variable v;\n"
-                                 "Select p such that Calls(c, p1) pattern  a(_, _\"num1 + num9\"_)  ";
+                                 "Select p such that Calls(_, _) pattern  a(_, _\"num1 + num9\"_)  ";
                 unordered_set<string> queryResults16 = spaManager.query(query16);
                 // Expected results: none
                 Assert::AreEqual(0, (int) queryResults16.size());
@@ -337,7 +337,7 @@ namespace IntegrationTesting {
 
                 //! Query 17 - multiple pattern clauses
                 string query17 = "procedure p, p1; call c; stmt s;  read r; assign a, a1; variable v;\n"
-                                 "Select a1 such that Calls(c, p1) pattern  a(v, _)  pattern a1(_, _\"num2\"_)  ";
+                                 "Select a1 such that Calls(p, p1) pattern  a(v, _)  pattern a1(_, _\"num2\"_)  ";
                 unordered_set<string> queryResults17 = spaManager.query(query17);
                 // Expected results: 14, 16
                 Assert::AreEqual(2, (int) queryResults17.size());
@@ -350,9 +350,9 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 18 - multiple pattern clauses with Next/*
+                //! Query 18 - multiple pattern clauses with Next/*. Once Next is supported, this test case should pass.
                 string query18 = "procedure p, p1; call c; stmt s;  read r; assign a, a1; variable v;\n"
-                                 "Select s such that Calls(c, p1) pattern  a(v, _)  pattern a1(_, _\"num2\"_)  such that Next(a1, s)  ";
+                                 "Select s such that Calls(p, p1) pattern  a(v, _)  pattern a1(_, _\"num2\"_)  such that Next(a1, s)  ";
                 unordered_set<string> queryResults18 = spaManager.query(query18);
                 // Expected results: 15, 13
                 Assert::AreEqual(2, (int) queryResults18.size());
@@ -365,7 +365,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 19 - multiple pattern clauses with Next/*
+                //! Query 19 - multiple pattern clauses with Next/*. Once Next is supported, this test case should pass.
                 string query19 = "procedure p, p1; call c; stmt s;  read r; assign a, a1; variable v;\n"
                                  "Select v pattern a(v, _) pattern a1(_, _\"num2\"_) such that Next*(11, a)";
                 unordered_set<string> queryResults19 = spaManager.query(query19);
@@ -380,7 +380,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 20 - multiple pattern clauses with Next/*. Select read stmts that can come after 11
+                //! Query 20 - multiple pattern clauses with Next/*. Select read stmts that can come after 11. Once Next is supported, this test case should pass.
                 string query20 = "procedure p, p1; call c; stmt s;  read r; assign a, a1; variable v;\n"
                                  "Select r pattern a(v, _) pattern a1(_, _\"num2\"_) such that Next*(11, r)";
                 unordered_set<string> queryResults20 = spaManager.query(query20);
@@ -395,7 +395,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 21 - Same as query 20 but with num22
+                //! Query 21 - Same as query 20 but with num22. Once Next is supported, this test case should pass.
                 string query21 = "procedure p, p1; call c; stmt s;  read r; assign a, a1; variable v;\n"
                                  "Select r pattern a(v, _) pattern a1(_, _\"num22\"_) such that Next*(11, r)";
                 unordered_set<string> queryResults21 = spaManager.query(query21);
@@ -422,7 +422,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 2 - Multiple pattern clauses on the same while loop
+                //! Query 2 - Multiple pattern clauses on the same while loop. Once if-pattern is supported, this test case should pass.
                 string query2 = "procedure p; while w; variable v; assign a; if ifs;\n"
                                 "Select w pattern a(v, _) pattern a(_, _\"cenY\"_) pattern ifs(\"count\", _)";
                 unordered_set<string> queryResults2 = spaManager.query(query2);
@@ -436,7 +436,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 3 - Pattern for while and also checking follows and parent
+                //! Query 3 - Pattern for while and also checking follows and parent. Once if-pattern is supported, this test case should pass.
                 string query3 = "procedure p; while w; variable v; assign a; if ifs;\n"
                                 "Select w pattern ifs(\"count\", _) such that Follows(w, ifs)";
                 unordered_set<string> queryResults3 = spaManager.query(query3);
@@ -450,7 +450,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 4 - Pattern for while and checking for next
+                //! Query 4 - Pattern for while and checking for next. Once if-pattern is supported, this test case should pass.
                 string query4 = "procedure p; while w; variable v; assign a; if ifs;\n"
                                 "Select w pattern ifs(\"count\", _) such that Next(w, ifs)";
                 unordered_set<string> queryResults4 = spaManager.query(query4);
@@ -464,7 +464,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 5 - Pattern for while and checking for next*
+                //! Query 5 - Pattern for while and checking for next*. Once if-pattern is supported, this test case should pass.
                 string query5 = "procedure p; while w; variable v; assign a; if ifs;\n"
                                 "Select w pattern ifs(\"count\", _) such that Next*(w, ifs)";
                 unordered_set<string> queryResults5 = spaManager.query(query5);
@@ -583,8 +583,10 @@ namespace IntegrationTesting {
                 string query8 = "assign a; stmt s, anotherS; procedure p; \n"
                                 "Select s such that Uses(anotherS, \"num1\") and Modifies(s, \"num6\")";
                 unordered_set<string> queryResults8 = spaManager.query(query8);
-                // Expected results: 18
-                Assert::AreEqual(1, (int) queryResults8.size());
+                // Expected results: 11, 12, 18
+                Assert::AreEqual(3, (int) queryResults8.size());
+				Assert::IsTrue(queryResults8.find("11") != queryResults8.end());
+				Assert::IsTrue(queryResults8.find("12") != queryResults8.end());
                 Assert::IsTrue(queryResults8.find("18") != queryResults8.end());
             }
 
@@ -595,7 +597,7 @@ namespace IntegrationTesting {
 
                 //! Query 9
                 string query9 = "assign a; stmt parentS, childS; procedure p; \n"
-                                "Select parentS such that Parent*(childS, parentS) and Modifies(childS, \"num6\")";
+                                "Select parentS such that Parent*(parentS, childS) and Modifies(childS, \"num6\")";
                 unordered_set<string> queryResults9 = spaManager.query(query9);
                 // Expected results: 12, 11
                 Assert::AreEqual(2, (int) queryResults9.size());
@@ -610,7 +612,7 @@ namespace IntegrationTesting {
 
                 //! Query 10 - similar to 9 but additional pattern for assign. Should not affect results.
                 string query10 = "assign a; stmt parentS, childS; procedure p; \n"
-                                 "Select parentS such that Parent*(childS, parentS) and Modifies(childS, \"num6\") pattern a(\"beingModified\", \"num1  +   num2\")";
+                                 "Select parentS such that Parent*(parentS, childS) and Modifies(childS, \"num6\") pattern a(\"beingModified\", \"num1  +   num2\")";
                 unordered_set<string> queryResults10 = spaManager.query(query10);
                 // Expected results: 12, 11
                 Assert::AreEqual(2, (int) queryResults10.size());
@@ -625,7 +627,7 @@ namespace IntegrationTesting {
 
                 //! Query 11 - similar to 10 but it has such that with pattern. Get all parentS that has a childS that modifies num7, and has another childA which modifies beingModified.
                 string query11 = "assign childA; stmt parentS, childS; procedure p; \n"
-                                 "Select parentS such that Parent*(childS, parentS) and Modifies(childS, \"num7\") pattern childA(\"beingModified\", \"num1  +   num2\") such that Parent*(childA, parentS)";
+                                 "Select parentS such that Parent*(parentS, childS) and Modifies(childS, \"num7\") pattern childA(\"beingModified\", \"num1  +   num2\") such that Parent*(parentS, childA)";
                 unordered_set<string> queryResults11 = spaManager.query(query11);
                 // Expected results: 11
                 Assert::AreEqual(1, (int) queryResults11.size());
@@ -638,8 +640,8 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 12 - get call statements which calls something, and also uses num5
-                string query12 = "call c; stmt s; \n"
-                                 "Select s such that Calls(s, _) and Uses(s, \"num5\")";
+                string query12 = "call c; stmt s; procedure p, p1; \n"
+                                 "Select c such that Calls(p1, _) and Uses(c, \"num5\")";
                 unordered_set<string> queryResults12 = spaManager.query(query12);
                 // Expected results: 17
                 Assert::AreEqual(1, (int) queryResults12.size());
@@ -681,12 +683,10 @@ namespace IntegrationTesting {
 
                 //! Query 15 - get procedures such that <something true>
                 string query15 = "procedure p, p1; call c; stmt s;  read r; \n"
-                                 "Select p such that Calls(c, p1) and Modifies(r, \"num7\")  ";
+					"Select p such that Calls(p, p1) and Modifies(r, \"num7\") and Modifies(p, \"num7\")  and Uses(s, \"num5\")";
                 unordered_set<string> queryResults15 = spaManager.query(query15);
-                // Expected results: procOne, procTwo, nested
-                Assert::AreEqual(3, (int) queryResults15.size());
-                Assert::IsTrue(queryResults15.find("procOne") != queryResults15.end());
-                Assert::IsTrue(queryResults15.find("procTwo") != queryResults15.end());
+                // Expected results: nested
+                Assert::AreEqual(1, (int) queryResults15.size());
                 Assert::IsTrue(queryResults15.find("nested") != queryResults15.end());
             }
 
@@ -697,7 +697,7 @@ namespace IntegrationTesting {
 
                 //! Query 16 - get procedures such that <something false>
                 string query16 = "procedure p, p1; call c; stmt s;  read r; assign a; variable v;\n"
-                                 "Select p such that Calls(c, p1) pattern  a(_, _\"num1 + num9\"_)  ";
+                                 "Select p such that Calls(p, p1) pattern  a(_, _\"num1 + num9\"_)  ";
                 unordered_set<string> queryResults16 = spaManager.query(query16);
                 // Expected results: none
                 Assert::AreEqual(0, (int) queryResults16.size());
@@ -710,7 +710,7 @@ namespace IntegrationTesting {
 
                 //! Query 17 - multiple pattern clauses. Connecting the patterns with and keyword
                 string query17 = "procedure p, p1; call c; stmt s;  read r; assign a, a1; variable v;\n"
-                                 "Select a1 such that Calls(c, p1) pattern  a(v, _)  and a1(_, _\"num2\"_)  ";
+                                 "Select a1 such that Calls(p, p1) pattern  a(v, _)  and a1(_, _\"num2\"_)  ";
                 unordered_set<string> queryResults17 = spaManager.query(query17);
                 // Expected results: 14, 16
                 Assert::AreEqual(2, (int) queryResults17.size());
@@ -723,9 +723,9 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 18 - multiple pattern clauses with Next/*
+                //! Query 18 - multiple pattern clauses with Next/*. This test case should pass after Next is implemented.
                 string query18 = "procedure p, p1; call c; stmt s;  read r; assign a, a1; variable v;\n"
-                                 "Select s such that Calls(c, p1) pattern  a(v, _)  and a1(_, _\"num2\"_)  such that Next(a1, s)  ";
+                                 "Select s such that Calls(p, p1) pattern  a(v, _)  and a1(_, _\"num2\"_)  such that Next(a1, s)  ";
                 unordered_set<string> queryResults18 = spaManager.query(query18);
                 // Expected results: 15, 13
                 Assert::AreEqual(2, (int) queryResults18.size());
@@ -781,7 +781,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 1 - Multiple pattern clauses on the same while loop
+                //! Query 1 - Multiple pattern clauses on the same while loop. This test case should pass after while-pattern is implemented.
                 string query1 = "procedure p; while w; variable v; assign a; \n"
                                 "Select w pattern a(v, _) and a(_, _\"cenY\"_) and w(\"y\", _) pattern w(\"x\", _)";
                 unordered_set<string> queryResults1 = spaManager.query(query1);
@@ -795,7 +795,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 2 - Multiple pattern clauses on the same while loop
+                //! Query 2 - Multiple pattern clauses on the same while loop. This test case should pass after if-pattern is implemented.
                 string query2 = "procedure p; while w; variable v; assign a; if ifs;\n"
                                 "Select w pattern a(v, _) pattern a(_, _\"cenY\"_) and ifs(\"count\", _)";
                 unordered_set<string> queryResults2 = spaManager.query(query2);
@@ -809,7 +809,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 3 - Pattern for while and also checking follows and parent
+                //! Query 3 - Pattern for while and also checking follows and parent. This test case should pass after if-pattern is implemented.
                 string query3 = "procedure p; while w; variable v; assign a; if ifs;\n"
                                 "Select w pattern ifs(\"count\", _) such that Follows(w, ifs)";
                 unordered_set<string> queryResults3 = spaManager.query(query3);
@@ -823,7 +823,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 4 - Pattern for while and checking for next
+                //! Query 4 - Pattern for while and checking for next. This test case should pass after if-pattern is implemented.
                 string query4 = "procedure p; while w; variable v; assign a; if ifs;\n"
                                 "Select w pattern ifs(\"count\", _) such that Next(w, ifs)";
                 unordered_set<string> queryResults4 = spaManager.query(query4);
@@ -837,7 +837,7 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 5 - Pattern for while and checking for next*
+                //! Query 5 - Pattern for while and checking for next*. This test case should pass after if-pattern is implemented.
                 string query5 = "procedure p; while w; variable v; assign a; if ifs;\n"
                                 "Select w pattern ifs(\"count\", _) such that Next*(w, ifs)";
                 unordered_set<string> queryResults5 = spaManager.query(query5);

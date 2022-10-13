@@ -22,20 +22,20 @@ public:
     //creating CFG
     void createCFG(const std::shared_ptr<ProgramNode> astRoot);
     void createCFG(const std::shared_ptr<ProcedureNode> proc);
-    void traverseCFG(const std::vector<Stmt> stmts, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>> cache);
-    std::unordered_set<const PKB::LineNum> extractTerminatingLines(const std::shared_ptr<IfNode> ifNode, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>> cache);
-    std::unordered_set<const PKB::LineNum> extractTerminatingLines(const std::shared_ptr<WhileNode> whileNode, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>> cache);
-    std::unordered_set<const PKB::LineNum> extractTerminatingLines(const std::shared_ptr<ReadNode> readNode, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>> cache);
-    std::unordered_set<const PKB::LineNum> extractTerminatingLines(const std::shared_ptr<PrintNode> printNode, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>> cache);
-    std::unordered_set<const PKB::LineNum> extractTerminatingLines(const std::shared_ptr<AssignmentNode> assignNode, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>> cache);
-    std::unordered_set<const PKB::LineNum> extractTerminatingLines(const std::shared_ptr<CallNode> callNode, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>> cache);
-    std::unordered_set<const PKB::LineNum> extractTerminatingLines(const Stmt stmt, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>> cache);
-    void createCFG(const std::shared_ptr<IfNode> ifNode, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>> cache);
-    void createCFG(const std::shared_ptr<WhileNode> whileNode, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>> cache);
-    void createCFG(const std::shared_ptr<ReadNode>, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>>);
-    void createCFG(const std::shared_ptr<PrintNode>, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>>);
-    void createCFG(const std::shared_ptr<AssignmentNode>, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>>);
-    void createCFG(const std::shared_ptr<CallNode>, std::shared_ptr<std::unordered_map<const PKB::LineNum, std::unordered_set<const PKB::LineNum>>>);
+    void traverseCFG(const std::vector<Stmt> stmts, std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>> cache);
+    std::unordered_set<PKB::LineNum> extractTerminatingLines(const std::shared_ptr<IfNode> ifNode, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache);
+    std::unordered_set<PKB::LineNum> extractTerminatingLines(const std::shared_ptr<WhileNode> whileNode, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache);
+    std::unordered_set<PKB::LineNum> extractTerminatingLines(const std::shared_ptr<ReadNode> readNode, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache);
+    std::unordered_set<PKB::LineNum> extractTerminatingLines(const std::shared_ptr<PrintNode> printNode, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache);
+    std::unordered_set<PKB::LineNum> extractTerminatingLines(const std::shared_ptr<AssignmentNode> assignNode, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache);
+    std::unordered_set<PKB::LineNum> extractTerminatingLines(const std::shared_ptr<CallNode> callNode, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache);
+    std::unordered_set<PKB::LineNum> extractTerminatingLines(const Stmt stmt, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache);
+    void createCFG(const std::shared_ptr<IfNode> ifNode, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache);
+    void createCFG(const std::shared_ptr<WhileNode> whileNode, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache);
+    void createCFG(const std::shared_ptr<ReadNode>, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>>);
+    void createCFG(const std::shared_ptr<PrintNode>, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>>);
+    void createCFG(const std::shared_ptr<AssignmentNode>, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>>);
+    void createCFG(const std::shared_ptr<CallNode>, std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>>);
   
     //entity design extractions from ast
     void extractEntities(const std::shared_ptr<ProgramNode> astRoot);

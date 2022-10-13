@@ -86,7 +86,7 @@ std::string QueryParser::match(std::regex re) {
 	}
 }
 
-std::vector<Declaration> QueryParser::declaration() {
+std::vector<Declaration> QueryParser::parseDeclaration() {
 	std::vector<Declaration> declarations = std::vector<Declaration>();
 	std::vector<std::string> names = std::vector<std::string>();
 
@@ -126,13 +126,21 @@ Declaration QueryParser::findDeclaration(std::string name) {
 	throw SemanticError("Synonym not declared");
 }
 
+Reference QueryParser::getReference(std::string arg) {
+	try {
+		return Reference(arg);
+	}
+	catch (SyntaxError&) {
+		return Reference(findDeclaration(arg));
+	}
+}
+
 bool QueryParser::is_valid_stmtRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types) {
 	if (ref.isUnderscore() || ref.isStmtNum()) { return true; }
 
 	if (ref.isSynonym()) {
-		for (Declaration::DesignEntity de : valid_types) {
-			if (ref.declaration.TYPE == de)
-				return true;
+		if (std::find(valid_types.begin(), valid_types.end(), ref.declaration.TYPE) != valid_types.end()) {
+			return true;
 		}
 	}
 
@@ -143,16 +151,15 @@ bool QueryParser::is_valid_entRef(Reference ref, std::vector<Declaration::Design
 	if (ref.isUnderscore() || ref.isString()) { return true; }
 
 	if (ref.isSynonym()) {
-		for (Declaration::DesignEntity de : valid_types) {
-			if (ref.declaration.TYPE == de)
-				return true;
+		if (std::find(valid_types.begin(), valid_types.end(), ref.declaration.TYPE) != valid_types.end()) {
+			return true;
 		}
 	}
 
 	return false;
 }
 
-std::variant<Declaration, AttrReference> QueryParser::select() {
+std::variant<Declaration, AttrReference> QueryParser::parseSelect() {
 	match("Select");
 	std::string strelem = match(parser::synonym_re);
 
@@ -229,15 +236,7 @@ Pattern QueryParser::patternClause() {
 
 	// check the left argument
 	std::string arg = match(parser::entRef_re);
-	Reference left_arg;
-
-	try {
-		left_arg = Reference(arg);
-	}
-	catch (SyntaxError&) {
-		left_arg = Reference(findDeclaration(arg));
-	}
-
+	Reference left_arg = getReference(arg);
 	if (!is_valid_entRef(left_arg, parser::entRef_Var_de)) {
 		throw SemanticError("Invalid synonym type used as an argument");
 	}
@@ -306,38 +305,25 @@ Relation QueryParser::suchThatClause() {
 	std::string arg;
 	Reference left_arg, right_arg;
 	if (type == Relation::Types::Calls || type == Relation::Types::CallsT) {
+		// check the left argument
 		arg = match(parser::entRef_re);
-
-		try {
-			left_arg = Reference(arg);
-		}
-		catch (SyntaxError&) {
-			left_arg = Reference(findDeclaration(arg));
-		}
-
+		left_arg = getReference(arg);
 		if (!is_valid_entRef(left_arg, parser::entRef_Proc_de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
 
-
 		match(",");
 
-
+		// check the right argument
 		arg = match(parser::entRef_re);
-
-		try {
-			right_arg = Reference(arg);
-		}
-		catch (SyntaxError&) {
-			right_arg = Reference(findDeclaration(arg));
-		}
-
+		right_arg = getReference(arg);
 		if (!is_valid_entRef(right_arg, parser::entRef_Proc_de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
 	}
 	else if (type == Relation::Types::Uses || type == Relation::Types::Modifies) {
-		if (std::regex_match(current_token, parser::synonym_re)) {
+		// determine if it's UsesS/ModifiesS or UsesP/ModifiesP
+		if (std::regex_match(current_token, parser::synonym_re)) {		// if it's a synonym then check by synonym type
 			Declaration d = findDeclaration(current_token);
 			if (d.TYPE == Declaration::DesignEntity::Procedure) {
 				arg = match(parser::entRef_re);
@@ -350,26 +336,21 @@ Relation QueryParser::suchThatClause() {
 				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesS; }
 			}
 		}
-		else {
+		else {		// if not it's either stmtRed or entRef
 			try {
 				arg = match(parser::stmtRef_re);
 				if (type == Relation::Types::Uses) { type = Relation::Types::UsesS; }
 				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesS; }
 			}
-			catch (SyntaxError&) {		// if it's not UsesS/ModifiesS then it's UsesP/ModifiesP
+			catch (SyntaxError&) {
 				arg = match(parser::entRef_re);
 				if (type == Relation::Types::Uses) { type = Relation::Types::UsesP; }
 				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesP; }
 			}
 		}
-
-		try {
-			left_arg = Reference(arg);
-		}
-		catch (SyntaxError&) {
-			left_arg = Reference(findDeclaration(arg));
-		}
-
+		
+		// check left argument
+		left_arg = getReference(arg);
 		if (left_arg.isUnderscore()) { throw SemanticError("First args for uses/modifies can't be _"); }
 
 		if (type == Relation::Types::UsesS) {
@@ -391,15 +372,9 @@ Relation QueryParser::suchThatClause() {
 		match(",");
 
 
+		// check the right argument
 		arg = match(parser::entRef_re);
-
-		try {
-			right_arg = Reference(arg);
-		}
-		catch (SyntaxError&) {
-			right_arg = Reference(findDeclaration(arg));
-		}
-
+		right_arg = getReference(arg);
 		if (!is_valid_entRef(right_arg, parser::entRef_Var_de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
@@ -412,13 +387,8 @@ Relation QueryParser::suchThatClause() {
 			de = parser::stmtRef_Affects_de;
 		}
 
-		try {
-			left_arg = Reference(arg);
-		}
-		catch (SyntaxError&) {
-			left_arg = Reference(findDeclaration(arg));
-		}
-
+		// check the left argument
+		left_arg = getReference(arg);
 		if (!is_valid_stmtRef(left_arg, de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
@@ -427,15 +397,9 @@ Relation QueryParser::suchThatClause() {
 		match(",");
 
 
+		// check the right argument
 		arg = match(parser::stmtRef_re);
-
-		try {
-			right_arg = Reference(arg);
-		}
-		catch (SyntaxError&) {
-			right_arg = Reference(findDeclaration(arg));
-		}
-
+		right_arg = getReference(arg);
 		if (!is_valid_stmtRef(right_arg, de)) {
 			throw SemanticError("Invalid synonym type used as an argument");
 		}
@@ -461,8 +425,8 @@ void QueryParser::parseSuchThat() {
 Query* QueryParser::parse() {
 	Query* query = new Query();
 
-	declarations = declaration();	// parse declarations
-	target = select();				// parse Select statement
+	declarations = parseDeclaration();	// parse declarations
+	target = parseSelect();				// parse Select statement
 
 	// parse such that, pattern, and with clause
 	while (index < query_tokens.size()) {

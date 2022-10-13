@@ -17,8 +17,7 @@ public:
 
 	Types TYPE;
 	std::string value;
-	Declaration declaration;		// this attribute will only have a value if the Reference object is of Type Synonym; 
-									// Otherwirse it'll be an empty Declaration
+	Declaration declaration;
 
 	Reference(std::string value) {
 		if (value == "_") {

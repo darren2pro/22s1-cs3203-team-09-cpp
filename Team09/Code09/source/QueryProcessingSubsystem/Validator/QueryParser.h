@@ -64,7 +64,7 @@ private:
 	 * @returns the declarations.
 	 * @throws SemanticError if there are duplcate synonyms.
 	 */
-	std::vector<Declaration> declaration();
+	std::vector<Declaration> parseDeclaration();
 
 	/**
 	 * Checks if the given name is a synonym in the declaration list.
@@ -72,6 +72,12 @@ private:
 	 * @throws SemanticError if the name is not declared.
 	 */
 	Declaration findDeclaration(std::string name);
+
+	/**
+	 * Creates a reference object from the given string.
+	 * @returns A reference object.
+	 */
+	Reference getReference(std::string arg);
 
 	/**
 	 * Checks that ref is a valid stmtRef.
@@ -86,10 +92,10 @@ private:
 	bool is_valid_entRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types);
 
 	/**
-	 * Parses result clause.
-	 * @returns the result clause from the select statement.
+	 * Parses select statement.
+	 * @returns the target from the select statement.
 	 */
-	std::variant<Declaration, AttrReference> select();
+	std::variant<Declaration, AttrReference> parseSelect();
 
 	AttrReference parseAttrRef();
 	 

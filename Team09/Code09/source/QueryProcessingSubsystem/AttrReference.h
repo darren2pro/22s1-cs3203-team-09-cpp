@@ -28,10 +28,9 @@ public:
 
 	Types TYPE;
 	ValueType valueType;
-
-	Declaration declaration;		// for SYNONYM AttrReference, otherwise will be an empty declaration
-	Attribute attr;					// for SYNONYM AttrReference, otherwise will be NONE
-	std::string value;				// for IDENT & INTEGER to store their value, will be "" if it was a synonym
+	Declaration declaration;
+	Attribute attr;	
+	std::string value;
 
 	AttrReference(Declaration declaration, Attribute attr) {
 		this->declaration = declaration;

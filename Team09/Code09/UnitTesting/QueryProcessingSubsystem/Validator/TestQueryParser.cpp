@@ -2056,7 +2056,7 @@ namespace UnitTesting {
             Assert::IsTrue(*result7 == expectedResult7);
 
             // Next(INTEGER, _)
-            std::string query8 = "stmt p; Select p such that Next(\"procA\", _)";
+            std::string query8 = "stmt p; Select p such that Next(12, _)";
             QueryLexer lexer8 = QueryLexer(query8);
             std::vector<std::string> tokens8 = lexer8.lex();
             QueryParser parser8 = QueryParser(tokens8);
@@ -2202,7 +2202,7 @@ namespace UnitTesting {
             Assert::IsTrue(*result6 == expectedResult6);
 
             // NextT(INTEGER, synonym)
-            std::string query7 = "stmt p; Select p such that Next*(\"procA\", p)";
+            std::string query7 = "stmt p; Select p such that Next*(4, p)";
             QueryLexer lexer7 = QueryLexer(query7);
             std::vector<std::string> tokens7 = lexer7.lex();
             QueryParser parser7 = QueryParser(tokens7);
@@ -2211,7 +2211,7 @@ namespace UnitTesting {
 
             expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Statement, "p") });
             expectedResult7.target = Declaration(Declaration::DesignEntity::Statement, "p");
-            expectedResult7.relations = std::vector<Relation>({ Relation(Relation::Types::NextT, Reference("\"procA\""), Reference(Declaration(Declaration::DesignEntity::Statement, "p"))) });
+            expectedResult7.relations = std::vector<Relation>({ Relation(Relation::Types::NextT, Reference("4"), Reference(Declaration(Declaration::DesignEntity::Statement, "p"))) });
             expectedResult7.patterns = std::vector<Pattern>();
             expectedResult7.results = std::vector<std::string>();
 
@@ -2278,27 +2278,6 @@ namespace UnitTesting {
             Assert::IsTrue(*result1 == expectedResult1);
 
 
-            // with "IDENT"  = INTEGER
-            const std::string query2 = "assign a; Select a with \"x\" = 24";
-            QueryLexer lexer2 = QueryLexer(query2);
-            std::vector<std::string> tokens2 = lexer2.lex();
-            QueryParser parser2 = QueryParser(tokens2);
-
-            Query expectedResult2 = Query();
-
-            expectedResult2.declarations = std::vector<Declaration>();
-            expectedResult2.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
-            expectedResult2.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult2.relations = std::vector<Relation>();
-            expectedResult2.patterns = std::vector<Pattern>();
-            expectedResult2.withs = std::vector<With>({ With(AttrReference("\"x\""), AttrReference("24")) });
-            expectedResult2.results = std::vector<std::string>();
-
-            Query* result2 = parser2.parse();
-
-            Assert::IsTrue(*result2 == expectedResult2);
-
-
             // with "IDENT"  = AttrREf
             const std::string query3 = "procedure p; Select p with \"x\" = p.procName";
             QueryLexer lexer3 = QueryLexer(query3);
@@ -2319,27 +2298,6 @@ namespace UnitTesting {
 
             Assert::IsTrue(*result3 == expectedResult3);
 
-
-
-            // with INTEGER  = "IDENT"
-            const std::string query4 = "assign a; Select a with 42 = \"x\"";
-            QueryLexer lexer4 = QueryLexer(query4);
-            std::vector<std::string> tokens4 = lexer4.lex();
-            QueryParser parser4 = QueryParser(tokens4);
-
-            Query expectedResult4 = Query();
-
-            expectedResult4.declarations = std::vector<Declaration>();
-            expectedResult4.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
-            expectedResult4.target = Declaration(Declaration::DesignEntity::Assignment, "a");
-            expectedResult4.relations = std::vector<Relation>();
-            expectedResult4.patterns = std::vector<Pattern>();
-            expectedResult4.withs = std::vector<With>({ With(AttrReference("42"), AttrReference("\"x\"")) });
-            expectedResult4.results = std::vector<std::string>();
-
-            Query* result4 = parser4.parse();
-
-            Assert::IsTrue(*result4 == expectedResult4);
 
             // with INTEGER  = INTEGER
             const std::string query5 = "assign a; Select a with 52 = 54";
@@ -2384,7 +2342,7 @@ namespace UnitTesting {
 
 
             // with AttRef  = "IDENT"
-            const std::string query7 = "assign a; Select a with a.stmt# = \"x\"";
+            const std::string query7 = "procedure p; Select p with p.procName = \"x\"";
             QueryLexer lexer7 = QueryLexer(query7);
             std::vector<std::string> tokens7 = lexer7.lex();
             QueryParser parser7 = QueryParser(tokens7);
@@ -2392,11 +2350,11 @@ namespace UnitTesting {
             Query expectedResult7 = Query();
 
             expectedResult7.declarations = std::vector<Declaration>();
-            expectedResult7.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
-            expectedResult7.target = Declaration(Declaration::DesignEntity::Assignment, "a");
+            expectedResult7.declarations.push_back(Declaration(Declaration::DesignEntity::Procedure, "p"));
+            expectedResult7.target = Declaration(Declaration::DesignEntity::Procedure, "p");
             expectedResult7.relations = std::vector<Relation>();
             expectedResult7.patterns = std::vector<Pattern>();
-            expectedResult7.withs = std::vector<With>({ With(AttrReference(Declaration(Declaration::DesignEntity::Assignment, "a"), AttrReference::Attribute::StmtNum), AttrReference("\"x\"")) });
+            expectedResult7.withs = std::vector<With>({ With(AttrReference(Declaration(Declaration::DesignEntity::Procedure, "p"), AttrReference::Attribute::ProcName), AttrReference("\"x\"")) });
             expectedResult7.results = std::vector<std::string>();
 
             Query* result7 = parser7.parse();
@@ -2487,7 +2445,7 @@ namespace UnitTesting {
                                                                 Relation(Relation::Types::ParentT, Reference(Declaration(Declaration::DesignEntity::While, "w")), Reference(Declaration(Declaration::DesignEntity::Assignment, "a"))),
                                                                 Relation(Relation::Types::NextT, Reference("1"), Reference(Declaration(Declaration::DesignEntity::Assignment, "a")))});
             expectedResult1.patterns = std::vector<Pattern>({ Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("\"x\""), Expression("_")), 
-                                                              Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("\"y\""), Expression("\"x + 1\"")) });
+                                                              Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"), Reference("\"y\""), Expression("\"x+1\"")) });
             expectedResult1.withs = std::vector<With>({With(AttrReference(Declaration(Declaration::DesignEntity::While, "w"), AttrReference::Attribute::StmtNum), AttrReference("12")),
                                                        With(AttrReference(Declaration(Declaration::DesignEntity::Assignment, "a"), AttrReference::Attribute::StmtNum), AttrReference("13")) });
             expectedResult1.results = std::vector<std::string>();
@@ -2500,7 +2458,7 @@ namespace UnitTesting {
 
         TEST_METHOD(TestParserValidMultipleClausesWithAnd) {
             // assign a; while w; Select a such that Modifies (a, "x") and Parent* (w, a) and Next* (1, a) pattern a("x", _) and w("x", _) w.stmt# = 12 and with a.stmt# = 13
-            std::string query1 = " assign a; while w; Select a such that Modifies (a, \"x\") and Parent* (w, a) and Next* (1, a) pattern a(\"x\", _) and w(\"x\", _) w.stmt# = 12 and with a.stmt# = 13";
+            std::string query1 = " assign a; while w; Select a such that Modifies (a, \"x\") and Parent* (w, a) and Next* (1, a) pattern a(\"x\", _) and w(\"x\", _) with w.stmt# = 12 and a.stmt# = 13";
             QueryLexer lexer1 = QueryLexer(query1);
             std::vector<std::string> tokens1 = lexer1.lex();
             QueryParser parser1 = QueryParser(tokens1);
@@ -2525,7 +2483,7 @@ namespace UnitTesting {
 
         TEST_METHOD(TestParserValidMultipleClausesMix) {
             // assign a; while w; Select a such that Parent* (w, a) and Modifies (a, "x") with a.stmt# = 13 such that Next* (1, a) with w.atmt# = 12
-            std::string query1 = " assign a; while w; Select a such that Modifies (a, \"x\") and Parent* (w, a) with a.stmt# = 13 such that Next* (1, a) with w.atmt# = 12";
+            std::string query1 = " assign a; while w; Select a such that Modifies (a, \"x\") and Parent* (w, a) with a.stmt# = 13 such that Next* (1, a) with w.stmt# = 12";
             QueryLexer lexer1 = QueryLexer(query1);
             std::vector<std::string> tokens1 = lexer1.lex();
             QueryParser parser1 = QueryParser(tokens1);

@@ -229,7 +229,7 @@ void QueryParser::parseWith() {
 	match("with");
 	withCl.push_back(withClause());
 
-	if (current_token == "and") {
+	while (current_token == "and") {
 		match("and");
 		withCl.push_back(withClause());
 	}
@@ -304,7 +304,7 @@ void QueryParser::parsePattern() {
 	match("pattern");
 	patternCl.push_back(patternClause());
 
-	if (current_token == "and") {
+	while (current_token == "and") {
 		match("and");
 		patternCl.push_back(patternClause());
 	}
@@ -467,7 +467,7 @@ void QueryParser::parseSuchThat() {
 
 	suchThatCl.push_back(suchThatClause());
 
-	if (current_token == "and") {
+	while (current_token == "and") {
 		match("and");
 		suchThatCl.push_back(suchThatClause());
 	}
@@ -497,6 +497,7 @@ Query* QueryParser::parse() {
 	query->declarations = declarations;
 	query->relations = suchThatCl;
 	query->patterns = patternCl;
+	query->withs = withCl;
 	query->target = target;
 
 	return query;

@@ -19,6 +19,8 @@ namespace PKB {
 
         std::shared_ptr<PKBStorage> PKBManager::getPKBStorage();
 
+        std::unordered_map<PrevLine, std::unordered_set<NextLine>> getCFG();
+
         //get entity set
         std::unordered_set<Variable> getVariableSet();
         std::unordered_set<Procedure> getProcedureSet();

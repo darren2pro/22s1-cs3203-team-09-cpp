@@ -55,6 +55,14 @@ namespace PKB {
         stmtSet.insert(lineNum);
     }
 
+    void PKBStorage::storeCFGEdge(const PrevLine lineBefore, const NextLine lineAfter) {
+        PKB::addToSetInMap(cfgPrevLineToNextLineMap, lineBefore, lineAfter);
+    }
+
+    void PKBStorage::storeCFGEdgeProc(const PrevLine lineBefore, const NextLine lineAfter) {
+        PKB::addToSetInMap(cfgProcPrevLineToNextLineMap, lineBefore, lineAfter);
+    }
+
     //entities
     void PKBStorage::storeVariable(const Variable var) {
         varSet.insert(var);
@@ -174,6 +182,14 @@ namespace PKB {
         assignLineVarSet.insert(std::pair<LineNum, Variable>(line, var));
         PKB::addToSetInMap(assignExprToLineVarMap, expr, std::pair<LineNum, Variable>(line, var));
         PKB::addToSetInMap(assignVarToLineExprMap, var, std::pair<LineNum, ExprStr>(line, expr));
+    }
+
+    void PKBStorage::storeProcFirstLine(const Procedure proc, const LineNum firstLine) {
+        procFirstLineMap[proc] = firstLine; //can only have 1 first line for each proc
+    }
+
+    void PKBStorage::storeProcLastLine(const Procedure proc, const LineNum lastLine) {
+        PKB::addToSetInMap(procLastLineMap, proc, lastLine);
     }
 }
 

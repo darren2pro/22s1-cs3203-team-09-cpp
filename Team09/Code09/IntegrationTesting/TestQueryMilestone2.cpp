@@ -760,6 +760,16 @@ namespace IntegrationTesting {
                 // Expected results: procTwo
                 Assert::AreEqual(1, (int) results7.size(), L"Query 7 fails");
                 Assert::IsTrue(results7.find("procTwo") != results7.end());
+
+                //! Query 8 - Calls with underscore
+                string query8 = "procedure p; variable v, v1   ;\n"
+                                "Select p such that Calls(\"nested\", _)";
+                unordered_set<string> results8 = spaManager.query(query8);
+                // Expected results: procOne, procTwo, nested
+                Assert::AreEqual(3, (int) results8.size(), L"Query 8 fails");
+                Assert::IsTrue(results8.find("procOne") != results8.end());
+                Assert::IsTrue(results8.find("procTwo") != results8.end());
+                Assert::IsTrue(results8.find("nested") != results8.end());
             }
 
             TEST_METHOD(TestPatternMatchFull1) {

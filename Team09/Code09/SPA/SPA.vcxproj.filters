@@ -221,9 +221,6 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Relation.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Utils.h">
-      <Filter>Header Files\QueryProcessingSubsystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor</Filter>
     </ClInclude>

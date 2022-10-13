@@ -46,14 +46,14 @@ void EntityExtraction::createCFG(const std::shared_ptr<ProgramNode> astRoot) {
 }
 
 void EntityExtraction::createCFG(const std::shared_ptr<ProcedureNode> proc) {
-    std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache =
-        std::make_shared<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>>();
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache =
+       std::make_shared<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>>();
     traverseCFG(proc->stmtList, cache);
 }
 
 void EntityExtraction::traverseCFG(
     const std::vector<Stmt> stmts,
-    std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
     for (const auto& stmt : stmts) {
         std::visit([this, cache](const auto& s) { createCFG(s, cache); }, stmt);
     }
@@ -69,9 +69,9 @@ void EntityExtraction::traverseCFG(
 }
 
 
-std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     const std::shared_ptr<IfNode> ifNode,
-    std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(ifNode);
     if (cache->find(lnNum) != cache->end()) {
         return cache->at(lnNum);
@@ -92,9 +92,9 @@ std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     return terminating;
 }
 
-std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     const std::shared_ptr<WhileNode> whileNode,
-    std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(whileNode);
     if (cache->find(lnNum) != cache->end()) {
         return cache->at(lnNum);
@@ -106,9 +106,9 @@ std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     return terminating_lines;
 }
 
-std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     const std::shared_ptr<ReadNode> readNode,
-    std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(readNode);
     if (cache->find(lnNum) != cache->end()) {
         return cache->at(lnNum);
@@ -119,9 +119,9 @@ std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     return terminating_lines;
 }
 
-std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     const std::shared_ptr<PrintNode> printNode,
-    std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(printNode);
     if (cache->find(lnNum) != cache->end()) {
         return cache->at(lnNum);
@@ -132,9 +132,9 @@ std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     return terminating_lines;
 }
 
-std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     const std::shared_ptr<AssignmentNode> assignNode,
-    std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>> cache) {
+    const std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>> cache) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(assignNode);
     if (cache->find(lnNum) != cache->end()) {
         return cache->at(lnNum);
@@ -145,9 +145,9 @@ std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     return terminating_lines;
 }
 
-std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     const std::shared_ptr<CallNode> callNode,
-    std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(callNode);
     if (cache->find(lnNum) != cache->end()) {
         return cache->at(lnNum);
@@ -158,9 +158,9 @@ std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     return terminating_lines;
 }
 
-std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
     const Stmt stmt,
-    std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
             return std::visit(
                 [this, cache](const auto& n) { return extractTerminatingLines(n, cache); },
                 stmt);

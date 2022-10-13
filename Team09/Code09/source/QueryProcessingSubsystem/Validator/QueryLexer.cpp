@@ -12,14 +12,6 @@ namespace lexerre {
     std::regex allowed_charas("[A-Za-z0-9-/%\+\*#]");
 }
 
-QueryLexer::QueryLexer(std::string query) {
-	query_string = query;
-}
-
-QueryLexer::~QueryLexer() {
-
-}
-
 std::vector<std::string> QueryLexer::lex() {
     std::vector<std::string> tokens;
     

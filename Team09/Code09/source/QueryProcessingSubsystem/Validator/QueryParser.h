@@ -39,11 +39,6 @@ private:
 	std::vector<Pattern> patternCl;
 	std::vector<With> withCl;
 
-public:
-	QueryParser(std::vector<std::string> tokens);
-
-	~QueryParser();
-
 	/**
 	 * Returns the next token in query_tokens.
 	 * @return A string of the next token.
@@ -124,9 +119,22 @@ public:
 
 	void parseSuchThat();
 
+public:
+	QueryParser(std::vector<std::string> tokens) : 
+		query_tokens(tokens),
+		index(0),
+		current_token(getNextToken()), 
+		declarations(std::vector<Declaration>()),
+		target(std::variant<Declaration, AttrReference>()),
+		suchThatCl(std::vector<Relation>()),
+		patternCl(std::vector<Pattern>()),
+		withCl(std::vector<With>()) {};
+
+	~QueryParser() {};
+
 	/**
 	 * Parses the query tokens.
-	 * @return A Query.
+	 * @return A Query that has been parsed.
 	 */
 	Query* parse();
 };

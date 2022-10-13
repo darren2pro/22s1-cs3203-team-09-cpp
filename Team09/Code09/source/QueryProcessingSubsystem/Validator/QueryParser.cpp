@@ -54,21 +54,6 @@ namespace parser {
 	std::vector<Declaration::DesignEntity> entRef_Var_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Variable });
 }
 
-QueryParser::QueryParser(std::vector<std::string> tokens) {
-	query_tokens = tokens;
-	index = 0;
-	current_token = getNextToken();
-	declarations = std::vector<Declaration>();
-	target = std::variant<Declaration, AttrReference>();
-	suchThatCl = std::vector<Relation>();
-	patternCl = std::vector<Pattern>();
-	withCl = std::vector<With>();
-}
-
-QueryParser::~QueryParser() {
-
-}
-
 std::string QueryParser::getNextToken() {
 	if (index >= query_tokens.size()) {
 		return "";
@@ -236,7 +221,7 @@ void QueryParser::parseWith() {
 }
 
 Pattern QueryParser::patternClause() {
-	// check syn-assign
+	// check synonym
 	Declaration d = findDeclaration(match(parser::synonym_re));
 
 	match("(");
@@ -479,7 +464,7 @@ Query* QueryParser::parse() {
 	declarations = declaration();	// parse declarations
 	target = select();				// parse Select statement
 
-	// parse such that and pattern clause
+	// parse such that, pattern, and with clause
 	while (index < query_tokens.size()) {
 		if (current_token == "such") {
 			parseSuchThat();

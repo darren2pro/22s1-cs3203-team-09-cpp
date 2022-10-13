@@ -8,9 +8,9 @@
 class AttrReference {
 public:
 	enum Types {
-		IDENT,			// p.procName = "proc"		<-- "proc" is an IDENT AttrReference
-		INTEGER,		// v.value = 12				<-- 12 is an INTEGER AttrReference
-		SYNONYM			// p1.procName = p2.procName
+		IDENT,
+		INTEGER,
+		SYNONYM	
 	};
 
 	enum Attribute {
@@ -26,11 +26,11 @@ public:
 		NAME			// For IDENT & SYNONYM (ProcName & VarName)
 	};
 
-
 	Types TYPE;
+	ValueType valueType;
+
 	Declaration declaration;		// for SYNONYM AttrReference, otherwise will be an empty declaration
 	Attribute attr;					// for SYNONYM AttrReference, otherwise will be NONE
-	ValueType valueType;
 	std::string value;				// for IDENT & INTEGER to store their value, will be "" if it was a synonym
 
 	AttrReference(Declaration declaration, Attribute attr) {
@@ -103,6 +103,10 @@ public:
 	bool isStmtNum() { return attr == Attribute::StmtNum; }
 
 private:
+	/**
+	 * Returns the ValueType that is equivalent to the attribute.
+	 * @returns a ValueType that is equivalent to the attribute.
+	 */
 	ValueType getValueType(Attribute attr) {
 		if (attr == Value || attr == StmtNum) {
 			return ValueType::INTEGER_V;
@@ -112,6 +116,10 @@ private:
 		}
 	}
 
+	/**
+	 * Checks if the attribute is valid for the declaration type.
+	 * @returns true if the attribute is valid for the declaration type, otherwise returns false.
+	 */
 	bool isValidalidAttributeType(Attribute attr, Declaration d) {
 		bool flag = false;
 		if (attr == ProcName) {

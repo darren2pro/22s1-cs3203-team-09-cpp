@@ -14,7 +14,7 @@ public:
 	std::vector<Pattern> patterns;
 	std::vector<With> withs;
 	std::vector<Declaration> declarations;
-	std::variant<Declaration, AttrReference> target;					// (sprint 5) type Result	-->		Enum {Declaration, Boolean, Tuple}
+	std::variant<Declaration, AttrReference> target;					// (sprint 5) type Result for { Boolean, Tuple}
 	std::vector<std::string> results;
 
 

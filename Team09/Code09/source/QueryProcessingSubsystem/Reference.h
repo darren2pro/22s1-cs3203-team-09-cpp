@@ -10,7 +10,7 @@ public:
 	enum Types {
 		Underscore,
 		Synonym,
-		String,		// "x"
+		String,
 		StmtNum,
 		NONE
 	};

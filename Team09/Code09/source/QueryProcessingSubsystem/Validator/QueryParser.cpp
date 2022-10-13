@@ -201,6 +201,16 @@ AttrReference QueryParser::parseAttrRef() {
 }
 
 With QueryParser::withClause() {
+
+	if (current_token == "with") {		// to check for the case of ' with ref1= ref2 and with ref3 = ref4 ' 
+		try {
+			findDeclaration(current_token);
+		}
+		catch (SemanticError&) {
+			throw SyntaxError("invalid syntax");
+		}
+	}
+
 	AttrReference ref1 = parseAttrRef();
 	
 	match("=");

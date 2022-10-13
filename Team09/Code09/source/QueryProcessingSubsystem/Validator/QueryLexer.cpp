@@ -9,7 +9,7 @@
 namespace lexerre {
     std::regex whitespace("[ \t\n]+");
     std::regex punctuation("[\(\),;_\.=]");
-    std::regex allowed_charas("[A-Za-z0-9-/%\+\*]");
+    std::regex allowed_charas("[A-Za-z0-9-/%\+\*#]");
 }
 
 QueryLexer::QueryLexer(std::string query) {

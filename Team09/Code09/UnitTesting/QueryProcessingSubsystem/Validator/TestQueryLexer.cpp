@@ -14,7 +14,7 @@ namespace UnitTesting {
     public:
 
         TEST_METHOD(TestLexer) {
-            const std::string query = "assign a; Select a pattern a(_, _\"x\"_) such that Modifies(a, \"x\")";
+            const std::string query = "assign a; Select a pattern a(_, _\"x\"_) such that Modifies(a, \"x\") with a.stmt#=12";
 
             std::vector<std::string> expectedResult = std::vector<std::string>(
                 { "assign", "a", ";", "Select", "a", "pattern", "a", "(", "_", ",", "_",
@@ -31,7 +31,7 @@ namespace UnitTesting {
             const std::string query2 = "assign a; Select a such that Follows*(a, _\"x + 1\"_)";
 
             std::vector<std::string> expectedResult2 = std::vector<std::string>(
-                { "assign", "a", ";", "Select", "a", "such", "that", "Follows*", "(", "a", ",", "_", "\"x+1\"", "_" ,")" });
+                { "assign", "a", ";", "Select", "a", "such", "that", "Follows*", "(", "a", ",", "_", "\"x+1\"", "_" ,")", "with", "a", ".", "stmt#", "=", "12"});
 
             QueryLexer lexer2 = QueryLexer(query2);
             std::vector<std::string> result2 = lexer2.lex();

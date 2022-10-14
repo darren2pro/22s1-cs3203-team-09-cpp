@@ -8,7 +8,7 @@ typedef std::string NextLine;
 
 class FollowsEvaluator : public Evaluator {
 public:
-	FollowsEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBManager* pkb) :
+	FollowsEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBStorage* pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> FollowsEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {

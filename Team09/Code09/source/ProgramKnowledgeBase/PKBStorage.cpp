@@ -206,6 +206,224 @@ namespace PKB {
     void PKBStorage::storeProcLastLine(const Procedure proc, const LineNum lastLine) {
         PKB::addToSetInMap(procLastLineMap, proc, lastLine);
     }
+
+    std::unordered_map<PrevLine, std::unordered_set<NextLine>> PKBStorage::getCFG() {
+        return cfgPrevLineToNextLineMap;
+    }
+
+    std::unordered_set<Variable> PKBStorage::getVariableSet() {
+        return varSet;
+    }
+
+
+    std::unordered_set<Procedure> PKBStorage::getProcedureSet() {
+        return procSet;
+    }
+
+
+    std::unordered_set<Constant> PKBStorage::getConstantSet() {
+        return constSet;
+    }
+
+
+    std::unordered_set<LineNum> PKBStorage::getWhileSet() {
+        return whileSet;
+    }
+
+
+    std::unordered_set<LineNum> PKBStorage::getIfSet() {
+        return ifSet;
+    }
+
+
+    std::unordered_set<LineNum> PKBStorage::getAssignSet() {
+        return assignSet;
+    }
+
+
+    std::unordered_set<LineNum> PKBStorage::getReadSet() {
+        return readSet;
+    }
+
+
+    std::unordered_set<LineNum> PKBStorage::getPrintSet() {
+        return printSet;
+    }
+
+    std::unordered_set<LineNum> PKBStorage::getStmtSet() {
+        return stmtSet;
+    }
+
+    std::unordered_set<LineNum> PKBStorage::getCallSet() {
+        return callSet;
+    }
+
+    bool PKBStorage::relationContainsSet(Relation::Types, const std::string, const std::string) {
+        return false;
+    }
+
+    bool PKBStorage::relationContainsFirst(Relation::Types, const std::string) {
+        return false;
+    }
+
+    bool PKBStorage::relationContainsSecond(Relation::Types, const std::string) {
+        return false;
+    }
+
+    bool PKBStorage::relationIsEmpty(Relation::Types) {
+        return false;
+    }
+
+    std::unordered_set<std::string> PKBStorage::getRelationSecondFromFirst(Relation::Types, const std::string) {
+        return std::unordered_set<std::string>();
+    }
+
+    std::unordered_set<std::string> PKBStorage::getRelationFirstFromSecond(Relation::Types, const std::string) {
+        return std::unordered_set<std::string>();
+    }
+
+    std::unordered_set<std::string> PKBStorage::getRelationAllSecond(Relation::Types) {
+        return std::unordered_set<std::string>();
+    }
+
+    std::unordered_set<std::string> PKBStorage::getRelationAllFirst(Relation::Types) {
+        return std::unordered_set<std::string>();
+    }
+
+    std::unordered_set<std::pair<std::string, std::string>, pairHash> PKBStorage::getRelationSet(Relation::Types) {
+        return std::unordered_set<std::pair<std::string, std::string>, pairHash>();
+    }
+
+    //AssignPattern
+    std::unordered_set<LineNum> PKBStorage::getAssignLineByVarUS(const Variable var) {
+        std::unordered_set<LineNum> set;
+        if (assignVarToLineExprMap.find(var) != assignVarToLineExprMap.end()) {
+            for (const auto& elem : assignVarToLineExprMap.at(var)) {
+                set.insert(elem.first);
+            }
+        }
+        return set;
+    }
+
+    std::unordered_set<LineNum> PKBStorage::getAssignLineByVarMatchFull(const Variable var, const  ExprStr expr) {
+        std::unordered_set<LineNum> set;
+        std::string pattern = expr;
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
+
+        Expr exprNode = SimpleInterface::parseExpression(pattern);
+        ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+        if (assignExprToLineVarMap.find(patternStr) != assignExprToLineVarMap.end()) {
+            for (const auto& elem : assignExprToLineVarMap.at(patternStr)) {
+                if (elem.second == var) {
+                    set.insert(elem.first);
+                }
+            }
+        }
+        return set;
+    }
+
+    std::unordered_set<LineNum> PKBStorage::getAssignLineByVarMatchPartial(const Variable var, const  ExprStr expr) {
+        //get pattern string
+        std::unordered_set<LineNum> set;
+        std::string pattern = expr;
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
+        Expr exprNode = SimpleInterface::parseExpression(pattern);
+        ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+        if (assignVarToLineExprMap.find(var) != assignVarToLineExprMap.end()) {
+            for (const auto& elem : assignVarToLineExprMap.at(var)) {
+                LineNum line = elem.first;
+                ExprStr exprStr = elem.second;
+                if (exprStr.find(patternStr) != std::string::npos) {
+                    set.insert(line);
+                }
+            }
+        }
+        return set;
+    }
+
+    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBStorage::getAssignLineVarByUS() {
+        return assignLineVarSet;
+    }
+
+    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBStorage::getAssignLineVarByMatchFull(const ExprStr expr) {
+        std::string pattern = expr;
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
+
+        Expr exprNode = SimpleInterface::parseExpression(pattern);
+        ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+        if (assignExprToLineVarMap.find(patternStr) != assignExprToLineVarMap.end()) {
+            return assignExprToLineVarMap.at(patternStr);
+        }
+        else {
+            return std::unordered_set<std::pair<LineNum, Variable>, pairHash>();
+        }
+    }
+
+    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PKBStorage::getAssignLineVarByMatchPartial(const ExprStr expr) {
+        //get pattern string
+        std::unordered_set<std::pair<LineNum, Variable>, pairHash> set;
+        std::string pattern = expr;
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
+        Expr exprNode = SimpleInterface::parseExpression(pattern);
+        ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+        for (const auto& elem : assignExprToLineVarMap) {
+            ExprStr exprStr = elem.first;
+            if (exprStr.find(patternStr) != std::string::npos) {
+                for (const auto& ele : elem.second) {
+                    set.insert(ele);
+                }
+            }
+        }
+        return set;
+    }
+
+    std::unordered_set<LineNum> PKBStorage::getAssignLineByUSUS() {
+        return assignSet;
+    }
+
+    std::unordered_set<LineNum> PKBStorage::getAssignLineByUSMatchFull(const ExprStr expr) {
+        std::unordered_set<LineNum> set;
+        std::string pattern = expr;
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
+
+        Expr exprNode = SimpleInterface::parseExpression(pattern);
+        ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+        if (assignExprToLineVarMap.find(patternStr) != assignExprToLineVarMap.end()) {
+            for (const auto& elem : assignExprToLineVarMap.at(patternStr)) {
+                set.insert(elem.first);
+            }
+        }
+        return set;
+    }
+
+    std::unordered_set<LineNum> PKBStorage::getAssignLineByUSMatchPartial(const ExprStr expr) {
+        //get pattern string
+        std::unordered_set<LineNum> set;
+        std::string pattern = expr;
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '_'), pattern.end());
+        pattern.erase(std::remove(pattern.begin(), pattern.end(), '\"'), pattern.end());
+
+        Expr exprNode = SimpleInterface::parseExpression(pattern);
+        ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
+
+        for (const auto& elem : assignExprToLineVarMap) {
+            ExprStr exprStr = elem.first;
+            if (exprStr.find(patternStr) != std::string::npos) {
+                for (const auto& ele : elem.second) {
+                    set.insert(ele.first);
+                }
+            }
+        }
+        return set;
+    }
 }
-
-

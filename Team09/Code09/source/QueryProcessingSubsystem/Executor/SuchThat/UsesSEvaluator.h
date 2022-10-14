@@ -13,7 +13,7 @@ using namespace PKB;
 
 class UsesSEvaluator: public Evaluator {
 public:
-	UsesSEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBManager* pkb) :
+	UsesSEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBStorage* pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> UsesSEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {

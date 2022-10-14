@@ -3,7 +3,7 @@
 #include <vector>
 #include <unordered_set>
 #include "../../Relation.h"
-#include "../../../ProgramKnowledgeBase/PKBManager.h"
+#include "../../../ProgramKnowledgeBase/PKBStorage.h"
 #include "../../../ProgramKnowledgeBase/PKBStorage.h"
 #include "../ResultsDatabase/ResultsDatabase.h"
 
@@ -17,13 +17,13 @@ private:
 
 public:
 	ResultsDatabase& rdb;
-	PKBManager* pkb;
+	PKBStorage* pkb;
 	std::vector<Declaration> declarations;
 	Relation relations;
 	Reference leftArg;
 	Reference rightArg;
 
-	Evaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBManager* pkb) : // Added PKB
+	Evaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBStorage* pkb) : // Added PKB
 		declarations(declarations),
 		relations(relations),
 		leftArg(relations.LEFT_ARG),

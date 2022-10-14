@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 #include <vector>
 #include "Evaluator.h"
@@ -8,7 +9,7 @@ typedef std::string NextLine;
 
 class CallsEvaluator : public Evaluator {
 public:
-	CallsEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBManager* pkb) :
+	CallsEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBStorage* pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> CallsEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {

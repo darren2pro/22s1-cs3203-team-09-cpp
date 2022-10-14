@@ -2,7 +2,7 @@
 #include <stack>
 #include <memory>
 
-EntityExtraction::EntityExtraction(std::shared_ptr<PKB::PKBStorage> pkb) : pkbStorage(pkb) {};
+EntityExtraction::EntityExtraction(PKB::PKBStorage* pkb) : pkbStorage(pkb) {};
 
 EntityExtraction::~EntityExtraction() {}
 

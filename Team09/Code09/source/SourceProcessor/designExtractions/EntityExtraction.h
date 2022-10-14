@@ -6,10 +6,10 @@
 
 class EntityExtraction {
 private:
-    std::shared_ptr<PKB::PKBStorage> pkbStorage;
+    PKB::PKBStorage* pkbStorage;
 
 public:
-    explicit EntityExtraction(std::shared_ptr<PKB::PKBStorage> pkbFacade);
+    explicit EntityExtraction(PKB::PKBStorage* pkbFacade);
 
     ~EntityExtraction();
 

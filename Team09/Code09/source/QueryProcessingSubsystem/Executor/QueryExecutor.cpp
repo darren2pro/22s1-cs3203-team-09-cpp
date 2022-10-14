@@ -98,7 +98,7 @@ std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Declaration tar
 	return rdb.getResults(target);
 }
 
-void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBManager* pkb) {
+void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBStorage* pkb) {
 	std::unordered_set<std::string> resultsFromPKB;
 	
 	if (rdb.variableIsPresent(decl.name)) return;

@@ -24,11 +24,11 @@ void SPAManager::loadSimpleSource(string fileName) {
         delete qm;
     }
     AST ast = SimpleInterface::getAstFromFile(fileName);
-    pkb = new PKBManager();
+    pkb = new PKBStorage();
     qm = new QueryExecutor(pkb);
 
     //! Now populate the pkb with the necessary information we get from the ast
-    DesignExtractor extractor(pkb->getPKBStorage());
+    DesignExtractor extractor(pkb);
     extractor.extractDesignAbstractions(ast);
 }
 
@@ -40,11 +40,11 @@ void SPAManager::loadSimpleSourceFromProgram(string program) {
         delete qm;
     }
     AST ast = SimpleInterface::getAstFromProgram(program);
-    pkb = new PKBManager();
+    pkb = new PKBStorage();
     qm = new QueryExecutor(pkb);
 
     //! Now populate the pkb with the necessary information we get from the ast
-    DesignExtractor extractor(pkb->getPKBStorage());
+    DesignExtractor extractor(pkb);
     extractor.extractDesignAbstractions(ast);
 }
 

@@ -8,7 +8,7 @@ typedef std::string ChildLine;
 
 class ParentTEvaluator : public Evaluator {
 public:
-	ParentTEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBManager* pkb) :
+	ParentTEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBStorage* pkb) :
 	Evaluator(declarations, relations, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::string> ParentTEvaluator::leftSynonymRightSimple(std::string RIGHT_ARG) override {

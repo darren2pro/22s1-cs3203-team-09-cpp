@@ -91,6 +91,10 @@ private:
 	*/
 	bool is_valid_entRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types);
 
+	Reference parseEntRef(std::vector<Declaration::DesignEntity> de);
+	
+	Reference parseStmtRef(std::vector<Declaration::DesignEntity> de);
+
 	/**
 	 * Parses select statement.
 	 * @returns the target from the select statement.
@@ -115,6 +119,12 @@ private:
 	Pattern patternClause();
 
 	void parsePattern();
+
+	/**
+	 * Determines whether the relation type is UsesS/ModifiesS or UsesP/ModifiesP
+	 * @returns The correct relation type.
+	 */
+	Relation::Types getUsesModifiesType(Relation::Types type);
 
 	/**
 	 * Parses the such that clause.

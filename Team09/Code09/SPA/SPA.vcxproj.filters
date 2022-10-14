@@ -338,6 +338,9 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsT.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
+    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>

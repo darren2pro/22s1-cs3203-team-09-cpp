@@ -69,31 +69,6 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
 
 	return Evaluator(declarations, relations, rdb, pkb).evaluate();
-
-	//switch (relations.Type) {
-	//case Relation::ModifiesS:
-	//	return ModifiesSEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::ModifiesP:
-	//	return ModifiesPEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::UsesS:
-	//	return UsesSEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::UsesP:
-	//	return UsesPEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::Follows:
-	//	return FollowsEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::FollowsT:
-	//	return FollowsTEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::Parent:
-	//	return ParentEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::ParentT:
-	//	return ParentTEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::Calls:
-	//	return CallsEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::CallsT:
-	//	return CallsTEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//default:
-	//	return true;
-	//}
 }
 
 // Pattern execute

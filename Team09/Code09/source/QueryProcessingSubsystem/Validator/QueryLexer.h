@@ -15,9 +15,9 @@ private:
 	std::string query_string;
 
 public:
-	QueryLexer(std::string query);
+	QueryLexer(std::string query): query_string(query) {};
 
-	~QueryLexer();
+	~QueryLexer() {};
 
 	/**
 	 * Tokenizes the query string.

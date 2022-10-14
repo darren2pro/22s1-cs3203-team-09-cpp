@@ -42,7 +42,6 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBUtils.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\pkb_adt.h" />
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\exceptions.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\interface.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\lexer.h" />

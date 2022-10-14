@@ -163,7 +163,7 @@ const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines
                 pkbStorage->getLineFromNode(ifNode->thenStmtList.front());
             const PKB::ChildLine elseChild =
                 pkbStorage->getLineFromNode(ifNode->elseStmtList.front());
-            pkbStorage->storeCFGEdge(parent, thenChild); 
+            pkbStorage->storeCFGEdge(parent, thenChild);
             pkbStorage->storeCFGEdge(parent, elseChild);
 
             traverseCFG(ifNode->thenStmtList, cache);

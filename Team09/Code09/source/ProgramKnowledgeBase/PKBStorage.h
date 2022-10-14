@@ -89,7 +89,7 @@ namespace PKB {
 
         //store relations API
         void storeRelations(Relation::Types type, const std::string first, const std::string second);
-        
+
         //store patterns API
         void storeAssignPattern(const Variable, const LineNum, const ExprStr);
 

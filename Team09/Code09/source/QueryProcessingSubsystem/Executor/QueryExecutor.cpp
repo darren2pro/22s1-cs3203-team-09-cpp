@@ -67,33 +67,7 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 // Relation execute
 bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
-
 	return Evaluator(declarations, relations, rdb, pkb).evaluate();
-
-	//switch (relations.Type) {
-	//case Relation::ModifiesS:
-	//	return ModifiesSEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::ModifiesP:
-	//	return ModifiesPEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::UsesS:
-	//	return UsesSEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::UsesP:
-	//	return UsesPEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::Follows:
-	//	return FollowsEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::FollowsT:
-	//	return FollowsTEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::Parent:
-	//	return ParentEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::ParentT:
-	//	return ParentTEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::Calls:
-	//	return CallsEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//case Relation::CallsT:
-	//	return CallsTEvaluator(declarations, relations, rdb, pkb).evaluate();
-	//default:
-	//	return true;
-	//}
 }
 
 // Pattern execute
@@ -141,40 +115,7 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 
 	if (rdb.variableIsPresent(decl.name)) return;
 
-	resultsFromPKB = pkb->getEntitySet(decl.TYPE);
-	/*switch (decl.TYPE) {
-	case Declaration::Assignment:
-		resultsFromPKB = pkb->getAssignSet();
-		break;
-	case Declaration::Variable:
-		resultsFromPKB = pkb->getVariableSet();
-		break;
-	case Declaration::Procedure:
-		resultsFromPKB = pkb->getProcedureSet();
-		break;
-	case Declaration::Constant:
-		resultsFromPKB = pkb->getConstantSet();
-		break;
-	case Declaration::While:
-		resultsFromPKB = pkb->getWhileSet();
-		break;
-	case Declaration::If:
-		resultsFromPKB = pkb->getIfSet();
-		break;
-	case Declaration::Read:
-		resultsFromPKB = pkb->getReadSet();
-		break;
-	case Declaration::Print:
-		resultsFromPKB = pkb->getPrintSet();
-		break;
-	case Declaration::Statement:
-		resultsFromPKB = pkb->getStmtSet();
-		break;
-	case Declaration::Call:
-		resultsFromPKB = pkb->getCallSet();
-		break;
-	}*/
-
-	// resultsFromPKB = pkb->getEntitySet(decl.TYPE);
+	resultsFromPKB = pkb->getEntitySet(decl.Type);
+	
 	rdb.insertList(decl.name, resultsFromPKB);
 }

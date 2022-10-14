@@ -122,24 +122,24 @@ private:
 	bool isValidalidAttributeType(Attribute attr, Declaration d) {
 		bool flag = false;
 		if (attr == ProcName) {
-			if (d.TYPE == Declaration::DesignEntity::Procedure || d.TYPE == Declaration::DesignEntity::Call) {
+			if (d.Type == Declaration::DesignEntity::Procedure || d.Type == Declaration::DesignEntity::Call) {
 				flag = true;
 			}
 		}
 		else if (attr == VarName) {
-			if (d.TYPE == Declaration::DesignEntity::Variable || d.TYPE == Declaration::DesignEntity::Read || d.TYPE == Declaration::DesignEntity::Print) {
+			if (d.Type == Declaration::DesignEntity::Variable || d.Type == Declaration::DesignEntity::Read || d.Type == Declaration::DesignEntity::Print) {
 				flag = true;
 			}
 		}
 		else if (attr == Value) {
-			if (d.TYPE == Declaration::DesignEntity::Constant) {
+			if (d.Type == Declaration::DesignEntity::Constant) {
 				flag = true;
 			}
 		}
 		else if (attr == StmtNum) {
-			if (d.TYPE == Declaration::DesignEntity::Statement || d.TYPE == Declaration::DesignEntity::Read || d.TYPE == Declaration::DesignEntity::Print || 
-				d.TYPE == Declaration::DesignEntity::Call || d.TYPE == Declaration::DesignEntity::While || d.TYPE == Declaration::DesignEntity::If ||
-				d.TYPE == Declaration::DesignEntity::Assignment) {
+			if (d.Type == Declaration::DesignEntity::Statement || d.Type == Declaration::DesignEntity::Read || d.Type == Declaration::DesignEntity::Print || 
+				d.Type == Declaration::DesignEntity::Call || d.Type == Declaration::DesignEntity::While || d.Type == Declaration::DesignEntity::If ||
+				d.Type == Declaration::DesignEntity::Assignment) {
 				flag = true;
 			}
 		}

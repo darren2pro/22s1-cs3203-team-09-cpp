@@ -139,7 +139,7 @@ bool QueryParser::is_valid_stmtRef(Reference ref, std::vector<Declaration::Desig
 	if (ref.isUnderscore() || ref.isStmtNum()) { return true; }
 
 	if (ref.isSynonym()) {
-		if (std::find(valid_types.begin(), valid_types.end(), ref.declaration.TYPE) != valid_types.end()) {
+		if (std::find(valid_types.begin(), valid_types.end(), ref.declaration.Type) != valid_types.end()) {
 			return true;
 		}
 	}
@@ -151,7 +151,7 @@ bool QueryParser::is_valid_entRef(Reference ref, std::vector<Declaration::Design
 	if (ref.isUnderscore() || ref.isString()) { return true; }
 
 	if (ref.isSynonym()) {
-		if (std::find(valid_types.begin(), valid_types.end(), ref.declaration.TYPE) != valid_types.end()) {
+		if (std::find(valid_types.begin(), valid_types.end(), ref.declaration.Type) != valid_types.end()) {
 			return true;
 		}
 	}
@@ -244,7 +244,7 @@ Pattern QueryParser::patternClause() {
 
 	match(",");
 
-	if (d.TYPE == Declaration::DesignEntity::Assignment) {
+	if (d.Type == Declaration::DesignEntity::Assignment) {
 		// check the right argument
 		arg.clear();
 		if (current_token == "_") {
@@ -266,12 +266,12 @@ Pattern QueryParser::patternClause() {
 		return Pattern(Pattern::Types::Assign, d, left_arg, right_arg);
 
 	}
-	else if (d.TYPE == Declaration::DesignEntity::While) {
+	else if (d.Type == Declaration::DesignEntity::While) {
 		match("_");
 		match(")");
 		return Pattern(Pattern::Types::While, d, left_arg);
 	}
-	else if (d.TYPE == Declaration::DesignEntity::If) {
+	else if (d.Type == Declaration::DesignEntity::If) {
 		match("_");
 		match(",");
 		match("_");
@@ -325,7 +325,7 @@ Relation QueryParser::suchThatClause() {
 		// determine if it's UsesS/ModifiesS or UsesP/ModifiesP
 		if (std::regex_match(current_token, parser::synonym_re)) {		// if it's a synonym then check by synonym type
 			Declaration d = findDeclaration(current_token);
-			if (d.TYPE == Declaration::DesignEntity::Procedure) {
+			if (d.Type == Declaration::DesignEntity::Procedure) {
 				arg = match(parser::entRef_re);
 				if (type == Relation::Types::Uses) { type = Relation::Types::UsesP; }
 				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesP; }

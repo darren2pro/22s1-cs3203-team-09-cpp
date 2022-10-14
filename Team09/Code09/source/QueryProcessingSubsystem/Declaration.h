@@ -18,14 +18,14 @@ public:
 		NONE
 	};
 
-	DesignEntity TYPE;
+	DesignEntity Type;
 	std::string name;
 
-	Declaration(DesignEntity TYPE, std::string name) : TYPE(TYPE), name(name) {};
-	Declaration() : TYPE(DesignEntity::NONE), name("") {};
+	Declaration(DesignEntity TYPE, std::string name) : Type(TYPE), name(name) {};
+	Declaration() : Type(DesignEntity::NONE), name("") {};
 
 	bool operator==(const Declaration& d) const {
-		return TYPE == d.TYPE && name == d.name;
+		return Type == d.Type && name == d.name;
 	}
 
 	/**

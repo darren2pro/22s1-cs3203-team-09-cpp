@@ -38,7 +38,6 @@ void EntityExtraction::traverseLineNumbers(const std::vector<Stmt> stmts, const 
     }
 }
 
-<<<<<<< HEAD
 //CFG
 void EntityExtraction::createCFG(const std::shared_ptr<ProgramNode> astRoot) {
     for (const auto& proc : astRoot->procList) {
@@ -196,9 +195,6 @@ const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines
      std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>>) {}
 
  //design entity extraction
-=======
-//design entity extraction
->>>>>>> 8f881df334ef0302d1b449e44a95822b4b1ed8f6
 void EntityExtraction::extractEntities(const std::shared_ptr<ProgramNode> astRoot) {
     for (std::shared_ptr<ProcedureNode> proc : astRoot->procList) {
         extractEntities(proc);
@@ -286,7 +282,6 @@ void EntityExtraction::extractModifyRls(const std::shared_ptr<ProgramNode> astRo
     extractIndirectModifyRls();
 }
 void EntityExtraction::extractIndirectModifyRls() {
-<<<<<<< HEAD
     for (const auto& lineProc : pkbStorage->lineCallsProcSet) {
         PKB::LineNum lnNum = lineProc.first;
         PKB::Procedure proc = lineProc.second;
@@ -298,19 +293,6 @@ void EntityExtraction::extractIndirectModifyRls() {
                 if (pkbStorage->parentTRelations.containsSecond(lnNum)) {
                     for (const auto& elem : pkbStorage->parentTRelations.getFirstFromSecond(lnNum)) {
                         pkbStorage->storeRelations(Relation::ModifiesS, elem, var);
-=======
-    for (const auto& lineProc : pkbStorage->callLineProcSet) {
-        PKB::LineNum lnNum = lineProc.first;
-        PKB::Procedure proc = lineProc.second;
-
-        if (pkbStorage->modifiesPProcToVarMap.find(proc) != pkbStorage->modifiesPProcToVarMap.end()) {
-            for (const auto& var : pkbStorage->modifiesPProcToVarMap.at(proc)) {
-                pkbStorage->storeModifiesS(lnNum, var);
-
-                if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
-                    for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
-                        pkbStorage->storeModifiesS(elem, var);
->>>>>>> 8f881df334ef0302d1b449e44a95822b4b1ed8f6
                     }
                 }
             }
@@ -346,7 +328,6 @@ void EntityExtraction::extractModifyHelper(const std::shared_ptr<VariableNode> v
     pkbStorage->storeRelations(Relation::ModifiesS, lnNum, var->varName);
     pkbStorage->storeRelations(Relation::ModifiesP, proc, var->varName);
 
-<<<<<<< HEAD
     if (pkbStorage->parentTRelations.containsSecond(lnNum)) {
         for (const auto& elem : pkbStorage->parentTRelations.getFirstFromSecond(lnNum)) {
             pkbStorage->storeRelations(Relation::ModifiesS, elem, var->varName);
@@ -355,16 +336,6 @@ void EntityExtraction::extractModifyHelper(const std::shared_ptr<VariableNode> v
     if (pkbStorage->callsTRelations.containsSecond(proc)) {
         for (const auto& elem : pkbStorage->callsTRelations.getFirstFromSecond(proc)) {
             pkbStorage->storeRelations(Relation::ModifiesP, elem, var->varName);
-=======
-    if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
-        for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
-            pkbStorage->storeModifiesS(elem, var->varName);
-        }
-    }
-    if (pkbStorage->callsTCalleeToCallerMap.find(proc) != pkbStorage->callsTCalleeToCallerMap.end()) {
-        for (const auto& elem : pkbStorage->callsTCalleeToCallerMap.at(proc)) {
-            pkbStorage->storeModifiesP(elem, var->varName);
->>>>>>> 8f881df334ef0302d1b449e44a95822b4b1ed8f6
         }
     }
 }
@@ -380,7 +351,6 @@ void EntityExtraction::extractUsesRls(const std::shared_ptr<ProgramNode> astRoot
     extractIndirectUsesRls();
 }
 void EntityExtraction::extractIndirectUsesRls() {
-<<<<<<< HEAD
     for (const auto& lineProc : pkbStorage->lineCallsProcSet) {
         PKB::LineNum lnNum = lineProc.first;
         PKB::Procedure proc = lineProc.second;
@@ -392,19 +362,6 @@ void EntityExtraction::extractIndirectUsesRls() {
                 if (pkbStorage->parentTRelations.containsSecond(lnNum)) {
                     for (const auto& elem : pkbStorage->parentTRelations.getFirstFromSecond(lnNum)) {
                         pkbStorage->storeRelations(Relation::UsesS, elem, var);
-=======
-    for (const auto& lineProc : pkbStorage->callLineProcSet) {
-        PKB::LineNum lnNum = lineProc.first;
-        PKB::Procedure proc = lineProc.second;
-
-        if (pkbStorage->usesPProcToVarMap.find(proc) != pkbStorage->usesPProcToVarMap.end()) {
-            for (const auto& var : pkbStorage->usesPProcToVarMap.at(proc)) {
-                pkbStorage->storeUsesS(lnNum, var);
-
-                if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
-                    for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
-                        pkbStorage->storeUsesS(elem, var);
->>>>>>> 8f881df334ef0302d1b449e44a95822b4b1ed8f6
                     }
                 }
             }
@@ -467,7 +424,6 @@ void EntityExtraction::extractUsesHelper(const std::shared_ptr<VariableNode> var
     pkbStorage->storeRelations(Relation::UsesS, lnNum, var->varName);
     pkbStorage->storeRelations(Relation::UsesP, proc, var->varName);
 
-<<<<<<< HEAD
     if (pkbStorage->parentTRelations.containsSecond(lnNum)) {
         for (const auto& elem : pkbStorage->parentTRelations.getFirstFromSecond(lnNum)) {
             pkbStorage->storeRelations(Relation::UsesS, elem, var->varName);
@@ -477,17 +433,6 @@ void EntityExtraction::extractUsesHelper(const std::shared_ptr<VariableNode> var
     if (pkbStorage->callsTRelations.containsSecond(proc)) {
         for (const auto& elem : pkbStorage->callsTRelations.getFirstFromSecond(proc)) {
             pkbStorage->storeRelations(Relation::UsesP, elem, var->varName);
-=======
-    if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
-        for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
-            pkbStorage->storeUsesS(elem, var->varName);
-        }
-    }
-
-    if (pkbStorage->callsTCalleeToCallerMap.find(proc) != pkbStorage->callsTCalleeToCallerMap.end()) {
-        for (const auto& elem : pkbStorage->callsTCalleeToCallerMap.at(proc)) {
-            pkbStorage->storeUsesP(elem, var->varName);
->>>>>>> 8f881df334ef0302d1b449e44a95822b4b1ed8f6
         }
     }
 }
@@ -597,7 +542,7 @@ void EntityExtraction::extractCallsRls(const std::shared_ptr<ProgramNode> astRoo
     extractCallsTRls();
 }
 void EntityExtraction::extractCallsTRls() {
-    for (const auto& calls : pkbStorage->callsSet) {
+    for (const auto& calls : pkbStorage->callsRelations.getSet()) {
         PKB::CallerProc caller = calls.first;
 
         std::vector<PKB::CalleeProc> list;
@@ -605,15 +550,9 @@ void EntityExtraction::extractCallsTRls() {
         while (!list.empty()) {
             PKB::CalleeProc currCallee = list.back();
             list.pop_back();
-<<<<<<< HEAD
             for (const auto& callee : pkbStorage->callsRelations.getSecondFromFirst(currCallee)) {
                 pkbStorage->storeRelations(Relation::CallsT, caller, callee);
                 if (pkbStorage->callsRelations.containsFirst(callee)) {
-=======
-            for (const auto& callee : pkbStorage->callsCallerToCalleeMap.at(currCallee)) {
-                pkbStorage->storeCallsT(caller, callee);
-                if (pkbStorage->callsCallerToCalleeMap.find(callee) != pkbStorage->callsCallerToCalleeMap.end()) {
->>>>>>> 8f881df334ef0302d1b449e44a95822b4b1ed8f6
                     list.push_back(callee);
                 }
             }

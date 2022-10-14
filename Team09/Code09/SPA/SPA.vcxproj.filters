@@ -290,22 +290,8 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Reference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
-=======
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Next.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextT.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Affects.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsT.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
->>>>>>> 8f881df334ef0302d1b449e44a95822b4b1ed8f6
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>

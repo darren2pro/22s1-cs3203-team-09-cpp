@@ -92,6 +92,7 @@ namespace PKB {
         std::unordered_map<ExprStr, std::unordered_set<std::pair<LineNum, Variable>, pairHash>> assignExprToLineVarMap;
         std::unordered_map<Variable, std::unordered_set<std::pair<LineNum, ExprStr>, pairHash>> assignVarToLineExprMap;
 
+        //CFG
         std::unordered_map<Procedure, LineNum> procFirstLineMap;
         std::unordered_map<Procedure, std::unordered_set<LineNum>> procLastLineMap;
 
@@ -120,16 +121,17 @@ namespace PKB {
         void storeCall(const LineNum lineNum, Procedure proc);
 
         //store relations API
-        void storeFollows(const PrevLine, const NextLine);
-        void storeFollowsT(const PrevLine, const NextLine);
-        void storeParent(const ParentLine, const ChildLine);
-        void storeParentT(const ParentLine, const ChildLine);
-        void storeCalls(const CallerProc, const CalleeProc);
-        void storeCallsT(const CallerProc, const CalleeProc);
-        void storeUsesS(const LineNum, const Variable);
-        void storeUsesP(const Procedure, const Variable);
-        void storeModifiesS(const LineNum, const Variable);
-        void storeModifiesP(const Procedure, const Variable);
+        void storeRelations(RelationsSetBiMap<std::string, std::string>& relations, std::string first, std::string second);
+        //void storeFollows(const PrevLine, const NextLine);
+        //void storeFollowsT(const PrevLine, const NextLine);
+        //void storeParent(const ParentLine, const ChildLine);
+        //void storeParentT(const ParentLine, const ChildLine);
+        //void storeCalls(const CallerProc, const CalleeProc);
+        //void storeCallsT(const CallerProc, const CalleeProc);
+        //void storeUsesS(const LineNum, const Variable);
+        //void storeUsesP(const Procedure, const Variable);
+        //void storeModifiesS(const LineNum, const Variable);
+        //void storeModifiesP(const Procedure, const Variable);
         void storeAssignPattern(const Variable, const LineNum, const ExprStr);
         void storeProcFirstLine(const Procedure, const LineNum);
         void storeProcLastLine(const Procedure, const LineNum);

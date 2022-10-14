@@ -109,85 +109,89 @@ namespace PKB {
     }
 
     //relations
-    void PKBStorage::storeModifiesS(const LineNum lineNum, const Variable var) {
-        modifiesSRelations.add(lineNum, var);
-        //std::pair<LineNum, Variable> pair = std::make_pair(lineNum, var);
-        //modifiesSSet.insert(pair);
-        //PKB::addToSetInMap(modifiesSLineToVarMap, lineNum, var);
-        //PKB::addToSetInMap(modifiesSVarToLineMap, var, lineNum);
+    void PKBStorage::storeRelations(RelationsSetBiMap<std::string, std::string>& relations, std::string first, std::string second) {
+        relations.add(first, second);
     }
 
-    void PKBStorage::storeModifiesP(const Procedure proc, const Variable var) {
-        modifiesPRelations.add(proc, var);
-        //std::pair<Procedure, Variable> pair = std::make_pair(proc, var);
-        //modifiesPSet.insert(pair);
-        //PKB::addToSetInMap(modifiesPProcToVarMap, proc, var);
-        //PKB::addToSetInMap(modifiesPVarToProcMap, var, proc);
-    }
+    //void PKBStorage::storeModifiesS(const LineNum lineNum, const Variable var) {
+    //    modifiesSRelations.add(lineNum, var);
+    //    //std::pair<LineNum, Variable> pair = std::make_pair(lineNum, var);
+    //    //modifiesSSet.insert(pair);
+    //    //PKB::addToSetInMap(modifiesSLineToVarMap, lineNum, var);
+    //    //PKB::addToSetInMap(modifiesSVarToLineMap, var, lineNum);
+    //}
 
-    void PKBStorage::storeUsesS(const LineNum lineNum, const Variable var) {
-        usesSRelations.add(lineNum, var);
-        //std::pair<LineNum, Variable> pair = std::make_pair(lineNum, var);
-        //usesSSet.insert(pair);
-        //PKB::addToSetInMap(usesSLineToVarMap, lineNum, var);
-        //PKB::addToSetInMap(usesSVarToLineMap, var, lineNum);
-    }
+    //void PKBStorage::storeModifiesP(const Procedure proc, const Variable var) {
+    //    modifiesPRelations.add(proc, var);
+    //    //std::pair<Procedure, Variable> pair = std::make_pair(proc, var);
+    //    //modifiesPSet.insert(pair);
+    //    //PKB::addToSetInMap(modifiesPProcToVarMap, proc, var);
+    //    //PKB::addToSetInMap(modifiesPVarToProcMap, var, proc);
+    //}
 
-    void PKBStorage::storeUsesP(const Procedure proc, const Variable var) {
-        usesPRelations.add(proc, var);
-        //std::pair<Procedure, Variable> pair = std::make_pair(proc, var);
-        //usesPSet.insert(pair);
-        //PKB::addToSetInMap(usesPProcToVarMap, proc, var);
-        //PKB::addToSetInMap(usesPVarToProcMap, var, proc);
-    }
+    //void PKBStorage::storeUsesS(const LineNum lineNum, const Variable var) {
+    //    usesSRelations.add(lineNum, var);
+    //    //std::pair<LineNum, Variable> pair = std::make_pair(lineNum, var);
+    //    //usesSSet.insert(pair);
+    //    //PKB::addToSetInMap(usesSLineToVarMap, lineNum, var);
+    //    //PKB::addToSetInMap(usesSVarToLineMap, var, lineNum);
+    //}
 
-    void PKBStorage::storeFollows(const PrevLine prev, const NextLine next) {
-        followsRelations.add(prev, next);
-        //std::pair<PrevLine, NextLine> pair = std::make_pair(prev, next);
-        //followsSet.insert(pair);
-        //PKB::addToSetInMap(followsPrevToNextMap, prev, next);
-        //PKB::addToSetInMap(followsNextToPrevMap, next, prev);
-    }
+    //void PKBStorage::storeUsesP(const Procedure proc, const Variable var) {
+    //    usesPRelations.add(proc, var);
+    //    //std::pair<Procedure, Variable> pair = std::make_pair(proc, var);
+    //    //usesPSet.insert(pair);
+    //    //PKB::addToSetInMap(usesPProcToVarMap, proc, var);
+    //    //PKB::addToSetInMap(usesPVarToProcMap, var, proc);
+    //}
 
-    void PKBStorage::storeFollowsT(const PrevLine prev, const NextLine next) {
-        followsTRelations.add(prev, next);
-        //std::pair<PrevLine, NextLine> pair = std::make_pair(prev, next);
-        //followsTSet.insert(pair);
-        //PKB::addToSetInMap(followsTPrevToNextMap, prev, next);
-        //PKB::addToSetInMap(followsTNextToPrevMap, next, prev);
-    }
+    //void PKBStorage::storeFollows(const PrevLine prev, const NextLine next) {
+    //    followsRelations.add(prev, next);
+    //    //std::pair<PrevLine, NextLine> pair = std::make_pair(prev, next);
+    //    //followsSet.insert(pair);
+    //    //PKB::addToSetInMap(followsPrevToNextMap, prev, next);
+    //    //PKB::addToSetInMap(followsNextToPrevMap, next, prev);
+    //}
 
-    void PKBStorage::storeParent(const ParentLine parent, const ChildLine child) {
-        parentRelations.add(parent, child);
-        //std::pair<ParentLine, ChildLine> pair = std::make_pair(parent, child);
-        //parentSet.insert(pair);
-        //PKB::addToSetInMap(parentParentToChildMap, parent, child);
-        //PKB::addToSetInMap(parentChildToParentMap, child, parent);
-    }
+    //void PKBStorage::storeFollowsT(const PrevLine prev, const NextLine next) {
+    //    followsTRelations.add(prev, next);
+    //    //std::pair<PrevLine, NextLine> pair = std::make_pair(prev, next);
+    //    //followsTSet.insert(pair);
+    //    //PKB::addToSetInMap(followsTPrevToNextMap, prev, next);
+    //    //PKB::addToSetInMap(followsTNextToPrevMap, next, prev);
+    //}
 
-    void PKBStorage::storeParentT(const ParentLine parent, const ChildLine child) {
-        parentTRelations.add(parent, child);
-        //std::pair<ParentLine, ChildLine> pair = std::make_pair(parent, child);
-        //parentTSet.insert(pair);
-        //PKB::addToSetInMap(parentTParentToChildMap, parent, child);
-        //PKB::addToSetInMap(parentTChildToParentMap, child, parent);
-    }
+    //void PKBStorage::storeParent(const ParentLine parent, const ChildLine child) {
+    //    parentRelations.add(parent, child);
+    //    //std::pair<ParentLine, ChildLine> pair = std::make_pair(parent, child);
+    //    //parentSet.insert(pair);
+    //    //PKB::addToSetInMap(parentParentToChildMap, parent, child);
+    //    //PKB::addToSetInMap(parentChildToParentMap, child, parent);
+    //}
 
-    void PKBStorage::storeCalls(const CallerProc caller, const CalleeProc callee) {
-        callsRelations.add(caller, callee);
-        //std::pair<CallerProc, CalleeProc> pair = std::make_pair(caller, callee);
-        //callsSet.insert(pair);
-        //PKB::addToSetInMap(callsCallerToCalleeMap, caller, callee);
-        //PKB::addToSetInMap(callsCalleeToCallerMap, callee, caller);
-    }
+    //void PKBStorage::storeParentT(const ParentLine parent, const ChildLine child) {
+    //    parentTRelations.add(parent, child);
+    //    //std::pair<ParentLine, ChildLine> pair = std::make_pair(parent, child);
+    //    //parentTSet.insert(pair);
+    //    //PKB::addToSetInMap(parentTParentToChildMap, parent, child);
+    //    //PKB::addToSetInMap(parentTChildToParentMap, child, parent);
+    //}
 
-    void PKBStorage::storeCallsT(const CallerProc caller, const CalleeProc callee) {
-        callsTRelations.add(caller, callee);
-        //std::pair<CallerProc, CalleeProc> pair = std::make_pair(caller, callee);
-        //callsTSet.insert(pair);
-        //PKB::addToSetInMap(callsTCallerToCalleeMap, caller, callee);
-        //PKB::addToSetInMap(callsTCalleeToCallerMap, callee, caller);
-    }
+    //void PKBStorage::storeCalls(const CallerProc caller, const CalleeProc callee) {
+    //    callsRelations.add(caller, callee);
+    //    //std::pair<CallerProc, CalleeProc> pair = std::make_pair(caller, callee);
+    //    //callsSet.insert(pair);
+    //    //PKB::addToSetInMap(callsCallerToCalleeMap, caller, callee);
+    //    //PKB::addToSetInMap(callsCalleeToCallerMap, callee, caller);
+    //}
+
+    //void PKBStorage::storeCallsT(const CallerProc caller, const CalleeProc callee) {
+    //    callsTRelations.add(caller, callee);
+    //    //std::pair<CallerProc, CalleeProc> pair = std::make_pair(caller, callee);
+    //    //callsTSet.insert(pair);
+    //    //PKB::addToSetInMap(callsTCallerToCalleeMap, caller, callee);
+    //    //PKB::addToSetInMap(callsTCalleeToCallerMap, callee, caller);
+    //}
 
     void PKBStorage::storeAssignPattern(const Variable var, const LineNum line, const ExprStr expr) {
         assignLineVarSet.insert(std::pair<LineNum, Variable>(line, var));

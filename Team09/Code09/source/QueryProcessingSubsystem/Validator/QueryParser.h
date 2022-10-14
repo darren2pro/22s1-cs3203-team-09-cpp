@@ -1,11 +1,14 @@
 #pragma once
 #include <string>
 #include <regex>
+#include <variant>
 #include <vector>
 #include "../Query.h"
 #include "../Relation.h"
 #include "../Declaration.h"
 #include "../Pattern.h"
+#include "../With.h"
+#include "../AttrReference.h"
 
 /**
  * A QueryParser class to parse the query.
@@ -31,14 +34,10 @@ private:
 	 * Query attributes.
 	 */
 	std::vector<Declaration> declarations;
-	Declaration target;
-	Relation suchThatCl;
-	Pattern patternCl;
-
-public:
-	QueryParser(std::vector<std::string> tokens);
-
-	~QueryParser();
+	std::variant<Declaration, AttrReference> target;
+	std::vector<Relation> suchThatCl;
+	std::vector<Pattern> patternCl;
+	std::vector<With> withCl;
 
 	/**
 	 * Returns the next token in query_tokens.
@@ -65,7 +64,7 @@ public:
 	 * @returns the declarations.
 	 * @throws SemanticError if there are duplcate synonyms.
 	 */
-	std::vector<Declaration> declaration();
+	std::vector<Declaration> parseDeclaration();
 
 	/**
 	 * Checks if the given name is a synonym in the declaration list.
@@ -73,6 +72,12 @@ public:
 	 * @throws SemanticError if the name is not declared.
 	 */
 	Declaration findDeclaration(std::string name);
+
+	/**
+	 * Creates a reference object from the given string.
+	 * @returns A reference object.
+	 */
+	Reference getReference(std::string arg);
 
 	/**
 	 * Checks that ref is a valid stmtRef.
@@ -87,17 +92,29 @@ public:
 	bool is_valid_entRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types);
 
 	/**
-	 * Parses declaration.
-	 * @returns the synonym in the select statement.
+	 * Parses select statement.
+	 * @returns the target from the select statement.
 	 */
-	Declaration select();
+	std::variant<Declaration, AttrReference> parseSelect();
+
+	AttrReference parseAttrRef();
+	 
+	/**
+	 * Parses with clause.
+	 * @returns the with clause.
+	 */
+	With withClause();
+
+	void parseWith();
 
 	/**
-	 * Parses declaration.
+	 * Parses pattern clause.
 	 * @returns the pattern clause.
 	 * @throws SemanticError if an argument is not valid.
 	 */
 	Pattern patternClause();
+
+	void parsePattern();
 
 	/**
 	 * Parses the such that clause.
@@ -106,9 +123,24 @@ public:
 	 */
 	Relation suchThatClause();
 
+	void parseSuchThat();
+
+public:
+	QueryParser(std::vector<std::string> tokens) : 
+		query_tokens(tokens),
+		index(0),
+		current_token(getNextToken()), 
+		declarations(std::vector<Declaration>()),
+		target(std::variant<Declaration, AttrReference>()),
+		suchThatCl(std::vector<Relation>()),
+		patternCl(std::vector<Pattern>()),
+		withCl(std::vector<With>()) {};
+
+	~QueryParser() {};
+
 	/**
 	 * Parses the query tokens.
-	 * @return A Query.
+	 * @return A Query that has been parsed.
 	 */
 	Query* parse();
 };

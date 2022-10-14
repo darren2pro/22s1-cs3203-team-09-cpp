@@ -436,6 +436,7 @@ void EntityExtraction::extractUsesHelper(const std::shared_ptr<VariableNode> var
         }
     }
 }
+void EntityExtraction::extractUsesHelper(const std::shared_ptr<ConstantNode> constant, const Stmt stmt) {}
 
 //Follows relations
 void EntityExtraction::extractFollowsRls(const std::shared_ptr<ProgramNode> astRoot) {

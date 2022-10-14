@@ -85,6 +85,7 @@ public:
     void extractUsesHelper(const std::shared_ptr<RelExprNode> rel, const Stmt stmt);
     void extractUsesHelper(const Expr node, const Stmt stmt);
     void extractUsesHelper(const std::shared_ptr<VariableNode> var, const Stmt stmt);
+    void extractUsesHelper(const std::shared_ptr<ConstantNode> constant, const Stmt stmt);
 
     //extracting Follows relations
 

@@ -17,14 +17,22 @@ namespace PKB {
     class PKBStorage {
     private:
         int lineNum = 1;
-        std::unordered_map<LineNum, std::shared_ptr<TNode>> lineToNodeMap;
+        //std::unordered_map<LineNum, std::shared_ptr<TNode>> lineToNodeMap; (useless)
         std::unordered_map<std::shared_ptr<TNode>, LineNum> nodeToLineMap;
         std::unordered_map<LineNum, Procedure> lineToProcMap;
 
         LineNum getCurrLineNumber();
         void incrementCurrLineNumber();
 
+        RelationsSetBiMap<std::string, std::string> getRelationFromEnum(Relation::Types);
+        std::unordered_set<std::string> getEntityFromEnum(Declaration::DesignEntity);
+
     public:
+        std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet;
+
+        //CFG
+        std::unordered_map<Procedure, LineNum> procFirstLineMap;
+        std::unordered_map<Procedure, std::unordered_set<LineNum>> procLastLineMap;
         std::unordered_map<PrevLine, std::unordered_set<NextLine>> cfgPrevLineToNextLineMap;
         std::unordered_map<PrevLine, std::unordered_set<NextLine>> cfgProcPrevLineToNextLineMap;
 
@@ -40,24 +48,15 @@ namespace PKB {
         std::unordered_set<LineNum> stmtSet;
         std::unordered_set<LineNum> callSet;
 
-        //Modifies
+        //relations
         RelationsSetBiMap<LineNum, Variable> modifiesSRelations;
         RelationsSetBiMap<Procedure, Variable> modifiesPRelations;
-
-        //Uses
         RelationsSetBiMap<LineNum, Variable> usesSRelations;
         RelationsSetBiMap<Procedure, Variable> usesPRelations;
-
-        //Follows
         RelationsSetBiMap<PrevLine, NextLine> followsRelations;
         RelationsSetBiMap<PrevLine, NextLine> followsTRelations;
-
-        //Parent
         RelationsSetBiMap<ParentLine, ChildLine> parentRelations;
         RelationsSetBiMap<ParentLine, ChildLine> parentTRelations;
-
-        //Calls
-        RelationsSetBiMap<LineNum, Procedure> callRelations;
         RelationsSetBiMap<CallerProc, CalleeProc> callsRelations;
         RelationsSetBiMap<CallerProc, CalleeProc> callsTRelations;
 
@@ -66,54 +65,39 @@ namespace PKB {
         std::unordered_map<ExprStr, std::unordered_set<std::pair<LineNum, Variable>, pairHash>> assignExprToLineVarMap;
         std::unordered_map<Variable, std::unordered_set<std::pair<LineNum, ExprStr>, pairHash>> assignVarToLineExprMap;
 
-        //CFG
-        std::unordered_map<Procedure, LineNum> procFirstLineMap;
-        std::unordered_map<Procedure, std::unordered_set<LineNum>> procLastLineMap;
-
         PKBStorage();
         ~PKBStorage();
+
+        void storeLineCallsProc(LineNum lineNum, Procedure proc);
 
         //line number API
         LineNum storeLine(const Stmt node);
         LineNum getLineFromNode(const Stmt node);
         void storeLineToProcedure(LineNum lineNum, Procedure proc);
         Procedure getProcedureFromLine(LineNum lineNum);
-        std::shared_ptr<TNode> getNodeFromLine(const LineNum line);
-        void storeStmt(const LineNum lineNum);
+        //std::shared_ptr<TNode> getNodeFromLine(const LineNum line); (useless)
+
+        //store CFG
+        void storeProcFirstLine(const Procedure, const LineNum);
+        void storeProcLastLine(const Procedure, const LineNum);
         void storeCFGEdge(const PrevLine lineBefore, const NextLine lineAfter);
         void storeCFGEdgeProc(const PrevLine lineBefore, const NextLine lineAfter);
 
         //store entities API
-        void storeVariable(const Variable var);
-        void storeProcedure(const Procedure proc);
-        void storeConstant(const Constant constant);
-        void storeWhile(const LineNum lineNum);
-        void storeIf(const LineNum lineNum);
-        void storeAssign(const LineNum lineNum);
-        void storeRead(const LineNum lineNum, Variable var);
-        void storePrint(const LineNum lineNum, Variable var);
-        void storeCall(const LineNum lineNum, Procedure proc);
+        void storeEntity(Declaration::DesignEntity entity, const std::string value);
+        void storeEntity(Declaration::DesignEntity entity, const std::string first, const std::string second);
 
         //store relations API
-        void storeRelations(RelationsSetBiMap<std::string, std::string>& relations, const std::string first, const std::string second);
+        void storeRelations(Relation::Types type, const std::string first, const std::string second);
+        
+        //store patterns API
         void storeAssignPattern(const Variable, const LineNum, const ExprStr);
-        void storeProcFirstLine(const Procedure, const LineNum);
-        void storeProcLastLine(const Procedure, const LineNum);
 
+        //get CFG
         std::unordered_map<PrevLine, std::unordered_set<NextLine>> getCFG();
 
-        //get entity set
+        //get entities API
         std::unordered_set<std::string> getEntitySet(Declaration::DesignEntity);
-        std::unordered_set<Variable> getVariableSet();
-        std::unordered_set<Procedure> getProcedureSet();
-        std::unordered_set<Constant> getConstantSet();
-        std::unordered_set<LineNum> getWhileSet();
-        std::unordered_set<LineNum> getIfSet();
-        std::unordered_set<LineNum> getAssignSet();
-        std::unordered_set<LineNum> getReadSet();
-        std::unordered_set<LineNum> getPrintSet();
-        std::unordered_set<LineNum> getStmtSet();
-        std::unordered_set<LineNum> getCallSet();
 
         //get relations API
         bool relationContainsSet(Relation::Types, const std::string, const std::string);
@@ -126,7 +110,7 @@ namespace PKB {
         std::unordered_set<std::string> getRelationAllFirst(Relation::Types);
         std::unordered_set<std::pair<std::string, std::string>, pairHash> getRelationSet(Relation::Types);
 
-        //AssignPattern
+        //get patterns API
         std::unordered_set<LineNum> getAssignLineByVarUS(const Variable);
         std::unordered_set<LineNum> getAssignLineByVarMatchFull(const Variable, const ExprStr);
         std::unordered_set<LineNum> getAssignLineByVarMatchPartial(const Variable, const ExprStr);

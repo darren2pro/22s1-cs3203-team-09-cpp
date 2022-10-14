@@ -278,36 +278,6 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\FollowsEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\FollowsTEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ModifiesSEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ModifiesPEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ParentEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ParentTEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\UsesSEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\UsesPEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\CallsTEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\CallsEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClCompile>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\AssignPatternEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClInclude>
@@ -319,18 +289,6 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Reference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Next.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextT.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Affects.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsT.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>

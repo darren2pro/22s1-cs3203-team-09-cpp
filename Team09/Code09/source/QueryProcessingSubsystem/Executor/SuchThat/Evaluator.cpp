@@ -1,3 +1,4 @@
+#include <cassert>
 #include <string>
 #include <vector>
 #include <unordered_set>
@@ -16,6 +17,8 @@ bool Evaluator::evaluate() {
 	bool isLeftUnderscore = leftArg.isUnderscore();
 	bool isRightUnderscore = rightArg.isUnderscore();
 
+	auto relType = relations.Type;
+
 	if (isLeftSynonym) {
 		Declaration synonym = leftArg.declaration;
 		leftSynonym = synonym.name;
@@ -31,7 +34,7 @@ bool Evaluator::evaluate() {
 
 	// SYNONYM SYNONYM
 	if (isLeftSynonym && isRightSynonym) {
-		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = leftSynonymRightSynonym();
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = pkb->getRelationSet(relType);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -42,7 +45,7 @@ bool Evaluator::evaluate() {
 
 	// SYNONYM UNDERSCORE
 	else if (isLeftSynonym && isRightUnderscore) {
-		std::unordered_set<std::string> result = leftSynonymRightUnderscore();
+		std::unordered_set<std::string> result = pkb->getRelationAllFirst(relType);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -53,7 +56,7 @@ bool Evaluator::evaluate() {
 
 	// SYNONYM SIMPLE
 	else if (isLeftSynonym && isRightSimple) {
-		std::unordered_set<std::string> result = leftSynonymRightSimple(rightArg.value);
+		std::unordered_set<std::string> result = pkb->getRelationFirstFromSecond(relType, rightArg.value);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -64,7 +67,7 @@ bool Evaluator::evaluate() {
 
 	// SIMPLE SYNONYM
 	else if (isLeftSimple && isRightSynonym) {
-		std::unordered_set<std::string> result = leftSimpleRightSynonym(leftArg.value);
+		std::unordered_set<std::string> result = pkb->getRelationSecondFromFirst(relType, leftArg.value);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -75,37 +78,57 @@ bool Evaluator::evaluate() {
 	
 	// SIMPLE UNDERSCORE
 	else if (isLeftSimple && isRightUnderscore) {
-		bool result = leftSimpleRightUnderscore(leftArg.value);
+		bool result = pkb->relationContainsFirst(relType, leftArg.value);
 		return result;
 	}
 
 	// SIMPLE SIMPLE
 	else if ((leftArg.isString() || leftArg.isStmtNum()) && (rightArg.isString() || rightArg.isStmtNum())) {
-		bool result = leftSimpleRightSimple(leftArg.value, rightArg.value);
+		bool result = pkb->relationContainsSet(relType, leftArg.value, rightArg.value);
 		return result;
 	}
 
+	// TODO
+	// UsesP/S, ModifiesP/S needs to add assert to capture the error.
+	// Create another function to check validity?
+
 	// UNDERSCORE SYNONYM
 	else if (isLeftUnderscore && isRightSynonym) {
-		std::unordered_set<std::string> result = leftUnderscoreRightSynonym();
-		if (result.size() == 0) {
-			return false;
+		if (isFirstArgumentUnderscoreValid(relType)) {
+			std::unordered_set<std::string> result = pkb->getRelationAllSecond(relType);
+			if (result.size() == 0) {
+				return false;
+			}
+			else {
+				return rdb.insertList(rightSynonym, result);
+			}
 		}
-		else {
-			return rdb.insertList(rightSynonym, result);
-		}
+		assert("Syntax Error");
 	}
 
 	// UNDERSCORE SIMPLE
 	else if (isLeftUnderscore && isRightSimple) {
-		bool result = leftUnderscoreRightSimple(rightArg.value);
-		return result;
+		if (isFirstArgumentUnderscoreValid(relType)) {
+			bool result = pkb->relationContainsSecond(relType, rightArg.value);
+			return result;
+		}
+		assert("Syntax Error");
 	}
 
 	// UNDERSCORE UNDERSCORE
 	else if (isLeftUnderscore && isRightUnderscore) {
-		bool result = leftUnderscoreRightUnderScore();
-		return result;
+		if (isFirstArgumentUnderscoreValid(relType)) {
+			bool result = pkb->relationIsEmpty(relType);
+			return result;
+		}
+		assert("Syntax Error");
 	}	
+}
+
+bool Evaluator::isFirstArgumentUnderscoreValid(enum Relation::Types relType) {
+	if(relType == Relation::UsesP || relType == Relation::UsesS || relType == Relation::ModifiesP || relType == Relation::ModifiesS) {
+		return false;
+	}
+	return true;
 }
 

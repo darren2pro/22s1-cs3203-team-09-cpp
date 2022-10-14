@@ -40,16 +40,6 @@ public:
     //! Strips the quotation marks from the string. (only if there are quotation marks to strip)
 	std::string stripQuotationMarks(std::string arg);
 
-	// Different
-	virtual std::unordered_set<std::string> leftSynonymRightSimple(std::string rightArg) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::pair<std::string, std::string>, pairHash> leftSynonymRightSynonym() = 0;
-	virtual std::unordered_set<std::string> leftSynonymRightUnderscore() = 0;
-
-	virtual std::unordered_set<std::string> leftSimpleRightSynonym(std::string leftArg) = 0; // For Demo in Week 5
-	virtual bool leftSimpleRightUnderscore(std::string leftArg) = 0;
-	virtual bool leftSimpleRightSimple(std::string leftArg, std::string rightArg) = 0;
-
-	virtual std::unordered_set<std::string> leftUnderscoreRightSynonym() = 0;
-	virtual bool leftUnderscoreRightSimple(std::string rightArg) = 0;
-	virtual bool leftUnderscoreRightUnderScore() = 0;
+	// Check if query is invalid for Uses/Modifies. 
+	bool isFirstArgumentUnderscoreValid(enum Relation::Types relType);
 };

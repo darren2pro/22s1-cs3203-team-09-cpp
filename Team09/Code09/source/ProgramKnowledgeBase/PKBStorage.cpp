@@ -9,57 +9,57 @@ namespace PKB {
         lineNum += 1;
     }
 
-    RelationsSetBiMap<std::string, std::string> PKBStorage::getRelationFromEnum(Relation::Types type) {
+    RelationsSetBiMap<std::string, std::string>* PKBStorage::getRelationFromEnum(Relation::Types type) {
         switch (type) {
         case Relation::ModifiesS:
-            return modifiesSRelations;
+            return &modifiesSRelations;
         case Relation::ModifiesP:
-            return modifiesPRelations;
+            return &modifiesPRelations;
         case Relation::UsesS:
-            return usesSRelations;
+            return &usesSRelations;
         case Relation::UsesP:
-            return usesPRelations;
+            return &usesPRelations;
         case Relation::Follows:
-            return followsRelations;
+            return &followsRelations;
         case Relation::FollowsT:
-            return followsTRelations;
+            return &followsTRelations;
         case Relation::Parent:
-            return parentRelations;
+            return &parentRelations;
         case Relation::ParentT:
-            return parentTRelations;
+            return &parentTRelations;
         case Relation::Calls:
-            return callsRelations;
+            return &callsRelations;
         case Relation::CallsT:
-            return callsTRelations;
+            return &callsTRelations;
         default:
-            return RelationsSetBiMap<std::string, std::string>();
+            return &RelationsSetBiMap<std::string, std::string>();
         }
     }
 
-    std::unordered_set<std::string> PKBStorage::getEntityFromEnum(Declaration::DesignEntity entity) {
+    std::unordered_set<std::string>* PKBStorage::getEntityFromEnum(Declaration::DesignEntity entity) {
         switch (entity) {
         case Declaration::Variable:
-            return varSet;
+            return &varSet;
         case Declaration::Procedure:
-            return procSet;
+            return &procSet;
         case Declaration::Constant:
-            return constSet;
+            return &constSet;
         case Declaration::While:
-            return whileSet;
+            return &whileSet;
         case Declaration::If:
-            return ifSet;
+            return &ifSet;
         case Declaration::Assignment:
-            return assignSet;
+            return &assignSet;
         case Declaration::Read:
-            return readSet;
+            return &readSet;
         case Declaration::Print:
-            return printSet;
+            return &printSet;
         case Declaration::Statement:
-            return stmtSet;
+            return &stmtSet;
         case Declaration::Call:
-            return callSet;
+            return &callSet;
         default:
-            return std::unordered_set<std::string>();
+            return &std::unordered_set<std::string>();
         }
     }
 
@@ -128,18 +128,18 @@ namespace PKB {
 
     void PKBStorage::storeEntity(Declaration::DesignEntity entity, const std::string value) {
         auto entitySet = getEntityFromEnum(entity);
-        entitySet.insert(value);
+        entitySet->insert(value);
     }
 
     //do sth to second (for with clauses)
     void PKBStorage::storeEntity(Declaration::DesignEntity entity, const std::string first, const std::string second) {
         auto entitySet = getEntityFromEnum(entity);
-        entitySet.insert(first);
+        entitySet->insert(first);
     }
 
     void PKBStorage::storeRelations(Relation::Types type, std::string first, std::string second) {
         auto relation = getRelationFromEnum(type);
-        relation.add(first, second);
+        relation->add(first, second);
     }
 
     void PKBStorage::storeAssignPattern(const Variable var, const LineNum line, const ExprStr expr) {
@@ -153,52 +153,52 @@ namespace PKB {
     }
 
     std::unordered_set<std::string> PKBStorage::getEntitySet(Declaration::DesignEntity entity) {
-        return getEntityFromEnum(entity);
+        return *getEntityFromEnum(entity);
     }
 
     bool PKBStorage::relationContainsSet(Relation::Types type, const std::string first, const std::string second) {
         auto relation = getRelationFromEnum(type);
-        return relation.containsSet(first, second);
+        return relation->containsSet(first, second);
     }
 
     bool PKBStorage::relationContainsFirst(Relation::Types type, const std::string first) {
         auto relation = getRelationFromEnum(type);
-        return relation.containsFirst(first);
+        return relation->containsFirst(first);
     }
 
     bool PKBStorage::relationContainsSecond(Relation::Types type, const std::string second) {
         auto relation = getRelationFromEnum(type);
-        return relation.containsSecond(second);
+        return relation->containsSecond(second);
     }
 
     bool PKBStorage::relationIsEmpty(Relation::Types type) {
         auto relation = getRelationFromEnum(type);
-        return relation.isEmpty();
+        return relation->isEmpty();
     }
 
     std::unordered_set<std::string> PKBStorage::getRelationSecondFromFirst(Relation::Types type, const std::string first) {
         auto relation = getRelationFromEnum(type);
-        return relation.getSecondFromFirst(first);
+        return relation->getSecondFromFirst(first);
     }
 
     std::unordered_set<std::string> PKBStorage::getRelationFirstFromSecond(Relation::Types type, const std::string second) {
         auto relation = getRelationFromEnum(type);
-        return relation.getFirstFromSecond(second);
+        return relation->getFirstFromSecond(second);
     }
 
     std::unordered_set<std::string> PKBStorage::getRelationAllSecond(Relation::Types type) {
         auto relation = getRelationFromEnum(type);
-        return relation.getAllSecond();
+        return relation->getAllSecond();
     }
 
     std::unordered_set<std::string> PKBStorage::getRelationAllFirst(Relation::Types type) {
         auto relation = getRelationFromEnum(type);
-        return relation.getAllFirst();
+        return relation->getAllFirst();
     }
 
     std::unordered_set<std::pair<std::string, std::string>, pairHash> PKBStorage::getRelationSet(Relation::Types type) {
         auto relation = getRelationFromEnum(type);
-        return relation.getSet();
+        return relation->getSet();
     }
 
     std::unordered_set<LineNum> PKBStorage::getAssignLineByVarUS(const Variable var) {

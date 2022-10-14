@@ -159,6 +159,22 @@ bool QueryParser::is_valid_entRef(Reference ref, std::vector<Declaration::Design
 	return false;
 }
 
+Reference QueryParser::parseEntRef(std::vector<Declaration::DesignEntity> de) {
+	Reference ref = getReference(match(parser::entRef_re));
+	if (!is_valid_entRef(ref, de)) {
+		throw SemanticError("Invalid synonym type used as an argument");
+	}
+	return ref;
+}
+
+Reference QueryParser::parseStmtRef(std::vector<Declaration::DesignEntity> de) {
+	Reference ref = getReference(match(parser::stmtRef_re));
+	if (!is_valid_stmtRef(ref, de)) {
+		throw SemanticError("Invalid synonym type used as an argument");
+	}
+	return ref;
+}
+
 std::variant<Declaration, AttrReference> QueryParser::parseSelect() {
 	match("Select");
 	std::string strelem = match(parser::synonym_re);
@@ -294,115 +310,76 @@ void QueryParser::parsePattern() {
 	}
 }
 
+Relation::Types QueryParser::getUsesModifiesType(Relation::Types type) {
+	try {		// if it's a synonym then check by synonym type
+		Declaration d = findDeclaration(current_token);
+		if (d.TYPE == Declaration::DesignEntity::Procedure) {
+			if (type == Relation::Types::Uses) { return Relation::Types::UsesP; }
+			if (type == Relation::Types::Modifies) { return Relation::Types::ModifiesP; }
+		}
+		else {
+			if (type == Relation::Types::Uses) { return Relation::Types::UsesS; }
+			if (type == Relation::Types::Modifies) { return Relation::Types::ModifiesS; }
+		}
+	}
+	catch (SemanticError&) {		// if not it's either stmtRed or entRef
+		if (std::regex_match(current_token, parser::stmtRef_re)) {
+			if (type == Relation::Types::Uses) { return Relation::Types::UsesS; }
+			if (type == Relation::Types::Modifies) { return Relation::Types::ModifiesS; }
+		}
+		else {
+			if (type == Relation::Types::Uses) { return Relation::Types::UsesP; }
+			if (type == Relation::Types::Modifies) { return Relation::Types::ModifiesP; }
+		}
+	}
+}
+
 Relation QueryParser::suchThatClause() {
 	// check the relation
 	Relation::Types type = Relation::getType(match(parser::relation_re));	
 
-
 	match("(");
 
 	// check and validate arguments
-	std::string arg;
 	Reference left_arg, right_arg;
-	if (type == Relation::Types::Calls || type == Relation::Types::CallsT) {
-		// check the left argument
-		arg = match(parser::entRef_re);
-		left_arg = getReference(arg);
-		if (!is_valid_entRef(left_arg, parser::entRef_Proc_de)) {
-			throw SemanticError("Invalid synonym type used as an argument");
-		}
-
-		match(",");
-
-		// check the right argument
-		arg = match(parser::entRef_re);
-		right_arg = getReference(arg);
-		if (!is_valid_entRef(right_arg, parser::entRef_Proc_de)) {
-			throw SemanticError("Invalid synonym type used as an argument");
-		}
-	}
-	else if (type == Relation::Types::Uses || type == Relation::Types::Modifies) {
+	if (type == Relation::Types::Uses || type == Relation::Types::Modifies) {
 		// determine if it's UsesS/ModifiesS or UsesP/ModifiesP
-		if (std::regex_match(current_token, parser::synonym_re)) {		// if it's a synonym then check by synonym type
-			Declaration d = findDeclaration(current_token);
-			if (d.TYPE == Declaration::DesignEntity::Procedure) {
-				arg = match(parser::entRef_re);
-				if (type == Relation::Types::Uses) { type = Relation::Types::UsesP; }
-				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesP; }
-			}
-			else {
-				arg = match(parser::stmtRef_re);
-				if (type == Relation::Types::Uses) { type = Relation::Types::UsesS; }
-				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesS; }
-			}
-		}
-		else {		// if not it's either stmtRed or entRef
-			try {
-				arg = match(parser::stmtRef_re);
-				if (type == Relation::Types::Uses) { type = Relation::Types::UsesS; }
-				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesS; }
-			}
-			catch (SyntaxError&) {
-				arg = match(parser::entRef_re);
-				if (type == Relation::Types::Uses) { type = Relation::Types::UsesP; }
-				if (type == Relation::Types::Modifies) { type = Relation::Types::ModifiesP; }
-			}
-		}
-		
-		// check left argument
-		left_arg = getReference(arg);
-		if (left_arg.isUnderscore()) { throw SemanticError("First args for uses/modifies can't be _"); }
+		type = getUsesModifiesType(type);
 
 		if (type == Relation::Types::UsesS) {
-			if (!is_valid_stmtRef(left_arg, parser::stmtRef_Uses_de)) {
-				throw SemanticError("Invalid synonym type used as an argument");
-			}
+			left_arg = parseStmtRef(parser::stmtRef_Uses_de);
 		}
 		else if (type == Relation::Types::ModifiesS) {
-			if (!is_valid_stmtRef(left_arg, parser::stmtRef_Modifies_de)) {
-				throw SemanticError("Invalid synonym type used as an argument");
-			}
-		} else {	// UsesP/ModifiesP
-			if (!is_valid_entRef(left_arg, parser::entRef_Proc_de)) {
-				throw SemanticError("Invalid synonym type used as an argument");
-			}
+			left_arg = parseStmtRef(parser::stmtRef_Modifies_de);
+		}
+		else {	// UsesP/ModifiesP
+			left_arg = parseEntRef(parser::entRef_Proc_de);
 		}
 
+		if (left_arg.isUnderscore()) { throw SemanticError("First args for uses/modifies can't be _"); }
 
 		match(",");
 
+		right_arg = parseEntRef(parser::entRef_Var_de);
+	}
+	else if (type == Relation::Types::Calls || type == Relation::Types::CallsT) {
+		left_arg = parseEntRef(parser::entRef_Proc_de);
 
-		// check the right argument
-		arg = match(parser::entRef_re);
-		right_arg = getReference(arg);
-		if (!is_valid_entRef(right_arg, parser::entRef_Var_de)) {
-			throw SemanticError("Invalid synonym type used as an argument");
-		}
+		match(",");
+
+		right_arg = parseEntRef(parser::entRef_Proc_de);
 	}
 	else {		// Follows/Follows*/Parent/Parent*/Next/Next*/Affects/Affects*
-		arg = match(parser::stmtRef_re);
-
 		std::vector<Declaration::DesignEntity> de = parser::stmtRef_de;
 		if (type == Relation::Types::Affects || type == Relation::Types::AffectsT) {
 			de = parser::stmtRef_Affects_de;
 		}
 
-		// check the left argument
-		left_arg = getReference(arg);
-		if (!is_valid_stmtRef(left_arg, de)) {
-			throw SemanticError("Invalid synonym type used as an argument");
-		}
-
+		left_arg = parseStmtRef(de);
 
 		match(",");
 
-
-		// check the right argument
-		arg = match(parser::stmtRef_re);
-		right_arg = getReference(arg);
-		if (!is_valid_stmtRef(right_arg, de)) {
-			throw SemanticError("Invalid synonym type used as an argument");
-		}
+		right_arg = parseStmtRef(de);
 	}
 
 	match(")");

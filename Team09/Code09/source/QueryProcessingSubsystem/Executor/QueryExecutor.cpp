@@ -116,8 +116,8 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 
 	if (rdb.variableIsPresent(decl.name)) return;
 
-
-	switch (decl.TYPE) {
+	resultsFromPKB = pkb->getEntitySet(decl.TYPE);
+	/*switch (decl.TYPE) {
 	case Declaration::Assignment:
 		resultsFromPKB = pkb->getAssignSet();
 		break;
@@ -148,7 +148,7 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 	case Declaration::Call:
 		resultsFromPKB = pkb->getCallSet();
 		break;
-	}
+	}*/
 
 	// resultsFromPKB = pkb->getEntitySet(decl.TYPE);
 	rdb.insertList(decl.name, resultsFromPKB);

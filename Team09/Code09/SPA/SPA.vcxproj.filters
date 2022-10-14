@@ -290,9 +290,6 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Reference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
-      <Filter>Header Files\ProgramKnowledgeBase</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
@@ -304,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\IfPatternEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

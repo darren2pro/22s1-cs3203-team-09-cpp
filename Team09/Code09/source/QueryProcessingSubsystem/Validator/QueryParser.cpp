@@ -313,7 +313,7 @@ void QueryParser::parsePattern() {
 Relation::Types QueryParser::getUsesModifiesType(Relation::Types type) {
 	try {		// if it's a synonym then check by synonym type
 		Declaration d = findDeclaration(current_token);
-		if (d.TYPE == Declaration::DesignEntity::Procedure) {
+		if (d.Type == Declaration::DesignEntity::Procedure) {
 			if (type == Relation::Types::Uses) { return Relation::Types::UsesP; }
 			if (type == Relation::Types::Modifies) { return Relation::Types::ModifiesP; }
 		}

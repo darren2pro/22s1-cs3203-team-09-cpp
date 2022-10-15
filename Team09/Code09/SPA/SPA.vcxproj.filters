@@ -305,5 +305,8 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\IfPatternEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

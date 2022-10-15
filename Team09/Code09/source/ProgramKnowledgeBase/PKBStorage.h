@@ -24,8 +24,8 @@ namespace PKB {
         LineNum getCurrLineNumber();
         void incrementCurrLineNumber();
 
-        RelationsSetBiMap<std::string, std::string> getRelationFromEnum(Relation::Types);
-        std::unordered_set<std::string> getEntityFromEnum(Declaration::DesignEntity);
+        RelationsSetBiMap<std::string, std::string>* getRelationFromEnum(Relation::Types);
+        std::unordered_set<std::string>* getEntityFromEnum(Declaration::DesignEntity);
 
     public:
         std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet;

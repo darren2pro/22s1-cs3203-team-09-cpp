@@ -1,14 +1,14 @@
 #pragma once
 
 #include "../QueryProcessingSubsystem/Executor/QueryExecutor.h"
-#include "../ProgramKnowledgeBase/PKBManager.h"
+#include "../ProgramKnowledgeBase/PKBStorage.h"
 #include <unordered_set>
 
 using namespace std;
 
 class SPAManager {
 private:
-    PKBManager* pkb;
+    PKBStorage* pkb;
     QueryExecutor* qm;
 
 public:

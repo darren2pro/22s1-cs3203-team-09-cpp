@@ -25,12 +25,12 @@ public:
 		NONE
 	};
 
-	Types TYPE;
+	Types Type;
 	Reference LEFT_ARG;
 	Reference RIGHT_ARG;
 
-	Relation(Types TYPE, Reference LEFT_ARG, Reference RIGHT_ARG) : TYPE(TYPE), LEFT_ARG(LEFT_ARG), RIGHT_ARG(RIGHT_ARG) {};
-	Relation() : TYPE(Relation::NONE), LEFT_ARG(Reference()), RIGHT_ARG(Reference()) {}; // Needed to ensure initialization of empty relation in Query.h
+	Relation(Types TYPE, Reference LEFT_ARG, Reference RIGHT_ARG) : Type(TYPE), LEFT_ARG(LEFT_ARG), RIGHT_ARG(RIGHT_ARG) {};
+	Relation() : Type(Relation::NONE), LEFT_ARG(Reference()), RIGHT_ARG(Reference()) {}; // Needed to ensure initialization of empty relation in Query.h
 
 	/**
 	 * Returns the Relation::Types that is equivalent to the string.
@@ -79,6 +79,6 @@ public:
 	}
 
 	bool operator==(const Relation& r) const {
-		return TYPE == r.TYPE && LEFT_ARG == r.LEFT_ARG && RIGHT_ARG == r.RIGHT_ARG;
+		return Type == r.Type && LEFT_ARG == r.LEFT_ARG && RIGHT_ARG == r.RIGHT_ARG;
 	}
 };

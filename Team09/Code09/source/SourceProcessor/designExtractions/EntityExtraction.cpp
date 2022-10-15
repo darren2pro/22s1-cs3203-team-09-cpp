@@ -2,7 +2,7 @@
 #include <stack>
 #include <memory>
 
-EntityExtraction::EntityExtraction(std::shared_ptr<PKB::PKBStorage> pkb) : pkbStorage(pkb) {};
+EntityExtraction::EntityExtraction(PKB::PKBStorage* pkb) : pkbStorage(pkb) {};
 
 EntityExtraction::~EntityExtraction() {}
 
@@ -17,7 +17,7 @@ void EntityExtraction::createLineNumbers(const std::shared_ptr<ProcedureNode> pr
 }
 void EntityExtraction::createLineNumbers(const Stmt stmts, const PKB::Procedure procName) {
     const PKB::LineNum lnNum = pkbStorage->storeLine(stmts);
-    pkbStorage->getNodeFromLine(lnNum);
+    //pkbStorage->getNodeFromLine(lnNum); (useless statement)
     pkbStorage->storeLineToProcedure(lnNum, procName);
     std::visit(
             [this, procName](const auto& s) {
@@ -38,19 +38,175 @@ void EntityExtraction::traverseLineNumbers(const std::vector<Stmt> stmts, const 
     }
 }
 
-//design entity extraction
+//CFG
+void EntityExtraction::createCFG(const std::shared_ptr<ProgramNode> astRoot) {
+    for (const auto& proc : astRoot->procList) {
+         createCFG(proc);
+    }
+}
+void EntityExtraction::createCFG(const std::shared_ptr<ProcedureNode> proc) {
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache =
+       std::make_shared<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>>();
+    traverseCFG(proc->stmtList, cache);
+}
+void EntityExtraction::traverseCFG(
+    const std::vector<Stmt> stmts,
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    for (const auto& stmt : stmts) {
+        std::visit([this, cache](const auto& s) { createCFG(s, cache); }, stmt);
+    }
+
+    for (std::size_t i = 0; i < stmts.size() - 1; i++) {
+        auto terminating = extractTerminatingLines(stmts[i], cache);
+        const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmts[i + 1]);
+
+        for (const auto& line : terminating) {
+            pkbStorage->storeCFGEdge(line, lnNum);
+        }
+    }
+}
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+    const std::shared_ptr<IfNode> ifNode,
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const PKB::LineNum lnNum = pkbStorage->getLineFromNode(ifNode);
+    if (cache->find(lnNum) != cache->end()) {
+        return cache->at(lnNum);
+    }
+    auto lastIf = ifNode->thenStmtList.back();
+    auto lastElse = ifNode->elseStmtList.back();
+    auto terminatingThen = extractTerminatingLines(lastIf, cache);
+    auto terminatingElse = extractTerminatingLines(lastElse, cache);
+    std::unordered_set<PKB::LineNum> terminating;
+    for (const auto& line : terminatingThen) {
+        terminating.insert(line);
+    }
+    for (const auto& line : terminatingElse) {
+        terminating.insert(line);
+    }
+    cache->emplace(lnNum, terminating);
+
+    return terminating;
+}
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+    const std::shared_ptr<WhileNode> whileNode,
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const PKB::LineNum lnNum = pkbStorage->getLineFromNode(whileNode);
+    if (cache->find(lnNum) != cache->end()) {
+        return cache->at(lnNum);
+    }
+    std::unordered_set<PKB::LineNum> terminating_lines;
+    terminating_lines.emplace(lnNum);
+    cache->emplace(lnNum, terminating_lines);
+
+    return terminating_lines;
+}
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+    const std::shared_ptr<ReadNode> readNode,
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const PKB::LineNum lnNum = pkbStorage->getLineFromNode(readNode);
+    if (cache->find(lnNum) != cache->end()) {
+        return cache->at(lnNum);
+    }
+    std::unordered_set<PKB::LineNum> terminating_lines;
+    terminating_lines.emplace(lnNum);
+    cache->emplace(lnNum, terminating_lines);
+    return terminating_lines;
+}
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+    const std::shared_ptr<PrintNode> printNode,
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const PKB::LineNum lnNum = pkbStorage->getLineFromNode(printNode);
+    if (cache->find(lnNum) != cache->end()) {
+        return cache->at(lnNum);
+    }
+    std::unordered_set<PKB::LineNum> terminating_lines;
+    terminating_lines.emplace(lnNum);
+    cache->emplace(lnNum, terminating_lines);
+    return terminating_lines;
+}
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+    const std::shared_ptr<AssignmentNode> assignNode,
+    const std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>> cache) {
+    const PKB::LineNum lnNum = pkbStorage->getLineFromNode(assignNode);
+    if (cache->find(lnNum) != cache->end()) {
+        return cache->at(lnNum);
+    }
+    std::unordered_set<PKB::LineNum> terminating_lines;
+    terminating_lines.emplace(lnNum);
+    cache->emplace(lnNum, terminating_lines);
+    return terminating_lines;
+}
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+    const std::shared_ptr<CallNode> callNode,
+    const std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+    const PKB::LineNum lnNum = pkbStorage->getLineFromNode(callNode);
+    if (cache->find(lnNum) != cache->end()) {
+        return cache->at(lnNum);
+    }
+    std::unordered_set<PKB::LineNum> terminating_lines;
+    terminating_lines.emplace(lnNum);
+    cache->emplace(lnNum, terminating_lines);
+    return terminating_lines;
+}
+const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines(
+    const Stmt stmt,
+    const std::shared_ptr<std::unordered_map<PKB::LineNum, std::unordered_set<PKB::LineNum>>> cache) {
+            return std::visit(
+                [this, cache](const auto& n) { return extractTerminatingLines(n, cache); },
+                stmt);
+}
+ void EntityExtraction::createCFG(
+            const std::shared_ptr<IfNode> ifNode,
+            std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>> cache) {
+            const PKB::ParentLine parent = pkbStorage->getLineFromNode(ifNode);
+            const PKB::ChildLine thenChild =
+                pkbStorage->getLineFromNode(ifNode->thenStmtList.front());
+            const PKB::ChildLine elseChild =
+                pkbStorage->getLineFromNode(ifNode->elseStmtList.front());
+            pkbStorage->storeCFGEdge(parent, thenChild); 
+            pkbStorage->storeCFGEdge(parent, elseChild);
+
+            traverseCFG(ifNode->thenStmtList, cache);
+            traverseCFG(ifNode->elseStmtList, cache);
+  }
+ void EntityExtraction::createCFG(
+     const std::shared_ptr<WhileNode> whileNode,
+     std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>> cache) {
+     const PKB::ParentLine parent = pkbStorage->getLineFromNode(whileNode);
+     const PKB::ChildLine child = pkbStorage->getLineFromNode(whileNode->stmtList.front());
+     auto terminating = extractTerminatingLines(whileNode->stmtList.back(), cache);
+     for (const auto& line : terminating) {
+         pkbStorage->storeCFGEdge(line, parent);
+     }
+     pkbStorage->storeCFGEdge(parent, child);
+     traverseCFG(whileNode->stmtList, cache);
+ }
+ void EntityExtraction::createCFG(
+     const std::shared_ptr<ReadNode>,
+     std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>>){}
+  void EntityExtraction::createCFG(
+     const std::shared_ptr<PrintNode>,
+     std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>>) {}
+  void EntityExtraction::createCFG(
+     const std::shared_ptr<AssignmentNode>,
+     std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>>) {}
+ void EntityExtraction::createCFG(
+     const std::shared_ptr<CallNode>,
+     std::shared_ptr<std::unordered_map< PKB::LineNum, std::unordered_set< PKB::LineNum>>>) {}
+
+ //design entity extraction
 void EntityExtraction::extractEntities(const std::shared_ptr<ProgramNode> astRoot) {
     for (std::shared_ptr<ProcedureNode> proc : astRoot->procList) {
         extractEntities(proc);
     }
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<ProcedureNode> proc) {
-    pkbStorage->storeProcedure(proc->procName);
+    pkbStorage->storeEntity(Declaration::Procedure, proc->procName);
     extractStatements(proc -> stmtList);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<AssignmentNode> assign) {
     const PKB::LineNum lnNum = pkbStorage -> getLineFromNode(assign);
-    pkbStorage->storeAssign(lnNum);
+    pkbStorage->storeEntity(Declaration::Assignment, lnNum);
     extractEntities(assign->var);
     extractEntities(assign->expr);
 }
@@ -77,46 +233,45 @@ void EntityExtraction::extractEntities(const std::shared_ptr<BinOpNode> bin) {
     extractEntities(bin->rightExpr);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<VariableNode> var) {
-    pkbStorage->storeVariable(var->varName);
+    pkbStorage->storeEntity(Declaration::Variable, var->varName);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<ConstantNode> cons) {
-    pkbStorage->storeConstant(cons->value);
+    pkbStorage->storeEntity(Declaration::Constant, cons->value);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<IfNode> ifNode) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(ifNode);
-    pkbStorage->storeIf(lnNum);
+    pkbStorage->storeEntity(Declaration::If, lnNum);
     extractEntities(ifNode->condExpr);
     extractStatements(ifNode->thenStmtList);
     extractStatements(ifNode->elseStmtList);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<WhileNode> whileNode) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(whileNode);
-    pkbStorage->storeWhile(lnNum);
+    pkbStorage->storeEntity(Declaration::While, lnNum);
     extractEntities(whileNode->condExpr);
     extractStatements(whileNode->stmtList);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<ReadNode> readNode) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(readNode);
-    pkbStorage->storeRead(lnNum, readNode->var->varName);
+    pkbStorage->storeEntity(Declaration::Read, lnNum, readNode->var->varName);
     extractEntities(readNode->var);
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<PrintNode> printNode) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(printNode);
-    pkbStorage->storePrint(lnNum, printNode->var->varName);
+    pkbStorage->storeEntity(Declaration::Print, lnNum, printNode->var->varName);
     extractEntities(printNode->var);
 
 }
 void EntityExtraction::extractEntities(const std::shared_ptr<CallNode> callNode) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(callNode);
-     pkbStorage->storeCall(lnNum, callNode -> proc -> procName);
+     pkbStorage->storeEntity(Declaration::Call, lnNum, callNode->proc->procName);
+     pkbStorage->storeLineCallsProc(lnNum, callNode->proc->procName);
 }
 void EntityExtraction::extractStatements(const std::vector<Stmt> stmts) {
     for (const auto& stmt : stmts) {
         std::visit([this](const auto& s) { extractEntities(s); }, stmt);
     }
 }
-
-
 
 //! Modify relations
 void EntityExtraction::extractModifyRls(const std::shared_ptr<ProgramNode> astRoot) {
@@ -126,26 +281,24 @@ void EntityExtraction::extractModifyRls(const std::shared_ptr<ProgramNode> astRo
 
     extractIndirectModifyRls();
 }
-
 void EntityExtraction::extractIndirectModifyRls() {
-    for (const auto& lineProc : pkbStorage->callLineProcSet) {
+    for (const auto& lineProc : pkbStorage->lineCallsProcSet) {
         PKB::LineNum lnNum = lineProc.first;
         PKB::Procedure proc = lineProc.second;
 
-        if (pkbStorage->modifiesPProcToVarMap.find(proc) != pkbStorage->modifiesPProcToVarMap.end()) {
-            for (const auto& var : pkbStorage->modifiesPProcToVarMap.at(proc)) {
-                pkbStorage->storeModifiesS(lnNum, var);
+        if (pkbStorage->modifiesPRelations.containsFirst(proc)) {
+            for (const auto& var : pkbStorage->modifiesPRelations.getSecondFromFirst(proc)) {
+                pkbStorage->storeRelations(Relation::ModifiesS, lnNum, var);
 
-                if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
-                    for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
-                        pkbStorage->storeModifiesS(elem, var);
+                if (pkbStorage->parentTRelations.containsSecond(lnNum)) {
+                    for (const auto& elem : pkbStorage->parentTRelations.getFirstFromSecond(lnNum)) {
+                        pkbStorage->storeRelations(Relation::ModifiesS, elem, var);
                     }
                 }
             }
         }
     }
 }
-
 void EntityExtraction::extractModifyRls(const std::shared_ptr<ProcedureNode> proc) {
     extractModifyStmts(proc->stmtList);
 
@@ -172,17 +325,17 @@ void EntityExtraction::extractModifyRls(const std::shared_ptr<ReadNode> readNode
 void EntityExtraction::extractModifyHelper(const std::shared_ptr<VariableNode> var, const Stmt stmt) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmt);
     const PKB::Procedure proc = pkbStorage->getProcedureFromLine(lnNum);
-    pkbStorage->storeModifiesS(lnNum, var->varName);
-    pkbStorage->storeModifiesP(proc, var->varName);
+    pkbStorage->storeRelations(Relation::ModifiesS, lnNum, var->varName);
+    pkbStorage->storeRelations(Relation::ModifiesP, proc, var->varName);
 
-    if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
-        for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
-            pkbStorage->storeModifiesS(elem, var->varName);
+    if (pkbStorage->parentTRelations.containsSecond(lnNum)) {
+        for (const auto& elem : pkbStorage->parentTRelations.getFirstFromSecond(lnNum)) {
+            pkbStorage->storeRelations(Relation::ModifiesS, elem, var->varName);
         }
     }
-    if (pkbStorage->callsTCalleeToCallerMap.find(proc) != pkbStorage->callsTCalleeToCallerMap.end()) {
-        for (const auto& elem : pkbStorage->callsTCalleeToCallerMap.at(proc)) {
-            pkbStorage->storeModifiesP(elem, var->varName);
+    if (pkbStorage->callsTRelations.containsSecond(proc)) {
+        for (const auto& elem : pkbStorage->callsTRelations.getFirstFromSecond(proc)) {
+            pkbStorage->storeRelations(Relation::ModifiesP, elem, var->varName);
         }
     }
 }
@@ -198,17 +351,17 @@ void EntityExtraction::extractUsesRls(const std::shared_ptr<ProgramNode> astRoot
     extractIndirectUsesRls();
 }
 void EntityExtraction::extractIndirectUsesRls() {
-    for (const auto& lineProc : pkbStorage->callLineProcSet) {
+    for (const auto& lineProc : pkbStorage->lineCallsProcSet) {
         PKB::LineNum lnNum = lineProc.first;
         PKB::Procedure proc = lineProc.second;
 
-        if (pkbStorage->usesPProcToVarMap.find(proc) != pkbStorage->usesPProcToVarMap.end()) {
-            for (const auto& var : pkbStorage->usesPProcToVarMap.at(proc)) {
-                pkbStorage->storeUsesS(lnNum, var);
+        if (pkbStorage->usesPRelations.containsFirst(proc)) {
+            for (const auto& var : pkbStorage->usesPRelations.getSecondFromFirst(proc)) {
+                pkbStorage->storeRelations(Relation::UsesS, lnNum, var);
 
-                if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
-                    for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
-                        pkbStorage->storeUsesS(elem, var);
+                if (pkbStorage->parentTRelations.containsSecond(lnNum)) {
+                    for (const auto& elem : pkbStorage->parentTRelations.getFirstFromSecond(lnNum)) {
+                        pkbStorage->storeRelations(Relation::UsesS, elem, var);
                     }
                 }
             }
@@ -268,21 +421,22 @@ void EntityExtraction::extractUsesHelper(const Expr node, const Stmt stmt) {
 void EntityExtraction::extractUsesHelper(const std::shared_ptr<VariableNode> var, const Stmt stmt) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmt);
     const PKB::Procedure proc = pkbStorage->getProcedureFromLine(lnNum);
-    pkbStorage->storeUsesS(lnNum, var->varName);
-    pkbStorage->storeUsesP(proc, var->varName);
+    pkbStorage->storeRelations(Relation::UsesS, lnNum, var->varName);
+    pkbStorage->storeRelations(Relation::UsesP, proc, var->varName);
 
-    if (pkbStorage->parentTChildToParentMap.find(lnNum) != pkbStorage->parentTChildToParentMap.end()) {
-        for (const auto& elem : pkbStorage->parentTChildToParentMap.at(lnNum)) {
-            pkbStorage->storeUsesS(elem, var->varName);
+    if (pkbStorage->parentTRelations.containsSecond(lnNum)) {
+        for (const auto& elem : pkbStorage->parentTRelations.getFirstFromSecond(lnNum)) {
+            pkbStorage->storeRelations(Relation::UsesS, elem, var->varName);
         }
     }
 
-    if (pkbStorage->callsTCalleeToCallerMap.find(proc) != pkbStorage->callsTCalleeToCallerMap.end()) {
-        for (const auto& elem : pkbStorage->callsTCalleeToCallerMap.at(proc)) {
-            pkbStorage->storeUsesP(elem, var->varName);
+    if (pkbStorage->callsTRelations.containsSecond(proc)) {
+        for (const auto& elem : pkbStorage->callsTRelations.getFirstFromSecond(proc)) {
+            pkbStorage->storeRelations(Relation::UsesP, elem, var->varName);
         }
     }
 }
+void EntityExtraction::extractUsesHelper(const std::shared_ptr<ConstantNode> constant, const Stmt stmt) {}
 
 //Follows relations
 void EntityExtraction::extractFollowsRls(const std::shared_ptr<ProgramNode> astRoot) {
@@ -298,14 +452,14 @@ void EntityExtraction::extractFollowsStmts(const std::vector<Stmt> stmts) {
     for (std::size_t i = 0; i < stmts.size() - 1; i++) {
         const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmts[i]);
         const PKB::LineNum nextLn = pkbStorage->getLineFromNode(stmts[i + 1]);
-        pkbStorage->storeFollows(lnNum, nextLn);
+        pkbStorage->storeRelations(Relation::Follows, lnNum, nextLn);
     }
 
     for (std::size_t i = 0; i < stmts.size() - 1; i++) {
         for (std::size_t j = i + 1; j < stmts.size(); j++) {
             const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmts[i]);
             const PKB::LineNum nextLn = pkbStorage->getLineFromNode(stmts[j]);
-            pkbStorage->storeFollowsT(lnNum, nextLn);
+            pkbStorage->storeRelations(Relation::FollowsT, lnNum, nextLn);
         }
     }
 
@@ -322,7 +476,6 @@ void EntityExtraction::extractFollowsStmts(const std::vector<Stmt> stmts) {
                 stmt);
     }
 }
-
 void EntityExtraction::extractFollowsRls(const std::shared_ptr<IfNode> ifNode) {
     extractFollowsStmts(ifNode->thenStmtList);
     extractFollowsStmts(ifNode->elseStmtList);
@@ -349,10 +502,10 @@ void EntityExtraction::extractParentsStmts(const std::vector<Stmt> stmts, const 
         const PKB::LineNum lastP = parent.back();
         for (const auto& stmt : stmts) {
             const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmt);
-            pkbStorage->storeParent(lastP, lnNum);
+            pkbStorage->storeRelations(Relation::Parent, lastP, lnNum);
 
             for (const auto& currP : parent) {
-                pkbStorage->storeParentT(currP, lnNum);
+                pkbStorage->storeRelations(Relation::ParentT, currP, lnNum);
             }
         }
     }
@@ -389,9 +542,8 @@ void EntityExtraction::extractCallsRls(const std::shared_ptr<ProgramNode> astRoo
 
     extractCallsTRls();
 }
-
 void EntityExtraction::extractCallsTRls() {
-    for (const auto& calls : pkbStorage->callsSet) {
+    for (const auto& calls : pkbStorage->callsRelations.getSet()) {
         PKB::CallerProc caller = calls.first;
 
         std::vector<PKB::CalleeProc> list;
@@ -399,16 +551,15 @@ void EntityExtraction::extractCallsTRls() {
         while (!list.empty()) {
             PKB::CalleeProc currCallee = list.back();
             list.pop_back();
-            for (const auto& callee : pkbStorage->callsCallerToCalleeMap.at(currCallee)) {
-                pkbStorage->storeCallsT(caller, callee);
-                if (pkbStorage->callsCallerToCalleeMap.find(callee) != pkbStorage->callsCallerToCalleeMap.end()) {
+            for (const auto& callee : pkbStorage->callsRelations.getSecondFromFirst(currCallee)) {
+                pkbStorage->storeRelations(Relation::CallsT, caller, callee);
+                if (pkbStorage->callsRelations.containsFirst(callee)) {
                     list.push_back(callee);
                 }
             }
         }
     }
 }
-
 void EntityExtraction::extractCallsRls(const std::shared_ptr<ProcedureNode> proc) {
     extractCallsStmts(proc->stmtList);
 }
@@ -417,7 +568,6 @@ void EntityExtraction::extractCallsStmts(const std::vector<Stmt> stmts) {
         std::visit([this](const auto& s) { extractCallsRls(s); }, stmt);
     }
 }
-
 void EntityExtraction::extractCallsRls(const std::shared_ptr<IfNode> ifNode) {
     extractCallsStmts(ifNode->thenStmtList);
     extractCallsStmts(ifNode->elseStmtList);
@@ -425,15 +575,13 @@ void EntityExtraction::extractCallsRls(const std::shared_ptr<IfNode> ifNode) {
 void EntityExtraction::extractCallsRls(const std::shared_ptr<WhileNode> whileNode) {
     extractCallsStmts(whileNode->stmtList);
 }
-
 void EntityExtraction::extractCallsRls(const std::shared_ptr<ReadNode>) {}
 void EntityExtraction::extractCallsRls(const std::shared_ptr<PrintNode>) {}
 void EntityExtraction::extractCallsRls(const std::shared_ptr<AssignmentNode>) {}
-
 void EntityExtraction::extractCallsRls(const std::shared_ptr<CallNode> call) {
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(call);
     const PKB::Procedure caller = pkbStorage-> getProcedureFromLine(lnNum);
-    pkbStorage->storeCalls(caller, call->proc->procName);
+    pkbStorage->storeRelations(Relation::Calls, caller, call->proc->procName);
 }
 
 //Assign pattern relations
@@ -442,17 +590,14 @@ void EntityExtraction::extractAssignPattern(const std::shared_ptr<ProgramNode> a
         extractAssignPattern(proc);
     }
 }
-
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<ProcedureNode> proc) {
     extractAssignStmts(proc->stmtList);
 }
-
 void EntityExtraction::extractAssignStmts(const std::vector<Stmt> stmts) {
     for (const auto& stmt : stmts) {
         std::visit([this](const auto& s) { extractAssignPattern(s); }, stmt);
     }
 }
-
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<AssignmentNode> assign) {
     const PKB::Variable varName = assign->var->varName;
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(assign);
@@ -460,18 +605,13 @@ void EntityExtraction::extractAssignPattern(const std::shared_ptr<AssignmentNode
         std::visit([this](const auto& s) { return s->toString(); }, assign->expr);
     pkbStorage->storeAssignPattern(varName, lnNum, exprs);
 }
-
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<IfNode> ifNode) {
     extractAssignStmts(ifNode->thenStmtList);
     extractAssignStmts(ifNode->elseStmtList);
 }
-
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<WhileNode> whileNode) {
     extractAssignStmts(whileNode->stmtList);
 }
-
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<ReadNode>) {}
-
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<CallNode>) {}
-
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<PrintNode>) {}

@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\PKBManager.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBUtils.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\interface.cpp" />
@@ -19,7 +18,6 @@
     <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\parser.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\pratt.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\token.cpp" />
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\CallsEvaluator.h" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp" />
@@ -41,10 +39,10 @@
     <ClCompile Include="..\source\TNode\TNode.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\PKBManager.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBUtils.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\pkb_adt.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\exceptions.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\interface.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\lexer.h" />
@@ -55,20 +53,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\IfPatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\WhilePatternEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsT.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\CallsTEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\FollowsEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\FollowsTEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Affects.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ModifiesSEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ModifiesPEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Next.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextT.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ParentEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\ParentTEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\UsesPEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\UsesSEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\AssignPatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsDatabase.h" />

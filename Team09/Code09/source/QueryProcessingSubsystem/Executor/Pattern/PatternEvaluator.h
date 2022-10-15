@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "../../../ProgramKnowledgeBase/PKBManager.h"
+#include "../../../ProgramKnowledgeBase/PKBStorage.h"
 #include "../../Pattern.h"
 #include "../../Declaration.h"
 #include "../ResultsDatabase/ResultsDatabase.h"
@@ -22,7 +22,7 @@ public:
 	std::string rightString;
 
 	std::vector<Declaration> declarations;
-	PKBManager* pkb;
+	PKBStorage* pkb;
 	ResultsDatabase& rdb;
 
 	std::string temporaryStrip(std::string arg);
@@ -40,7 +40,7 @@ public:
 	virtual std::unordered_set<LineNum> patternLeftSimpleRightUnderscore(Variable var) = 0;
 
 
-	PatternEvaluator(std::vector<Declaration> declarations, Pattern pattern, ResultsDatabase& rdb, PKBManager* pkb) :
+	PatternEvaluator(std::vector<Declaration> declarations, Pattern pattern, ResultsDatabase& rdb, PKBStorage* pkb) :
 		declarations(declarations), pattern(pattern), rdb(rdb), pkb(pkb),
 		patternArg(pattern.synonym), patternSynonym(pattern.synonym.name),
 		leftArg(pattern.LEFT_ARG), rightArg(pattern.RIGHT_ARG), rightString(pattern.RIGHT_ARG.value) {};

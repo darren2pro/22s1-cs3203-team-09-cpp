@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "PatternEvaluator.h"
-#include "../../../ProgramKnowledgeBase/PKBManager.h"
+#include "../../../ProgramKnowledgeBase/PKBStorage.h"
 #include <iostream>
 #include <cassert>
 
@@ -13,7 +13,7 @@ using namespace std;
 
 class IfPatternEvaluator: public PatternEvaluator {
 public:
-	IfPatternEvaluator(std::vector<Declaration> declarations,Pattern patterns, ResultsDatabase& rdb, PKBManager* pkb) :
+	IfPatternEvaluator(std::vector<Declaration> declarations,Pattern patterns, ResultsDatabase& rdb, PKBStorage* pkb) :
 	PatternEvaluator(declarations, patterns, rdb, pkb) {}; // Constructor
 
 	std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> IfPatternEvaluator::patternLeftSynonymRightStrictExpression(std::string expr) override {

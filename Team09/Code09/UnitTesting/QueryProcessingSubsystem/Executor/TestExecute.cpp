@@ -142,43 +142,39 @@ namespace UnitTesting {
                 Assert::IsTrue(results1.find("3") != results1.end());
                 Assert::IsTrue(results1.find("5") != results1.end());
 
-//                // Query 2
-//                string query2 = "proc myProc; assign myAssign; variable myVar;\n"
-//                                "Select myVar such that Modifies(myProc, myVar) pattern myAssign(myVar, _\"2 * y\"_)";
-//                Query* q2 = QueryBuilder().buildQuery(query2);
-//                unordered_set<string> results2 = executor.processQuery(q2);
-//                Assert::IsTrue(results2.size() == 1, L"Query 2 fails");
-//                // Expected results: x
-//                Assert::IsTrue(results2.find("x") != results2.end());
-//
-//                // Query 3
-//                string query3 = "proc myProc; assign myAssign; variable myVar;\n"
-//                                "Select myProc such that Modifies(myProc, myVar) pattern myAssign(myVar, _\"i - 1\"_)";
-//                Query* q3 = QueryBuilder().buildQuery(query3);
-//                unordered_set<string> results3 = executor.processQuery(q3);
-//                Assert::IsTrue(results3.size() == 1, L"Query 3 fails");
-//                // Expected results: p
-//                Assert::IsTrue(results3.find("p") != results3.end());
+                // Query 2
+                string query2 = "proc myProc; assign myAssign; variable myVar;\n"
+                                "Select myVar such that Modifies(myProc, myVar) pattern myAssign(myVar, _\"2 * y\"_)";
+                unordered_set<string> results2 = spaManager.query(query2);
+                Assert::IsTrue(results2.size() == 1, L"Query 2 fails");
+                // Expected results: x
+                Assert::IsTrue(results2.find("x") != results2.end());
 
-                //// Query 4
-                //string query4 = "assign myAssign; variable myVar;\n"
-                //                "Select myVar such that Modifies(\"p\", myVar) pattern myAssign(myVar, _)";
-                //Query* q4 = QueryBuilder().buildQuery(query4);
-                //unordered_set<string> results4 = executor.processQuery(q4);
-                //Assert::IsTrue(results4.size() == 3, L"Query 4 fails");
-                //// Expected results: x, i, z
-                //Assert::IsTrue(results4.find("x") != results4.end());
-                //Assert::IsTrue(results4.find("i") != results4.end());
-                //Assert::IsTrue(results4.find("z") != results4.end());
+                // Query 3
+                string query3 = "proc myProc; assign myAssign; variable myVar;\n"
+                                "Select myProc such that Modifies(myProc, myVar) pattern myAssign(myVar, _\"i - 1\"_)";
+                unordered_set<string> results3 = spaManager.query(query3);
+                Assert::IsTrue(results3.size() == 1, L"Query 3 fails");
+                // Expected results: p
+                Assert::IsTrue(results3.find("p") != results3.end());
 
-                //// Query 5
-                //string query5 = "proc procproc;"
-                //                "Select procproc such that Modifies(\"p\", _)";
-                //Query* q5 = QueryBuilder().buildQuery(query5);
-                //unordered_set<string> results5 = executor.processQuery(q5);
-                //Assert::IsTrue(results5.size() == 1, L"Query 5 fails");
-                //// Expected results: p
-                //Assert::IsTrue(results5.find("p") != results5.end());
+                // Query 4
+                string query4 = "assign myAssign; variable myVar;\n"
+                                "Select myVar such that Modifies(\"p\", myVar) pattern myAssign(myVar, _)";
+                unordered_set<string> results4 = spaManager.query(query4);
+                Assert::IsTrue(results4.size() == 3, L"Query 4 fails");
+                // Expected results: x, i, z
+                Assert::IsTrue(results4.find("x") != results4.end());
+                Assert::IsTrue(results4.find("i") != results4.end());
+                Assert::IsTrue(results4.find("z") != results4.end());
+
+                // Query 5
+                string query5 = "proc procproc;"
+                                "Select procproc such that Modifies(\"p\", _)";
+                unordered_set<string> results5 = spaManager.query(query5);
+                Assert::IsTrue(results5.size() == 1, L"Query 5 fails");
+                // Expected results: p
+                Assert::IsTrue(results5.find("p") != results5.end());
 
                 // Query 6
                 string query6 = "stmt ss;"
@@ -288,13 +284,12 @@ namespace UnitTesting {
                 Assert::IsTrue(results3.find("1") != results3.end());
                 Assert::IsTrue(results3.find("7") != results3.end());
 
-                // TODO: Query 4 - For future milestone
-//                string query4 = "assign a;"
-//                                "Select a pattern a(_, \"num1\")";
-//                Query* q4 = QueryBuilder().buildQuery(query4);
-//                unordered_set<string> results4 = executor.processQuery(q4);
-//                Assert::IsTrue(results4.size() == 0, L"Query 4 fails");
-                // Expected results: none
+                //TODO: Query 4 - For future milestone
+                string query4 = "assign a;"
+                                "Select a pattern a(_, \"num1\")";
+                unordered_set<string> results4 = spaManager.query(query4);
+                Assert::IsTrue(results4.size() == 0, L"Query 4 fails");
+                //Expected results: none
             }
 
             TEST_METHOD(TestSmallProc1) {

@@ -3,11 +3,11 @@
 #include <vector>
 #include <unordered_set>
 #include <iostream>
-#include "Evaluator.h"
+#include "RelationEvaluator.h"
 #include "../QueryExecutor.h"
 #include "../../Utils.h"
 
-bool Evaluator::evaluate() {
+bool RelationEvaluator::evaluate() {
 	// Check the left and right argument. If they are synonyms, must
 	// get their entire variable set from pkb and populate it first.
 	bool isLeftSynonym = leftArg.isSynonym();
@@ -125,7 +125,7 @@ bool Evaluator::evaluate() {
 	}	
 }
 
-bool Evaluator::isFirstArgumentUnderscoreValid(enum Relation::Types relType) {
+bool RelationEvaluator::isFirstArgumentUnderscoreValid(enum Relation::Types relType) {
 	if(relType == Relation::UsesP || relType == Relation::UsesS || relType == Relation::ModifiesP || relType == Relation::ModifiesS) {
 		return false;
 	}

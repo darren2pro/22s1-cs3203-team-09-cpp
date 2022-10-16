@@ -7,7 +7,7 @@
 #include "../Utils.h"
 #include "Pattern/PatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
-#include "SuchThat/Evaluator.h"
+#include "SuchThat/RelationEvaluator.h"
 
 
 template <class... Ts>
@@ -64,7 +64,7 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 // Relation execute
 bool QueryExecutor::relationExecute(Relation relations, ResultsDatabase& rdb) {
-	return Evaluator(declarations, relations, rdb, pkb).evaluate();
+	return RelationEvaluator(declarations, relations, rdb, pkb).evaluate();
 }
 
 // Pattern execute

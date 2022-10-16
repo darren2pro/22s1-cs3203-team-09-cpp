@@ -8,7 +8,6 @@
 #include "PKBUtils.h"
 #include "PatternsSetBiMap.h"
 #include "RelationsSetBiMap.h"
-#include "../SourceProcessor/SimpleInterface.h"
 #include "../TNode/TNode.h"
 #include "../QueryProcessingSubsystem/Declaration.h"
 #include "../QueryProcessingSubsystem/Relation.h"
@@ -19,7 +18,7 @@ namespace PKB {
     class PKBStorage {
     private:
         int lineNum = 1;
-        //std::unordered_map<LineNum, std::shared_ptr<TNode>> lineToNodeMap; (useless)
+        //std::unordered_map<LineNum, std::shared_ptr<TNode>> lineToNodeMap; (might be needed in MS3)
         std::unordered_map<std::shared_ptr<TNode>, LineNum> nodeToLineMap;
         std::unordered_map<LineNum, Procedure> lineToProcMap;
 
@@ -67,9 +66,6 @@ namespace PKB {
         PatternsSetBiMap assignPattern;
         PatternsSetBiMap ifPattern;
         PatternsSetBiMap whilePattern;
-        //std::unordered_set<std::pair<LineNum, Variable>, pairHash> assignLineVarSet;
-        //std::unordered_map<ExprStr, std::unordered_set<std::pair<LineNum, Variable>, pairHash>> assignExprToLineVarMap;
-        //std::unordered_map<Variable, std::unordered_set<std::pair<LineNum, ExprStr>, pairHash>> assignVarToLineExprMap;
 
         PKBStorage();
         ~PKBStorage();
@@ -81,7 +77,7 @@ namespace PKB {
         LineNum getLineFromNode(const Stmt node);
         void storeLineToProcedure(LineNum lineNum, Procedure proc);
         Procedure getProcedureFromLine(LineNum lineNum);
-        //std::shared_ptr<TNode> getNodeFromLine(const LineNum line); (useless)
+        //std::shared_ptr<TNode> getNodeFromLine(const LineNum line); (might be needed in MS3)
 
         //store CFG
         void storeProcFirstLine(const Procedure, const LineNum);

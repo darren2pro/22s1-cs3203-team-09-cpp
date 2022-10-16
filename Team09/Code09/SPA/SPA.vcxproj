@@ -41,11 +41,8 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\IfPatternEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\WhilePatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\AssignPatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsDatabase.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.h" />

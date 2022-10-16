@@ -6,10 +6,7 @@
 #include "../Pattern.h"
 #include "../Utils.h"
 #include "Pattern/PatternEvaluator.h"
-#include "Pattern/AssignPatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
-#include "Pattern/WhilePatternEvaluator.h"
-#include "Pattern/IfPatternEvaluator.h"
 #include "SuchThat/Evaluator.h"
 
 
@@ -72,18 +69,7 @@ bool QueryExecutor::relationExecute(Relation relations, ResultsDatabase& rdb) {
 
 // Pattern execute
 bool QueryExecutor::patternExecute(Pattern pattern, ResultsDatabase& rdb) {
-	switch (pattern.TYPE) {
-	case Pattern::Assign:
-		return AssignPatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
-	case Pattern::NONE:
-		return true;
-	case Pattern::While:
-		return WhilePatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
-	case Pattern::If:
-		return IfPatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
-	default:
-		return true;
-	}
+	return PatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
 }
 
 std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(std::variant<Declaration, AttrReference> target, ResultsDatabase& rdb) {

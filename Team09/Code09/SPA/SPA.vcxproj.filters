@@ -239,9 +239,6 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\AssignPatternEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClInclude>
@@ -260,12 +257,6 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\WhilePatternEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\IfPatternEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>

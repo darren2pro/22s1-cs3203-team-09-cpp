@@ -27,17 +27,17 @@ public:
 
 	std::string temporaryStrip(std::string arg);
 
-	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightRelaxedExpression(std::string expr) = 0;
-	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightStrictExpression(std::string expr) = 0;
-	virtual std::unordered_set<LineNum> patternLeftUnderscoreRightUnderScore() = 0;
+	std::unordered_set<LineNum> patternLeftUnderscoreRightRelaxedExpression(std::string expr);
+	std::unordered_set<LineNum> patternLeftUnderscoreRightStrictExpression(std::string expr);
+	std::unordered_set<LineNum> patternLeftUnderscoreRightUnderScore();
 
-	virtual std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> patternLeftSynonymRightRelaxedExpression(std::string expr) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> patternLeftSynonymRightStrictExpression(std::string expr) = 0; // For Demo in Week 5
-	virtual std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> patternLeftSynonymRightUnderscore() = 0;
+	std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> patternLeftSynonymRightRelaxedExpression(std::string expr); // For Demo in Week 5
+	std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> patternLeftSynonymRightStrictExpression(std::string expr); // For Demo in Week 5
+	std::unordered_set<std::pair<LineNum, Variable>, PKB::pairHash> patternLeftSynonymRightUnderscore();
 
-	virtual std::unordered_set<LineNum> patternLeftSimpleRightRelaxedExpression(Variable var, std::string expr) = 0; // For Demo in Week 5
-	virtual std::unordered_set<LineNum> patternLeftSimpleRightStrictExpression(Variable var, std::string expr) = 0; // For Demo in Week 5
-	virtual std::unordered_set<LineNum> patternLeftSimpleRightUnderscore(Variable var) = 0;
+	std::unordered_set<LineNum> patternLeftSimpleRightRelaxedExpression(Variable var, std::string expr); // For Demo in Week 5
+	std::unordered_set<LineNum> patternLeftSimpleRightStrictExpression(Variable var, std::string expr); // For Demo in Week 5
+	std::unordered_set<LineNum> patternLeftSimpleRightUnderscore(Variable var);
 
 
 	PatternEvaluator(std::vector<Declaration> declarations, Pattern pattern, ResultsDatabase& rdb, PKBStorage* pkb) :

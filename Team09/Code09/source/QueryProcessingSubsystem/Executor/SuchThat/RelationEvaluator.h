@@ -10,7 +10,7 @@
 using namespace PKB;
 
 //! This evaluator is the super class for all of the relations evaluators such as Modifies, Follows.
-class Evaluator {
+class RelationEvaluator {
 private:
 	std::string leftSynonym;
 	std::string rightSynonym;
@@ -23,7 +23,7 @@ public:
 	Reference leftArg;
 	Reference rightArg;
 
-	Evaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBStorage* pkb) : // Added PKB
+	RelationEvaluator(std::vector<Declaration> declarations, Relation relations, ResultsDatabase& rdb, PKBStorage* pkb) : // Added PKB
 		declarations(declarations),
 		relations(relations),
 		leftArg(relations.LEFT_ARG),

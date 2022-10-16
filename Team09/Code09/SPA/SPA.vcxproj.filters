@@ -153,7 +153,7 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.cpp">
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.cpp">
@@ -236,7 +236,7 @@
     <ClInclude Include="..\source\SourceProcessor\SimpleInterface.h">
       <Filter>Header Files\SourceProcessor</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.h">
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.h">

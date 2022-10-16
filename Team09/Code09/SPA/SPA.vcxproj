@@ -14,7 +14,7 @@
     <ClCompile Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBUtils.cpp" />
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsDatabase.cpp" />
@@ -41,7 +41,7 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsDatabase.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.h" />

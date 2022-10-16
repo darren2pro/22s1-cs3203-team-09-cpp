@@ -156,6 +156,9 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.cpp">
+      <Filter>Source Files\ProgramKnowledgeBase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\SourceProcessor\Parser.h">
@@ -251,15 +254,6 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextT.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Affects.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsT.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-	</ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
@@ -274,6 +268,12 @@
       <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
   </ItemGroup>

@@ -603,7 +603,7 @@ void EntityExtraction::extractAssignPattern(const std::shared_ptr<AssignmentNode
     const PKB::LineNum lnNum = pkbStorage->getLineFromNode(assign);
     const PKB::ExprStr  exprs =
         std::visit([this](const auto& s) { return s->toString(); }, assign->expr);
-    pkbStorage->storeAssignPattern(varName, lnNum, exprs);
+    pkbStorage->storePatterns(Pattern::Assign, varName, lnNum, exprs);
 }
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<IfNode> ifNode) {
     extractAssignStmts(ifNode->thenStmtList);

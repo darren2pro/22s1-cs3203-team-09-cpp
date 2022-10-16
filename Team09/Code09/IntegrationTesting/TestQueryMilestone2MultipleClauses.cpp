@@ -10,9 +10,9 @@ using namespace std;
 namespace IntegrationTesting {
     TEST_CLASS(TestQueryMilestone2MultipleClauses) {
             //! Remove or comment out this block to test your code
-            /*BEGIN_TEST_CLASS_ATTRIBUTE(TestQueryMilestone2MultipleClauses)
+            BEGIN_TEST_CLASS_ATTRIBUTE(TestQueryMilestone2MultipleClauses)
             TEST_CLASS_ATTRIBUTE(L"Ignore", L"true")
-            END_TEST_CLASS_ATTRIBUTE()*/
+            END_TEST_CLASS_ATTRIBUTE()
 
             string getCurrentProgram(int ref) {
                 string program1 = "procedure procOne {\n"

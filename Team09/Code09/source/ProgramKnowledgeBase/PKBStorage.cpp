@@ -117,12 +117,6 @@ namespace PKB {
         return lineToProcMap.at(lineNum);
     }
 
-    //std::shared_ptr<TNode> PKBStorage::getNodeFromLine(const LineNum line) {
-    //    if (lineToNodeMap.find(line) != lineToNodeMap.end()) {
-    //        return std::shared_ptr<TNode>(lineToNodeMap.at(line));
-    //    }
-    //}
-
     void PKBStorage::storeProcFirstLine(const Procedure proc, const LineNum firstLine) {
         procFirstLineMap[proc] = firstLine; //can only have 1 first line for each proc
     }

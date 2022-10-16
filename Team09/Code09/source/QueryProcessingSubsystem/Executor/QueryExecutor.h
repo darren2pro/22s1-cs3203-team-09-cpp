@@ -18,8 +18,8 @@ private:
 	std::vector<Declaration> declarations;
 	std::vector<std::string> tokens;
 
-	bool execute(Pattern pattern, ResultsDatabase& rdb);
-	bool execute(Relation relation, ResultsDatabase& rdb);
+	bool patternExecute(Pattern pattern, ResultsDatabase& rdb);
+	bool relationExecute(Relation relation, ResultsDatabase& rdb);
 
 public:
 	QueryExecutor(PKBStorage* pkb) : pkb(pkb) {}; // Constructor for taking in PKB

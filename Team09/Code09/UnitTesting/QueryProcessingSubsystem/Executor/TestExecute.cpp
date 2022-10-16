@@ -143,7 +143,7 @@ namespace UnitTesting {
                 Assert::IsTrue(results1.find("5") != results1.end());
 
                 // Query 2
-                string query2 = "proc myProc; assign myAssign; variable myVar;\n"
+                string query2 = "procedure myProc; assign myAssign; variable myVar;\n"
                                 "Select myVar such that Modifies(myProc, myVar) pattern myAssign(myVar, _\"2 * y\"_)";
                 unordered_set<string> results2 = spaManager.query(query2);
                 Assert::IsTrue(results2.size() == 1, L"Query 2 fails");
@@ -151,7 +151,7 @@ namespace UnitTesting {
                 Assert::IsTrue(results2.find("x") != results2.end());
 
                 // Query 3
-                string query3 = "proc myProc; assign myAssign; variable myVar;\n"
+                string query3 = "procedure myProc; assign myAssign; variable myVar;\n"
                                 "Select myProc such that Modifies(myProc, myVar) pattern myAssign(myVar, _\"i - 1\"_)";
                 unordered_set<string> results3 = spaManager.query(query3);
                 Assert::IsTrue(results3.size() == 1, L"Query 3 fails");
@@ -169,7 +169,7 @@ namespace UnitTesting {
                 Assert::IsTrue(results4.find("z") != results4.end());
 
                 // Query 5
-                string query5 = "proc procproc;"
+                string query5 = "procedure procproc;"
                                 "Select procproc such that Modifies(\"p\", _)";
                 unordered_set<string> results5 = spaManager.query(query5);
                 Assert::IsTrue(results5.size() == 1, L"Query 5 fails");

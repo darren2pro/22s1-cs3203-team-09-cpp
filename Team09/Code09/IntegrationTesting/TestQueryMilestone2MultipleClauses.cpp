@@ -310,7 +310,7 @@ namespace IntegrationTesting {
 
                 //! Query 15 - get procedures such that <something true>
                 string query15 = "procedure p, p1; call c; stmt s;  read r; \n"
-					"Select p such that Calls(p, p1) such that Modifies(r, \"num7\") such that Modifies(p, \"num7\")   ";
+                                 "Select p such that Calls(p, p1) such that Modifies(r, \"num7\") such that Modifies(p, \"num7\")   ";
                 unordered_set<string> queryResults15 = spaManager.query(query15);
                 // Expected results: nested
                 Assert::AreEqual(1, (int) queryResults15.size());
@@ -424,7 +424,7 @@ namespace IntegrationTesting {
 
                 //! Query 2 - Multiple pattern clauses on the same while loop. Once if-pattern is supported, this test case should pass.
                 string query2 = "procedure p; while w; variable v; assign a; if ifs;\n"
-                                "Select w pattern a(v, _) pattern a(_, _\"cenY\"_) pattern ifs(\"count\", _)";
+                                "Select ifs pattern a(v, _) pattern a(_, _\"cenY\"_) pattern ifs(\"count\", _, _)";
                 unordered_set<string> queryResults2 = spaManager.query(query2);
                 // Expected results: 20
                 Assert::AreEqual(1, (int) queryResults2.size());
@@ -438,7 +438,7 @@ namespace IntegrationTesting {
 
                 //! Query 3 - Pattern for while and also checking follows and parent. Once if-pattern is supported, this test case should pass.
                 string query3 = "procedure p; while w; variable v; assign a; if ifs;\n"
-                                "Select w pattern ifs(\"count\", _) such that Follows(w, ifs)";
+                                "Select w pattern ifs(\"count\", _, _) such that Follows(w, ifs)";
                 unordered_set<string> queryResults3 = spaManager.query(query3);
                 // Expected results: 15
                 Assert::AreEqual(1, (int) queryResults3.size());
@@ -452,7 +452,7 @@ namespace IntegrationTesting {
 
                 //! Query 4 - Pattern for while and checking for next. Once if-pattern is supported, this test case should pass.
                 string query4 = "procedure p; while w; variable v; assign a; if ifs;\n"
-                                "Select w pattern ifs(\"count\", _) such that Next(w, ifs)";
+                                "Select w pattern ifs(\"count\", _, _) such that Next(w, ifs)";
                 unordered_set<string> queryResults4 = spaManager.query(query4);
                 // Expected results: 15
                 Assert::AreEqual(1, (int) queryResults4.size());
@@ -466,7 +466,7 @@ namespace IntegrationTesting {
 
                 //! Query 5 - Pattern for while and checking for next*. Once if-pattern is supported, this test case should pass.
                 string query5 = "procedure p; while w; variable v; assign a; if ifs;\n"
-                                "Select w pattern ifs(\"count\", _) such that Next*(w, ifs)";
+                                "Select w pattern ifs(\"count\", _, _) such that Next*(w, ifs)";
                 unordered_set<string> queryResults5 = spaManager.query(query5);
                 // Expected results: 15
                 Assert::AreEqual(1, (int) queryResults5.size());
@@ -585,8 +585,8 @@ namespace IntegrationTesting {
                 unordered_set<string> queryResults8 = spaManager.query(query8);
                 // Expected results: 11, 12, 18
                 Assert::AreEqual(3, (int) queryResults8.size());
-				Assert::IsTrue(queryResults8.find("11") != queryResults8.end());
-				Assert::IsTrue(queryResults8.find("12") != queryResults8.end());
+                Assert::IsTrue(queryResults8.find("11") != queryResults8.end());
+                Assert::IsTrue(queryResults8.find("12") != queryResults8.end());
                 Assert::IsTrue(queryResults8.find("18") != queryResults8.end());
             }
 
@@ -683,7 +683,7 @@ namespace IntegrationTesting {
 
                 //! Query 15 - get procedures such that <something true>
                 string query15 = "procedure p, p1; call c; stmt s;  read r; \n"
-					"Select p such that Calls(p, p1) and Modifies(r, \"num7\") and Modifies(p, \"num7\")  and Uses(s, \"num5\")";
+                                 "Select p such that Calls(p, p1) and Modifies(r, \"num7\") and Modifies(p, \"num7\")  and Uses(s, \"num5\")";
                 unordered_set<string> queryResults15 = spaManager.query(query15);
                 // Expected results: nested
                 Assert::AreEqual(1, (int) queryResults15.size());
@@ -797,11 +797,11 @@ namespace IntegrationTesting {
 
                 //! Query 2 - Multiple pattern clauses on the same while loop. This test case should pass after if-pattern is implemented.
                 string query2 = "procedure p; while w; variable v; assign a; if ifs;\n"
-                                "Select w pattern a(v, _) pattern a(_, _\"cenY\"_) and ifs(\"count\", _)";
+                                "Select w pattern a(v, _) pattern a(_, _\"cenY\"_) and ifs(\"count\", _, _)";
                 unordered_set<string> queryResults2 = spaManager.query(query2);
-                // Expected results: 20
+                // Expected results: 15
                 Assert::AreEqual(1, (int) queryResults2.size());
-                Assert::IsTrue(queryResults2.find("20") != queryResults2.end());
+                Assert::IsTrue(queryResults2.find("15") != queryResults2.end());
             }
 
             TEST_METHOD(TestMultipleClausesWithAndPartTwo3) {
@@ -811,7 +811,7 @@ namespace IntegrationTesting {
 
                 //! Query 3 - Pattern for while and also checking follows and parent. This test case should pass after if-pattern is implemented.
                 string query3 = "procedure p; while w; variable v; assign a; if ifs;\n"
-                                "Select w pattern ifs(\"count\", _) such that Follows(w, ifs)";
+                                "Select w pattern ifs(\"count\", _,    _) such that Follows(w, ifs)";
                 unordered_set<string> queryResults3 = spaManager.query(query3);
                 // Expected results: 15
                 Assert::AreEqual(1, (int) queryResults3.size());
@@ -825,7 +825,7 @@ namespace IntegrationTesting {
 
                 //! Query 4 - Pattern for while and checking for next. This test case should pass after if-pattern is implemented.
                 string query4 = "procedure p; while w; variable v; assign a; if ifs;\n"
-                                "Select w pattern ifs(\"count\", _) such that Next(w, ifs)";
+                                "Select w pattern ifs(\"count\", _, _) such that Next(w, ifs)";
                 unordered_set<string> queryResults4 = spaManager.query(query4);
                 // Expected results: 15
                 Assert::AreEqual(1, (int) queryResults4.size());
@@ -839,7 +839,7 @@ namespace IntegrationTesting {
 
                 //! Query 5 - Pattern for while and checking for next*. This test case should pass after if-pattern is implemented.
                 string query5 = "procedure p; while w; variable v; assign a; if ifs;\n"
-                                "Select w pattern ifs(\"count\", _) such that Next*(w, ifs)";
+                                "Select w pattern ifs(\"count\", _, _  ) such that Next*(w, ifs)";
                 unordered_set<string> queryResults5 = spaManager.query(query5);
                 // Expected results: 15
                 Assert::AreEqual(1, (int) queryResults5.size());

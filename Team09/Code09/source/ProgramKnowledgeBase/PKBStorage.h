@@ -29,7 +29,6 @@ namespace PKB {
         std::unordered_set<std::string>* getEntityFromEnum(Declaration::DesignEntity);
         PatternsSetBiMap* getPatternFromEnum(Pattern::Types);
 
-    public:
         std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet;
 
         //CFG
@@ -67,10 +66,13 @@ namespace PKB {
         PatternsSetBiMap ifPattern;
         PatternsSetBiMap whilePattern;
 
+    public:
+
         PKBStorage();
         ~PKBStorage();
 
         void storeLineCallsProc(LineNum lineNum, Procedure proc);
+        std::unordered_set < std::pair<LineNum, Procedure>, pairHash> getLineCallsProc();
 
         //line number API
         LineNum storeLine(const Stmt node);

@@ -85,6 +85,10 @@ namespace PKB {
         lineCallsProcSet.insert(pair);
     }
 
+    std::unordered_set<std::pair<LineNum, Procedure>, pairHash> PKBStorage::getLineCallsProc() {
+        return lineCallsProcSet;
+    }
+
     LineNum PKBStorage::storeLine(const Stmt node) {
         const LineNum currLineNum = getCurrLineNumber();
         storeEntity(Declaration::Statement, currLineNum);

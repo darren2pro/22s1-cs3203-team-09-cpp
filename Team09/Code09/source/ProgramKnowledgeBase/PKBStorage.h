@@ -18,7 +18,6 @@ namespace PKB {
     class PKBStorage {
     private:
         int lineNum = 1;
-        //std::unordered_map<LineNum, std::shared_ptr<TNode>> lineToNodeMap; (might be needed in MS3)
         std::unordered_map<std::shared_ptr<TNode>, LineNum> nodeToLineMap;
         std::unordered_map<LineNum, Procedure> lineToProcMap;
 
@@ -79,7 +78,6 @@ namespace PKB {
         LineNum getLineFromNode(const Stmt node);
         void storeLineToProcedure(LineNum lineNum, Procedure proc);
         Procedure getProcedureFromLine(LineNum lineNum);
-        //std::shared_ptr<TNode> getNodeFromLine(const LineNum line); (might be needed in MS3)
 
         //store CFG
         void storeProcFirstLine(const Procedure, const LineNum);

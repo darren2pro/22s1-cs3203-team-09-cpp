@@ -129,4 +129,22 @@ public:
     void extractAssignPattern(const std::shared_ptr<CallNode>);
     void extractAssignPattern(const std::shared_ptr<PrintNode>);
     void extractProcStartAndEnd(const std::shared_ptr<ProgramNode> astRoot);
+
+    //extracting pattern relations
+    void extractPatternRls(const std::shared_ptr<ProgramNode> astRoot);
+    void extractPatternRls(const std::shared_ptr<ProcedureNode> proc);
+    void extractPatternStmts(const std::vector<Stmt> stmts);
+    void extractPatternRls(const std::shared_ptr<AssignmentNode> assign);
+    void extractPatternRls(const std::shared_ptr<IfNode> ifNode);
+    void extractPatternRls(const std::shared_ptr<WhileNode> whileNode);
+    void extractPatternRls(const std::shared_ptr<ReadNode>);
+    void extractPatternRls(const std::shared_ptr<CallNode>);
+    void extractPatternRls(const std::shared_ptr<PrintNode>);
+    void extractPatternHelper(const Expr node, const Stmt parent);
+    void extractPatternHelper(const std::shared_ptr<BinOpNode> binNode, const Stmt parent);
+    void extractPatternHelper(const std::shared_ptr<CondExprNode> node, const Stmt parent);
+    void extractPatternHelper(const std::shared_ptr<RelExprNode> relNode, const Stmt parent);
+    void extractPatternHelper(const std::shared_ptr<VariableNode> varNode, const Stmt parent);
+    void extractPatternHelper(const std::shared_ptr<ConstantNode>, const Stmt);
+
 };

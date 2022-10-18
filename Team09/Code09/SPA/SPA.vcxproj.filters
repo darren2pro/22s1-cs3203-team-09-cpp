@@ -73,12 +73,6 @@
     <Filter Include="Source Files\QueryProcessingSubsystem\Executor\ResultsDatabase">
       <UniqueIdentifier>{9ce0de09-c4ce-4e25-8ea6-1ee702782710}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ProgramKnowledgeBase\simple_parser">
-      <UniqueIdentifier>{aaec42a5-408a-485b-b24f-bb154a8ebb02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ProgramKnowledgeBase\simple_parser">
-      <UniqueIdentifier>{036f13d3-aa9c-45d1-8af1-696261556267}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\SPAManager">
       <UniqueIdentifier>{a44fa8c3-b2bb-4b62-89ab-d092f8bf9cea}</UniqueIdentifier>
     </Filter>
@@ -147,21 +141,6 @@
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.cpp">
       <Filter>Source Files\SourceProcessor\astBuilder</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\interface.cpp">
-      <Filter>Source Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\lexer.cpp">
-      <Filter>Source Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\parser.cpp">
-      <Filter>Source Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\pratt.cpp">
-      <Filter>Source Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\simple_parser\token.cpp">
-      <Filter>Source Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBUtils.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
@@ -174,8 +153,11 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.cpp">
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.cpp">
+      <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,27 +227,6 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SemanticException.h">
       <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\pkb_adt.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\exceptions.h">
-      <Filter>Header Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\interface.h">
-      <Filter>Header Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\lexer.h">
-      <Filter>Header Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\parser.h">
-      <Filter>Header Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\token.h">
-      <Filter>Header Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\simple_parser\pratt.h">
-      <Filter>Header Files\ProgramKnowledgeBase\simple_parser</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBUtils.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
@@ -275,11 +236,8 @@
     <ClInclude Include="..\source\SourceProcessor\SimpleInterface.h">
       <Filter>Header Files\SourceProcessor</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\Evaluator.h">
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\AssignPatternEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
@@ -293,17 +251,21 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
+    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\WhilePatternEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\IfPatternEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\Pattern</Filter>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>

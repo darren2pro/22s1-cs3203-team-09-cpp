@@ -6,11 +6,8 @@
 #include "../Pattern.h"
 #include "../Utils.h"
 #include "Pattern/PatternEvaluator.h"
-#include "Pattern/AssignPatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
-#include "Pattern/WhilePatternEvaluator.h"
-#include "Pattern/IfPatternEvaluator.h"
-#include "SuchThat/Evaluator.h"
+#include "SuchThat/RelationEvaluator.h"
 
 
 template <class... Ts>
@@ -34,7 +31,7 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	// Relations clause
     bool relClauseResult = true;
     for (Relation& rel : relations) {
-        if (!execute(rel, rdb)) {
+        if (!relationExecute(rel, rdb)) {
             relClauseResult = false;
             break;
         }
@@ -43,7 +40,7 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	// Patterns clause
     bool patClauseResult = true;
     for (Pattern& pat : pattern) {
-        if (!execute(pat, rdb)) {
+        if (!patternExecute(pat, rdb)) {
             patClauseResult = false;
             break;
         }
@@ -66,24 +63,13 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 
 // Relation execute
-bool QueryExecutor::execute(Relation relations, ResultsDatabase& rdb) {
-	return Evaluator(declarations, relations, rdb, pkb).evaluate();
+bool QueryExecutor::relationExecute(Relation relations, ResultsDatabase& rdb) {
+	return RelationEvaluator(declarations, relations, rdb, pkb).evaluate();
 }
 
 // Pattern execute
-bool QueryExecutor::execute(Pattern pattern, ResultsDatabase& rdb) {
-	switch (pattern.TYPE) {
-	case Pattern::Assign:
-		return AssignPatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
-	case Pattern::NONE:
-		return true;
-	case Pattern::While:
-		return WhilePatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
-	case Pattern::If:
-		return IfPatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
-	default:
-		return true;
-	}
+bool QueryExecutor::patternExecute(Pattern pattern, ResultsDatabase& rdb) {
+	return PatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
 }
 
 std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(std::variant<Declaration, AttrReference> target, ResultsDatabase& rdb) {

@@ -6,18 +6,18 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "PKBUtils.h"
+#include "PatternsSetBiMap.h"
 #include "RelationsSetBiMap.h"
-#include "../SourceProcessor/SimpleInterface.h"
 #include "../TNode/TNode.h"
 #include "../QueryProcessingSubsystem/Declaration.h"
 #include "../QueryProcessingSubsystem/Relation.h"
+#include "../QueryProcessingSubsystem/Pattern.h"
 
 
 namespace PKB {
     class PKBStorage {
     private:
         int lineNum = 1;
-        //std::unordered_map<LineNum, std::shared_ptr<TNode>> lineToNodeMap; (useless)
         std::unordered_map<std::shared_ptr<TNode>, LineNum> nodeToLineMap;
         std::unordered_map<LineNum, Procedure> lineToProcMap;
 
@@ -26,8 +26,8 @@ namespace PKB {
 
         RelationsSetBiMap<std::string, std::string>* getRelationFromEnum(Relation::Types);
         std::unordered_set<std::string>* getEntityFromEnum(Declaration::DesignEntity);
+        PatternsSetBiMap* getPatternFromEnum(Pattern::Types);
 
-    public:
         std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet;
 
         //CFG
@@ -61,21 +61,23 @@ namespace PKB {
         RelationsSetBiMap<CallerProc, CalleeProc> callsTRelations;
 
         //pattern map
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> assignLineVarSet;
-        std::unordered_map<ExprStr, std::unordered_set<std::pair<LineNum, Variable>, pairHash>> assignExprToLineVarMap;
-        std::unordered_map<Variable, std::unordered_set<std::pair<LineNum, ExprStr>, pairHash>> assignVarToLineExprMap;
+        PatternsSetBiMap assignPattern;
+        PatternsSetBiMap ifPattern;
+        PatternsSetBiMap whilePattern;
+
+    public:
 
         PKBStorage();
         ~PKBStorage();
 
         void storeLineCallsProc(LineNum lineNum, Procedure proc);
+        std::unordered_set < std::pair<LineNum, Procedure>, pairHash> getLineCallsProc();
 
         //line number API
         LineNum storeLine(const Stmt node);
         LineNum getLineFromNode(const Stmt node);
         void storeLineToProcedure(LineNum lineNum, Procedure proc);
         Procedure getProcedureFromLine(LineNum lineNum);
-        //std::shared_ptr<TNode> getNodeFromLine(const LineNum line); (useless)
 
         //store CFG
         void storeProcFirstLine(const Procedure, const LineNum);
@@ -89,9 +91,9 @@ namespace PKB {
 
         //store relations API
         void storeRelations(Relation::Types type, const std::string first, const std::string second);
-        
+
         //store patterns API
-        void storeAssignPattern(const Variable, const LineNum, const ExprStr);
+        void storePatterns(Pattern::Types type, const Variable, const LineNum, const ExprStr);
 
         //get CFG
         std::unordered_map<PrevLine, std::unordered_set<NextLine>> getCFG();
@@ -111,14 +113,14 @@ namespace PKB {
         std::unordered_set<std::pair<std::string, std::string>, pairHash> getRelationSet(Relation::Types);
 
         //get patterns API
-        std::unordered_set<LineNum> getAssignLineByVarUS(const Variable);
-        std::unordered_set<LineNum> getAssignLineByVarMatchFull(const Variable, const ExprStr);
-        std::unordered_set<LineNum> getAssignLineByVarMatchPartial(const Variable, const ExprStr);
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAssignLineVarByUS();
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAssignLineVarByMatchFull(const ExprStr);
-        std::unordered_set<std::pair<LineNum, Variable>, pairHash> getAssignLineVarByMatchPartial(const ExprStr);
-        std::unordered_set<LineNum> getAssignLineByUSUS();
-        std::unordered_set<LineNum> getAssignLineByUSMatchFull(const ExprStr);
-        std::unordered_set<LineNum> getAssignLineByUSMatchPartial(const ExprStr);
+        std::unordered_set<LineNum> getPatternLineByVar(Pattern::Types, const Variable);
+        std::unordered_set<LineNum> getPatternLineByVarMatchFull(Pattern::Types, const Variable, const ExprStr);
+        std::unordered_set<LineNum> getPatternLineByVarMatchPartial(Pattern::Types, const Variable, const ExprStr);
+        std::unordered_set<std::pair<LineNum, Variable>, pairHash> getPatternLineVarSet(Pattern::Types);
+        std::unordered_set<std::pair<LineNum, Variable>, pairHash> getPatternLineVarByMatchFull(Pattern::Types, const ExprStr);
+        std::unordered_set<std::pair<LineNum, Variable>, pairHash> getPatternLineVarByMatchPartial(Pattern::Types, const ExprStr);
+        std::unordered_set<LineNum> getPatternLineByUS(Pattern::Types);
+        std::unordered_set<LineNum> getPatternLineByUSMatchFull(Pattern::Types, const ExprStr);
+        std::unordered_set<LineNum> getPatternLineByUSMatchPartial(Pattern::Types, const ExprStr);
     };
 }

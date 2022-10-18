@@ -8,6 +8,8 @@ bool PatternEvaluator::evaluate() {
 	// Check the left and right argument. If they are synonyms, must
 	// get their entire variable set from pkb and populate it first.
 
+	auto patternType = pattern.Type;
+
 	// Pattern synonym is "a" -> pattern a(...) 
 	bool isLeftSynonym = leftArg.isSynonym();
 	bool isLeftUnderscore = leftArg.isUnderscore();
@@ -28,7 +30,7 @@ bool PatternEvaluator::evaluate() {
 
 	// left underscore
 	if (isLeftUnderscore && isRightUnderscore) {
-		std::unordered_set<std::string> result = patternLeftUnderscoreRightUnderScore();
+		std::unordered_set<std::string> result = pkb->getPatternLineByUS(patternType);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -37,7 +39,7 @@ bool PatternEvaluator::evaluate() {
 		}
 	}
 	else if (isLeftUnderscore && isRightStrict) {
-		std::unordered_set<std::string> result = patternLeftUnderscoreRightStrictExpression(rightString);
+		std::unordered_set<std::string> result = pkb->getPatternLineByUSMatchFull(patternType, rightString);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -46,7 +48,7 @@ bool PatternEvaluator::evaluate() {
 		}
 	}
 	else if (isLeftUnderscore && isRightRelaxed) {
-		std::unordered_set<std::string> result = patternLeftUnderscoreRightRelaxedExpression(rightString);
+		std::unordered_set<std::string> result = pkb->getPatternLineByUSMatchPartial(patternType, rightString);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -57,7 +59,7 @@ bool PatternEvaluator::evaluate() {
 
 	// left synonym
 	else if(isLeftSynonym && isRightUnderscore) {
-		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightUnderscore();
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = pkb->getPatternLineVarSet(patternType);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -66,7 +68,7 @@ bool PatternEvaluator::evaluate() {
 		}
 	}
 	else if (isLeftSynonym && isRightStrict) {
-		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightStrictExpression(rightString);
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = pkb->getPatternLineVarByMatchFull(patternType, rightString);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -75,7 +77,7 @@ bool PatternEvaluator::evaluate() {
 		}
 	}
 	else if (isLeftSynonym && isRightRelaxed) {
-		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = patternLeftSynonymRightRelaxedExpression(rightString);
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = pkb->getPatternLineVarByMatchPartial(patternType, rightString);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -86,7 +88,7 @@ bool PatternEvaluator::evaluate() {
 
 	// left simple -> just need to check whether it is a string. It will never be a statement number.
 	else if (isLeftSimple && isRightUnderscore) {
-		std::unordered_set<std::string> result = patternLeftSimpleRightUnderscore(leftArg.value);
+		std::unordered_set<std::string> result = pkb->getPatternLineByVar(patternType, leftArg.value);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -95,7 +97,7 @@ bool PatternEvaluator::evaluate() {
 		}
 	}
 	else if (isLeftSimple && isRightStrict) {
-		std::unordered_set<std::string> result = patternLeftSimpleRightStrictExpression(leftArg.value, rightString);
+		std::unordered_set<std::string> result = pkb->getPatternLineByVarMatchFull(patternType, leftArg.value, rightString);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -104,7 +106,7 @@ bool PatternEvaluator::evaluate() {
 		}
 	}
 	else if (isLeftSimple && isRightRelaxed) {
-		std::unordered_set<std::string> result = patternLeftSimpleRightRelaxedExpression(leftArg.value, rightString);
+		std::unordered_set<std::string> result = pkb->getPatternLineByVarMatchPartial(patternType, leftArg.value, rightString);
 		if (result.size() == 0) {
 			return false;
 		}

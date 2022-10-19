@@ -34,7 +34,7 @@ public:
 		this->value = value;
 	}
 
-	Expression() : TYPE(Types::NONE), value("") {};
+	Expression() : TYPE(Types::Underscore), value("") {};
 
 	bool operator==(const Expression& e) const {
 		return TYPE == e.TYPE && value == e.value;

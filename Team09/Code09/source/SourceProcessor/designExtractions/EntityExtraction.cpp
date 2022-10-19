@@ -1,6 +1,7 @@
 #include "EntityExtraction.h"
 #include <stack>
 #include <memory>
+#include <cassert>
 
 EntityExtraction::EntityExtraction(PKB::PKBStorage* pkb) : pkbStorage(pkb) {};
 
@@ -615,3 +616,92 @@ void EntityExtraction::extractAssignPattern(const std::shared_ptr<WhileNode> whi
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<ReadNode>) {}
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<CallNode>) {}
 void EntityExtraction::extractAssignPattern(const std::shared_ptr<PrintNode>) {}
+
+
+//pattern rls extraction
+void EntityExtraction::extractPatternRls(const std::shared_ptr<ProgramNode> astRoot) {
+    for (const auto& proc : astRoot->procList) {
+        extractPatternRls(proc);
+    }
+}
+
+void EntityExtraction::extractPatternRls(const std::shared_ptr<ProcedureNode> proc) {
+    extractPatternStmts(proc->stmtList);
+}
+
+void EntityExtraction::extractPatternStmts(const std::vector<Stmt> stmts) {
+    for (const auto& stmt : stmts) {
+        std::visit([this](const auto& s) { extractPatternRls(s); }, stmt);
+    }
+}
+
+void EntityExtraction::extractPatternRls(const std::shared_ptr<AssignmentNode> assign) {
+    const PKB::Variable varName = assign->var->varName;
+    const PKB::LineNum lnNum = pkbStorage->getLineFromNode(assign);
+    const PKB::ExprStr exprs = std::visit([](const auto& s) { return s->toString(); }, assign->expr);
+    pkbStorage->storePatterns(Pattern::Assign, varName, lnNum, exprs);
+}
+
+void EntityExtraction::extractPatternRls(const std::shared_ptr<IfNode> ifNode) {
+    extractPatternHelper(ifNode->condExpr, ifNode);
+    extractPatternStmts(ifNode->thenStmtList);
+    extractPatternStmts(ifNode->elseStmtList);
+}
+void EntityExtraction::extractPatternRls(const std::shared_ptr<WhileNode> whileNode) {
+    extractPatternHelper(whileNode->condExpr, whileNode);
+    extractPatternStmts(whileNode->stmtList);
+}
+
+void EntityExtraction::extractPatternRls(const std::shared_ptr<ReadNode>) {}
+
+void EntityExtraction::extractPatternRls(const std::shared_ptr<CallNode>) {}
+
+void EntityExtraction::extractPatternRls(const std::shared_ptr<PrintNode>) {}
+
+void EntityExtraction::extractPatternHelper(const Expr node, const Stmt parent) {
+    std::visit(
+        [this, parent](const auto& n) { extractPatternHelper(n, parent); },
+        node);
+}
+void EntityExtraction::extractPatternHelper(const std::shared_ptr<BinOpNode> binNode, const Stmt parent) {
+    extractPatternHelper(binNode->leftExpr, parent);
+    extractPatternHelper(binNode->rightExpr, parent);
+}
+void EntityExtraction::extractPatternHelper(const std::shared_ptr<CondExprNode> node, const Stmt parent) {
+    if (node == nullptr) {
+        return;
+    }
+    extractPatternHelper(node->relExpr, parent);
+    extractPatternHelper(node->leftCond, parent);
+    extractPatternHelper(node->rightCond, parent);
+}
+
+void EntityExtraction::extractPatternHelper(const std::shared_ptr<RelExprNode> relNode, const Stmt parent) {
+    if (relNode == nullptr) {
+        return;
+    }
+    extractPatternHelper(relNode->leftRel, parent);
+    extractPatternHelper(relNode->rightRel, parent);
+}
+
+void EntityExtraction::extractPatternHelper(const std::shared_ptr<VariableNode> varNode, const Stmt parent) {
+    const PKB::LineNum lnNum = pkbStorage->getLineFromNode(parent);
+    const PKB::Variable var = varNode->varName;
+    const PKB::ExprStr exprs = std::visit([](const auto& s) { return s->toString(); }, parent);
+
+    std::visit(
+        [this, lnNum, var, exprs](const auto& s) mutable {
+            using T = std::decay_t<decltype(s)>;
+            if constexpr (std::is_same_v<T, std::shared_ptr<IfNode>>) {
+                pkbStorage->storePatterns(Pattern::If, var, lnNum, exprs);
+            }
+            else if constexpr (std::is_same_v<T, std::shared_ptr<WhileNode>>) {
+                pkbStorage->storePatterns(Pattern::While, var, lnNum, exprs);
+            }
+            else {
+                assert(false);
+            }
+        },
+        parent);
+}
+void EntityExtraction::extractPatternHelper(const std::shared_ptr<ConstantNode>, const Stmt) {}

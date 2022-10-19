@@ -59,6 +59,7 @@ namespace PKB {
         RelationsSetBiMap<ParentLine, ChildLine> parentTRelations;
         RelationsSetBiMap<CallerProc, CalleeProc> callsRelations;
         RelationsSetBiMap<CallerProc, CalleeProc> callsTRelations;
+        RelationsSetBiMap<PrevLine, NextLine> nextRelations;
 
         //pattern map
         PatternsSetBiMap assignPattern;

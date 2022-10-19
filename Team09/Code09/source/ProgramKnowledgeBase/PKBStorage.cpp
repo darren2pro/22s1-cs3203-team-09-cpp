@@ -31,6 +31,8 @@ namespace PKB {
             return &callsRelations;
         case Relation::CallsT:
             return &callsTRelations;
+        case Relation::Next:
+            return &nextRelations;
         default:
             return &RelationsSetBiMap<std::string, std::string>();
         }

@@ -1,92 +1,168 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>AutoTester</name><parsing_time_taken>5.000000</parsing_time_taken>
+<name>AutoTester</name><parsing_time_taken>16.000000</parsing_time_taken>
 </info>
 <queries>
 <query>
-<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Simply selecting all procedures">1</id><querystr><![CDATA[procedure myPp; while thisW; Select myPp]]></querystr>
-<stuans>printResults,computeCentroid,procedure</stuans>
-<correct>procedure,computeCentroid,printResults</correct>
+<id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">1</id><querystr><![CDATA[procedure sppp; Select BOOLEAN such that Modifies(sppp, "cenX")]]></querystr>
+<stuans>SemanticError</stuans>
+<correct>TRUE</correct>
+<time_taken>10.000000</time_taken>
+<failed>
+<missing>TRUE</missing>
+<additional>SemanticError</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">2</id><querystr><![CDATA[procedure p; Select BOOLEAN      such that Modifies(p, "x")]]></querystr>
+<stuans>SemanticError</stuans>
+<correct>TRUE</correct>
+<time_taken>8.000000</time_taken>
+<failed>
+<missing>TRUE</missing>
+<additional>SemanticError</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">3</id><querystr><![CDATA[procedure p; variable v;  Select BOOLEAN such that Modifies("readPoint", v)]]></querystr>
+<stuans>SemanticError</stuans>
+<correct>TRUE</correct>
+<time_taken>10.000000</time_taken>
+<failed>
+<missing>TRUE</missing>
+<additional>SemanticError</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">4</id><querystr><![CDATA[procedure p; variable v; call ccc;  Select BOOLEAN  such that Modifies("printResults", v)]]></querystr>
+<stuans>SemanticError</stuans>
+<correct>FALSE</correct>
 <time_taken>9.000000</time_taken>
-<passed/>
+<failed>
+<missing>FALSE</missing>
+<additional>SemanticError</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
 </query>
 <query>
-<id ReturnTuple="1" Modifies="1" UnnamedVar="1" SuchThat="1" CondNum="4" RelNum="1" comment="ModifiesP with underscore">2</id><querystr><![CDATA[variable aV; procedure myPp; while thisW; Select myPp such that Modifies(myPp, _)]]></querystr>
-<stuans>printResults,computeCentroid,procedure</stuans>
-<correct>procedure,computeCentroid,printResults</correct>
-<time_taken>13.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="ModifiesP with variable">3</id><querystr><![CDATA[variable aV; procedure myPp; while thisW; Select myPp such that Modifies(myPp, aV)]]></querystr>
-<stuans>printResults,computeCentroid,procedure</stuans>
-<correct>procedure,computeCentroid,printResults</correct>
-<time_taken>16.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="ModifiesP with constant">4</id><querystr><![CDATA[variable aV; procedure myPp; while thisW; Select myPp such that Modifies(myPp, "flag")]]></querystr>
-<stuans>procedure</stuans>
-<correct>procedure</correct>
-<time_taken>16.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Uses="1" SuchThat="1" CondNum="3" RelNum="1" comment="UsesP for x">5</id><querystr><![CDATA[variable aV; procedure myPp; while thisW; Select myPp such that Uses(myPp, "x")]]></querystr>
-<stuans></stuans>
-<correct></correct>
-<time_taken>17.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Uses="1" SuchThat="1" CondNum="3" RelNum="1" comment="UsesP for y">6</id><querystr><![CDATA[variable aV; procedure myPp; while thisW; Select myPp such that Uses(myPp, "y")]]></querystr>
-<stuans>printResults,computeCentroid,procedure</stuans>
-<correct>procedure,computeCentroid,printResults</correct>
-<time_taken>12.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" UnnamedVar="1" Pattern="1" CondNum="3" RelNum="0" comment="assign pattern underscore">7</id><querystr><![CDATA[variable aV; procedure myPp; assign kV; Select kV pattern kV(aV, _)]]></querystr>
-<stuans>1,2,4,5</stuans>
-<correct>1,2,4,5</correct>
-<time_taken>12.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Pattern="1" CondNum="2" RelNum="0" comment="assign pattern full">8</id><querystr><![CDATA[variable aV; procedure myPp; assign kV; Select kV pattern kV(aV, "0")]]></querystr>
-<stuans>1,5</stuans>
-<correct>1,5</correct>
-<time_taken>13.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" UnnamedVar="2" Pattern="1" CondNum="4" RelNum="0" comment="assign pattern partial">9</id><querystr><![CDATA[variable aV; procedure myPp; assign kV; Select kV pattern kV(aV, _"100 * 5"_)]]></querystr>
-<stuans>4</stuans>
-<correct>4</correct>
-<time_taken>19.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Calls="1" UnnamedVar="1" SuchThat="1" CondNum="4" RelNum="1" comment="[Advanced SPA] Calls">10</id><querystr><![CDATA[variable aV; procedure myPp; while thisW; Select myPp such that Calls(myPp, _)]]></querystr>
-<stuans>printResults,procedure</stuans>
-<correct>procedure,printResults</correct>
-<time_taken>13.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" Callsstar="1" SuchThat="1" CondNum="3" RelNum="1" comment="[Advanced SPA] Calls*">11</id><querystr><![CDATA[variable aV; procedure myPp; while thisW; Select myPp such that Calls*(myPp, "computeCentroid")]]></querystr>
-<stuans>printResults,procedure</stuans>
-<correct>procedure,printResults</correct>
-<time_taken>13.000000</time_taken>
-<passed/>
-</query>
-<query>
-<id ReturnTuple="1" CondNum="1" RelNum="0" comment="Simply get all call statements">12</id><querystr><![CDATA[variable aV; procedure myPp; while thisW; call kkkC; Select kkkC]]></querystr>
-<stuans>3,8</stuans>
-<correct>3,8</correct>
+<id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">5</id><querystr><![CDATA[procedure p; variable v; call ccc; Select BOOLEAN  such that Modifies("main", "random")]]></querystr>
+<stuans>SemanticError</stuans>
+<correct>FALSE</correct>
 <time_taken>11.000000</time_taken>
-<passed/>
+<failed>
+<missing>FALSE</missing>
+<additional>SemanticError</additional>
+<summary>
+<expected>1</expected>
+<matched>0</matched>
+<missing>1</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">6</id><querystr><![CDATA[procedure p; variable BOOLEAN;  Select BOOLEAN such that Modifies("readPoint", v)]]></querystr>
+<stuans>SemanticError</stuans>
+<correct>x,y</correct>
+<time_taken>14.000000</time_taken>
+<failed>
+<missing>x,y</missing>
+<additional>SemanticError</additional>
+<summary>
+<expected>2</expected>
+<matched>0</matched>
+<missing>2</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">7</id><querystr><![CDATA[procedure p; variable BOOLEAN; call ccc;  Select BOOLEAN such that Modifies("printResults", v)]]></querystr>
+<stuans>SemanticError</stuans>
+<correct></correct>
+<time_taken>16.000000</time_taken>
+<failed>
+<missing></missing>
+<additional>SemanticError</additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" UnnamedVar="5" Pattern="4" CondNum="10" RelNum="0" comment="Selecting tuple">8</id><querystr><![CDATA[procedure p; while w; variable v; assign a;  Select <w, p> pattern a(v, _) pattern a(_, _"cenY"_) pattern w("y", _) pattern w("x", _)]]></querystr>
+<stuans>SyntaxError</stuans>
+<correct>15 main,15 readPoint,15 printResults,15 computeCentroid</correct>
+<time_taken>15.000000</time_taken>
+<failed>
+<missing>15 computeCentroid,15 main,15 printResults,15 readPoint</missing>
+<additional>SyntaxError</additional>
+<summary>
+<expected>4</expected>
+<matched>0</matched>
+<missing>4</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting tuple">9</id><querystr><![CDATA[procedure sppp;  call ccc;   Select <sppp, ccc> such that Modifies(sppp, "cenX")]]></querystr>
+<stuans>SyntaxError</stuans>
+<correct>computeCentroid 2,computeCentroid 3,computeCentroid 14,computeCentroid 19,main 2,main 3,main 14,main 19</correct>
+<time_taken>7.000000</time_taken>
+<failed>
+<missing>computeCentroid 14,computeCentroid 19,computeCentroid 2,computeCentroid 3,main 14,main 19,main 2,main 3</missing>
+<additional>SyntaxError</additional>
+<summary>
+<expected>8</expected>
+<matched>0</matched>
+<missing>8</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting tuple">10</id><querystr><![CDATA[procedure p; variable v;  read rr;  Select <v, p, rr> such that Modifies("readPoint", v)]]></querystr>
+<stuans>SyntaxError</stuans>
+<correct>x main 4,x readPoint 4,x printResults 4,x computeCentroid 4,x main 5,x readPoint 5,x printResults 5,x computeCentroid 5,y main 4,y readPoint 4,y printResults 4,y computeCentroid 4,y main 5,y readPoint 5,y printResults 5,y computeCentroid 5</correct>
+<time_taken>12.000000</time_taken>
+<failed>
+<missing>x computeCentroid 4,x computeCentroid 5,x main 4,x main 5,x printResults 4,x printResults 5,x readPoint 4,x readPoint 5,y computeCentroid 4,y computeCentroid 5,y main 4,y main 5,y printResults 4,y printResults 5,y readPoint 4,y readPoint 5</missing>
+<additional>SyntaxError</additional>
+<summary>
+<expected>16</expected>
+<matched>0</matched>
+<missing>16</missing>
+<additional>1</additional>
+</summary>
+</failed>
 </query>
 </queries>
 </test_results>

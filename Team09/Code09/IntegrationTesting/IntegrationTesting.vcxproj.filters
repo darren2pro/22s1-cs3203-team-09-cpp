@@ -41,5 +41,8 @@
     <ClCompile Include="TestQueryMilestone2MultipleClauses.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestBooleanTuple.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

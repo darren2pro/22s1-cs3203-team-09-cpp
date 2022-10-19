@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+#include <SourceProcessor/SimpleInterface.h>
 #include <SourceProcessor/Parser.h>
 #include <SourceProcessor/astBuilder/SimpleAstBuilder.h>
 #include <SourceProcessor/exceptions/SimpleInvalidSyntaxException.h>
@@ -478,6 +479,11 @@ namespace UnitTesting {
 
                 Logger::WriteMessage("[TestComplexRelCond] Printing AST\n");
                 Logger::WriteMessage(programNode->toString().c_str());
+            }
+
+            TEST_METHOD(TestArithmeticExpression) {
+                string expr = "kkk + 100 * (1 + 1)";
+                SimpleInterface::parseExpression(expr);
             }
     };
 }

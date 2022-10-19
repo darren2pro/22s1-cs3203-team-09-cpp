@@ -112,6 +112,10 @@ namespace PKB {
         std::unordered_set<std::string> getRelationAllSecond(Relation::Types);
         std::unordered_set<std::string> getRelationAllFirst(Relation::Types);
         std::unordered_set<std::pair<std::string, std::string>, pairHash> getRelationSet(Relation::Types);
+        std::unordered_set<PKB::PrevLine> getPreviousLineT(const PKB::NextLine);
+        std::unordered_set<PKB::NextLine> getNextLineT(const PKB::PrevLine);
+        void getPreviousLineTH(const PKB::LineNum, std::shared_ptr<std::unordered_set<LineNum>>); //helper
+        void getNextLineTH(const PKB::LineNum, std::shared_ptr<std::unordered_set<LineNum>>);; //helper
 
         //get patterns API
         std::unordered_set<LineNum> getPatternLineByVar(Pattern::Types, const Variable);

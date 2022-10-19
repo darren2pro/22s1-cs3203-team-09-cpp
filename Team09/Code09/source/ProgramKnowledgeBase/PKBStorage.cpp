@@ -213,6 +213,60 @@ namespace PKB {
         return relation->getSet();
     }
 
+    //NextT
+    std::unordered_set<PKB::NextLine> PKBStorage::getNextLineT(const PKB::PrevLine prevLine) {
+        std::shared_ptr<std::unordered_set<LineNum>> visited =std::make_shared<std::unordered_set<LineNum>>();
+        auto toVisit = getRelationSecondFromFirst(Relation::Next, prevLine);
+        if (!toVisit.empty()) {
+            for (const auto& neighbour : toVisit) {
+                getNextLineTH(neighbour, visited);
+            }
+            if (visited->size() > 0) {
+                return std::unordered_set<NextLine>(*visited.get());
+            }
+        }
+        return *visited;
+    }
+
+    void PKBStorage::getNextLineTH(const PKB::LineNum currLine, std::shared_ptr<std::unordered_set<LineNum>> visited) {
+        if (visited->find(currLine) != visited->end()) {
+            return;
+        }
+        visited->insert(currLine);
+        auto toVisit = getRelationSecondFromFirst(Relation::Next, currLine);
+        if (!toVisit.empty()) {
+            for (const auto& neighbour : toVisit) {
+                getNextLineTH(neighbour, visited);
+            }
+        }
+    }
+
+    std::unordered_set<PKB::PrevLine> PKBStorage::getPreviousLineT(const PKB::PrevLine nextLine) {
+        std::shared_ptr<std::unordered_set<LineNum>> visited = std::make_shared<std::unordered_set<LineNum>>();
+        auto toVisit = getRelationFirstFromSecond(Relation::Next, nextLine);
+        if (!toVisit.empty()) {
+            for (const auto& neighbour : toVisit) {
+                getPreviousLineTH(neighbour, visited);
+            }
+            if (visited->size() > 0) {
+                return std::unordered_set<PrevLine>(*visited.get());
+            }
+        }
+        return *visited;
+    }
+
+    void PKBStorage::getPreviousLineTH(const PKB::LineNum currLine, std::shared_ptr<std::unordered_set<LineNum>> visited) {
+        if (visited->find(currLine) != visited->end()) {
+            return;
+        }
+        visited->insert(currLine);
+        auto toVisit = getRelationFirstFromSecond(Relation::Next, currLine);
+        if (!toVisit.empty()) {
+            for (const auto& neighbour : toVisit) {
+                getPreviousLineTH(neighbour, visited);
+            }
+        }
+    }
 
     // Pattern functions
 

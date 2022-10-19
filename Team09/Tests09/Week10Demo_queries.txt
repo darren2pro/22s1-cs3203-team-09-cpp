@@ -1,0 +1,50 @@
+1 - Selecting boolean
+procedure sppp;
+Select BOOLEAN such that Modifies(sppp, "cenX")
+TRUE
+5000
+2 - Selecting boolean
+procedure p;
+Select BOOLEAN      such that Modifies(p, "x")
+TRUE
+5000
+3 - Selecting boolean
+procedure p; variable v; 
+Select BOOLEAN such that Modifies("readPoint", v)
+TRUE
+5000
+4 - Selecting boolean
+procedure p; variable v; call ccc; 
+Select BOOLEAN  such that Modifies("printResults", v)
+FALSE
+5000
+5 - Selecting boolean
+procedure p; variable v; call ccc;
+Select BOOLEAN  such that Modifies("main", "random")
+FALSE
+5000
+6 - Selecting boolean
+procedure p; variable BOOLEAN; 
+Select BOOLEAN such that Modifies("readPoint", v)
+x, y
+5000
+7 - Selecting boolean
+procedure p; variable BOOLEAN; call ccc; 
+Select BOOLEAN such that Modifies("printResults", v)
+none
+5000
+8 - Selecting tuple
+procedure p; while w; variable v; assign a; 
+Select <w, p> pattern a(v, _) pattern a(_, _"cenY"_) pattern w("y", _) pattern w("x", _)
+15 main, 15 readPoint, 15 printResults, 15 computeCentroid
+5000
+9 - Selecting tuple
+procedure sppp;  call ccc;  
+Select <sppp, ccc> such that Modifies(sppp, "cenX")
+computeCentroid 2, computeCentroid 3, computeCentroid 14, computeCentroid 19, main 2, main 3, main 14, main 19
+5000
+10 - Selecting tuple
+procedure p; variable v;  read rr; 
+Select <v, p, rr> such that Modifies("readPoint", v)
+x main 4, x readPoint 4, x printResults 4, x computeCentroid 4, x main 5, x readPoint 5, x printResults 5, x computeCentroid 5, y main 4, y readPoint 4, y printResults 4, y computeCentroid 4, y main 5, y readPoint 5, y printResults 5, y computeCentroid 5
+5000

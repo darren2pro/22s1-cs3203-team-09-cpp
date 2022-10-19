@@ -77,7 +77,7 @@ namespace IntegrationTesting {
 
                 //! Query 1
                 string query1 = "procedure sppp; \n"
-                                "Select BOOLEAN such that Modifies(sppp, \\\"cenX\\\")";
+                                "Select BOOLEAN such that Modifies(sppp, \"cenX\")";
                 unordered_set <string> results1 = spaManager.query(query1);
                 // Expected results: TRUE
                 Assert::AreEqual(1, (int) results1.size());
@@ -91,7 +91,7 @@ namespace IntegrationTesting {
 
                 //! Query 2
                 string query2 = "procedure p; \n"
-                                "Select BOOLEAN      such that Modifies(p, \\\"x\\\")";
+                                "Select BOOLEAN      such that Modifies(p, \"x\")";
                 unordered_set <string> results2 = spaManager.query(query2);
                 // Expected results: TRUE
                 Assert::AreEqual(1, (int) results2.size());
@@ -219,7 +219,7 @@ namespace IntegrationTesting {
                  * Expected results:
                  * x main 4, x readPoint 4, x printResults 4, x computeCentroid 4,
                  * x main 5, x readPoint 5, x printResults 5, x computeCentroid 5,
-                 * y main 4, y readPoint 4, y printResults 4, y computeCentroid 4
+                 * y main 4, y readPoint 4, y printResults 4, y computeCentroid 4,
                  * y main 5, y readPoint 5, y printResults 5, y computeCentroid 5
                  */
                 Assert::AreEqual(16, (int) results3.size());

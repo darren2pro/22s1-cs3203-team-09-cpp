@@ -10,9 +10,9 @@ using namespace std;
 namespace IntegrationTesting {
     TEST_CLASS(TestQueryMilestone2WithClWhileIfPattern) {
             //! Remove or comment out this block to test your code
-            BEGIN_TEST_CLASS_ATTRIBUTE(TestQueryMilestone2WithClWhileIfPattern)
+            /*BEGIN_TEST_CLASS_ATTRIBUTE(TestQueryMilestone2WithClWhileIfPattern)
             TEST_CLASS_ATTRIBUTE(L"Ignore", L"true")
-            END_TEST_CLASS_ATTRIBUTE()
+            END_TEST_CLASS_ATTRIBUTE()*/
 
             string getCurrentProgram(int ref) {
                 string program1 = "procedure procOne {\n"
@@ -478,7 +478,7 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 2 - Which if statement has iii as control variable?
-                string query2 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query2 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                 "Select ifs pattern ifs   ( \"iii\" ,  _ , _ )    \t";
                 unordered_set<string> queryResults2 = spaManager.query(query2);
                 // Expected results: 11
@@ -492,12 +492,13 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 3 - Using variable synonyms. Select all ifs that use a variable
-                string query3 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query3 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                 "Select ifs pattern ifs   ( vv ,  _ , _ )  \t";
                 unordered_set<string> queryResults3 = spaManager.query(query3);
                 // Expected results: 11
-                Assert::AreEqual(1, (int) queryResults3.size());
+                Assert::AreEqual(2, (int) queryResults3.size());
                 Assert::IsTrue(queryResults3.find("11") != queryResults3.end());
+                Assert::IsTrue(queryResults3.find("15") != queryResults3.end());
             }
 
             TEST_METHOD(TestWhileIfPatternClausePartOne4) {
@@ -506,12 +507,13 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 4 - Using variable synonyms. Select all the variables that appear in an ifs
-                string query4 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query4 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                 "Select vv pattern ifs   ( vv ,  _ , _ )  \t";
                 unordered_set<string> queryResults4 = spaManager.query(query4);
                 // Expected results: iii
-                Assert::AreEqual(1, (int) queryResults4.size());
+                Assert::AreEqual(2, (int) queryResults4.size());
                 Assert::IsTrue(queryResults4.find("iii") != queryResults4.end());
+                Assert::IsTrue(queryResults4.find("yyy") != queryResults4.end());
             }
 
             TEST_METHOD(TestWhileIfPatternClausePartOne5) {
@@ -520,7 +522,7 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 5 - Using variable synonyms. Select all the variables that appear in an while stmt
-                string query5 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query5 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                 "Select vv pattern w   ( vv ,  _ )  \t";
                 unordered_set<string> queryResults5 = spaManager.query(query5);
                 // Expected results: kkk
@@ -534,7 +536,7 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 6 - Using variable synonyms. Select all the while stmt that use a variable
-                string query6 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query6 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                 "Select w pattern w   ( vv ,  _ )  \t";
                 unordered_set<string> queryResults6 = spaManager.query(query6);
                 // Expected results: 12, 13
@@ -549,7 +551,7 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 7 - Multiple clauses including pattern
-                string query7 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query7 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                 "Select w pattern w   ( vv ,  _ )  with w.stmt# = 12 \t";
                 unordered_set<string> queryResults7 = spaManager.query(query7);
                 // Expected results: 12
@@ -563,7 +565,7 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 8 - Multiple clauses including pattern
-                string query8 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query8 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                 "Select w pattern w   ( vv ,  _ )  with w.stmt# = 12 with w.stmt# = 13 \t";
                 unordered_set<string> queryResults8 = spaManager.query(query8);
                 // Expected results: none
@@ -576,7 +578,7 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 9 - Multiple clauses including pattern for assign
-                string query9 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query9 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                 "Select a pattern a   ( vv ,  _ )  pattern w (vv, _)  \t";
                 unordered_set<string> queryResults9 = spaManager.query(query9);
                 // Expected results: none
@@ -589,7 +591,7 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 10 - Multiple clauses including pattern for assign
-                string query10 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query10 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                  "Select a pattern a   ( vv ,  _ )  pattern ifs (vv,  _ , _) \t";
                 unordered_set<string> queryResults10 = spaManager.query(query10);
                 // Expected results: none
@@ -602,12 +604,13 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 11 - Get ifs that has a control variable and also modifies a variable
-                string query11 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query11 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                  "Select ifs pattern ifs (vv,  _ , _) such that Modifies(ifs, _) \t";
                 unordered_set<string> queryResults11 = spaManager.query(query11);
                 // Expected results: 11
-                Assert::AreEqual(1, (int) queryResults11.size());
+                Assert::AreEqual(2, (int) queryResults11.size());
                 Assert::IsTrue(queryResults11.find("11") != queryResults11.end());
+                Assert::IsTrue(queryResults11.find("15") != queryResults11.end());
             }
 
             TEST_METHOD(TestWhileIfPatternClausePartOne12) {
@@ -616,7 +619,7 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 12 - Get while that has a control variable and also modifies a variable
-                string query12 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs\n"
+                string query12 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c; if ifs;\n"
                                  "Select w pattern w (vv,  _ ) such that Modifies(w, _) \t";
                 unordered_set<string> queryResults12 = spaManager.query(query12);
                 // Expected results: 12, 13

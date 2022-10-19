@@ -113,11 +113,11 @@ namespace PKB {
                 node);
     }
 
-    void PKBStorage::storeLineToProcedure(LineNum lineNum, Procedure proc) {
+    void PKBStorage::storeLineToProcedure(const LineNum lineNum, const Procedure proc) {
         lineToProcMap[lineNum] = proc;
     }
 
-    Procedure PKBStorage::getProcedureFromLine(LineNum lineNum) {
+    Procedure PKBStorage::getProcedureFromLine(const LineNum lineNum) {
         return lineToProcMap.at(lineNum);
     }
 

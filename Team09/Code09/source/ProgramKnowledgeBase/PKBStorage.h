@@ -76,8 +76,8 @@ namespace PKB {
         //line number API
         LineNum storeLine(const Stmt node);
         LineNum getLineFromNode(const Stmt node);
-        void storeLineToProcedure(LineNum lineNum, Procedure proc);
-        Procedure getProcedureFromLine(LineNum lineNum);
+        void storeLineToProcedure(const LineNum lineNum, const Procedure proc);
+        Procedure getProcedureFromLine(const LineNum lineNum);
 
         //store CFG
         void storeProcFirstLine(const Procedure, const LineNum);

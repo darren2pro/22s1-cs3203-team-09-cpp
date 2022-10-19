@@ -167,5 +167,78 @@ namespace IntegrationTesting {
                 // Expected results: empty
                 Assert::AreEqual(0, (int) results7.size());
             }
+
+            TEST_METHOD(TestSelectTuple1) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
+
+                //! Query 1
+                string query1 = "procedure p; while w; variable v; assign a; \n"
+                                "Select <w, p> pattern a(v, _) pattern a(_, _\"cenY\"_) pattern w(\"y\", _) pattern w(\"x\", _)";
+                unordered_set<string> results1 = spaManager.query(query1);
+                // Expected results: 15 main, 15 readPoint, 15 printResults, 15 computeCentroid
+                Assert::AreEqual(4, (int) results1.size());
+                Assert::IsTrue(results1.find("15 main") != results1.end());
+                Assert::IsTrue(results1.find("15 readPoint") != results1.end());
+                Assert::IsTrue(results1.find("15 printResults") != results1.end());
+                Assert::IsTrue(results1.find("15 computeCentroid") != results1.end());
+            }
+
+            TEST_METHOD(TestSelectTuple2) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
+
+                //! Query 2
+                string query2 = "procedure sppp;  call ccc;  \n"
+                                "Select <sppp, ccc> such that Modifies(sppp, \"cenX\")";
+                unordered_set<string> results2 = spaManager.query(query2);
+                // Expected results: computeCentroid 2, computeCentroid 3, computeCentroid 14, computeCentroid 19, main 2, main 3, main 14, main 19
+                Assert::AreEqual(8, (int) results2.size());
+                Assert::IsTrue(results2.find("computeCentroid 2") != results2.end());
+                Assert::IsTrue(results2.find("computeCentroid 3") != results2.end());
+                Assert::IsTrue(results2.find("computeCentroid 14") != results2.end());
+                Assert::IsTrue(results2.find("computeCentroid 19") != results2.end());
+                Assert::IsTrue(results2.find("main 2") != results2.end());
+                Assert::IsTrue(results2.find("main 3") != results2.end());
+                Assert::IsTrue(results2.find("main 14") != results2.end());
+                Assert::IsTrue(results2.find("main 19") != results2.end());
+            }
+
+            TEST_METHOD(TestSelectTuple3) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
+
+                //! Query 3
+                string query3 = "procedure p; variable v;  read rr; \n"
+                                "Select <v, p, rr> such that Modifies(\"readPoint\", v)";
+                unordered_set <string> results3 = spaManager.query(query3);
+                /*
+                 * Expected results:
+                 * x main 4, x readPoint 4, x printResults 4, x computeCentroid 4,
+                 * x main 5, x readPoint 5, x printResults 5, x computeCentroid 5,
+                 * y main 4, y readPoint 4, y printResults 4, y computeCentroid 4
+                 * y main 5, y readPoint 5, y printResults 5, y computeCentroid 5
+                 */
+                Assert::AreEqual(16, (int) results3.size());
+                Assert::IsTrue(results3.find("x main 4") != results3.end());
+                Assert::IsTrue(results3.find("x readPoint 4") != results3.end());
+                Assert::IsTrue(results3.find("x printResults 4") != results3.end());
+                Assert::IsTrue(results3.find("x computeCentroid 4") != results3.end());
+                Assert::IsTrue(results3.find("x main 5") != results3.end());
+                Assert::IsTrue(results3.find("x readPoint 5") != results3.end());
+                Assert::IsTrue(results3.find("x printResults 5") != results3.end());
+                Assert::IsTrue(results3.find("x computeCentroid 5") != results3.end());
+                Assert::IsTrue(results3.find("y main 4") != results3.end());
+                Assert::IsTrue(results3.find("y readPoint 4") != results3.end());
+                Assert::IsTrue(results3.find("y printResults 4") != results3.end());
+                Assert::IsTrue(results3.find("y computeCentroid 4") != results3.end());
+                Assert::IsTrue(results3.find("y main 5") != results3.end());
+                Assert::IsTrue(results3.find("y readPoint 5") != results3.end());
+                Assert::IsTrue(results3.find("y printResults 5") != results3.end());
+                Assert::IsTrue(results3.find("y computeCentroid 5") != results3.end());
+            }
     };
 }

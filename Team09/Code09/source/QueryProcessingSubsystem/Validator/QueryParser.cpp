@@ -177,7 +177,6 @@ Reference QueryParser::parseStmtRef(std::vector<Declaration::DesignEntity> de) {
 }
 
 std::variant<Declaration, AttrReference> QueryParser::parseTarget() {
-	match("Select");
 	std::string strelem = match(parser::synonym_re);
 
 	// checks if result is a declared synonym in the declaration list
@@ -198,7 +197,7 @@ Result QueryParser::parseSelect() {
 	match("Select");
 
 	if (current_token == "BOOLEAN") {		// BOOLEAN select clause
-		match("Boolean");
+		match("BOOLEAN");
 		return Result(Result::Types::Boolean);
 	}
 	else {	// Tuple select clause
@@ -209,6 +208,7 @@ Result QueryParser::parseSelect() {
 			vars.push_back(parseTarget());
 
 			while (current_token == ",") {
+				current_token = getNextToken();
 				vars.push_back(parseTarget());
 			}
 

@@ -6,6 +6,7 @@
 #include "ResultsTables.h"
 #include "../../../ProgramKnowledgeBase/PKBStorage.h"
 #include "../../Declaration.h"
+#include "../../AttrReference.h"
 
 typedef std::string Variable;
 typedef std::string Value;
@@ -26,6 +27,10 @@ public:
 	ResultsDatabase() :
 		allVariables(std::vector<Variable>()),
 		allResultsTables(std::vector<ResultsTables>()) {};
+
+	// Methods for fetching results
+	bool getBoolean();
+	std::vector<std::vector<std::string>> getMultipleTarget(std::vector<std::string> allSynonyms);
 
     /**
      * Checks whether the given variable already exists within this results database. Being present here means

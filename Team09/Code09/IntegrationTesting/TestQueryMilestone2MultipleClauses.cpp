@@ -9,10 +9,10 @@ using namespace std;
 
 namespace IntegrationTesting {
     TEST_CLASS(TestQueryMilestone2MultipleClauses) {
-            //! Remove or comment out this block to test your code
-            BEGIN_TEST_CLASS_ATTRIBUTE(TestQueryMilestone2MultipleClauses)
-            TEST_CLASS_ATTRIBUTE(L"Ignore", L"true")
-            END_TEST_CLASS_ATTRIBUTE()
+            ////! Remove or comment out this block to test your code
+            //BEGIN_TEST_CLASS_ATTRIBUTE(TestQueryMilestone2MultipleClauses)
+            //TEST_CLASS_ATTRIBUTE(L"Ignore", L"true")
+            //END_TEST_CLASS_ATTRIBUTE()
 
             string getCurrentProgram(int ref) {
                 string program1 = "procedure procOne {\n"
@@ -239,7 +239,7 @@ namespace IntegrationTesting {
 
                 //! Query 10 - similar to 9 but additional pattern for assign. Should not affect results.
                 string query10 = "assign a; stmt parentS, childS; procedure p; \n"
-                                 "Select parentS such that Parent*(parentS, childS) such that Modifies(childS, \"num6\") pattern a(\"beingModified\", \"num1  +   num2\")";
+                                 "Select parentS such that Parent(7, 8) and Parent*(parentS, childS) such that Modifies(childS, \"num6\") pattern a(\"beingModified\", \"num1  +   num2\") and a(\"beingModified\", _\"(num1)\"_)";
                 unordered_set<string> queryResults10 = spaManager.query(query10);
                 // Expected results: 12, 11
                 Assert::AreEqual(2, (int) queryResults10.size());
@@ -357,6 +357,7 @@ namespace IntegrationTesting {
                 // Expected results: 15, 13
                 Assert::AreEqual(2, (int) queryResults18.size());
                 Assert::IsTrue(queryResults18.find("15") != queryResults18.end());
+
                 Assert::IsTrue(queryResults18.find("13") != queryResults18.end());
             }
 

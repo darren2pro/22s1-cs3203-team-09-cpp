@@ -51,4 +51,6 @@ public:
 
 	//! Fetching results
 	std::unordered_set<Value> getResultBySynonym(Variable variable);
+
+	std::vector<std::vector<std::string>> getResultByMultipleSynonym(std::vector<std::string> allSynonyms);
 };

@@ -61,7 +61,7 @@ void EntityExtraction::traverseCFG(
         const PKB::LineNum lnNum = pkbStorage->getLineFromNode(stmts[i + 1]);
 
         for (const auto& line : terminating) {
-            pkbStorage->storeCFGEdge(line, lnNum);
+            pkbStorage->storeRelations(Relation::Next, line, lnNum);
         }
     }
 }
@@ -163,8 +163,8 @@ const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines
                 pkbStorage->getLineFromNode(ifNode->thenStmtList.front());
             const PKB::ChildLine elseChild =
                 pkbStorage->getLineFromNode(ifNode->elseStmtList.front());
-            pkbStorage->storeCFGEdge(parent, thenChild);
-            pkbStorage->storeCFGEdge(parent, elseChild);
+            pkbStorage->storeRelations(Relation::Next, parent, thenChild);
+            pkbStorage->storeRelations(Relation::Next, parent, elseChild);
 
             traverseCFG(ifNode->thenStmtList, cache);
             traverseCFG(ifNode->elseStmtList, cache);
@@ -176,9 +176,9 @@ const std::unordered_set<PKB::LineNum> EntityExtraction::extractTerminatingLines
      const PKB::ChildLine child = pkbStorage->getLineFromNode(whileNode->stmtList.front());
      auto terminating = extractTerminatingLines(whileNode->stmtList.back(), cache);
      for (const auto& line : terminating) {
-         pkbStorage->storeCFGEdge(line, parent);
+         pkbStorage->storeRelations(Relation::Next, line, parent);
      }
-     pkbStorage->storeCFGEdge(parent, child);
+     pkbStorage->storeRelations(Relation::Next, parent, child);
      traverseCFG(whileNode->stmtList, cache);
  }
  void EntityExtraction::createCFG(

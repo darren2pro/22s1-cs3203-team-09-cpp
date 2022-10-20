@@ -12,6 +12,7 @@
 #include "SemanticException.h"
 #include "../With.h"
 #include "../AttrReference.h"
+#include "../Result.h"
 
 namespace parser {
 	std::string synonym = "[a-zA-Z]([a-zA-Z0-9])*";
@@ -32,20 +33,20 @@ namespace parser {
 	std::regex attrRef_re(attrRef);									// synonym | " IDENT " | INTEGER
 
 	// valid stmtRef synonym types for Follows/Parent
-	std::vector<Declaration::DesignEntity> stmtRef_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Statement,	
+	std::vector<Declaration::DesignEntity> stmtRef_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Statement,
 															Declaration::DesignEntity::Assignment,Declaration::DesignEntity::If,
 															Declaration::DesignEntity::While, Declaration::DesignEntity::Call,
 															Declaration::DesignEntity::Read , Declaration::DesignEntity::Print });
 	// valid stmtRef synonym types for ModifiesS
 	std::vector<Declaration::DesignEntity> stmtRef_Modifies_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Statement,
 															Declaration::DesignEntity::Assignment,Declaration::DesignEntity::If,
-															Declaration::DesignEntity::While, Declaration::DesignEntity::Call, 
+															Declaration::DesignEntity::While, Declaration::DesignEntity::Call,
 															Declaration::DesignEntity::Read });
 	// valid stmtRef synonym types for UsesS
 	std::vector<Declaration::DesignEntity> stmtRef_Uses_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Statement,
 															Declaration::DesignEntity::Assignment,Declaration::DesignEntity::If,
 															Declaration::DesignEntity::While, Declaration::DesignEntity::Call,
-															Declaration::DesignEntity::Print });	
+															Declaration::DesignEntity::Print });
 	// valid stmtRef synonym types for Affects
 	std::vector<Declaration::DesignEntity> stmtRef_Affects_de = std::vector<Declaration::DesignEntity>({ Declaration::DesignEntity::Assignment });
 	// valid (first arg) entRef synonym types for UsesP/ModifiesP/Calls
@@ -93,7 +94,7 @@ std::vector<Declaration> QueryParser::parseDeclaration() {
 	while (std::regex_match(current_token, parser::design_enteties_re)) {
 		Declaration::DesignEntity type = Declaration::getDesignEntity(match(parser::design_enteties_re));
 
-		 std::string name = match(parser::synonym_re);
+		std::string name = match(parser::synonym_re);
 		declarations.push_back(Declaration::Declaration(type, name));
 
 		if (std::find(names.begin(), names.end(), name) != names.end()) {		// checks for duplicates
@@ -103,7 +104,7 @@ std::vector<Declaration> QueryParser::parseDeclaration() {
 
 		while (current_token != ";") {	// multiple declarations of the same type
 			match(",");
-			 std::string name = match(parser::synonym_re);
+			std::string name = match(parser::synonym_re);
 			declarations.push_back(Declaration::Declaration(type, name));
 
 			if (std::find(names.begin(), names.end(), name) != names.end()) {		// checks for duplicates
@@ -118,7 +119,7 @@ std::vector<Declaration> QueryParser::parseDeclaration() {
 }
 
 Declaration QueryParser::findDeclaration(std::string name) {
-	for (Declaration d: declarations) {
+	for (Declaration d : declarations) {
 		if (d.name == name) {
 			return d;
 		}
@@ -175,13 +176,12 @@ Reference QueryParser::parseStmtRef(std::vector<Declaration::DesignEntity> de) {
 	return ref;
 }
 
-std::variant<Declaration, AttrReference> QueryParser::parseSelect() {
-	match("Select");
+std::variant<Declaration, AttrReference> QueryParser::parseTarget() {
 	std::string strelem = match(parser::synonym_re);
 
 	// checks if result is a declared synonym in the declaration list
 	Declaration d = findDeclaration(strelem);
-	
+
 	// check if its an attribute reference
 	if (current_token == ".") {
 		match(".");
@@ -191,12 +191,39 @@ std::variant<Declaration, AttrReference> QueryParser::parseSelect() {
 	else {
 		return d;
 	}
+}
 
+Result QueryParser::parseSelect() {
+	match("Select");
+
+	if (current_token == "BOOLEAN") {		// BOOLEAN select clause
+		match("BOOLEAN");
+		return Result(Result::Types::Boolean);
+	}
+	else {	// Tuple select clause
+		std::vector<std::variant<Declaration, AttrReference>> vars = std::vector<std::variant<Declaration, AttrReference>>();
+		if (current_token == "<") {		// check if it's multiple return values
+			match("<");
+
+			vars.push_back(parseTarget());
+
+			while (current_token == ",") {
+				current_token = getNextToken();
+				vars.push_back(parseTarget());
+			}
+
+			match(">");
+		}
+		else {	// one return value
+			vars.push_back(parseTarget());
+		}
+		return Result(Result::Types::Tuple, vars);
+	}
 }
 
 AttrReference QueryParser::parseAttrRef() {
 	std::string arg = match(parser::attrRef_re);
-	
+
 	if (std::regex_match(arg, parser::synonym_re)) {	// synonym.attribute
 		Declaration d = findDeclaration(arg);
 		match(".");
@@ -220,11 +247,11 @@ With QueryParser::withClause() {
 	}
 
 	AttrReference ref1 = parseAttrRef();
-	
+
 	match("=");
 
 	AttrReference ref2 = parseAttrRef();
-	
+
 	// Check if ref1 and ref2 are the same type (both name or both integer)
 	if (ref1.valueType != ref2.valueType) {
 		throw SemanticError("attribute reference types are not the same");
@@ -336,7 +363,7 @@ Relation::Types QueryParser::getUsesModifiesType(Relation::Types type) {
 
 Relation QueryParser::suchThatClause() {
 	// check the relation
-	Relation::Types type = Relation::getType(match(parser::relation_re));	
+	Relation::Types type = Relation::getType(match(parser::relation_re));
 
 	match("(");
 
@@ -415,7 +442,8 @@ Query* QueryParser::parse() {
 		}
 		else if (current_token == "with") {
 			parseWith();
-		} else {
+		}
+		else {
 			throw SyntaxError("Unexpected token");
 		}
 	}

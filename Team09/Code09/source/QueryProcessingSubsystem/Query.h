@@ -7,6 +7,7 @@
 #include "Declaration.h"
 #include "With.h"
 #include "AttrReference.h"
+#include "Result.h"
 
 class Query {
 public:
@@ -14,7 +15,7 @@ public:
 	std::vector<Pattern> patterns;
 	std::vector<With> withs;
 	std::vector<Declaration> declarations;
-	std::variant<Declaration, AttrReference> target;					// (sprint 5) type Result for { Boolean, Tuple}
+	Result target;
 	std::vector<std::string> results;
 
 
@@ -23,7 +24,7 @@ public:
 		patterns(std::vector<Pattern>()),
 		withs(std::vector<With>()),
 		declarations(std::vector<Declaration>()),
-		target(std::variant<Declaration, AttrReference>()),
+		target(Result()),
 		results(std::vector<std::string>()) {};
 
 	bool operator==(const Query& q) const {

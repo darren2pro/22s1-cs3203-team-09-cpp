@@ -267,5 +267,8 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

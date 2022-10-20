@@ -51,6 +51,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Query.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Reference.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Relation.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SemanticException.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SyntaxException.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.h" />

@@ -9,6 +9,7 @@
 #include "../Pattern.h"
 #include "../With.h"
 #include "../AttrReference.h"
+#include "../Result.h"
 
 /**
  * A QueryParser class to parse the query.
@@ -34,7 +35,7 @@ private:
 	 * Query attributes.
 	 */
 	std::vector<Declaration> declarations;
-	std::variant<Declaration, AttrReference> target;
+	Result target;
 	std::vector<Relation> suchThatCl;
 	std::vector<Pattern> patternCl;
 	std::vector<With> withCl;
@@ -84,7 +85,7 @@ private:
 	 * @returns true if ref is a valid stmtRef, otherwise returns false.
 	 */
 	bool is_valid_stmtRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types);
-	
+
 	/**
 	* Checks that ref is a valid entRef.
 	* @returns true if ref is a valid entRef, otherwise returns false.
@@ -92,17 +93,19 @@ private:
 	bool is_valid_entRef(Reference ref, std::vector<Declaration::DesignEntity> valid_types);
 
 	Reference parseEntRef(std::vector<Declaration::DesignEntity> de);
-	
+
 	Reference parseStmtRef(std::vector<Declaration::DesignEntity> de);
+
+	std::variant<Declaration, AttrReference> parseTarget();
 
 	/**
 	 * Parses select statement.
 	 * @returns the target from the select statement.
 	 */
-	std::variant<Declaration, AttrReference> parseSelect();
+	Result parseSelect();
 
 	AttrReference parseAttrRef();
-	 
+
 	/**
 	 * Parses with clause.
 	 * @returns the with clause.
@@ -136,12 +139,12 @@ private:
 	void parseSuchThat();
 
 public:
-	QueryParser(std::vector<std::string> tokens) : 
+	QueryParser(std::vector<std::string> tokens) :
 		query_tokens(tokens),
 		index(0),
-		current_token(getNextToken()), 
+		current_token(getNextToken()),
 		declarations(std::vector<Declaration>()),
-		target(std::variant<Declaration, AttrReference>()),
+		target(Result()),
 		suchThatCl(std::vector<Relation>()),
 		patternCl(std::vector<Pattern>()),
 		withCl(std::vector<With>()) {};

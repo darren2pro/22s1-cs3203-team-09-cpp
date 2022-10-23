@@ -117,10 +117,6 @@ namespace UnitTesting {
                 // Expected results: x, z
                 Assert::IsTrue(results12.find("x") != results12.end());
                 Assert::IsTrue(results12.find("z") != results12.end());
-
-                // Query 13
-                string query13 = "variable v; \n"
-                                 "Select v such that Parent*(_, _)"
             }
 
             TEST_METHOD(TestExecuteMoreSampleQuery) {

@@ -12,7 +12,7 @@ namespace UnitTesting {
 
 	public:
 		TEST_METHOD(TestGetMultipleTarget) {
-			ResultsDatabase rdb;
+			//ResultsDatabase rdb;
 			//rdb.insertList("a", { "1, 2" });
 			//rdb.insertList("b", { "3" });
 			//rdb.insertList("c", { "5" });

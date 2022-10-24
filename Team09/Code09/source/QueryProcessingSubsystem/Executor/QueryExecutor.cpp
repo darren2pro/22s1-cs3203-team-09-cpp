@@ -9,6 +9,7 @@
 #include "Pattern/PatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
 #include "SuchThat/RelationEvaluator.h"
+#include "With/WithEvaluator.h"
 
 
 template <class... Ts>
@@ -21,6 +22,7 @@ template<class... Ts> Overload(Ts...) -> Overload<Ts...>;
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	relations = query->relations;
 	pattern = query->patterns;
+    with = query->withs;
 	declarations = query->declarations;
 	target = query->target;
 	rdb = ResultsDatabase();
@@ -47,8 +49,17 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
         }
     }
 
+	// With clause
+    bool withClauseResult = true;
+    for (With& wit : with) {
+        if (!withExecute(wit, rdb)) {
+            withClauseResult = false;
+            break;
+        }
+    }
+
 	// Return empty list if any of them returns False.
-	if (!relClauseResult || !patClauseResult) {
+	if (!relClauseResult || !patClauseResult || !withClauseResult) {
         // TEMPORARY FIX -> MOVING FORWARD, MUST FORCE EVERYONE TO GO THROUGH getResultsFromRDB
         if (target.isBoolean()) {
             return std::unordered_set<std::string>{"FALSE"};
@@ -79,6 +90,13 @@ bool QueryExecutor::patternExecute(Pattern pattern, ResultsDatabase& rdb) {
 	return PatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
 }
 
+// With execute
+bool QueryExecutor::withExecute(With with, ResultsDatabase& rdb) {
+    auto t =  WithEvaluator(declarations, with, rdb, pkb);
+    //return t.evaluate();
+    return true;
+}
+
 std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Result result, ResultsDatabase& rdb) {
     if (result.isBoolean()) {
         if (rdb.getBoolean()) {
@@ -96,27 +114,6 @@ std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Result result, 
     else {
         assert("False");
     }
-    ////! Given a single target, if it is a declaration then simply call the rdb api
-    ////! If it is attribute reference, then we need to get the declaration first, then get the respective values before returning
-    //return std::visit(Overload {
-    //        [&](Declaration decl) -> std::unordered_set<std::string> {
-    //            return rdb.getResults(decl);
-    //        },
-    //        [&](AttrReference attrRef) -> std::unordered_set<std::string> {
-    //            /**
-    //             * TODO: Need to implement this after I understand what is attribute reference
-    //            Declaration decl = getDeclarationFromAttrRef(attrRef, declarations);
-    //            std::unordered_set<std::string> results = rdb.getSynonymSet(decl);
-    //            std::unordered_set<std::string> filteredResults;
-    //            for (std::string result : results) {
-    //                std::string attrValue = getAttrValueFromAttrRef(attrRef, result, pkb);
-    //                filteredResults.insert(attrValue);
-    //            }
-    //            return filteredResults;
-    //             */
-    //            return std::unordered_set<std::string>();
-    //        }
-    //}, target);
 }
 
 void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBStorage* pkb) {

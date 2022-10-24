@@ -215,7 +215,7 @@ namespace IntegrationTesting {
 
                 //! Query 2
                 string query2 = "assign a; stmt s; read r;\n"
-                                "Select r such that Next(2, 4)";
+                                "Select r such that Next(2, 3)";
                 unordered_set<string> queryResults2 = spaManager.query(query2);
                 // Expected results: 1, 2
                 Assert::AreEqual(2, (int) queryResults2.size(), L"Query 2 fails");
@@ -413,10 +413,10 @@ namespace IntegrationTesting {
                 string query2 = "assign a; stmt s; while w; if i; variable v;\n"
                                 "Select s such that Next(s, 3)";
                 unordered_set<string> queryResults2 = spaManager.query(query2);
-                // Expected results: 1, 2
+                // Expected results: 1, 4
                 Assert::AreEqual(2, (int) queryResults2.size(), L"Query 2 fails");
                 Assert::IsTrue(queryResults2.find("1") != queryResults2.end(), L"Query 2 fails");
-                Assert::IsTrue(queryResults2.find("2") != queryResults2.end(), L"Query 2 fails");
+                Assert::IsTrue(queryResults2.find("4") != queryResults2.end(), L"Query 2 fails");
             }
 
             TEST_METHOD(TestNextNextTPartTwo3) {
@@ -512,7 +512,8 @@ namespace IntegrationTesting {
                                 "Select pp such that Next(pp, 5)";
                 unordered_set<string> queryResults9 = spaManager.query(query9);
                 // Empty expected results
-                Assert::AreEqual(0, (int) queryResults9.size(), L"Query 9 fails");
+                Assert::AreEqual(1, (int) queryResults9.size(), L"Query 9 fails");
+                Assert::IsTrue(queryResults9.find("6") != queryResults9.end(), L"Query 9 fails");
             }
 
             TEST_METHOD(TestNextNextTPartTwo10) {
@@ -540,8 +541,9 @@ namespace IntegrationTesting {
                                  "Select s such that Next(s, 19)";
                 unordered_set<string> queryResults11 = spaManager.query(query11);
                 // Expected results: 11
-                Assert::AreEqual(1, (int) queryResults11.size(), L"Query 11 fails");
+                Assert::AreEqual(2, (int) queryResults11.size(), L"Query 11 fails");
                 Assert::IsTrue(queryResults11.find("11") != queryResults11.end(), L"Query 11 fails");
+                Assert::IsTrue(queryResults11.find("20") != queryResults11.end(), L"Query 11 fails");
             }
 
             TEST_METHOD(TestNextNextTPartTwo12) {

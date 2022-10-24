@@ -2257,6 +2257,334 @@ public:
         Assert::IsTrue(*result9 == expectedResult9);
     }
 
+    TEST_METHOD(TestParserValidAffects) {
+        // Affects(synonym, synonym)
+        std::string query1 = "assign p1, p2; Select p1 such that Affects(p1, p2)";
+        QueryLexer lexer1 = QueryLexer(query1);
+        std::vector<std::string> tokens1 = lexer1.lex();
+        QueryParser parser1 = QueryParser(tokens1);
+
+        Query expectedResult1 = Query();
+
+        expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p1"),  Declaration(Declaration::DesignEntity::Assignment, "p2") });
+        expectedResult1.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p1") }));
+        expectedResult1.relations = std::vector<Relation>({ Relation(Relation::Types::Affects, Reference(Declaration(Declaration::DesignEntity::Assignment, "p1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "p2"))) });
+        expectedResult1.patterns = std::vector<Pattern>();
+        expectedResult1.results = std::vector<std::string>();
+
+        Query* result1 = parser1.parse();
+
+        Assert::IsTrue(*result1 == expectedResult1);
+
+        // Affects(synonym, _)
+        std::string query2 = "assign p; Select p such that Affects(p, _)";
+        QueryLexer lexer2 = QueryLexer(query2);
+        std::vector<std::string> tokens2 = lexer2.lex();
+        QueryParser parser2 = QueryParser(tokens2);
+
+        Query expectedResult2 = Query();
+
+        expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult2.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult2.relations = std::vector<Relation>({ Relation(Relation::Types::Affects, Reference(Declaration(Declaration::DesignEntity::Assignment, "p")), Reference("_")) });
+        expectedResult2.patterns = std::vector<Pattern>();
+        expectedResult2.results = std::vector<std::string>();
+
+        Query* result2 = parser2.parse();
+
+        Assert::IsTrue(*result2 == expectedResult2);
+
+        // Affects(synonym, INTEGER)
+        std::string query3 = "assign p; Select p such that Affects(p, 12)";
+        QueryLexer lexer3 = QueryLexer(query3);
+        std::vector<std::string> tokens3 = lexer3.lex();
+        QueryParser parser3 = QueryParser(tokens3);
+
+        Query expectedResult3 = Query();
+
+        expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult3.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult3.relations = std::vector<Relation>({ Relation(Relation::Types::Affects, Reference(Declaration(Declaration::DesignEntity::Assignment, "p")), Reference("12")) });
+        expectedResult3.patterns = std::vector<Pattern>();
+        expectedResult3.results = std::vector<std::string>();
+
+        Query* result3 = parser3.parse();
+
+        Assert::IsTrue(*result3 == expectedResult3);
+
+        // Affects(_, synonym)
+        std::string query4 = "assign p; Select p such that Affects(_, p)";
+        QueryLexer lexer4 = QueryLexer(query4);
+        std::vector<std::string> tokens4 = lexer4.lex();
+        QueryParser parser4 = QueryParser(tokens4);
+
+        Query expectedResult4 = Query();
+
+        expectedResult4.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult4.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult4.relations = std::vector<Relation>({ Relation(Relation::Types::Affects, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Assignment, "p"))) });
+        expectedResult4.patterns = std::vector<Pattern>();
+        expectedResult4.results = std::vector<std::string>();
+
+        Query* result4 = parser4.parse();
+
+        Assert::IsTrue(*result4 == expectedResult4);
+
+        // Affects(_, _)
+        std::string query5 = "assign p; Select p such that Affects(_, _)";
+        QueryLexer lexer5 = QueryLexer(query5);
+        std::vector<std::string> tokens5 = lexer5.lex();
+        QueryParser parser5 = QueryParser(tokens5);
+
+        Query expectedResult5 = Query();
+
+        expectedResult5.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult5.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult5.relations = std::vector<Relation>({ Relation(Relation::Types::Affects, Reference("_"), Reference("_")) });
+        expectedResult5.patterns = std::vector<Pattern>();
+        expectedResult5.results = std::vector<std::string>();
+
+        Query* result5 = parser5.parse();
+
+        Assert::IsTrue(*result5 == expectedResult5);
+
+        // Affects(_, INTEGER)
+        std::string query6 = "assign p; Select p such that Affects(_, 12)";
+        QueryLexer lexer6 = QueryLexer(query6);
+        std::vector<std::string> tokens6 = lexer6.lex();
+        QueryParser parser6 = QueryParser(tokens6);
+
+        Query expectedResult6 = Query();
+
+        expectedResult6.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult6.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult6.relations = std::vector<Relation>({ Relation(Relation::Types::Affects, Reference("_"), Reference("12")) });
+        expectedResult6.patterns = std::vector<Pattern>();
+        expectedResult6.results = std::vector<std::string>();
+
+        Query* result6 = parser6.parse();
+
+        Assert::IsTrue(*result6 == expectedResult6);
+
+        // Affects(INTEGER, synonym)
+        std::string query7 = "assign p; Select p such that Affects(12, p)";
+        QueryLexer lexer7 = QueryLexer(query7);
+        std::vector<std::string> tokens7 = lexer7.lex();
+        QueryParser parser7 = QueryParser(tokens7);
+
+        Query expectedResult7 = Query();
+
+        expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult7.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult7.relations = std::vector<Relation>({ Relation(Relation::Types::Affects, Reference("12"), Reference(Declaration(Declaration::DesignEntity::Assignment, "p"))) });
+        expectedResult7.patterns = std::vector<Pattern>();
+        expectedResult7.results = std::vector<std::string>();
+
+        Query* result7 = parser7.parse();
+
+        Assert::IsTrue(*result7 == expectedResult7);
+
+        // Affects(INTEGER, _)
+        std::string query8 = "assign p; Select p such that Affects(12, _)";
+        QueryLexer lexer8 = QueryLexer(query8);
+        std::vector<std::string> tokens8 = lexer8.lex();
+        QueryParser parser8 = QueryParser(tokens8);
+
+        Query expectedResult8 = Query();
+
+        expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult8.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult8.relations = std::vector<Relation>({ Relation(Relation::Types::Affects, Reference("12"), Reference("_")) });
+        expectedResult8.patterns = std::vector<Pattern>();
+        expectedResult8.results = std::vector<std::string>();
+
+        Query* result8 = parser8.parse();
+
+        Assert::IsTrue(*result8 == expectedResult8);
+
+        // Affects(INTEGER, INTEGER)
+        std::string query9 = "assign p; Select p such that Affects(12, 13)";
+        QueryLexer lexer9 = QueryLexer(query9);
+        std::vector<std::string> tokens9 = lexer9.lex();
+        QueryParser parser9 = QueryParser(tokens9);
+
+        Query expectedResult9 = Query();
+
+        expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult9.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult9.relations = std::vector<Relation>({ Relation(Relation::Types::Affects, Reference("12"), Reference("13")) });
+        expectedResult9.patterns = std::vector<Pattern>();
+        expectedResult9.results = std::vector<std::string>();
+
+        Query* result9 = parser9.parse();
+
+        Assert::IsTrue(*result9 == expectedResult9);
+    }
+
+    TEST_METHOD(TestParserValidAffectsT) {
+        // AffectsT(synonym, synonym)
+        std::string query1 = "assign p1, p2; Select p1 such that Affects*(p1, p2)";
+        QueryLexer lexer1 = QueryLexer(query1);
+        std::vector<std::string> tokens1 = lexer1.lex();
+        QueryParser parser1 = QueryParser(tokens1);
+
+        Query expectedResult1 = Query();
+
+        expectedResult1.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p1"),  Declaration(Declaration::DesignEntity::Assignment, "p2") });
+        expectedResult1.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p1") }));
+        expectedResult1.relations = std::vector<Relation>({ Relation(Relation::Types::AffectsT, Reference(Declaration(Declaration::DesignEntity::Assignment, "p1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "p2"))) });
+        expectedResult1.patterns = std::vector<Pattern>();
+        expectedResult1.results = std::vector<std::string>();
+
+        Query* result1 = parser1.parse();
+
+        Assert::IsTrue(*result1 == expectedResult1);
+
+        // AffectsT(synonym, _)
+        std::string query2 = "assign p; Select p such that Affects*(p, _)";
+        QueryLexer lexer2 = QueryLexer(query2);
+        std::vector<std::string> tokens2 = lexer2.lex();
+        QueryParser parser2 = QueryParser(tokens2);
+
+        Query expectedResult2 = Query();
+
+        expectedResult2.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult2.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult2.relations = std::vector<Relation>({ Relation(Relation::Types::AffectsT, Reference(Declaration(Declaration::DesignEntity::Assignment, "p")), Reference("_")) });
+        expectedResult2.patterns = std::vector<Pattern>();
+        expectedResult2.results = std::vector<std::string>();
+
+        Query* result2 = parser2.parse();
+
+        Assert::IsTrue(*result2 == expectedResult2);
+
+        // AffectsT(synonym, INTEGER)
+        std::string query3 = "assign p; Select p such that Affects*(p, 3)";
+        QueryLexer lexer3 = QueryLexer(query3);
+        std::vector<std::string> tokens3 = lexer3.lex();
+        QueryParser parser3 = QueryParser(tokens3);
+
+        Query expectedResult3 = Query();
+
+        expectedResult3.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult3.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult3.relations = std::vector<Relation>({ Relation(Relation::Types::AffectsT, Reference(Declaration(Declaration::DesignEntity::Assignment, "p")), Reference("3")) });
+        expectedResult3.patterns = std::vector<Pattern>();
+        expectedResult3.results = std::vector<std::string>();
+
+        Query* result3 = parser3.parse();
+
+        Assert::IsTrue(*result3 == expectedResult3);
+
+        // AffectsT(_, synonym)
+        std::string query4 = "assign p; Select p such that Affects*(_, p)";
+        QueryLexer lexer4 = QueryLexer(query4);
+        std::vector<std::string> tokens4 = lexer4.lex();
+        QueryParser parser4 = QueryParser(tokens4);
+
+        Query expectedResult4 = Query();
+
+        expectedResult4.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult4.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult4.relations = std::vector<Relation>({ Relation(Relation::Types::AffectsT, Reference("_"), Reference(Declaration(Declaration::DesignEntity::Assignment, "p"))) });
+        expectedResult4.patterns = std::vector<Pattern>();
+        expectedResult4.results = std::vector<std::string>();
+
+        Query* result4 = parser4.parse();
+
+        Assert::IsTrue(*result4 == expectedResult4);
+
+        // AffectsT(_, _)
+        std::string query5 = "assign p; Select p such that Affects*(_, _)";
+        QueryLexer lexer5 = QueryLexer(query5);
+        std::vector<std::string> tokens5 = lexer5.lex();
+        QueryParser parser5 = QueryParser(tokens5);
+
+        Query expectedResult5 = Query();
+
+        expectedResult5.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult5.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult5.relations = std::vector<Relation>({ Relation(Relation::Types::AffectsT, Reference("_"), Reference("_")) });
+        expectedResult5.patterns = std::vector<Pattern>();
+        expectedResult5.results = std::vector<std::string>();
+
+        Query* result5 = parser5.parse();
+
+        Assert::IsTrue(*result5 == expectedResult5);
+
+        // AffectsT(_, INTEGER)
+        std::string query6 = "assign p; Select p such that Affects*(_, 4)";
+        QueryLexer lexer6 = QueryLexer(query6);
+        std::vector<std::string> tokens6 = lexer6.lex();
+        QueryParser parser6 = QueryParser(tokens6);
+
+        Query expectedResult6 = Query();
+
+        expectedResult6.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult6.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult6.relations = std::vector<Relation>({ Relation(Relation::Types::AffectsT, Reference("_"), Reference("4")) });
+        expectedResult6.patterns = std::vector<Pattern>();
+        expectedResult6.results = std::vector<std::string>();
+
+        Query* result6 = parser6.parse();
+
+        Assert::IsTrue(*result6 == expectedResult6);
+
+        // AffectsT(INTEGER, synonym)
+        std::string query7 = "assign p; Select p such that Affects*(4, p)";
+        QueryLexer lexer7 = QueryLexer(query7);
+        std::vector<std::string> tokens7 = lexer7.lex();
+        QueryParser parser7 = QueryParser(tokens7);
+
+        Query expectedResult7 = Query();
+
+        expectedResult7.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult7.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult7.relations = std::vector<Relation>({ Relation(Relation::Types::AffectsT, Reference("4"), Reference(Declaration(Declaration::DesignEntity::Assignment, "p"))) });
+        expectedResult7.patterns = std::vector<Pattern>();
+        expectedResult7.results = std::vector<std::string>();
+
+        Query* result7 = parser7.parse();
+
+        Assert::IsTrue(*result7 == expectedResult7);
+
+        // AffectsT(INTEGER, _)
+        std::string query8 = "assign p; Select p such that Affects*(2, _)";
+        QueryLexer lexer8 = QueryLexer(query8);
+        std::vector<std::string> tokens8 = lexer8.lex();
+        QueryParser parser8 = QueryParser(tokens8);
+
+        Query expectedResult8 = Query();
+
+        expectedResult8.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult8.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult8.relations = std::vector<Relation>({ Relation(Relation::Types::AffectsT, Reference("2"), Reference("_")) });
+        expectedResult8.patterns = std::vector<Pattern>();
+        expectedResult8.results = std::vector<std::string>();
+
+        Query* result8 = parser8.parse();
+
+        Assert::IsTrue(*result8 == expectedResult8);
+
+        // AffectsT(INTEGER, INTEGER)
+        std::string query9 = "assign p; Select p such that Affects*(2, 5)";
+        QueryLexer lexer9 = QueryLexer(query9);
+        std::vector<std::string> tokens9 = lexer9.lex();
+        QueryParser parser9 = QueryParser(tokens9);
+
+        Query expectedResult9 = Query();
+
+        expectedResult9.declarations = std::vector<Declaration>({ Declaration(Declaration::DesignEntity::Assignment, "p") });
+        expectedResult9.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Assignment, "p") }));
+        expectedResult9.relations = std::vector<Relation>({ Relation(Relation::Types::AffectsT, Reference("2"), Reference("5")) });
+        expectedResult9.patterns = std::vector<Pattern>();
+        expectedResult9.results = std::vector<std::string>();
+
+        Query* result9 = parser9.parse();
+
+        Assert::IsTrue(*result9 == expectedResult9);
+    }
+
     TEST_METHOD(TestParserValidWith) {
         // with "IDENT"  = "IDENT"
         const std::string query1 = "assign a; Select a with \"x\" = \"y\"";

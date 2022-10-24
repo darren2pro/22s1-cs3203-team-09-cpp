@@ -197,28 +197,33 @@ Result QueryParser::parseSelect() {
 	match("Select");
 
 	if (current_token == "BOOLEAN") {		// BOOLEAN select clause
-		match("BOOLEAN");
-		return Result(Result::Types::Boolean);
-	}
-	else {	// Tuple select clause
-		std::vector<std::variant<Declaration, AttrReference>> vars = std::vector<std::variant<Declaration, AttrReference>>();
-		if (current_token == "<") {		// check if it's multiple return values
-			match("<");
-
-			vars.push_back(parseTarget());
-
-			while (current_token == ",") {
-				current_token = getNextToken();
-				vars.push_back(parseTarget());
-			}
-
-			match(">");
+		try {
+			findDeclaration("BOOLEAN");
 		}
-		else {	// one return value
+		catch (SemanticError&) {
+			match("BOOLEAN");
+			return Result(Result::Types::Boolean);
+		}
+	}
+
+	// Tuple select clause
+	std::vector<std::variant<Declaration, AttrReference>> vars = std::vector<std::variant<Declaration, AttrReference>>();
+	if (current_token == "<") {		// check if it's multiple return values
+		match("<");
+
+		vars.push_back(parseTarget());
+
+		while (current_token == ",") {
+			current_token = getNextToken();
 			vars.push_back(parseTarget());
 		}
-		return Result(Result::Types::Tuple, vars);
+
+		match(">");
 	}
+	else {	// one return value
+		vars.push_back(parseTarget());
+	}
+	return Result(Result::Types::Tuple, vars);
 }
 
 AttrReference QueryParser::parseAttrRef() {

@@ -120,7 +120,7 @@ namespace UnitTesting {
 
                 // Query 13
                 string query13 = "variable v; \n"
-                                 "Select v such that Parent*(_, _)"
+                    "Select v such that Parent*(_, _)";
             }
 
             TEST_METHOD(TestExecuteMoreSampleQuery) {

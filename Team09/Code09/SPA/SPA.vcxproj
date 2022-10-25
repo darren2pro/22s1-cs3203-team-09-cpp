@@ -19,6 +19,7 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsDatabase.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.h" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsDatabase.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.cpp" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Expression.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Pattern.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Query.h" />

@@ -91,6 +91,12 @@
     <Filter Include="Source Files\QueryProcessingSubsystem\Executor\SuchThat">
       <UniqueIdentifier>{7d7f35fe-fc1d-4b6e-a095-3fd11d02a4af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\QueryProcessingSubsystem\Executor\With">
+      <UniqueIdentifier>{20a50612-bd92-4439-886b-2d08ef43a586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QueryProcessingSubsystem\Executor\With">
+      <UniqueIdentifier>{2a45977a-7c06-49db-86c5-8adeff140298}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
@@ -158,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\With</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +278,9 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\With</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

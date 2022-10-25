@@ -9,11 +9,6 @@ using namespace std;
 
 namespace IntegrationTesting {
     TEST_CLASS(TestQueryMilestone2p1Next) {
-            //! Remove or comment out this block to test your code
-            BEGIN_TEST_CLASS_ATTRIBUTE(TestQueryMilestone2p1Next)
-            TEST_CLASS_ATTRIBUTE(L"Ignore", L"true")
-            END_TEST_CLASS_ATTRIBUTE()
-
             public:
             string getCurrentProgram (int ref) {
                 string program1 = "procedure First {\n"

@@ -31,12 +31,6 @@ namespace PKB {
 
         std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet;
 
-        //CFG
-        std::unordered_map<Procedure, LineNum> procFirstLineMap;
-        std::unordered_map<Procedure, std::unordered_set<LineNum>> procLastLineMap;
-        std::unordered_map<PrevLine, std::unordered_set<NextLine>> cfgPrevLineToNextLineMap;
-        std::unordered_map<PrevLine, std::unordered_set<NextLine>> cfgProcPrevLineToNextLineMap;
-
         //entity set
         EntityADT varEntity;
         EntityADT procEntity;
@@ -81,12 +75,6 @@ namespace PKB {
         void storeLineToProcedure(const LineNum lineNum, const Procedure proc);
         Procedure getProcedureFromLine(const LineNum lineNum);
 
-        //store CFG
-        void storeProcFirstLine(const Procedure, const LineNum);
-        void storeProcLastLine(const Procedure, const LineNum);
-        void storeCFGEdge(const PrevLine lineBefore, const NextLine lineAfter);
-        void storeCFGEdgeProc(const PrevLine lineBefore, const NextLine lineAfter);
-
         //store entities API
         void storeEntity(Declaration::DesignEntity entity, const std::string value);
         void storeEntity(Declaration::DesignEntity entity, const std::string first, const std::string second);
@@ -96,9 +84,6 @@ namespace PKB {
 
         //store patterns API
         void storePatterns(Pattern::Types type, const Variable, const LineNum, const ExprStr);
-
-        //get CFG
-        std::unordered_map<PrevLine, std::unordered_set<NextLine>> getCFG();
 
         //get entities API
         std::unordered_set<std::string> getEntitySet(Declaration::DesignEntity);
@@ -113,10 +98,6 @@ namespace PKB {
         std::unordered_set<std::string> getRelationAllSecond(Relation::Types);
         std::unordered_set<std::string> getRelationAllFirst(Relation::Types);
         std::unordered_set<std::pair<std::string, std::string>, pairHash> getRelationSet(Relation::Types);
-        std::unordered_set<PKB::PrevLine> getPreviousLineT(const PKB::NextLine);
-        std::unordered_set<PKB::NextLine> getNextLineT(const PKB::PrevLine);
-        void getPreviousLineTH(const PKB::LineNum, std::shared_ptr<std::unordered_set<LineNum>>); //helper
-        void getNextLineTH(const PKB::LineNum, std::shared_ptr<std::unordered_set<LineNum>>);; //helper
 
         //get patterns API
         std::unordered_set<LineNum> getPatternLineByVar(Pattern::Types, const Variable);

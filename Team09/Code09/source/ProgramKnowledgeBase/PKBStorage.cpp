@@ -123,28 +123,11 @@ namespace PKB {
         return lineToProcMap.at(lineNum);
     }
 
-    void PKBStorage::storeProcFirstLine(const Procedure proc, const LineNum firstLine) {
-        procFirstLineMap[proc] = firstLine; //can only have 1 first line for each proc
-    }
-
-    void PKBStorage::storeProcLastLine(const Procedure proc, const LineNum lastLine) {
-        PKB::addToSetInMap(procLastLineMap, proc, lastLine);
-    }
-
-    void PKBStorage::storeCFGEdge(const PrevLine lineBefore, const NextLine lineAfter) {
-        PKB::addToSetInMap(cfgPrevLineToNextLineMap, lineBefore, lineAfter);
-    }
-
-    void PKBStorage::storeCFGEdgeProc(const PrevLine lineBefore, const NextLine lineAfter) {
-        PKB::addToSetInMap(cfgProcPrevLineToNextLineMap, lineBefore, lineAfter);
-    }
-
     void PKBStorage::storeEntity(Declaration::DesignEntity type, const std::string value) {
         auto entity = getEntityFromEnum(type);
         entity->add(value);
     }
 
-    //do sth to second (for with clauses)
     void PKBStorage::storeEntity(Declaration::DesignEntity type, const std::string first, const std::string second) {
         auto entity = getEntityFromEnum(type);
         entity->add(first, second);
@@ -158,10 +141,6 @@ namespace PKB {
     void PKBStorage::storePatterns(Pattern::Types type, const Variable var, const LineNum line, const ExprStr expr) {
         auto pattern = getPatternFromEnum(type);
         pattern->add(var, line, expr);
-    }
-
-    std::unordered_map<PrevLine, std::unordered_set<NextLine>> PKBStorage::getCFG() {
-        return cfgPrevLineToNextLineMap;
     }
 
     std::unordered_set<std::string> PKBStorage::getEntitySet(Declaration::DesignEntity type) {
@@ -213,64 +192,8 @@ namespace PKB {
         auto relation = getRelationFromEnum(type);
         return relation->getSet();
     }
-
-    //NextT
-    std::unordered_set<PKB::NextLine> PKBStorage::getNextLineT(const PKB::PrevLine prevLine) {
-        std::shared_ptr<std::unordered_set<LineNum>> visited =std::make_shared<std::unordered_set<LineNum>>();
-        auto toVisit = getRelationSecondFromFirst(Relation::Next, prevLine);
-        if (!toVisit.empty()) {
-            for (const auto& neighbour : toVisit) {
-                getNextLineTH(neighbour, visited);
-            }
-            if (visited->size() > 0) {
-                return std::unordered_set<NextLine>(*visited.get());
-            }
-        }
-        return *visited;
-    }
-
-    void PKBStorage::getNextLineTH(const PKB::LineNum currLine, std::shared_ptr<std::unordered_set<LineNum>> visited) {
-        if (visited->find(currLine) != visited->end()) {
-            return;
-        }
-        visited->insert(currLine);
-        auto toVisit = getRelationSecondFromFirst(Relation::Next, currLine);
-        if (!toVisit.empty()) {
-            for (const auto& neighbour : toVisit) {
-                getNextLineTH(neighbour, visited);
-            }
-        }
-    }
-
-    std::unordered_set<PKB::PrevLine> PKBStorage::getPreviousLineT(const PKB::NextLine nextLine) {
-        std::shared_ptr<std::unordered_set<LineNum>> visited = std::make_shared<std::unordered_set<LineNum>>();
-        auto toVisit = getRelationFirstFromSecond(Relation::Next, nextLine);
-        if (!toVisit.empty()) {
-            for (const auto& neighbour : toVisit) {
-                getPreviousLineTH(neighbour, visited);
-            }
-            if (visited->size() > 0) {
-                return std::unordered_set<PrevLine>(*visited.get());
-            }
-        }
-        return *visited;
-    }
-
-    void PKBStorage::getPreviousLineTH(const PKB::LineNum currLine, std::shared_ptr<std::unordered_set<LineNum>> visited) {
-        if (visited->find(currLine) != visited->end()) {
-            return;
-        }
-        visited->insert(currLine);
-        auto toVisit = getRelationFirstFromSecond(Relation::Next, currLine);
-        if (!toVisit.empty()) {
-            for (const auto& neighbour : toVisit) {
-                getPreviousLineTH(neighbour, visited);
-            }
-        }
-    }
-
+    
     // Pattern functions
-
     std::unordered_set<LineNum> PKBStorage::getPatternLineByVar(Pattern::Types type, const Variable var) {
         auto pattern = getPatternFromEnum(type);
         return pattern->geLineByVar(var);

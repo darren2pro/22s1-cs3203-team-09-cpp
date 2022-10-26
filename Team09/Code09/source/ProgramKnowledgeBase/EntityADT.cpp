@@ -1,5 +1,4 @@
 #include "EntityADT.h"
-#include "EntityADT.h"
 
 namespace PKB {
     void EntityADT::add(const std::string key) {

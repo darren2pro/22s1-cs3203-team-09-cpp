@@ -6,7 +6,7 @@
 
 namespace PKB {
     template <typename T, typename U>
-    class RelationsSetBiMap {
+    class RelationADT {
     private:
         std::unordered_set<std::pair<T, U>, pairHash> set;
         std::unordered_map<T, std::unordered_set<U>> firstToSecondMap;
@@ -26,7 +26,7 @@ namespace PKB {
     };
 
     template <typename T, typename U>
-     void RelationsSetBiMap<T, U>::add(const T t, const U u) {
+     void RelationADT<T, U>::add(const T t, const U u) {
         std::pair<T, U> pair = std::make_pair(t, u);
         set.insert(pair);
         addToSetInMap(firstToSecondMap, t, u);
@@ -34,27 +34,27 @@ namespace PKB {
     }
     
      template <typename T, typename U>
-     bool RelationsSetBiMap<T, U>::isEmpty() {
+     bool RelationADT<T, U>::isEmpty() {
          return set.empty();
      }
 
      template <typename T, typename U>
-     bool RelationsSetBiMap<T, U>::containsFirst(const T t) {
+     bool RelationADT<T, U>::containsFirst(const T t) {
          return firstToSecondMap.find(t) != firstToSecondMap.end();
      }
 
      template <typename T, typename U>
-     bool RelationsSetBiMap<T, U>::containsSecond(const U u) {
+     bool RelationADT<T, U>::containsSecond(const U u) {
          return secondToFirstMap.find(u) != secondToFirstMap.end();
      }
 
      template <typename T, typename U>
-     bool RelationsSetBiMap<T, U>::containsSet(const T t, const U u) {
+     bool RelationADT<T, U>::containsSet(const T t, const U u) {
          return set.find(std::make_pair(t, u)) != set.end();
      }
 
      template <typename T, typename U>
-     std::unordered_set<U> RelationsSetBiMap<T, U>::getSecondFromFirst(const T t) {
+     std::unordered_set<U> RelationADT<T, U>::getSecondFromFirst(const T t) {
          if (containsFirst(t)) {
              return firstToSecondMap.at(t);
          } else {
@@ -63,7 +63,7 @@ namespace PKB {
      }
 
      template <typename T, typename U>
-     std::unordered_set<T> RelationsSetBiMap<T, U>::getFirstFromSecond(const U u) {
+     std::unordered_set<T> RelationADT<T, U>::getFirstFromSecond(const U u) {
          if (containsSecond(u)) {
              return secondToFirstMap.at(u);
          } else {
@@ -72,7 +72,7 @@ namespace PKB {
      }
 
      template <typename T, typename U>
-     std::unordered_set<U> RelationsSetBiMap<T, U>::getAllSecond() {
+     std::unordered_set<U> RelationADT<T, U>::getAllSecond() {
          std::unordered_set<U> result;
          for (const auto& elem : secondToFirstMap) {
              result.insert(elem.first);
@@ -81,7 +81,7 @@ namespace PKB {
      }
 
      template <typename T, typename U>
-     std::unordered_set<T> RelationsSetBiMap<T, U>::getAllFirst() {
+     std::unordered_set<T> RelationADT<T, U>::getAllFirst() {
          std::unordered_set<T> result;
          for (const auto& elem : firstToSecondMap) {
              result.insert(elem.first);
@@ -90,7 +90,7 @@ namespace PKB {
      }
 
      template <typename T, typename U>
-     std::unordered_set<std::pair<T, U>, pairHash> RelationsSetBiMap<T, U>::getSet() {
+     std::unordered_set<std::pair<T, U>, pairHash> RelationADT<T, U>::getSet() {
          return set;
      }
 }

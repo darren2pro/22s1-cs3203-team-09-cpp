@@ -6,7 +6,7 @@
 #include "../SourceProcessor/SimpleInterface.h"
 
 namespace PKB {
-	class PatternsSetBiMap {
+	class PatternADT {
 	private:
 		std::unordered_set<std::pair<LineNum, Variable>, pairHash> lineVarSet;
 		std::unordered_map<ExprStr, std::unordered_set<std::pair<LineNum, Variable>, pairHash>> exprToLineVarMap;

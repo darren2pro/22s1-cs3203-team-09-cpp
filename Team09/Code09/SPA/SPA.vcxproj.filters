@@ -162,11 +162,14 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.cpp">
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PatternADT.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\With</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ProgramKnowledgeBase\EntityADT.cpp">
+      <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,7 +260,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Reference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
+    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationADT.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
@@ -273,7 +276,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.h">
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PatternADT.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h">
@@ -281,6 +284,9 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\With</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\EntityADT.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,8 +6,9 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "PKBUtils.h"
-#include "PatternsSetBiMap.h"
-#include "RelationsSetBiMap.h"
+#include "PatternADT.h"
+#include "RelationADT.h"
+#include "EntityADT.h"
 #include "../TNode/TNode.h"
 #include "../QueryProcessingSubsystem/Declaration.h"
 #include "../QueryProcessingSubsystem/Relation.h"
@@ -24,9 +25,9 @@ namespace PKB {
         LineNum getCurrLineNumber();
         void incrementCurrLineNumber();
 
-        RelationsSetBiMap<std::string, std::string>* getRelationFromEnum(Relation::Types);
-        std::unordered_set<std::string>* getEntityFromEnum(Declaration::DesignEntity);
-        PatternsSetBiMap* getPatternFromEnum(Pattern::Types);
+        RelationADT<std::string, std::string>* getRelationFromEnum(Relation::Types);
+        EntityADT* getEntityFromEnum(Declaration::DesignEntity);
+        PatternADT* getPatternFromEnum(Pattern::Types);
 
         std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet;
 
@@ -37,34 +38,34 @@ namespace PKB {
         std::unordered_map<PrevLine, std::unordered_set<NextLine>> cfgProcPrevLineToNextLineMap;
 
         //entity set
-        std::unordered_set<Variable> varSet;
-        std::unordered_set<Procedure> procSet;
-        std::unordered_set<Constant> constSet;
-        std::unordered_set<LineNum> whileSet;
-        std::unordered_set<LineNum> ifSet;
-        std::unordered_set<LineNum> assignSet;
-        std::unordered_set<LineNum> readSet;
-        std::unordered_set<LineNum> printSet;
-        std::unordered_set<LineNum> stmtSet;
-        std::unordered_set<LineNum> callSet;
-
+        EntityADT varEntity;
+        EntityADT procEntity;
+        EntityADT constEntity;
+        EntityADT whileEntity;
+        EntityADT ifEntity;
+        EntityADT assignEntity;
+        EntityADT readEntity;
+        EntityADT printEntity;
+        EntityADT stmtEntity;
+        EntityADT callEntity;
+        
         //relations
-        RelationsSetBiMap<LineNum, Variable> modifiesSRelations;
-        RelationsSetBiMap<Procedure, Variable> modifiesPRelations;
-        RelationsSetBiMap<LineNum, Variable> usesSRelations;
-        RelationsSetBiMap<Procedure, Variable> usesPRelations;
-        RelationsSetBiMap<PrevLine, NextLine> followsRelations;
-        RelationsSetBiMap<PrevLine, NextLine> followsTRelations;
-        RelationsSetBiMap<ParentLine, ChildLine> parentRelations;
-        RelationsSetBiMap<ParentLine, ChildLine> parentTRelations;
-        RelationsSetBiMap<CallerProc, CalleeProc> callsRelations;
-        RelationsSetBiMap<CallerProc, CalleeProc> callsTRelations;
-        RelationsSetBiMap<PrevLine, NextLine> nextRelations;
+        RelationADT<LineNum, Variable> modifiesSRelations;
+        RelationADT<Procedure, Variable> modifiesPRelations;
+        RelationADT<LineNum, Variable> usesSRelations;
+        RelationADT<Procedure, Variable> usesPRelations;
+        RelationADT<PrevLine, NextLine> followsRelations;
+        RelationADT<PrevLine, NextLine> followsTRelations;
+        RelationADT<ParentLine, ChildLine> parentRelations;
+        RelationADT<ParentLine, ChildLine> parentTRelations;
+        RelationADT<CallerProc, CalleeProc> callsRelations;
+        RelationADT<CallerProc, CalleeProc> callsTRelations;
+        RelationADT<PrevLine, NextLine> nextRelations;
 
         //pattern map
-        PatternsSetBiMap assignPattern;
-        PatternsSetBiMap ifPattern;
-        PatternsSetBiMap whilePattern;
+        PatternADT assignPattern;
+        PatternADT ifPattern;
+        PatternADT whilePattern;
 
     public:
 

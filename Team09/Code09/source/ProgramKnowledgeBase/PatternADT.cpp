@@ -1,12 +1,12 @@
-#include "PatternsSetBiMap.h"
+#include "PatternADT.h"
 
 namespace PKB {
-    void PatternsSetBiMap::add(const Variable var, const LineNum line, const ExprStr expr) {
+    void PatternADT::add(const Variable var, const LineNum line, const ExprStr expr) {
         lineVarSet.insert(std::pair<LineNum, Variable>(line, var));
         PKB::addToSetInMap(exprToLineVarMap, expr, std::pair<LineNum, Variable>(line, var));
         PKB::addToSetInMap(varToLineExprMap, var, std::pair<LineNum, ExprStr>(line, expr));
     }
-    std::unordered_set<LineNum> PatternsSetBiMap::geLineByVar(const Variable var) {
+    std::unordered_set<LineNum> PatternADT::geLineByVar(const Variable var) {
         std::unordered_set<LineNum> set;
         if (varToLineExprMap.find(var) != varToLineExprMap.end()) {
             for (const auto& elem : varToLineExprMap.at(var)) {
@@ -15,7 +15,7 @@ namespace PKB {
         }
         return set;
     }
-    std::unordered_set<LineNum> PatternsSetBiMap::getLineByVarMatchFull(const Variable var, const ExprStr expr) {
+    std::unordered_set<LineNum> PatternADT::getLineByVarMatchFull(const Variable var, const ExprStr expr) {
         std::unordered_set<LineNum> set;
 
         Expr exprNode = SimpleInterface::parseExpression(expr);
@@ -30,7 +30,7 @@ namespace PKB {
         }
         return set;
     }
-    std::unordered_set<LineNum> PatternsSetBiMap::getLineByVarMatchPartial(const Variable var, const ExprStr expr) {
+    std::unordered_set<LineNum> PatternADT::getLineByVarMatchPartial(const Variable var, const ExprStr expr) {
         std::unordered_set<LineNum> set;
 
         Expr exprNode = SimpleInterface::parseExpression(expr);
@@ -47,10 +47,10 @@ namespace PKB {
         }
         return set;
     }
-    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PatternsSetBiMap::getLineVarSet() {
+    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PatternADT::getLineVarSet() {
         return lineVarSet;
     }
-    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PatternsSetBiMap::getLineVarByMatchFull(const ExprStr expr) {
+    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PatternADT::getLineVarByMatchFull(const ExprStr expr) {
         Expr exprNode = SimpleInterface::parseExpression(expr);
         ExprStr patternStr = std::visit([](const auto& node) { return node->toString(); }, exprNode);
 
@@ -61,7 +61,7 @@ namespace PKB {
             return std::unordered_set<std::pair<LineNum, Variable>, pairHash>();
         }
     }
-    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PatternsSetBiMap::getLineVarByMatchPartial(const ExprStr expr) {
+    std::unordered_set<std::pair<LineNum, Variable>, pairHash> PatternADT::getLineVarByMatchPartial(const ExprStr expr) {
         std::unordered_set<std::pair<LineNum, Variable>, pairHash> set;
 
         Expr exprNode = SimpleInterface::parseExpression(expr);
@@ -77,14 +77,14 @@ namespace PKB {
         }
         return set;
     }
-    std::unordered_set<LineNum> PatternsSetBiMap::getLineByUS() {
+    std::unordered_set<LineNum> PatternADT::getLineByUS() {
         std::unordered_set<LineNum> set;
         for (const auto& elem : lineVarSet) {
             set.insert(elem.first);
         }
         return set;
     }
-    std::unordered_set<LineNum> PatternsSetBiMap::getLineByUSMatchFull(const ExprStr expr) {
+    std::unordered_set<LineNum> PatternADT::getLineByUSMatchFull(const ExprStr expr) {
         std::unordered_set<LineNum> set;
 
         Expr exprNode = SimpleInterface::parseExpression(expr);
@@ -97,7 +97,7 @@ namespace PKB {
         }
         return set;
     }
-    std::unordered_set<LineNum> PatternsSetBiMap::getLineByUSMatchPartial(const ExprStr expr) {
+    std::unordered_set<LineNum> PatternADT::getLineByUSMatchPartial(const ExprStr expr) {
         std::unordered_set<LineNum> set;
 
         Expr exprNode = SimpleInterface::parseExpression(expr);

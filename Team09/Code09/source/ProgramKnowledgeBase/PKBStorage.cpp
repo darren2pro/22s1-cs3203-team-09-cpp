@@ -9,7 +9,7 @@ namespace PKB {
         lineNum += 1;
     }
 
-    RelationsSetBiMap<std::string, std::string>* PKBStorage::getRelationFromEnum(Relation::Types type) {
+    RelationADT<std::string, std::string>* PKBStorage::getRelationFromEnum(Relation::Types type) {
         switch (type) {
         case Relation::ModifiesS:
             return &modifiesSRelations;
@@ -34,38 +34,38 @@ namespace PKB {
         case Relation::Next:
             return &nextRelations;
         default:
-            return &RelationsSetBiMap<std::string, std::string>();
+            return &RelationADT<std::string, std::string>();
         }
     }
 
-    std::unordered_set<std::string>* PKBStorage::getEntityFromEnum(Declaration::DesignEntity entity) {
+    EntityADT* PKBStorage::getEntityFromEnum(Declaration::DesignEntity entity) {
         switch (entity) {
         case Declaration::Variable:
-            return &varSet;
+            return &varEntity;
         case Declaration::Procedure:
-            return &procSet;
+            return &procEntity;
         case Declaration::Constant:
-            return &constSet;
+            return &constEntity;
         case Declaration::While:
-            return &whileSet;
+            return &whileEntity;
         case Declaration::If:
-            return &ifSet;
+            return &ifEntity;
         case Declaration::Assignment:
-            return &assignSet;
+            return &assignEntity;
         case Declaration::Read:
-            return &readSet;
+            return &readEntity;
         case Declaration::Print:
-            return &printSet;
+            return &printEntity;
         case Declaration::Statement:
-            return &stmtSet;
+            return &stmtEntity;
         case Declaration::Call:
-            return &callSet;
+            return &callEntity;
         default:
-            return &std::unordered_set<std::string>();
+            return &EntityADT();
         }
     }
 
-    PatternsSetBiMap* PKBStorage::getPatternFromEnum(Pattern::Types type) {
+    PatternADT* PKBStorage::getPatternFromEnum(Pattern::Types type) {
         switch (type) {
         case Pattern::Assign:
             return &assignPattern;
@@ -74,7 +74,7 @@ namespace PKB {
         case Pattern::While:
             return &whilePattern;
         default:
-            return &PatternsSetBiMap();
+            return &PatternADT();
         }
     }
 
@@ -139,15 +139,15 @@ namespace PKB {
         PKB::addToSetInMap(cfgProcPrevLineToNextLineMap, lineBefore, lineAfter);
     }
 
-    void PKBStorage::storeEntity(Declaration::DesignEntity entity, const std::string value) {
-        auto entitySet = getEntityFromEnum(entity);
-        entitySet->insert(value);
+    void PKBStorage::storeEntity(Declaration::DesignEntity type, const std::string value) {
+        auto entity = getEntityFromEnum(type);
+        entity->add(value);
     }
 
     //do sth to second (for with clauses)
-    void PKBStorage::storeEntity(Declaration::DesignEntity entity, const std::string first, const std::string second) {
-        auto entitySet = getEntityFromEnum(entity);
-        entitySet->insert(first);
+    void PKBStorage::storeEntity(Declaration::DesignEntity type, const std::string first, const std::string second) {
+        auto entity = getEntityFromEnum(type);
+        entity->add(first, second);
     }
 
     void PKBStorage::storeRelations(Relation::Types type, std::string first, std::string second) {
@@ -164,8 +164,9 @@ namespace PKB {
         return cfgPrevLineToNextLineMap;
     }
 
-    std::unordered_set<std::string> PKBStorage::getEntitySet(Declaration::DesignEntity entity) {
-        return *getEntityFromEnum(entity);
+    std::unordered_set<std::string> PKBStorage::getEntitySet(Declaration::DesignEntity type) {
+        auto entity = getEntityFromEnum(type);
+        return entity->getSet();
     }
 
     bool PKBStorage::relationContainsSet(Relation::Types type, const std::string first, const std::string second) {
@@ -241,7 +242,7 @@ namespace PKB {
         }
     }
 
-    std::unordered_set<PKB::PrevLine> PKBStorage::getPreviousLineT(const PKB::PrevLine nextLine) {
+    std::unordered_set<PKB::PrevLine> PKBStorage::getPreviousLineT(const PKB::NextLine nextLine) {
         std::shared_ptr<std::unordered_set<LineNum>> visited = std::make_shared<std::unordered_set<LineNum>>();
         auto toVisit = getRelationFirstFromSecond(Relation::Next, nextLine);
         if (!toVisit.empty()) {

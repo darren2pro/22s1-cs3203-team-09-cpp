@@ -11,7 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\EntityADT.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PatternADT.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBUtils.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.cpp" />
@@ -36,10 +37,11 @@
     <ClCompile Include="..\source\TNode\TNode.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\EntityADT.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PatternADT.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBUtils.h" />
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationADT.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.h" />

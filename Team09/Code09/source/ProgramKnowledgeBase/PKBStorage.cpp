@@ -33,6 +33,12 @@ namespace PKB {
             return &callsTRelations;
         case Relation::Next:
             return &nextRelations;
+        case Relation::NextT:
+            return &nextTRelationsCache;
+        case Relation::Affects:
+            return &affectRelationCache;
+        case Relation::AffectsT:
+            return &affectTRelationCache;
         default:
             return &RelationADT<std::string, std::string>();
         }
@@ -75,6 +81,19 @@ namespace PKB {
             return &whilePattern;
         default:
             return &PatternADT();
+        }
+    }
+
+    RelationCacheADT<std::string, std::string>* PKBStorage::getCacheFromEnum(Relation::Types type) {
+        switch (type) {
+        case Relation::NextT:
+            return &nextTRelationsCache;
+        case Relation::Affects:
+            return &affectRelationCache;
+        case Relation::AffectsT:
+            return &affectTRelationCache;
+        default:
+            return &RelationCacheADT<std::string, std::string>();
         }
     }
 
@@ -237,5 +256,36 @@ namespace PKB {
     std::unordered_set<LineNum> PKBStorage::getPatternLineByUSMatchPartial(Pattern::Types type, const ExprStr expr) {
         auto pattern = getPatternFromEnum(type);
         return pattern->getLineByUSMatchPartial(expr);
+    }
+
+    bool PKBStorage::isCacheFullyComputed(Relation::Types type) {
+        auto cache = getCacheFromEnum(type);
+        return cache->isFullyComputed;
+    }
+
+    void PKBStorage::setCacheFullyComputed(Relation::Types type) {
+        auto cache = getCacheFromEnum(type);
+        cache->isFullyComputed = true;
+    }
+
+    void PKBStorage::storeCacheSet(Relation::Types type, const std::string first, const std::string second) {
+        auto cache = getCacheFromEnum(type);
+        cache->addToSet(first, second);
+    }
+
+    void PKBStorage::storeCacheFirstToSecondMap(Relation::Types type, const std::string first, const std::string second) {
+        auto cache = getCacheFromEnum(type);
+        cache->addToFirstToSecondMap(first, second);
+    }
+
+    void PKBStorage::storeCacheSecondToFirstMap(Relation::Types type, const std::string second, const std::string first) {
+        auto cache = getCacheFromEnum(type);
+        cache->addToSecondToFirstMap(second, first);
+    }
+
+    void PKBStorage::clearCache() {
+        nextTRelationsCache.reset();
+        affectRelationCache.reset();
+        affectTRelationCache.reset();
     }
 }

@@ -43,6 +43,7 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBUtils.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationADT.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationCacheADT.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsRelationEvaluator.h" />

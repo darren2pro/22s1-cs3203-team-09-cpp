@@ -400,7 +400,7 @@ namespace IntegrationTesting {
 
                 //! Query 16
                 string query16 = "assign a1, a2; stmt ss1, ss2; call cc1, cc2; read rr1, rr2; if ifs1, ifs2; while w1, w2; \n"
-                                 "Select BOOLEAN such that Next(ss1, _)  ";
+                                 "Select BOOLEAN such that Next(ss1, _)";
                 unordered_set<string> queryResults16 = spaManager.query(query16);
                 /*
                  * Expected results:

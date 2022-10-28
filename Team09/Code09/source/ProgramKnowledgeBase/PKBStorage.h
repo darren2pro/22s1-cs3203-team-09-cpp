@@ -8,6 +8,7 @@
 #include "PKBUtils.h"
 #include "PatternADT.h"
 #include "RelationADT.h"
+#include "RelationCacheADT.h"
 #include "EntityADT.h"
 #include "../TNode/TNode.h"
 #include "../QueryProcessingSubsystem/Declaration.h"
@@ -28,6 +29,7 @@ namespace PKB {
         RelationADT<std::string, std::string>* getRelationFromEnum(Relation::Types);
         EntityADT* getEntityFromEnum(Declaration::DesignEntity);
         PatternADT* getPatternFromEnum(Pattern::Types);
+        RelationCacheADT<std::string, std::string>* getCacheFromEnum(Relation::Types);
 
         std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet; //move to DE
 
@@ -55,6 +57,11 @@ namespace PKB {
         RelationADT<CallerProc, CalleeProc> callsRelations;
         RelationADT<CallerProc, CalleeProc> callsTRelations;
         RelationADT<PrevLine, NextLine> nextRelations;
+
+        //relations cache
+        RelationCacheADT<PrevLine, NextLine> nextTRelationsCache;
+        RelationCacheADT<ModifiesLine, UsesLine> affectRelationCache;
+        RelationCacheADT<ModifiesLine, UsesLine> affectTRelationCache;
 
         //pattern map
         PatternADT assignPattern;
@@ -109,5 +116,13 @@ namespace PKB {
         std::unordered_set<LineNum> getPatternLineByUS(Pattern::Types);
         std::unordered_set<LineNum> getPatternLineByUSMatchFull(Pattern::Types, const ExprStr);
         std::unordered_set<LineNum> getPatternLineByUSMatchPartial(Pattern::Types, const ExprStr);
+
+        // cache API
+        bool isCacheFullyComputed(Relation::Types);
+        void setCacheFullyComputed(Relation::Types);
+        void storeCacheSet(Relation::Types, const std::string, const std::string);
+        void storeCacheFirstToSecondMap(Relation::Types, const std::string, const std::string);
+        void storeCacheSecondToFirstMap(Relation::Types, const std::string, const std::string);
+        void clearCache();
     };
 }

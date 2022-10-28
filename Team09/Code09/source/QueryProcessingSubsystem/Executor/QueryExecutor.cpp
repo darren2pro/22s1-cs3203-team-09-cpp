@@ -79,6 +79,8 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 	std::unordered_set<std::string> results = getResultsFromRDB(target, rdb);
 
+    //pkb->clearCache();
+
 	return results;
 }
 

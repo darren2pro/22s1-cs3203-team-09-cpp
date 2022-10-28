@@ -7,12 +7,11 @@
 namespace PKB {
     template <typename T, typename U>
     class RelationADT {
-    private:
+    public:
         std::unordered_set<std::pair<T, U>, pairHash> set;
         std::unordered_map<T, std::unordered_set<U>> firstToSecondMap;
         std::unordered_map<U, std::unordered_set<T>> secondToFirstMap;
 
-    public:
         void add(const T, const U);
         bool isEmpty();
         bool containsFirst(const T);

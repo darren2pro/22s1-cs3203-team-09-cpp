@@ -14,7 +14,7 @@ namespace PKB {
         void add(const std::string);
         void add(const std::string, const std::string);
         bool contains(const std::string);
-        std::unordered_set<std::string>  getSet();
+        std::unordered_set<std::string> getSet();
         std::string get(const std::string);
     };
 }

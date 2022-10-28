@@ -9,6 +9,9 @@
 #include "Pattern/PatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
 #include "SuchThat/RelationEvaluator.h"
+#include "SuchThat/NextTRelationEvaluator.h"
+#include "SuchThat/AffectsRelationEvaluator.h"
+#include "SuchThat/AffectsTRelationEvaluator.h"
 #include "With/WithEvaluator.h"
 
 
@@ -82,7 +85,17 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 // Relation execute
 bool QueryExecutor::relationExecute(Relation relations, ResultsDatabase& rdb) {
-	return RelationEvaluator(declarations, relations, rdb, pkb).evaluate();
+    Relation::Types type = relations.Type;
+    switch (type) {
+    case Relation::NextT:
+        return NextTRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
+    case Relation::Affects:
+        return AffectsRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
+        case Relation::AffectsT:
+        return AffectsTRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
+    default:
+        return RelationEvaluator(declarations, relations, rdb, pkb).evaluate();
+    }
 }
 
 // Pattern execute

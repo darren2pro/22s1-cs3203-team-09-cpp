@@ -171,6 +171,9 @@
     <ClCompile Include="..\source\ProgramKnowledgeBase\EntityADT.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\SourceProcessor\Parser.h">
@@ -287,6 +290,15 @@
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\EntityADT.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsRelationEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsTRelationEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

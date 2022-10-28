@@ -25,7 +25,7 @@ namespace IntegrationTesting {
                                   "                        i = i - 1; }\n" // line 9
                                   "                if (x==1) then {\n" // line 10
                                   "                        x = x+1; }\n" // line 11
-                                  "        else {\n"
+                                  "                else {\n"
                                   "                        z = 1; }\n" // line 12
                                   "                z = z + x + i;\n" // line 13
                                   "                y = z + 2;\n" // line 14
@@ -313,8 +313,9 @@ namespace IntegrationTesting {
                 string query9 = "assign a; stmt s; read r;\n"
                                 "Select s such that Next*(6, s)";
                 unordered_set<string> queryResults9 = spaManager.query(query9);
-                // Expected results: 7, 8, 9, 10, 11, 12, 13, 14, 15
-                Assert::AreEqual(9, (int) queryResults9.size(), L"Query 9 fails");
+                // Expected results: 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+                Assert::AreEqual(10, (int) queryResults9.size(), L"Query 9 fails");
+                Assert::IsTrue(queryResults9.find("6") != queryResults9.end(), L"Query 9 fails");
                 Assert::IsTrue(queryResults9.find("7") != queryResults9.end(), L"Query 9 fails");
                 Assert::IsTrue(queryResults9.find("8") != queryResults9.end(), L"Query 9 fails");
                 Assert::IsTrue(queryResults9.find("9") != queryResults9.end(), L"Query 9 fails");
@@ -348,9 +349,10 @@ namespace IntegrationTesting {
                 string query11 = "assign a; stmt s; read r;\n"
                                  "Select s such that Next*(s, 13)";
                 unordered_set<string> queryResults11 = spaManager.query(query11);
-                // Expected results: 12, 10, 9, 8, 7, 6, 5, 4
-                Assert::AreEqual(8, (int) queryResults11.size(), L"Query 11 fails");
+                // Expected results: 12, 11, 10, 9, 8, 7, 6, 5, 4
+                Assert::AreEqual(9, (int) queryResults11.size(), L"Query 11 fails");
                 Assert::IsTrue(queryResults11.find("12") != queryResults11.end(), L"Query 11 fails");
+                Assert::IsTrue(queryResults11.find("11") != queryResults11.end(), L"Query 11 fails");
                 Assert::IsTrue(queryResults11.find("10") != queryResults11.end(), L"Query 11 fails");
                 Assert::IsTrue(queryResults11.find("9") != queryResults11.end(), L"Query 11 fails");
                 Assert::IsTrue(queryResults11.find("8") != queryResults11.end(), L"Query 11 fails");
@@ -383,7 +385,10 @@ namespace IntegrationTesting {
                                  "Select s such that Next*(11, s)";
                 unordered_set<string> queryResults13 = spaManager.query(query13);
                 // Empty expected results
-                Assert::AreEqual(0, (int) queryResults13.size(), L"Query 13 fails");
+                Assert::AreEqual(3, (int) queryResults13.size(), L"Query 13 fails");
+                Assert::IsTrue(queryResults13.find("13") != queryResults13.end(), L"Query 13 fails");
+                Assert::IsTrue(queryResults13.find("14") != queryResults13.end(), L"Query 13 fails");
+                Assert::IsTrue(queryResults13.find("15") != queryResults13.end(), L"Query 13 fails");
             }
 
             TEST_METHOD(TestNextNextTPartTwo1) {
@@ -393,10 +398,12 @@ namespace IntegrationTesting {
 
                 //! Query 1
                 string query1 = "assign a; stmt s; while w; if i; variable v;\n"
-                                "Select a such that Next*(a, 2)";
+                                "Select s such that Next*(s, 2)";
                 unordered_set<string> queryResults1 = spaManager.query(query1);
                 // Empty expected results
-                Assert::AreEqual(0, (int) queryResults1.size(), L"Query 1 fails");
+                Assert::AreEqual(2, (int) queryResults1.size(), L"Query 1 fails");
+                Assert::IsTrue(queryResults1.find("1") != queryResults1.end(), L"Query 1 fails");
+                Assert::IsTrue(queryResults1.find("2") != queryResults1.end(), L"Query 1 fails");
             }
 
             TEST_METHOD(TestNextNextTPartTwo2) {
@@ -411,7 +418,7 @@ namespace IntegrationTesting {
                 // Expected results: 1, 2
                 Assert::AreEqual(2, (int) queryResults2.size(), L"Query 2 fails");
                 Assert::IsTrue(queryResults2.find("1") != queryResults2.end(), L"Query 2 fails");
-                Assert::IsTrue(queryResults2.find("2") != queryResults2.end(), L"Query 2 fails");
+                Assert::IsTrue(queryResults2.find("4") != queryResults2.end(), L"Query 2 fails");
             }
 
             TEST_METHOD(TestNextNextTPartTwo3) {
@@ -506,8 +513,9 @@ namespace IntegrationTesting {
                 string query9 = "assign a; stmt s; while w; if i; variable v; print pp;\n"
                                 "Select pp such that Next(pp, 5)";
                 unordered_set<string> queryResults9 = spaManager.query(query9);
-                // Empty expected results
-                Assert::AreEqual(0, (int) queryResults9.size(), L"Query 9 fails");
+                // Expected  results: 6
+                Assert::AreEqual(1, (int) queryResults9.size(), L"Query 9 fails");
+                Assert::IsTrue(queryResults9.find("6") != queryResults9.end(), L"Query 9 fails");
             }
 
             TEST_METHOD(TestNextNextTPartTwo10) {
@@ -519,10 +527,11 @@ namespace IntegrationTesting {
                 string query10 = "assign a; stmt s; while w; if i; variable v; print pp;\n"
                                  "Select pp such that Next*(pp, 6)";
                 unordered_set<string> queryResults10 = spaManager.query(query10);
-                // Expected results: 4, 2
-                Assert::AreEqual(2, (int) queryResults10.size(), L"Query 10 fails");
-                Assert::IsTrue(queryResults10.find("4") != queryResults10.end(), L"Query 10 fails");
+                // Expected results: 2, 4, 6
+                Assert::AreEqual(3, (int) queryResults10.size(), L"Query 10 fails");
                 Assert::IsTrue(queryResults10.find("2") != queryResults10.end(), L"Query 10 fails");
+                Assert::IsTrue(queryResults10.find("4") != queryResults10.end(), L"Query 10 fails");
+                Assert::IsTrue(queryResults10.find("6") != queryResults10.end(), L"Query 10 fails");
             }
 
             TEST_METHOD(TestNextNextTPartTwo11) {
@@ -534,9 +543,10 @@ namespace IntegrationTesting {
                 string query11 = "assign a; stmt s; while w; if i; variable v; print pp;\n"
                                  "Select s such that Next(s, 19)";
                 unordered_set<string> queryResults11 = spaManager.query(query11);
-                // Expected results: 11
-                Assert::AreEqual(1, (int) queryResults11.size(), L"Query 11 fails");
+                // Expected results: 11, 20
+                Assert::AreEqual(2, (int) queryResults11.size(), L"Query 11 fails");
                 Assert::IsTrue(queryResults11.find("11") != queryResults11.end(), L"Query 11 fails");
+                Assert::IsTrue(queryResults11.find("20") != queryResults11.end(), L"Query 11 fails");
             }
 
             TEST_METHOD(TestNextNextTPartTwo12) {

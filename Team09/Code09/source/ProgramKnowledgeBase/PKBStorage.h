@@ -18,18 +18,18 @@
 namespace PKB {
     class PKBStorage {
     private:
-        int lineNum = 1;
-        std::unordered_map<std::shared_ptr<TNode>, LineNum> nodeToLineMap;
-        std::unordered_map<LineNum, Procedure> lineToProcMap;
+        int lineNum = 1; //move to DE
+        std::unordered_map<std::shared_ptr<TNode>, LineNum> nodeToLineMap; //move to DE
+        std::unordered_map<LineNum, Procedure> lineToProcMap; //move to DE
 
-        LineNum getCurrLineNumber();
-        void incrementCurrLineNumber();
+        LineNum getCurrLineNumber(); //move to DE
+        void incrementCurrLineNumber(); //move to DE
 
         RelationADT<std::string, std::string>* getRelationFromEnum(Relation::Types);
         EntityADT* getEntityFromEnum(Declaration::DesignEntity);
         PatternADT* getPatternFromEnum(Pattern::Types);
 
-        std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet;
+        std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet; //move to DE
 
         //entity set
         EntityADT varEntity;
@@ -66,14 +66,14 @@ namespace PKB {
         PKBStorage();
         ~PKBStorage();
 
-        void storeLineCallsProc(LineNum lineNum, Procedure proc);
-        std::unordered_set < std::pair<LineNum, Procedure>, pairHash> getLineCallsProc();
+        void storeLineCallsProc(LineNum lineNum, Procedure proc); //move to DE
+        std::unordered_set<std::pair<LineNum, Procedure>, pairHash> getLineCallsProc(); //move to DE
 
         //line number API
-        LineNum storeLine(const Stmt node);
-        LineNum getLineFromNode(const Stmt node);
-        void storeLineToProcedure(const LineNum lineNum, const Procedure proc);
-        Procedure getProcedureFromLine(const LineNum lineNum);
+        LineNum storeLine(const Stmt node); //move to DE
+        LineNum getLineFromNode(const Stmt node); //move to DE
+        void storeLineToProcedure(const LineNum lineNum, const Procedure proc); //move to DE
+        Procedure getProcedureFromLine(const LineNum lineNum); //move to DE
 
         //store entities API
         void storeEntity(Declaration::DesignEntity entity, const std::string value);

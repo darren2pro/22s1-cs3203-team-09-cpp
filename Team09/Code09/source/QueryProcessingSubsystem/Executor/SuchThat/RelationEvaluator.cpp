@@ -118,7 +118,7 @@ bool RelationEvaluator::evaluate() {
 	// UNDERSCORE UNDERSCORE
 	else if (isLeftUnderscore && isRightUnderscore) {
 		if (isFirstArgumentUnderscoreValid(relType)) {
-			bool result = pkb->relationIsEmpty(relType);
+			bool result = !(pkb->relationIsEmpty(relType));
 			return result;
 		}
 		assert("Syntax Error");

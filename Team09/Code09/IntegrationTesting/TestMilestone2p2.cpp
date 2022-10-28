@@ -65,10 +65,12 @@ namespace IntegrationTesting {
                 string query1 = "assign a; stmt ss;\n"
                                 "Select <a, a> such that Follows(_, _) pattern a(_, _)";
                 unordered_set<string> queryResults1 = spaManager.query(query1);
-                // Expected results: 14 14, 16 16
-                Assert::AreEqual(2, (int) queryResults1.size());
+                // Expected results: 14 14, 16 16, 14 16, 16 14
+                Assert::AreEqual(4, (int) queryResults1.size());
                 Assert::IsTrue(queryResults1.find("14 14") != queryResults1.end());
+                Assert::IsTrue(queryResults1.find("14 16") != queryResults1.end());
                 Assert::IsTrue(queryResults1.find("16 16") != queryResults1.end());
+                Assert::IsTrue(queryResults1.find("16 14") != queryResults1.end());
             }
 
             TEST_METHOD(TestExhaustive2) {

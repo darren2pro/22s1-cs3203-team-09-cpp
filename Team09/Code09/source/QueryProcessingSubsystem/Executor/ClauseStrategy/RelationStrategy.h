@@ -10,6 +10,7 @@ public:
 
 	bool execute(Clause& clause, ResultsDatabase& rdb) const override {
 		Relation* rel = std::get_if<Relation>(&clause.clause);
+		if (rel == nullptr) return false;
 		return RelationEvaluator(declarations, *rel, rdb, pkb).evaluate();
 	}
 };

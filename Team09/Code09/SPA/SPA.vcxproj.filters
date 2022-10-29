@@ -281,9 +281,6 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
-      <Filter>Header Files\ProgramKnowledgeBase</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -328,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\ClausePrioritizer.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\WithStrategy.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\ClauseStrategy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

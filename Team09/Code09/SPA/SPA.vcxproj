@@ -49,6 +49,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\ClausePrioritizer.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\WithStrategy.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsRelationEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsTRelationEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.h" />

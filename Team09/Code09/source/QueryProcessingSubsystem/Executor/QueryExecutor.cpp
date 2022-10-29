@@ -11,6 +11,7 @@
 #include "ClauseStrategy/ClauseStrategyContext.h"
 #include "ClauseStrategy/RelationStrategy.h"
 #include "ClauseStrategy/PatternStrategy.h"
+#include "ClauseStrategy/WithStrategy.h"
 #include "SuchThat/RelationEvaluator.h"
 #include "SuchThat/NextTRelationEvaluator.h"
 #include "SuchThat/AffectsRelationEvaluator.h"
@@ -26,23 +27,52 @@ struct Overload : Ts... {
 template<class... Ts> Overload(Ts...) -> Overload<Ts...>;
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
-	relations = query->relations;
+    relations = query->relations;
 	pattern = query->patterns;
     with = query->withs;
 	declarations = query->declarations;
 	target = query->target;
 	rdb = ResultsDatabase();
 
+	//! For Darren
 	// Initialize context for strategy pattern
-	// auto clauses = prioritizeClauses(query)
-	// for clause in clauses:
-	// if(!execute(clause)) { return False }
+    std::vector<Clause> clauses = ClausePrioritizer(query).getClauses();
+    auto withStrat = std::make_unique<WithStrategy>(declarations, pkb);
+	auto patternStrat = std::make_unique<PatternStrategy>(declarations, pkb);
+	auto relationStrat = std::make_unique<RelationStrategy>(declarations, pkb);
 
+    ClauseStrategyContext clauseStrategyContext(withStrat);
+    for (auto& clause : clauses) {
+        if (clause.isPattern) {
+            clauseStrategyContext.setStrategy(patternStrat);
+        }
+        else if (clause.isRelation) {
+            clauseStrategyContext.setStrategy(relationStrat);
+        }
+        else if (clause.isWith) {
+            clauseStrategyContext.setStrategy(withStrat);
+        }
+        else {
+            assert("Invalid clause type");
+        }
+		
+        if (!clauseStrategyContext.execute(clause, rdb)) {
+            if (target.isBoolean()) {
+                return std::unordered_set<std::string>{"FALSE"};
+            }
+            else {
+                return {};
+            }
+        }
+    }
+
+
+	
 	// Relations clause
     bool relClauseResult = true;
 
 	// Instantiate the ClauseStrategyContext with a concrete strategy first
-	ClauseStrategyContext clauseStrategyContext(std::make_unique<RelationStrategy>(declarations, pkb));
+	clauseStrategyContext.setStrategy(std::make_unique<RelationStrategy>(declarations, pkb));
     for (Relation& rel : relations) {
         if (!clauseStrategyContext.execute(rel, rdb)) {
             relClauseResult = false;
@@ -62,8 +92,9 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 	// With clause
     bool withClauseResult = true;
+    clauseStrategyContext.setStrategy(std::make_unique<WithStrategy>(declarations, pkb));
     for (With& wit : with) {
-        if (!withExecute(wit, rdb)) {
+        if (!clauseStrategyContext.execute(wit, rdb)) {
             withClauseResult = false;
             break;
         }

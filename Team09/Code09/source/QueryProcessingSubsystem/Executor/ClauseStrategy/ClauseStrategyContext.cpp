@@ -24,3 +24,8 @@ bool ClauseStrategyContext::execute(Relation relation, ResultsDatabase& rdb) con
 {
 	return execute(Clause(relation), rdb);
 }
+
+bool ClauseStrategyContext::execute(With with, ResultsDatabase& rdb) const
+{
+	return execute(Clause(with), rdb);
+}

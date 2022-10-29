@@ -11,4 +11,5 @@ public:
 	bool execute(Clause clause, ResultsDatabase& rdb) const;
 	bool execute(Pattern pattern, ResultsDatabase& rdb) const;
 	bool execute(Relation relation, ResultsDatabase& rdb) const;
+	bool execute(With with, ResultsDatabase& rdb) const;
 };

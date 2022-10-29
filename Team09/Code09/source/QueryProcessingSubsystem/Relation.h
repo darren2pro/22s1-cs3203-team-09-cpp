@@ -2,9 +2,8 @@
 #include <string>
 #include <vector>
 #include "Reference.h"
-#include "Clause.h"
 
-class Relation : public Clause {
+class Relation {
 public:
 	enum Types {
 		Modifies,
@@ -30,8 +29,8 @@ public:
 	Reference LEFT_ARG;
 	Reference RIGHT_ARG;
 
-	Relation(Types TYPE, Reference LEFT_ARG, Reference RIGHT_ARG) : Clause(), Type(TYPE), LEFT_ARG(LEFT_ARG), RIGHT_ARG(RIGHT_ARG) {};
-	Relation() : Clause(), Type(Relation::NONE), LEFT_ARG(Reference()), RIGHT_ARG(Reference()) {}; // Needed to ensure initialization of empty relation in Query.h
+	Relation(Types TYPE, Reference LEFT_ARG, Reference RIGHT_ARG) : Type(TYPE), LEFT_ARG(LEFT_ARG), RIGHT_ARG(RIGHT_ARG) {};
+	Relation() : Type(Relation::NONE), LEFT_ARG(Reference()), RIGHT_ARG(Reference()) {}; // Needed to ensure initialization of empty relation in Query.h
 
 
 	/**

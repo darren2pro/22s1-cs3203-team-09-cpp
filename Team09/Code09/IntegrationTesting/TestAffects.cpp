@@ -470,7 +470,7 @@ namespace IntegrationTesting {
                  * Expected results for a1 a2:
                  * 1 4, 1 8, 1 10, 1 11, 1 12,
                  * 2 6, 2 10, 2 11, 2 12,
-                 * 4 8, 4 10, 4 11, 4 12,
+                 * 4 4, 4 8, 4 10, 4 11, 4 12,
                  * 6 6, 6 10, 6 11, 6 12,
                  * 8 10, 8 11, 8 12,
                  * 9 10, 9 11, 9 12,
@@ -488,7 +488,7 @@ namespace IntegrationTesting {
                  * 11 12 11 12 11
                  */
                 unordered_set<string> result20 = spaManager.query(query20);
-                Assert::AreEqual(26, (int) result20.size());
+                Assert::AreEqual(27, (int) result20.size());
                 Assert::IsTrue(result20.find("1 4 1 4 1") != result20.end());
                 Assert::IsTrue(result20.find("1 8 1 8 1") != result20.end());
                 Assert::IsTrue(result20.find("1 10 1 10 1") != result20.end());

@@ -164,7 +164,7 @@ bool AffectsRelationEvaluator::isNotModified(std::string modifies, std::string u
 				 pkb->entityContains(Declaration::Read, next) ||
 				 pkb->entityContains(Declaration::Call, next)) &&
 				pkb->relationContainsSet(Relation::ModifiesS, next, var)) {
-				break;
+				continue;
 			}
 			if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
 				list.push_back(next);

@@ -15,6 +15,7 @@
     <ClCompile Include="..\source\ProgramKnowledgeBase\PatternADT.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBUtils.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\ClausePrioritizer.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationADT.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationCacheADT.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\ClausePrioritizer.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsRelationEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsTRelationEvaluator.h" />

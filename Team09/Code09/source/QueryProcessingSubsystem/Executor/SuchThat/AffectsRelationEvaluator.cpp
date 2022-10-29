@@ -1,9 +1,9 @@
 #include <cassert>
-#include "NextTRelationEvaluator.h"
+#include "AffectsRelationEvaluator.h"
 #include "../QueryExecutor.h"
 #include "../../Utils.h"
 
-bool NextTRelationEvaluator::evaluate() {
+bool AffectsRelationEvaluator::evaluate() {
 	// Check the left and right argument. If they are synonyms, must
 	// get their entire variable set from pkb and populate it first.
 	bool isLeftSynonym = leftArg.isSynonym();
@@ -32,11 +32,23 @@ bool NextTRelationEvaluator::evaluate() {
 	if (isLeftSynonym && isRightSynonym) {
 		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result;
 
-		if (!pkb->isCacheFullyComputed(Relation::NextT)) {
-			computeFully();
+		if (!pkb->isCacheFullyComputed(Relation::Affects)) {
+			for (const auto& modifiesLine : pkb->getEntitySet(Declaration::Assignment)) {
+				for (const auto& usesLine : pkb->getEntitySet(Declaration::Assignment)) {
+					// variable modified by modifiesLine
+					auto& var = *(pkb->getRelationSecondFromFirst(Relation::ModifiesS, modifiesLine).begin());
+					if (!pkb->relationContainsSet(Relation::UsesS, usesLine, var)) {
+						continue;
+					}
+					else { // modifiesLine modifies a variable used in usesLine
+
+					}
+				}
+			}
+			pkb->setCacheFullyComputed(Relation::Affects);
 		}
 
-		result = pkb->getRelationSet(Relation::NextT);
+		result = pkb->getRelationSet(Relation::Affects);
 
 		if (result.size() == 0) {
 			return false;
@@ -65,23 +77,23 @@ bool NextTRelationEvaluator::evaluate() {
 		}
 
 		if (!pkb->relationContainsSecond(Relation::NextT, rightArg.value)) {
-            std::unordered_set<std::string> visited;
-		    std::vector<std::string> list;
-		    list.push_back(rightArg.value);
-		    while (!list.empty()) {
-			    std::string curr = list.back();
-			    visited.insert(curr);
-			    list.pop_back();
-			    for (const auto& prev : pkb->getRelationFirstFromSecond(Relation::Next, curr)) {
+			std::unordered_set<std::string> visited;
+			std::vector<std::string> list;
+			list.push_back(rightArg.value);
+			while (!list.empty()) {
+				std::string curr = list.back();
+				visited.insert(curr);
+				list.pop_back();
+				for (const auto& prev : pkb->getRelationFirstFromSecond(Relation::Next, curr)) {
 					pkb->storeCacheSecondToFirstMap(Relation::NextT, rightArg.value, prev);
-				    if (visited.find(prev) == visited.end() && pkb->relationContainsSecond(Relation::Next, prev)) {
-					    list.push_back(prev);
-				    }
-			    }
-		    }
+					if (visited.find(prev) == visited.end() && pkb->relationContainsSecond(Relation::Next, prev)) {
+						list.push_back(prev);
+					}
+				}
+			}
 		}
 		result = pkb->getRelationFirstFromSecond(Relation::NextT, rightArg.value);
-		
+
 		return rdb.insertList(leftSynonym, result);
 	}
 
@@ -93,24 +105,24 @@ bool NextTRelationEvaluator::evaluate() {
 		}
 
 		if (!pkb->relationContainsFirst(Relation::NextT, leftArg.value)) {
-            std::unordered_set<std::string> visited;
-		    std::vector<std::string> list;
-		    list.push_back(leftArg.value);
-		    while (!list.empty()) {
-			    std::string curr = list.back();
-			    visited.insert(curr);
-			    list.pop_back();
-			    for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Next, curr)) {
+			std::unordered_set<std::string> visited;
+			std::vector<std::string> list;
+			list.push_back(leftArg.value);
+			while (!list.empty()) {
+				std::string curr = list.back();
+				visited.insert(curr);
+				list.pop_back();
+				for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Next, curr)) {
 					pkb->storeCacheFirstToSecondMap(Relation::NextT, leftArg.value, next);
-				    if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
-					    list.push_back(next);
-				    }
-			    }
-		    }
+					if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
+						list.push_back(next);
+					}
+				}
+			}
 		}
 		result = pkb->getRelationSecondFromFirst(Relation::NextT, leftArg.value);
-		
-	    return rdb.insertList(rightSynonym, result);
+
+		return rdb.insertList(rightSynonym, result);
 	}
 
 	// SIMPLE UNDERSCORE
@@ -126,23 +138,23 @@ bool NextTRelationEvaluator::evaluate() {
 		}
 
 		if (!pkb->relationContainsSet(Relation::NextT, leftArg.value, rightArg.value)) {
-            std::unordered_set<std::string> visited;
-		    std::vector<std::string> list;
-            list.push_back(leftArg.value);
-		    while (!list.empty()) {
-			    std::string curr = list.back();
-			    visited.insert(curr);
-			    list.pop_back();
-			    for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Next, curr)) {
+			std::unordered_set<std::string> visited;
+			std::vector<std::string> list;
+			list.push_back(leftArg.value);
+			while (!list.empty()) {
+				std::string curr = list.back();
+				visited.insert(curr);
+				list.pop_back();
+				for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Next, curr)) {
 					pkb->storeCacheSet(Relation::NextT, leftArg.value, next);
-				    if (next == rightArg.value) {
-					    return true;
-				    }
-				    if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
-					    list.push_back(next);
-				    }
-			    }   
-		    }
+					if (next == rightArg.value) {
+						return true;
+					}
+					if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
+						list.push_back(next);
+					}
+				}
+			}
 			return false;
 		}
 		return true;
@@ -183,25 +195,4 @@ bool NextTRelationEvaluator::evaluate() {
 		}
 		assert("Syntax Error");
 	}
-}
-
-void NextTRelationEvaluator::computeFully() {
-	for (const auto& prev : pkb->getRelationAllFirst(Relation::Next)) {
-		std::unordered_set<std::string> visited;
-		std::vector<std::string> list;
-
-		list.push_back(prev);
-		while (!list.empty()) {
-			std::string curr = list.back();
-			visited.insert(curr);
-			list.pop_back();
-			for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Next, curr)) {
-				pkb->storeRelations(Relation::NextT, prev, next);
-				if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
-					list.push_back(next);
-				}
-			}
-		}
-	}
-	pkb->setCacheFullyComputed(Relation::NextT);
 }

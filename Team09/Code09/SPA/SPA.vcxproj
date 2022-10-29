@@ -15,6 +15,7 @@
     <ClCompile Include="..\source\ProgramKnowledgeBase\PatternADT.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBUtils.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsRelationEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.cpp" />

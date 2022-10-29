@@ -15,4 +15,6 @@ public:
     using RelationEvaluator::RelationEvaluator;
 
     bool evaluate();
+
+    void computeFully();
 };

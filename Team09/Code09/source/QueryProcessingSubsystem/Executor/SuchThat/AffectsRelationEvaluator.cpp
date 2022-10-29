@@ -128,11 +128,12 @@ void AffectsRelationEvaluator::computeFully() {
 	for (const auto& modifiesLine : pkb->getEntitySet(Declaration::Assignment)) {
 		for (const auto& usesLine : pkb->getEntitySet(Declaration::Assignment)) {
 			// variable modified by modifiesLine
-			auto& var = *(pkb->getRelationSecondFromFirst(Relation::ModifiesS, modifiesLine).begin());
-			if (lineUsesVar(usesLine, var) &&
-				lineReachesline(modifiesLine, usesLine) &&
-				isNotModified(modifiesLine, usesLine, var)) {
-				pkb->storeRelations(Relation::Affects, modifiesLine, usesLine);
+			for (const auto& var : pkb->getRelationSecondFromFirst(Relation::ModifiesS, modifiesLine)) {
+                if (lineUsesVar(usesLine, var) &&
+				    lineReachesline(modifiesLine, usesLine) &&
+				    isNotModified(modifiesLine, usesLine, var)) {
+				    pkb->storeRelations(Relation::Affects, modifiesLine, usesLine);
+			    }
 			}
 		}
 	}
@@ -159,8 +160,11 @@ bool AffectsRelationEvaluator::isNotModified(std::string modifies, std::string u
 			if (next == uses) {
 				return true;
 			}
-			if (pkb->relationContainsSet(Relation::ModifiesS, next, var)) {
-				return false;
+			if ((pkb->entityContains(Declaration::Assignment, next) ||
+				 pkb->entityContains(Declaration::Read, next) ||
+				 pkb->entityContains(Declaration::Call, next)) &&
+				pkb->relationContainsSet(Relation::ModifiesS, next, var)) {
+				break;
 			}
 			if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
 				list.push_back(next);

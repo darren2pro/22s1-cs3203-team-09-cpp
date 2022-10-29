@@ -49,21 +49,21 @@ namespace IntegrationTesting {
                                   "    }\n"
                                   "}\n";
                 string program2 = "procedure Second {\n"
-                                  "                                x = 0;\n"
-                                  "                                i = 5;\n"
-                                  "                                while (i!=0) {\n"
-                                  "                                        x = x + 2*y;\n"
-                                  "                                        call Third;\n"
-                                  "                                        i = i - 1; }\n"
-                                  "                                if (x==1) then {\n"
-                                  "                                        x = x+1; }\n"
-                                  "                        else {\n"
-                                  "                                        z = 1; }\n"
-                                  "                                z = z + x + i;\n"
-                                  "                                y = z + 2;\n"
-                                  "                                x = x * y + z; }\n"
+                                  "                                x = 0;\n" // line 1
+                                  "                                i = 5;\n" // line 2
+                                  "                                while (i!=0) {\n" // line 3
+                                  "                                        x = x + 2*y;\n" // line 4
+                                  "                                        call Third;\n" // line 5
+                                  "                                        i = i - 1; }\n" // line 6
+                                  "                                if (x==1) then {\n" // line 7
+                                  "                                        x = x+1; }\n" // line 8
+                                  "                                else {\n"
+                                  "                                        z = 1; }\n" // line 9
+                                  "                                z = z + x + i;\n" // line 10
+                                  "                                y = z + 2;\n" // line 11
+                                  "                                x = x * y + z; }\n" // line 12
                                   "procedure Third {\n"
-                                  "        call Fourth;\n"
+                                  "        call Fourth;\n" // line 13
                                   "}\n  ";
 
                 switch (ref) {

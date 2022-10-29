@@ -162,6 +162,11 @@ namespace PKB {
         pattern->add(var, line, expr);
     }
 
+    bool PKBStorage::entityContains(Declaration::DesignEntity type, const std::string value) {
+        auto entity = getEntityFromEnum(type);
+        return entity->contains(value);
+    }
+
     std::unordered_set<std::string> PKBStorage::getEntitySet(Declaration::DesignEntity type) {
         auto entity = getEntityFromEnum(type);
         return entity->getSet();

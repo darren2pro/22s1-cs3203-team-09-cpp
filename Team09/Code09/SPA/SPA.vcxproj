@@ -23,6 +23,7 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsDatabase.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.h" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\ClauseStrategyContext.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp" />
@@ -57,12 +58,17 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.cpp" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\ClauseStrategyContext.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\PatternStrategy.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\RelationStrategy.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\Strategy.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Expression.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Pattern.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Query.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Reference.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Relation.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Clause.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SemanticException.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\SyntaxException.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.h" />

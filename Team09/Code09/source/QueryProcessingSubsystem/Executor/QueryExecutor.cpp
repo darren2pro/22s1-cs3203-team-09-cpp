@@ -8,6 +8,9 @@
 #include "../Utils.h"
 #include "Pattern/PatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
+#include "ClauseStrategy/ClauseStrategyContext.h"
+#include "ClauseStrategy/RelationStrategy.h"
+#include "ClauseStrategy/PatternStrategy.h"
 #include "SuchThat/RelationEvaluator.h"
 #include "SuchThat/NextTRelationEvaluator.h"
 #include "SuchThat/AffectsRelationEvaluator.h"
@@ -30,14 +33,18 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	target = query->target;
 	rdb = ResultsDatabase();
 
+	// Initialize context for strategy pattern
 	// auto clauses = prioritizeClauses(query)
 	// for clause in clauses:
 	// if(!execute(clause)) { return False }
 
 	// Relations clause
     bool relClauseResult = true;
+
+	// Instantiate the ClauseStrategyContext with a concrete strategy first
+	ClauseStrategyContext clauseStrategyContext(std::make_unique<RelationStrategy>(declarations, pkb));
     for (Relation& rel : relations) {
-        if (!relationExecute(rel, rdb)) {
+        if (!clauseStrategyContext.execute(rel, rdb)) {
             relClauseResult = false;
             break;
         }
@@ -45,8 +52,9 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 
 	// Patterns clause
     bool patClauseResult = true;
+	clauseStrategyContext.setStrategy(std::make_unique<PatternStrategy>(declarations, pkb));
     for (Pattern& pat : pattern) {
-        if (!patternExecute(pat, rdb)) {
+        if (!clauseStrategyContext.execute(pat, rdb)) {
             patClauseResult = false;
             break;
         }

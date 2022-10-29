@@ -30,6 +30,14 @@ public:
 		rdb(rdb),
 		pkb(pkb) {};
 
+	RelationEvaluator(const RelationEvaluator& relEv) :
+		declarations(relEv.declarations),
+		relations(relEv.relations),
+		leftArg(relEv.relations.LEFT_ARG),
+		rightArg(relEv.relations.RIGHT_ARG),
+		rdb(relEv.rdb),
+		pkb(relEv.pkb) {};
+
     /**
      * Evaluates the relation and stores the results in the ResultsDatabase. Returns false if there are no possible results
      * for this relation evaluation, and returns true if there are at least one possible result.

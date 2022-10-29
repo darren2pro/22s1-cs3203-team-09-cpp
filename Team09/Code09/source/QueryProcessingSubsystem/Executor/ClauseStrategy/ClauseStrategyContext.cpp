@@ -2,8 +2,8 @@
 #include "Strategy.h"
 #include "../../Clause.h"
 
-void ClauseStrategyContext::setStrategy(std::unique_ptr<Strategy>&& strategy) {
-		strategy_ = std::move(strategy);
+void ClauseStrategyContext::setStrategy(std::shared_ptr<Strategy> strategy) {
+		strategy_ = strategy;
 	}
 
 bool ClauseStrategyContext::execute(Clause clause, ResultsDatabase& rdb) const {

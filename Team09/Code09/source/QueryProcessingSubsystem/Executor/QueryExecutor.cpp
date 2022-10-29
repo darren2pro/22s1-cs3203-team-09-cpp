@@ -34,14 +34,15 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	target = query->target;
 	rdb = ResultsDatabase();
 
-	//! For Darren
+	//TODO: For Darren.
 	// Initialize context for strategy pattern
-    std::vector<Clause> clauses = ClausePrioritizer(query).getClauses();
-    auto withStrat = std::make_unique<WithStrategy>(declarations, pkb);
-	auto patternStrat = std::make_unique<PatternStrategy>(declarations, pkb);
-	auto relationStrat = std::make_unique<RelationStrategy>(declarations, pkb);
-
+    std::shared_ptr<WithStrategy> withStrat = std::make_shared<WithStrategy>(declarations, pkb);
+    std::shared_ptr<PatternStrategy> patternStrat = std::make_shared<PatternStrategy>(declarations, pkb);
+    std::shared_ptr<RelationStrategy> relationStrat = std::make_shared<RelationStrategy>(declarations, pkb);
     ClauseStrategyContext clauseStrategyContext(withStrat);
+	
+    /*
+    std::vector<Clause> clauses = ClausePrioritizer(query).getClauses();
     for (auto& clause : clauses) {
         if (clause.isPattern) {
             clauseStrategyContext.setStrategy(patternStrat);
@@ -65,7 +66,7 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
             }
         }
     }
-
+    */
 
 	
 	// Relations clause

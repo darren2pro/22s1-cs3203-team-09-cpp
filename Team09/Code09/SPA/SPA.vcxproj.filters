@@ -97,6 +97,12 @@
     <Filter Include="Source Files\QueryProcessingSubsystem\Executor\ClauseStrategy">
       <UniqueIdentifier>{5b348207-ffed-4386-ba62-bd75a3c63420}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\QueryProcessingSubsystem\Executor\With">
+      <UniqueIdentifier>{20a50612-bd92-4439-886b-2d08ef43a586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QueryProcessingSubsystem\Executor\With">
+      <UniqueIdentifier>{2a45977a-7c06-49db-86c5-8adeff140298}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
@@ -162,11 +168,20 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.cpp">
+    <ClCompile Include="..\source\ProgramKnowledgeBase\PatternADT.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\ClauseStrategyContext.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\ClauseStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\With</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ProgramKnowledgeBase\EntityADT.cpp">
+      <Filter>Source Files\ProgramKnowledgeBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,7 +272,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Reference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
+    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationADT.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
@@ -273,7 +288,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.h">
+    <ClInclude Include="..\source\ProgramKnowledgeBase\PatternADT.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\ClauseStrategyContext.h">
@@ -293,6 +308,24 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\With</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\EntityADT.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsRelationEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsTRelationEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationCacheADT.h">
+      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

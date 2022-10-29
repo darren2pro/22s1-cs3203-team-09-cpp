@@ -83,7 +83,7 @@ bool RelationEvaluator::evaluate() {
 	}
 
 	// SIMPLE SIMPLE
-	else if ((leftArg.isString() || leftArg.isStmtNum()) && (rightArg.isString() || rightArg.isStmtNum())) {
+	else if (isLeftSimple && isRightSimple) {
 		bool result = pkb->relationContainsSet(relType, leftArg.value, rightArg.value);
 		return result;
 	}
@@ -118,7 +118,7 @@ bool RelationEvaluator::evaluate() {
 	// UNDERSCORE UNDERSCORE
 	else if (isLeftUnderscore && isRightUnderscore) {
 		if (isFirstArgumentUnderscoreValid(relType)) {
-			bool result = pkb->relationIsEmpty(relType);
+			bool result = !(pkb->relationIsEmpty(relType));
 			return result;
 		}
 		assert("Syntax Error");

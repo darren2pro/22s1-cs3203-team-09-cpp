@@ -9,7 +9,7 @@ namespace PKB {
         lineNum += 1;
     }
 
-    RelationsSetBiMap<std::string, std::string>* PKBStorage::getRelationFromEnum(Relation::Types type) {
+    RelationADT<std::string, std::string>* PKBStorage::getRelationFromEnum(Relation::Types type) {
         switch (type) {
         case Relation::ModifiesS:
             return &modifiesSRelations;
@@ -31,39 +31,47 @@ namespace PKB {
             return &callsRelations;
         case Relation::CallsT:
             return &callsTRelations;
+        case Relation::Next:
+            return &nextRelations;
+        case Relation::NextT:
+            return &nextTRelationsCache;
+        case Relation::Affects:
+            return &affectRelationCache;
+        case Relation::AffectsT:
+            return &affectTRelationCache;
         default:
-            return &RelationsSetBiMap<std::string, std::string>();
+            return &RelationADT<std::string, std::string>();
         }
     }
 
-    std::unordered_set<std::string>* PKBStorage::getEntityFromEnum(Declaration::DesignEntity entity) {
+    EntityADT* PKBStorage::getEntityFromEnum(Declaration::DesignEntity entity) {
         switch (entity) {
         case Declaration::Variable:
-            return &varSet;
+            return &varEntity;
         case Declaration::Procedure:
-            return &procSet;
+            return &procEntity;
         case Declaration::Constant:
-            return &constSet;
+            return &constEntity;
         case Declaration::While:
-            return &whileSet;
+            return &whileEntity;
         case Declaration::If:
-            return &ifSet;
+            return &ifEntity;
         case Declaration::Assignment:
-            return &assignSet;
+            return &assignEntity;
         case Declaration::Read:
-            return &readSet;
+            return &readEntity;
         case Declaration::Print:
-            return &printSet;
+            return &printEntity;
         case Declaration::Statement:
-            return &stmtSet;
+            return &stmtEntity;
         case Declaration::Call:
-            return &callSet;
+            return &callEntity;
         default:
-            return &std::unordered_set<std::string>();
+            return &EntityADT();
         }
     }
 
-    PatternsSetBiMap* PKBStorage::getPatternFromEnum(Pattern::Types type) {
+    PatternADT* PKBStorage::getPatternFromEnum(Pattern::Types type) {
         switch (type) {
         case Pattern::Assign:
             return &assignPattern;
@@ -72,7 +80,20 @@ namespace PKB {
         case Pattern::While:
             return &whilePattern;
         default:
-            return &PatternsSetBiMap();
+            return &PatternADT();
+        }
+    }
+
+    RelationCacheADT<std::string, std::string>* PKBStorage::getCacheFromEnum(Relation::Types type) {
+        switch (type) {
+        case Relation::NextT:
+            return &nextTRelationsCache;
+        case Relation::Affects:
+            return &affectRelationCache;
+        case Relation::AffectsT:
+            return &affectTRelationCache;
+        default:
+            return &RelationCacheADT<std::string, std::string>();
         }
     }
 
@@ -121,31 +142,14 @@ namespace PKB {
         return lineToProcMap.at(lineNum);
     }
 
-    void PKBStorage::storeProcFirstLine(const Procedure proc, const LineNum firstLine) {
-        procFirstLineMap[proc] = firstLine; //can only have 1 first line for each proc
+    void PKBStorage::storeEntity(Declaration::DesignEntity type, const std::string value) {
+        auto entity = getEntityFromEnum(type);
+        entity->add(value);
     }
 
-    void PKBStorage::storeProcLastLine(const Procedure proc, const LineNum lastLine) {
-        PKB::addToSetInMap(procLastLineMap, proc, lastLine);
-    }
-
-    void PKBStorage::storeCFGEdge(const PrevLine lineBefore, const NextLine lineAfter) {
-        PKB::addToSetInMap(cfgPrevLineToNextLineMap, lineBefore, lineAfter);
-    }
-
-    void PKBStorage::storeCFGEdgeProc(const PrevLine lineBefore, const NextLine lineAfter) {
-        PKB::addToSetInMap(cfgProcPrevLineToNextLineMap, lineBefore, lineAfter);
-    }
-
-    void PKBStorage::storeEntity(Declaration::DesignEntity entity, const std::string value) {
-        auto entitySet = getEntityFromEnum(entity);
-        entitySet->insert(value);
-    }
-
-    //do sth to second (for with clauses)
-    void PKBStorage::storeEntity(Declaration::DesignEntity entity, const std::string first, const std::string second) {
-        auto entitySet = getEntityFromEnum(entity);
-        entitySet->insert(first);
+    void PKBStorage::storeEntity(Declaration::DesignEntity type, const std::string first, const std::string second) {
+        auto entity = getEntityFromEnum(type);
+        entity->add(first, second);
     }
 
     void PKBStorage::storeRelations(Relation::Types type, std::string first, std::string second) {
@@ -158,12 +162,9 @@ namespace PKB {
         pattern->add(var, line, expr);
     }
 
-    std::unordered_map<PrevLine, std::unordered_set<NextLine>> PKBStorage::getCFG() {
-        return cfgPrevLineToNextLineMap;
-    }
-
-    std::unordered_set<std::string> PKBStorage::getEntitySet(Declaration::DesignEntity entity) {
-        return *getEntityFromEnum(entity);
+    std::unordered_set<std::string> PKBStorage::getEntitySet(Declaration::DesignEntity type) {
+        auto entity = getEntityFromEnum(type);
+        return entity->getSet();
     }
 
     bool PKBStorage::relationContainsSet(Relation::Types type, const std::string first, const std::string second) {
@@ -210,10 +211,8 @@ namespace PKB {
         auto relation = getRelationFromEnum(type);
         return relation->getSet();
     }
-
-
+    
     // Pattern functions
-
     std::unordered_set<LineNum> PKBStorage::getPatternLineByVar(Pattern::Types type, const Variable var) {
         auto pattern = getPatternFromEnum(type);
         return pattern->geLineByVar(var);
@@ -257,5 +256,36 @@ namespace PKB {
     std::unordered_set<LineNum> PKBStorage::getPatternLineByUSMatchPartial(Pattern::Types type, const ExprStr expr) {
         auto pattern = getPatternFromEnum(type);
         return pattern->getLineByUSMatchPartial(expr);
+    }
+
+    bool PKBStorage::isCacheFullyComputed(Relation::Types type) {
+        auto cache = getCacheFromEnum(type);
+        return cache->isFullyComputed;
+    }
+
+    void PKBStorage::setCacheFullyComputed(Relation::Types type) {
+        auto cache = getCacheFromEnum(type);
+        cache->isFullyComputed = true;
+    }
+
+    void PKBStorage::storeCacheSet(Relation::Types type, const std::string first, const std::string second) {
+        auto cache = getCacheFromEnum(type);
+        cache->addToSet(first, second);
+    }
+
+    void PKBStorage::storeCacheFirstToSecondMap(Relation::Types type, const std::string first, const std::string second) {
+        auto cache = getCacheFromEnum(type);
+        cache->addToFirstToSecondMap(first, second);
+    }
+
+    void PKBStorage::storeCacheSecondToFirstMap(Relation::Types type, const std::string second, const std::string first) {
+        auto cache = getCacheFromEnum(type);
+        cache->addToSecondToFirstMap(second, first);
+    }
+
+    void PKBStorage::clearCache() {
+        nextTRelationsCache.reset();
+        affectRelationCache.reset();
+        affectTRelationCache.reset();
     }
 }

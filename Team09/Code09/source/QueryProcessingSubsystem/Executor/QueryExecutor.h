@@ -14,12 +14,14 @@ private:
 	ResultsDatabase rdb;
 	std::vector<Relation> relations;
 	std::vector<Pattern> pattern;
+	std::vector<With> with;
 	Result target;
 	std::vector<Declaration> declarations;
 	std::vector<std::string> tokens;
 
 	bool patternExecute(Pattern pattern, ResultsDatabase& rdb);
 	bool relationExecute(Relation relation, ResultsDatabase& rdb);
+	bool withExecute(With with, ResultsDatabase& rdb);
 
 public:
 	QueryExecutor(PKBStorage* pkb) : pkb(pkb) {}; // Constructor for taking in PKB

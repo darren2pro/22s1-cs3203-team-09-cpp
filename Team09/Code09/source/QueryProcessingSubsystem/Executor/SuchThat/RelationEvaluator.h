@@ -11,11 +11,10 @@ using namespace PKB;
 
 //! This evaluator is the super class for all of the relations evaluators such as Modifies, Follows.
 class RelationEvaluator {
-private:
+public:
 	std::string leftSynonym;
 	std::string rightSynonym;
 
-public:
 	ResultsDatabase& rdb;
 	PKBStorage* pkb;
 	std::vector<Declaration> declarations;

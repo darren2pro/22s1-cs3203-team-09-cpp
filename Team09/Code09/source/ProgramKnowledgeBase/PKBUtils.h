@@ -16,6 +16,8 @@ namespace PKB {
 	using Procedure = std::string;
     using CallerProc = std::string;
     using CalleeProc = std::string;
+    using ModifiesLine = std::string;
+    using UsesLine = std::string;
 
     struct pairHash {
     public:

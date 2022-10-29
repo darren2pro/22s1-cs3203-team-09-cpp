@@ -92,8 +92,11 @@ bool QueryExecutor::relationExecute(Relation relations, ResultsDatabase& rdb) {
     case Relation::NextT:
         return NextTRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
     case Relation::Affects:
+        NextTRelationEvaluator(declarations, relations, rdb, pkb).computeFully();
         return AffectsRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
-        case Relation::AffectsT:
+    case Relation::AffectsT:
+        NextTRelationEvaluator(declarations, relations, rdb, pkb).computeFully();
+        AffectsRelationEvaluator(declarations, relations, rdb, pkb).computeFully();
         return AffectsTRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
     default:
         return RelationEvaluator(declarations, relations, rdb, pkb).evaluate();

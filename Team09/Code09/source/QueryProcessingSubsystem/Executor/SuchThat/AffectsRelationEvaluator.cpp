@@ -27,29 +27,13 @@ bool AffectsRelationEvaluator::evaluate() {
 		QueryExecutor::insertSynonymSetIntoRDB(synonym, rdb, pkb);
 	}
 
+	if (!pkb->isCacheFullyComputed(Relation::Affects)) {
+		computeFully();
+	}
 
 	// SYNONYM SYNONYM
 	if (isLeftSynonym && isRightSynonym) {
-		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result;
-
-		if (!pkb->isCacheFullyComputed(Relation::Affects)) {
-			for (const auto& modifiesLine : pkb->getEntitySet(Declaration::Assignment)) {
-				for (const auto& usesLine : pkb->getEntitySet(Declaration::Assignment)) {
-					// variable modified by modifiesLine
-					auto& var = *(pkb->getRelationSecondFromFirst(Relation::ModifiesS, modifiesLine).begin());
-					if (!pkb->relationContainsSet(Relation::UsesS, usesLine, var)) {
-						continue;
-					}
-					else { // modifiesLine modifies a variable used in usesLine
-
-					}
-				}
-			}
-			pkb->setCacheFullyComputed(Relation::Affects);
-		}
-
-		result = pkb->getRelationSet(Relation::Affects);
-
+		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result = pkb->getRelationSet(relType);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -60,7 +44,7 @@ bool AffectsRelationEvaluator::evaluate() {
 
 	// SYNONYM UNDERSCORE
 	else if (isLeftSynonym && isRightUnderscore) {
-		std::unordered_set<std::string> result = pkb->getRelationAllFirst(Relation::Next);
+		std::unordered_set<std::string> result = pkb->getRelationAllFirst(relType);
 		if (result.size() == 0) {
 			return false;
 		}
@@ -71,93 +55,36 @@ bool AffectsRelationEvaluator::evaluate() {
 
 	// SYNONYM SIMPLE
 	else if (isLeftSynonym && isRightSimple) {
-		std::unordered_set<std::string> result;
-		if (!pkb->relationContainsSecond(Relation::Next, rightArg.value)) {
+		std::unordered_set<std::string> result = pkb->getRelationFirstFromSecond(relType, rightArg.value);
+		if (result.size() == 0) {
 			return false;
 		}
-
-		if (!pkb->relationContainsSecond(Relation::NextT, rightArg.value)) {
-			std::unordered_set<std::string> visited;
-			std::vector<std::string> list;
-			list.push_back(rightArg.value);
-			while (!list.empty()) {
-				std::string curr = list.back();
-				visited.insert(curr);
-				list.pop_back();
-				for (const auto& prev : pkb->getRelationFirstFromSecond(Relation::Next, curr)) {
-					pkb->storeCacheSecondToFirstMap(Relation::NextT, rightArg.value, prev);
-					if (visited.find(prev) == visited.end() && pkb->relationContainsSecond(Relation::Next, prev)) {
-						list.push_back(prev);
-					}
-				}
-			}
+		else {
+			return rdb.insertList(leftSynonym, result);
 		}
-		result = pkb->getRelationFirstFromSecond(Relation::NextT, rightArg.value);
-
-		return rdb.insertList(leftSynonym, result);
 	}
 
 	// SIMPLE SYNONYM
 	else if (isLeftSimple && isRightSynonym) {
-		std::unordered_set<std::string> result;
-		if (!pkb->relationContainsFirst(Relation::Next, leftArg.value)) {
+		std::unordered_set<std::string> result = pkb->getRelationSecondFromFirst(relType, leftArg.value);
+		if (result.size() == 0) {
 			return false;
 		}
-
-		if (!pkb->relationContainsFirst(Relation::NextT, leftArg.value)) {
-			std::unordered_set<std::string> visited;
-			std::vector<std::string> list;
-			list.push_back(leftArg.value);
-			while (!list.empty()) {
-				std::string curr = list.back();
-				visited.insert(curr);
-				list.pop_back();
-				for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Next, curr)) {
-					pkb->storeCacheFirstToSecondMap(Relation::NextT, leftArg.value, next);
-					if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
-						list.push_back(next);
-					}
-				}
-			}
+		else {
+			return rdb.insertList(rightSynonym, result);
 		}
-		result = pkb->getRelationSecondFromFirst(Relation::NextT, leftArg.value);
-
-		return rdb.insertList(rightSynonym, result);
 	}
 
 	// SIMPLE UNDERSCORE
 	else if (isLeftSimple && isRightUnderscore) {
-		bool result = pkb->relationContainsFirst(Relation::Next, leftArg.value);
+		bool result = pkb->relationContainsFirst(relType, leftArg.value);
 		return result;
 	}
 
 	// SIMPLE SIMPLE
 	else if (isLeftSimple && isRightSimple) {
-		if (!pkb->relationContainsFirst(Relation::Next, leftArg.value)) {
-			return false;
-		}
-
-		if (!pkb->relationContainsSet(Relation::NextT, leftArg.value, rightArg.value)) {
-			std::unordered_set<std::string> visited;
-			std::vector<std::string> list;
-			list.push_back(leftArg.value);
-			while (!list.empty()) {
-				std::string curr = list.back();
-				visited.insert(curr);
-				list.pop_back();
-				for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Next, curr)) {
-					pkb->storeCacheSet(Relation::NextT, leftArg.value, next);
-					if (next == rightArg.value) {
-						return true;
-					}
-					if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
-						list.push_back(next);
-					}
-				}
-			}
-			return false;
-		}
-		return true;
+		bool result = pkb->relationContainsSet(relType, leftArg.value, rightArg.value);
+		return result;
 	}
 
 	// TODO
@@ -167,7 +94,7 @@ bool AffectsRelationEvaluator::evaluate() {
 	// UNDERSCORE SYNONYM
 	else if (isLeftUnderscore && isRightSynonym) {
 		if (isFirstArgumentUnderscoreValid(relType)) {
-			std::unordered_set<std::string> result = pkb->getRelationAllSecond(Relation::Next);
+			std::unordered_set<std::string> result = pkb->getRelationAllSecond(relType);
 			if (result.size() == 0) {
 				return false;
 			}
@@ -181,7 +108,7 @@ bool AffectsRelationEvaluator::evaluate() {
 	// UNDERSCORE SIMPLE
 	else if (isLeftUnderscore && isRightSimple) {
 		if (isFirstArgumentUnderscoreValid(relType)) {
-			bool result = pkb->relationContainsSecond(Relation::Next, rightArg.value);
+			bool result = pkb->relationContainsSecond(relType, rightArg.value);
 			return result;
 		}
 		assert("Syntax Error");
@@ -190,9 +117,55 @@ bool AffectsRelationEvaluator::evaluate() {
 	// UNDERSCORE UNDERSCORE
 	else if (isLeftUnderscore && isRightUnderscore) {
 		if (isFirstArgumentUnderscoreValid(relType)) {
-			bool result = !(pkb->relationIsEmpty(Relation::Next));
+			bool result = !(pkb->relationIsEmpty(relType));
 			return result;
 		}
 		assert("Syntax Error");
 	}
+}
+
+void AffectsRelationEvaluator::computeFully() {
+	for (const auto& modifiesLine : pkb->getEntitySet(Declaration::Assignment)) {
+		for (const auto& usesLine : pkb->getEntitySet(Declaration::Assignment)) {
+			// variable modified by modifiesLine
+			auto& var = *(pkb->getRelationSecondFromFirst(Relation::ModifiesS, modifiesLine).begin());
+			if (lineUsesVar(usesLine, var) &&
+				lineReachesline(modifiesLine, usesLine) &&
+				isNotModified(modifiesLine, usesLine, var)) {
+				pkb->storeRelations(Relation::Affects, modifiesLine, usesLine);
+			}
+		}
+	}
+	pkb->setCacheFullyComputed(Relation::Affects);
+}
+
+bool AffectsRelationEvaluator::lineUsesVar(std::string uses, std::string var) {
+	return pkb->relationContainsSet(Relation::UsesS, uses, var);
+}
+
+bool AffectsRelationEvaluator::lineReachesline(std::string modifies, std::string uses) {
+	return pkb->relationContainsSet(Relation::NextT, modifies, uses);
+}
+
+bool AffectsRelationEvaluator::isNotModified(std::string modifies, std::string uses, std::string var) {
+	std::unordered_set<std::string> visited;
+	std::vector<std::string> list;
+	list.push_back(modifies);
+	while (!list.empty()) {
+		std::string curr = list.back();
+		visited.insert(curr);
+		list.pop_back();
+		for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Next, curr)) {
+			if (next == uses) {
+				return true;
+			}
+			if (pkb->relationContainsSet(Relation::ModifiesS, next, var)) {
+				return false;
+			}
+			if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
+				list.push_back(next);
+			}
+		}
+	}
+	return false;
 }

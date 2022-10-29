@@ -44,5 +44,11 @@ public:
 		declarations(declarations), pattern(pattern), rdb(rdb), pkb(pkb),
 		patternArg(pattern.synonym), patternSynonym(pattern.synonym.name),
 		leftArg(pattern.LEFT_ARG), rightArg(pattern.RIGHT_ARG), rightString(pattern.RIGHT_ARG.value) {};
+
+	PatternEvaluator(const PatternEvaluator& patEv) :
+		declarations(patEv.declarations), pattern(patEv.pattern), rdb(patEv.rdb), pkb(patEv.pkb),
+		patternArg(patEv.pattern.synonym), patternSynonym(patEv.pattern.synonym.name),
+		leftArg(patEv.pattern.LEFT_ARG), rightArg(patEv.pattern.RIGHT_ARG), rightString(patEv.pattern.RIGHT_ARG.value) {};
+
 	bool evaluate();
 };

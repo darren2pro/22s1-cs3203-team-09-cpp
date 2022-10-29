@@ -91,6 +91,12 @@
     <Filter Include="Source Files\QueryProcessingSubsystem\Executor\SuchThat">
       <UniqueIdentifier>{7d7f35fe-fc1d-4b6e-a095-3fd11d02a4af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\QueryProcessingSubsystem\Executor\ClauseStrategy">
+      <UniqueIdentifier>{372e4adb-fda5-4858-a2b0-e12cf2995649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QueryProcessingSubsystem\Executor\ClauseStrategy">
+      <UniqueIdentifier>{5b348207-ffed-4386-ba62-bd75a3c63420}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
@@ -158,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\ClauseStrategyContext.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\ClauseStrategy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +275,21 @@
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PatternsSetBiMap.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\ClauseStrategyContext.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\ClauseStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\PatternStrategy.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\ClauseStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\RelationStrategy.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\ClauseStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Clause.h">
+      <Filter>Header Files\QueryProcessingSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\Strategy.h">
+      <Filter>Header Files\QueryProcessingSubsystem\Executor\ClauseStrategy</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>

@@ -44,13 +44,13 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
     /*
     std::vector<Clause> clauses = ClausePrioritizer(query).getClauses();
     for (auto& clause : clauses) {
-        if (clause.isPattern) {
+        if (clause.isPatternAttr) {
             clauseStrategyContext.setStrategy(patternStrat);
         }
-        else if (clause.isRelation) {
+        else if (clause.isRelationAttr) {
             clauseStrategyContext.setStrategy(relationStrat);
         }
-        else if (clause.isWith) {
+        else if (clause.isWithAttr) {
             clauseStrategyContext.setStrategy(withStrat);
         }
         else {

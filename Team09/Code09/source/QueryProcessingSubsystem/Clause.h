@@ -5,13 +5,27 @@
 #include <variant>
 
 class Clause {
+private:
+    bool isRelationAttr = false;
+    bool isPatternAttr = false;
+    bool isWithAttr = false;
+
 public:
 	std::variant<Relation, Pattern, With> clause;
-	bool isRelation = false;
-	bool isPattern = false;
-	bool isWith = false;
 	
-	Clause(Relation relation) : clause(relation), isRelation(true) {};
-	Clause(Pattern pattern) : clause(pattern), isPattern(true) {};
-	Clause(With with) : clause(with), isWith(true) {};
+	Clause(Relation relation) : clause(relation), isRelationAttr(true) {};
+	Clause(Pattern pattern) : clause(pattern), isPatternAttr(true) {};
+	Clause(With with) : clause(with), isWithAttr(true) {};
+
+    bool isRelation() const {
+        return isRelationAttr;
+    }
+
+    bool isPattern() const {
+        return isPatternAttr;
+    }
+
+    bool isWith() const {
+        return isWithAttr;
+    }
 };

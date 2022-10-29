@@ -6,13 +6,13 @@
 #include "Executor/Pattern/PatternEvaluator.h"
 #include "Executor/SuchThat/RelationEvaluator.h"
 #include "Executor/With/WithEvaluator.h"
+#include "Query.h"
+#include "Clause.h"
 
 using namespace std;
 
-// TODO: To be removed in the future when the proper Clause implementation is done
-using Clause = variant<PatternEvaluator, RelationEvaluator, WithEvaluator>;
-
-struct WeightedGroupedEvaluator {
+struct WeightedGroupedClause {
+    //! The clause class enclosed in this struct. Refer to Clause.h
     Clause clause;
     //! Lower the score means higher the priority, can be negative. The weight within each group
     int weight;
@@ -20,11 +20,37 @@ struct WeightedGroupedEvaluator {
     unsigned int groupId;
 
     //! Sort by groupId, then weight
-    bool operator<(const WeightedGroupedEvaluator& other) const {
+    bool operator<(const WeightedGroupedClause& other) const {
+        return std::tie(groupId, weight) < std::tie(other.groupId, other.weight);
+    }
 
+    friend std::ostream& operator<<(std::ostream& os, WeightedGroupedClause const& wgc) {
+        os << "Group: " << wgc.groupId << ", Weight: " << wgc.weight;
+        return os;
     }
 };
 
 class ClausePrioritizer {
+private:
+    static const int MIN_NUM_OF_CLAUSES_TO_SORT = 2;
+    static const int STARTING_WEIGHT = 100;
+    static const int DEFAULT_GROUP = 0;
 
+    Query* query;
+
+    //! Too little clauses means that there's little to no gain of sorting them
+    bool tooFewClauses();
+
+    //! Simply takes all the clauses from the query and puts it into a vector of clauses
+    vector<Clause> getClausesFromQuery();
+
+    //! Initializes all intermediate clause objects with a starting weight
+    vector<WeightedGroupedClause> getInitialWeightedGroupedClauses();
+
+    //! Calculates weights and groupings for clauses - modifies input parameter
+    void prioritizeClauses(vector<WeightedGroupedClause>& clauses);
+
+public:
+    explicit ClausePrioritizer(Query* query) : query(query) {};
+    vector<Clause> getClauses();
 };

@@ -25,9 +25,6 @@ namespace UnitTesting {
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
-                Logger::WriteMessage("[TestPureAssignmentStatements] Printing AST\n");
-                Logger::WriteMessage(programNode->toString().c_str());
-
                 // Expected result
                 // x = 1
                 VariableNodePtr x = make_shared<VariableNode>("x");
@@ -71,9 +68,6 @@ namespace UnitTesting {
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
-                Logger::WriteMessage("[TestVariousStatementTypes] Printing AST\n");
-                Logger::WriteMessage(programNode->toString().c_str());
-
                 // Expected result
                 // read x
                 VariableNodePtr x = make_shared<VariableNode>("x");
@@ -107,9 +101,6 @@ namespace UnitTesting {
                 Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
-
-                Logger::WriteMessage("[TestClashingNamesAndVariables] Printing AST\n");
-                Logger::WriteMessage(programNode->toString().c_str());
 
                 // Expected result
                 // read read
@@ -160,9 +151,6 @@ namespace UnitTesting {
                 Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
-
-                Logger::WriteMessage("[TestSingleNestingWhileAndIf] Printing AST\n");
-                Logger::WriteMessage(programNode->toString().c_str());
 
                 // Expected result
                 // while (i == 0)
@@ -242,9 +230,6 @@ namespace UnitTesting {
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
-                Logger::WriteMessage("[TestNestedWhileAndIf] Printing AST\n");
-                Logger::WriteMessage(programNode->toString().c_str());
-
                 // Expected result
                 // while (j <= 22)
                 VariableNodePtr j = make_shared<VariableNode>("j");
@@ -323,9 +308,6 @@ namespace UnitTesting {
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
-                Logger::WriteMessage("[TestComplexArithmeticExpression] Printing AST\n");
-                Logger::WriteMessage(programNode->toString().c_str());
-
                 // Expected result
                 // num1 = 1 + 2 * 3 - 4 / 5 + (6 - 7) - (8 + 9)
                 VariableNodePtr num1 = make_shared<VariableNode>("num1");
@@ -403,9 +385,6 @@ namespace UnitTesting {
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
-                Logger::WriteMessage("[TestSimpleArithmetic] Printing AST\n");
-                Logger::WriteMessage(programNode->toString().c_str());
-
                 // hello + world * 8
                 VariableNodePtr hello = make_shared<VariableNode>("hello");
                 VariableNodePtr world = make_shared<VariableNode>("world");
@@ -459,9 +438,6 @@ namespace UnitTesting {
                 Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
-
-                Logger::WriteMessage("[TestComplexRelCond] Printing AST\n");
-                Logger::WriteMessage(programNode->toString().c_str());
             }
 
             TEST_METHOD(TestComplexRelCond2) {
@@ -476,9 +452,6 @@ namespace UnitTesting {
                 Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
-
-                Logger::WriteMessage("[TestComplexRelCond] Printing AST\n");
-                Logger::WriteMessage(programNode->toString().c_str());
             }
 
             TEST_METHOD(TestArithmeticExpression) {

@@ -33,24 +33,7 @@ bool NextTRelationEvaluator::evaluate() {
 		std::unordered_set<std::pair<std::string, std::string>, PKB::pairHash> result;
 
 		if (!pkb->isCacheFullyComputed(Relation::NextT)) {
-			for (const auto& prev : pkb->getRelationAllFirst(Relation::Next)) {
-			    std::unordered_set<std::string> visited;
-			    std::vector<std::string> list;
-
-			    list.push_back(prev);
-                while (!list.empty()) {
-                    std::string curr = list.back();
-                    visited.insert(curr);
-                    list.pop_back();
-                    for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Next, curr)) {
-                        pkb->storeRelations(Relation::NextT, prev, next);
-                        if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
-                            list.push_back(next);
-                        }
-                    }
-                }
-            }
-			pkb->setCacheFullyComputed(Relation::NextT);
+			computeFully();
 		}
 
 		result = pkb->getRelationSet(Relation::NextT);
@@ -200,4 +183,25 @@ bool NextTRelationEvaluator::evaluate() {
 		}
 		assert("Syntax Error");
 	}
+}
+
+void NextTRelationEvaluator::computeFully() {
+	for (const auto& prev : pkb->getRelationAllFirst(Relation::Next)) {
+		std::unordered_set<std::string> visited;
+		std::vector<std::string> list;
+
+		list.push_back(prev);
+		while (!list.empty()) {
+			std::string curr = list.back();
+			visited.insert(curr);
+			list.pop_back();
+			for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Next, curr)) {
+				pkb->storeRelations(Relation::NextT, prev, next);
+				if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Next, next)) {
+					list.push_back(next);
+				}
+			}
+		}
+	}
+	pkb->setCacheFullyComputed(Relation::NextT);
 }

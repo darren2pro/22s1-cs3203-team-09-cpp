@@ -3,8 +3,6 @@
 #include <variant>
 #include <cassert>
 #include "QueryExecutor.h"
-#include "../Relation.h"
-#include "../Pattern.h"
 #include "../Utils.h"
 #include "Pattern/PatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
@@ -47,7 +45,7 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
         else {
             assert("Invalid clause type");
         }
-		
+
         if (!clauseStrategyContext.execute(clause, rdb)) {
             if (target.isBoolean()) {
                 return std::unordered_set<std::string>{"FALSE"};
@@ -57,7 +55,7 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
             }
         }
     }
-    
+
     //! Insert all other variables that have not been inserted.
     for (Declaration decl : declarations) {
         insertSynonymSetIntoRDB(decl, rdb, pkb);
@@ -77,8 +75,11 @@ bool QueryExecutor::relationExecute(Relation relations, ResultsDatabase& rdb) {
     case Relation::NextT:
         return NextTRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
     case Relation::Affects:
+        NextTRelationEvaluator(declarations, relations, rdb, pkb).computeFully();
         return AffectsRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
-        case Relation::AffectsT:
+    case Relation::AffectsT:
+        NextTRelationEvaluator(declarations, relations, rdb, pkb).computeFully();
+        AffectsRelationEvaluator(declarations, relations, rdb, pkb).computeFully();
         return AffectsTRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
     default:
         return RelationEvaluator(declarations, relations, rdb, pkb).evaluate();
@@ -92,9 +93,7 @@ bool QueryExecutor::patternExecute(Pattern pattern, ResultsDatabase& rdb) {
 
 // With execute
 bool QueryExecutor::withExecute(With with, ResultsDatabase& rdb) {
-    auto t =  WithEvaluator(declarations, with, rdb, pkb);
-    //return t.evaluate();
-    return true;
+    return WithEvaluator(declarations, with, rdb, pkb).evaluate();
 }
 
 std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Result result, ResultsDatabase& rdb) {

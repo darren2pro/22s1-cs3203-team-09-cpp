@@ -91,6 +91,12 @@
     <Filter Include="Source Files\QueryProcessingSubsystem\Executor\SuchThat">
       <UniqueIdentifier>{7d7f35fe-fc1d-4b6e-a095-3fd11d02a4af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\QueryProcessingSubsystem\Executor\ClauseStrategy">
+      <UniqueIdentifier>{372e4adb-fda5-4858-a2b0-e12cf2995649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\QueryProcessingSubsystem\Executor\ClauseStrategy">
+      <UniqueIdentifier>{5b348207-ffed-4386-ba62-bd75a3c63420}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\QueryProcessingSubsystem\Executor\With">
       <UniqueIdentifier>{20a50612-bd92-4439-886b-2d08ef43a586}</UniqueIdentifier>
     </Filter>
@@ -188,6 +194,12 @@
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\ClauseFunctions.cpp">
       <Filter>Source Files\QueryProcessingSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsRelationEvaluator.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsTRelationEvaluator.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

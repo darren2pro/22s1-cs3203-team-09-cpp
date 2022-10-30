@@ -93,6 +93,7 @@ namespace PKB {
         void storePatterns(Pattern::Types type, const Variable, const LineNum, const ExprStr);
 
         //get entities API
+        bool entityContains(Declaration::DesignEntity, const std::string);
         std::unordered_set<std::string> getEntitySet(Declaration::DesignEntity);
 
         //get relations API

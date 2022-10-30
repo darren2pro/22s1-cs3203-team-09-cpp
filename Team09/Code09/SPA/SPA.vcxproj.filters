@@ -183,6 +183,12 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsRelationEvaluator.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsTRelationEvaluator.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\SourceProcessor\Parser.h">
@@ -275,15 +281,8 @@
     <ClInclude Include="..\source\ProgramKnowledgeBase\RelationADT.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
-      <Filter>Header Files\ProgramKnowledgeBase</Filter>
-      <Filter>Header Files\QueryProcessingSubsystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationsSetBiMap.h">
-      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
       <Filter>Header Files</Filter>

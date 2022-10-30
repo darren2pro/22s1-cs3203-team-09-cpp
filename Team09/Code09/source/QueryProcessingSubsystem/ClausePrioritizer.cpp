@@ -1,4 +1,5 @@
 #include "ClausePrioritizer.h"
+#include "ClauseFunctions.cpp"
 
 vector<Clause> ClausePrioritizer::getClauses() {
     if (tooFewClauses()) return getClausesFromQuery();
@@ -7,6 +8,7 @@ vector<Clause> ClausePrioritizer::getClauses() {
     //! Now we prioritize the clauses
     prioritizeClauses(weightedGroupedClauses);
     // return getClausesFromWeightedGroupedClauses(weightedGroupedClauses);
+    return {};
 }
 
 bool ClausePrioritizer::tooFewClauses() {
@@ -51,5 +53,19 @@ vector<WeightedGroupedClause> ClausePrioritizer::getInitialWeightedGroupedClause
 }
 
 void ClausePrioritizer::prioritizeClauses(vector<WeightedGroupedClause>& clauses) {
+    //! We apply weightages and penalties on the clauses then sort them
+
+    //! First we apply functions on the clauses to test if they need to have their weights adjusted,
+    //! and adjust them if needed
+    for (WeightedGroupedClause& clause : clauses) {
+        for (WeightFunction weightFunction : weightUpdaters) {
+            weightFunction(clause);
+        }
+    }
 
 }
+
+vector<WeightFunction> ClausePrioritizer::weightUpdaters = {
+    weightBooleanClause/*, weightAffectsClause, weightAffectsTClause,
+    weightNextTClause, weightPartialPatternMatch, weightCompletePatternMatch*/
+};

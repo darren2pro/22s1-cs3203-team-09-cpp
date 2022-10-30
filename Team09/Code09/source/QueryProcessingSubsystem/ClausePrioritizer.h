@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_set>
 #include <variant>
+#include <functional>
 #include "Executor/Pattern/PatternEvaluator.h"
 #include "Executor/SuchThat/RelationEvaluator.h"
 #include "Executor/With/WithEvaluator.h"
@@ -30,11 +31,24 @@ struct WeightedGroupedClause {
     }
 };
 
+//! For application of clause weights based on their type
+using WeightFunction = function<void(WeightedGroupedClause&)>;
+using SuchThatMatcher = function<bool(Relation*)>;
+using PatternMatcher = function<bool(Pattern*)>;
+using WithMatcher = function<bool(With*)>;
+
 class ClausePrioritizer {
 private:
     static const int MIN_NUM_OF_CLAUSES_TO_SORT = 2;
     static const int STARTING_WEIGHT = 100;
     static const int DEFAULT_GROUP = 0;
+
+    /**
+     * This is a list of functions that test if a clause is of a certain type and
+     * then applies a function to update the weights inside that clause if it
+     * matches
+     */
+    static vector<WeightFunction> weightUpdaters;
 
     Query* query;
 
@@ -52,5 +66,6 @@ private:
 
 public:
     explicit ClausePrioritizer(Query* query) : query(query) {};
+
     vector<Clause> getClauses();
 };

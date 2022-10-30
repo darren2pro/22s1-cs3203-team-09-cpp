@@ -186,6 +186,9 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\ClausePrioritizer.cpp">
       <Filter>Source Files\QueryProcessingSubsystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\ClauseFunctions.cpp">
+      <Filter>Source Files\QueryProcessingSubsystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\SourceProcessor\Parser.h">

@@ -77,7 +77,7 @@ namespace IntegrationTesting {
             }
 
             public:
-            TEST_METHOD(TestNext1) {
+            TEST_METHOD(TestAffects1) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -97,7 +97,7 @@ namespace IntegrationTesting {
                 }
             }
 
-            TEST_METHOD(TestNext2) {
+            TEST_METHOD(TestAffects2) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -112,7 +112,7 @@ namespace IntegrationTesting {
                 Assert::AreEqual(0, (int) result2.size());
             }
 
-            TEST_METHOD(TestNext3) {
+            TEST_METHOD(TestAffects3) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -146,7 +146,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result3.find("12 12") != result3.end());
             }
 
-            TEST_METHOD(TestNext4) {
+            TEST_METHOD(TestAffects4) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -161,7 +161,7 @@ namespace IntegrationTesting {
                 Assert::AreEqual(0, (int) result4.size());
             }
 
-            TEST_METHOD(TestNext5) {
+            TEST_METHOD(TestAffects5) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -177,7 +177,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result5.find("FALSE") != result5.end());
             }
 
-            TEST_METHOD(TestNext6) {
+            TEST_METHOD(TestAffects6) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -209,7 +209,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result6.find("11 12") != result6.end());
             }
 
-            TEST_METHOD(TestNext7) {
+            TEST_METHOD(TestAffects7) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -224,7 +224,7 @@ namespace IntegrationTesting {
                 Assert::AreEqual(81, (int) result7.size());
             }
 
-            TEST_METHOD(TestNext8) {
+            TEST_METHOD(TestAffects8) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -249,7 +249,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result6 == result8);
             }
 
-            TEST_METHOD(TestNext9) {
+            TEST_METHOD(TestAffects9) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -264,7 +264,7 @@ namespace IntegrationTesting {
                 Assert::AreEqual(0, (int) result9.size());
             }
 
-            TEST_METHOD(TestNext10) {
+            TEST_METHOD(TestAffects10) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -281,7 +281,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result10.find("Third") != result10.end());
             }
 
-            TEST_METHOD(TestNext11) {
+            TEST_METHOD(TestAffects11) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -296,7 +296,7 @@ namespace IntegrationTesting {
                 Assert::AreEqual(0, (int) result11.size());
             }
 
-            TEST_METHOD(TestNext12) {
+            TEST_METHOD(TestAffects12) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -311,7 +311,7 @@ namespace IntegrationTesting {
                 Assert::AreEqual(0, (int) result12.size());
             }
 
-            TEST_METHOD(TestNext13) {
+            TEST_METHOD(TestAffects13) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -326,7 +326,7 @@ namespace IntegrationTesting {
                 Assert::AreEqual(0, (int) result13.size());
             }
 
-            TEST_METHOD(TestNext14) {
+            TEST_METHOD(TestAffects14) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -348,7 +348,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result14.find("10 10 Third Third") != result14.end());
             }
 
-            TEST_METHOD(TestNext15) {
+            TEST_METHOD(TestAffects15) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -379,7 +379,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result15.find("9 9 Third Third") != result15.end());
             }
 
-            TEST_METHOD(TestNext16) {
+            TEST_METHOD(TestAffects16) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -398,7 +398,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result16.find("7 7 7 7 7") != result16.end());
             }
 
-            TEST_METHOD(TestNext17) {
+            TEST_METHOD(TestAffects17) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -418,7 +418,7 @@ namespace IntegrationTesting {
                 }
             }
 
-            TEST_METHOD(TestNext18) {
+            TEST_METHOD(TestAffects18) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -438,7 +438,7 @@ namespace IntegrationTesting {
                 }
             }
 
-            TEST_METHOD(TestNext19) {
+            TEST_METHOD(TestAffects19) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -458,7 +458,7 @@ namespace IntegrationTesting {
                 }
             }
 
-            TEST_METHOD(TestNext20) {
+            TEST_METHOD(TestAffects20) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -517,7 +517,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result20.find("11 12 11 12 11") != result20.end());
             }
 
-            TEST_METHOD(TestNext21) {
+            TEST_METHOD(TestAffects21) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -538,7 +538,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result21.find("1 12 1 12 1") != result21.end());
             }
 
-            TEST_METHOD(TestNext22) {
+            TEST_METHOD(TestAffects22) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -563,7 +563,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result22.find("8 12") != result22.end());
             }
 
-            TEST_METHOD(TestNext23) {
+            TEST_METHOD(TestAffects23) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -588,7 +588,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result23.find("10 12") != result23.end());
             }
 
-            TEST_METHOD(TestNext24) {
+            TEST_METHOD(TestAffects24) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -603,7 +603,7 @@ namespace IntegrationTesting {
                 Assert::AreEqual(0, (int) result24.size());
             }
 
-            TEST_METHOD(TestNext25) {
+            TEST_METHOD(TestAffects25) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -620,7 +620,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result25.find("10 11 13") != result25.end());
             }
 
-            TEST_METHOD(TestNext26) {
+            TEST_METHOD(TestAffects26) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -637,7 +637,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result26.find("10 11 Fourth") != result26.end());
             }
 
-            TEST_METHOD(TestNext27) {
+            TEST_METHOD(TestAffects27) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -657,7 +657,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result27.find("11 11 z") != result27.end());
             }
 
-            TEST_METHOD(TestNext28) {
+            TEST_METHOD(TestAffects28) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -674,7 +674,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result28.find("11 11 y") != result28.end());
             }
 
-            TEST_METHOD(TestNext29) {
+            TEST_METHOD(TestAffects29) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -690,7 +690,7 @@ namespace IntegrationTesting {
                 Assert::AreEqual(0, (int) result29.size());
             }
 
-            TEST_METHOD(TestNext30) {
+            TEST_METHOD(TestAffects30) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
@@ -707,7 +707,7 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result30.find("11 11 y") != result30.end());
             }
 
-            TEST_METHOD(TestNext31) {
+            TEST_METHOD(TestAffects31) {
                 string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);

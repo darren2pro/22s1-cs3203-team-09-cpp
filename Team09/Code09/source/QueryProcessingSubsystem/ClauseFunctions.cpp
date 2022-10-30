@@ -4,8 +4,8 @@
 using namespace std;
 using namespace placeholders;
 
-template <class... Ts>
-struct Overload : Ts... {
+template<class... Ts>
+struct Overload : Ts ... {
     using Ts::operator()...;
 };
 
@@ -23,11 +23,12 @@ constexpr int PARTIAL_STRING_MATCH_PENALTY = 600;
 constexpr int COMPLETE_STRING_MATCH_PENALTY = 300;
 
 //! Penalties for query that are computed on-the-fly
+constexpr int ON_THE_FLY_PENALTY = EXECUTE_ME_LAST_PENALTY;
 constexpr int AFFECTS_T_PENALTY = 1000;
 constexpr int AFFECTS_PENALTY = 500;
 constexpr int NEXT_T_PENALTY = 300;
 
-//! This function will be used by all the delta functions
+//! This function will be used by all the delta functions ------------------------------------------
 void addWeightToClausesConditionally(WeightedGroupedClause& weightedGroupedClause,
                                      int suchThatWeightDelta,
                                      int patternWeightDelta,
@@ -36,7 +37,7 @@ void addWeightToClausesConditionally(WeightedGroupedClause& weightedGroupedClaus
                                      PatternMatcher patternMatcher,
                                      WithMatcher withMatcher) {
     variant<Relation, Pattern, With> clause = weightedGroupedClause.clause.clause;
-    visit(Overload {
+    visit(Overload{
             [&](Relation suchThat) {
                 if (suchThatMatcher(suchThat)) {
                     weightedGroupedClause.weight += suchThatWeightDelta;
@@ -55,7 +56,12 @@ void addWeightToClausesConditionally(WeightedGroupedClause& weightedGroupedClaus
     }, clause);
 }
 
-//! All the matchers
+//! All the matchers ------------------------------------------------------------
+//! False matchers for all the three types of clauses
+SuchThatMatcher falseSuchThatMatcher = [](Relation) { return false; };
+PatternMatcher falsePatternMatcher = [](Pattern) { return false; };
+WithMatcher falseWithMatcher = [](With) { return false; };
+
 //! Matching basic clauses. Basic clauses are when they are cheap to execute
 SuchThatMatcher suchThatBasicMatcher = [](Relation r) {
     //! E.g. Follows(1, 2)
@@ -85,8 +91,21 @@ WithMatcher withBasicMatcher = [](With w) {
     return (ref1IsQuoteIdent && ref2IsQuoteIdent) || (ref1IsInt && ref2IsInt);
 };
 
+//! isAffectsClause matcher. Checks that a relation is an Affects type
+SuchThatMatcher suchThatAffectsMatcher = [](Relation r) {
+    return r.Type == Relation::getType("Affects");
+};
+
+//! isAffectsTClause matcher. Checks that a relation is an AffectsT type
+SuchThatMatcher suchThatAffectsTMatcher = [](Relation r) {
+    return r.Type == Relation::getType("Affects*");
+};
+
+//! WeightFunctions -------------------------------------------------------------
 //! _1 is a placeholder for the arguments to be passed in from the resulting function object returned from the bind.
-//! WithCondition is the easiest to execute (2 = 2)
+
+//! This function prioritizes clauses that evaluates to boolean significance,
+//! e.g. with 2 = 3, pattern a ("x", _), ifs ("x", _, _), w ("x", _), Follows (1, 2)
 WeightFunction
         weightBooleanClause = bind(addWeightToClausesConditionally, _1,
         /* suchThatWeightDelta */ EXECUTE_ME_FIRST_REWARD + SET_LOOKUP_PENALTY,
@@ -95,3 +114,20 @@ WeightFunction
                                    suchThatBasicMatcher,
                                    patternBasicMatcher,
                                    withBasicMatcher);
+
+//! Sends Affects clauses to the back of the vector to be executed last with AFFECTS_PENALTY
+WeightFunction weightAffectsClause = bind(addWeightToClausesConditionally, _1,
+        /* suchThatWeightDelta */ ON_THE_FLY_PENALTY + AFFECTS_PENALTY,
+        /* patternWeightDelta */ NO_DELTA,
+        /* withWeightDelta */ NO_DELTA,
+                                          suchThatAffectsMatcher,
+                                          falsePatternMatcher,
+                                          falseWithMatcher);
+
+WeightFunction weightAffectsTClause = bind(addWeightToClausesConditionally, _1,
+        /* suchThatWeightDelta */ ON_THE_FLY_PENALTY + AFFECTS_T_PENALTY,
+        /* patternWeightDelta */ NO_DELTA,
+        /* withWeightDelta */ NO_DELTA,
+                                           suchThatAffectsTMatcher,
+                                           falsePatternMatcher,
+                                           falseWithMatcher);

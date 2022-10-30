@@ -1,5 +1,6 @@
 #include <functional>
 #include "ClausePrioritizer.h"
+#include "../QueryProcessingSubsystem/Executor/QueryExecutor.cpp"
 
 using namespace std;
 using namespace placeholders;
@@ -21,50 +22,59 @@ constexpr int AFFECTS_PENALTY = 500;
 constexpr int NEXT_T_PENALTY = 300;
 
 //! This function will be used by all the delta functions
-void addWeightToClausesConditionally(WeightedGroupedClause& wgclause,
+void addWeightToClausesConditionally(WeightedGroupedClause& weightedGroupedClause,
                                      int suchThatWeightDelta,
                                      int patternWeightDelta,
                                      int withWeightDelta,
-                                     SuchThatMatcher suchthatMatcher,
+                                     SuchThatMatcher suchThatMatcher,
                                      PatternMatcher patternMatcher,
                                      WithMatcher withMatcher) {
-    // TODO: Implement
-
-
-    /*
-    auto& clause = wgclause.clause;
-    if (matcher(&clause)) {
-        wgclause.weight += weight_delta;
-    }
-    */
+    variant<Relation, Pattern, With> clause = weightedGroupedClause.clause.clause;
+    visit(Overload {
+            [&](Relation suchThat) {
+                if (suchThatMatcher(suchThat)) {
+                    weightedGroupedClause.weight += suchThatWeightDelta;
+                }
+            },
+            [&](Pattern pattern) {
+                if (patternMatcher(pattern)) {
+                    weightedGroupedClause.weight += patternWeightDelta;
+                }
+            },
+            [&](With with) {
+                if (withMatcher(with)) {
+                    weightedGroupedClause.weight += withWeightDelta;
+                }
+            },
+    }, clause);
 }
 
 //! All the matchers
 //! Matching basic clauses. Basic clauses are when they are cheap to execute
-SuchThatMatcher suchThatBasicMatcher = [](Relation* r) {
+SuchThatMatcher suchThatBasicMatcher = [](Relation r) {
     //! E.g. Follows(1, 2)
     //! Basic here means either string or statement number
-    const bool leftIsBasic = r->LEFT_ARG.isString() || r->LEFT_ARG.isStmtNum();
-    const bool rightIsBasic = r->RIGHT_ARG.isString() || r->RIGHT_ARG.isStmtNum();
+    const bool leftIsBasic = r.LEFT_ARG.isString() || r.LEFT_ARG.isStmtNum();
+    const bool rightIsBasic = r.RIGHT_ARG.isString() || r.RIGHT_ARG.isStmtNum();
     return leftIsBasic && rightIsBasic;
 };
 
-PatternMatcher patternBasicMatcher = [](Pattern* p) {
+PatternMatcher patternBasicMatcher = [](Pattern p) {
     //! E.g. pattern a("x", _) or ifs("x", _, _) or w("x", _)
     //! Basic here means either string or statement number
-    const bool firstArgIsBasic = p->LEFT_ARG.isString() || p->LEFT_ARG.isStmtNum();
-    const bool rightIsUnderscore = p->RIGHT_ARG.isUnderscore();
+    const bool firstArgIsBasic = p.LEFT_ARG.isString() || p.LEFT_ARG.isStmtNum();
+    const bool rightIsUnderscore = p.RIGHT_ARG.isUnderscore();
     return firstArgIsBasic && rightIsUnderscore;
 };
 
-WithMatcher withBasicMatcher = [](With* w) {
+WithMatcher withBasicMatcher = [](With w) {
     //! E.g. with 2 = 3 or with "x" = "y"
     //! Basic here means either string or statement number
-    const bool ref1IsQuoteIdent = w->ref1.isIdent();
-    const bool ref2IsQuoteIdent = w->ref2.isIdent();
+    const bool ref1IsQuoteIdent = w.ref1.isIdent();
+    const bool ref2IsQuoteIdent = w.ref2.isIdent();
 
-    const bool ref1IsInt = w->ref1.isInteger();
-    const bool ref2IsInt = w->ref2.isInteger();
+    const bool ref1IsInt = w.ref1.isInteger();
+    const bool ref2IsInt = w.ref2.isInteger();
 
     return (ref1IsQuoteIdent && ref2IsQuoteIdent) || (ref1IsInt && ref2IsInt);
 };
@@ -76,6 +86,6 @@ WeightFunction
         /* suchThatWeightDelta */ EXECUTE_ME_FIRST_REWARD + SET_LOOKUP_PENALTY,
         /* patternWeightDelta */ EXECUTE_ME_FIRST_REWARD + SET_LOOKUP_PENALTY,
         /* withWeightDelta */ EXECUTE_ME_FIRST_REWARD,
-        suchThatBasicMatcher,
-        patternBasicMatcher,
-        withBasicMatcher);
+                                   suchThatBasicMatcher,
+                                   patternBasicMatcher,
+                                   withBasicMatcher);

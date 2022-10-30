@@ -5,10 +5,12 @@ vector<Clause> ClausePrioritizer::getClauses() {
     if (tooFewClauses()) return getClausesFromQuery();
     //! Initialize all clauses to a default starting score and group
     vector<WeightedGroupedClause> weightedGroupedClauses = getInitialWeightedGroupedClauses();
-    //! Now we prioritize the clauses
+    //! Now we prioritize the clauses and sort them into a certain specific order. Earlier in the vector means that they
+    //! should be executed first.
     prioritizeClauses(weightedGroupedClauses);
-    // return getClausesFromWeightedGroupedClauses(weightedGroupedClauses);
-    return {};
+    //! Now we return the clauses from the weightedGroupedClauses vector. This is needed because each
+    //! WeightedGroupedClause struct is a wrapper over the encompassing clause object.
+    return getClausesFromWeightedGroupedClauses(weightedGroupedClauses);
 }
 
 bool ClausePrioritizer::tooFewClauses() {
@@ -63,9 +65,19 @@ void ClausePrioritizer::prioritizeClauses(vector<WeightedGroupedClause>& clauses
         }
     }
 
+    //! Then we sort the clauses by their weights. It is already defined in their struct definition.
+    sort(clauses.begin(), clauses.end());
 }
 
 vector<WeightFunction> ClausePrioritizer::weightUpdaters = {
     weightBooleanClause/*, weightAffectsClause, weightAffectsTClause,
     weightNextTClause, weightPartialPatternMatch, weightCompletePatternMatch*/
 };
+
+vector<Clause> ClausePrioritizer::getClausesFromWeightedGroupedClauses(const vector<WeightedGroupedClause>& clauses) {
+    vector<Clause> returnClauses;
+    for (WeightedGroupedClause clause : clauses) {
+        returnClauses.push_back(clause.clause);
+    }
+    return returnClauses;
+}

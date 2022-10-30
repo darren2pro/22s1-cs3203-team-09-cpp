@@ -33,9 +33,9 @@ struct WeightedGroupedClause {
 
 //! For application of clause weights based on their type
 using WeightFunction = function<void(WeightedGroupedClause&)>;
-using SuchThatMatcher = function<bool(Relation*)>;
-using PatternMatcher = function<bool(Pattern*)>;
-using WithMatcher = function<bool(With*)>;
+using SuchThatMatcher = function<bool(Relation)>;
+using PatternMatcher = function<bool(Pattern)>;
+using WithMatcher = function<bool(With)>;
 
 class ClausePrioritizer {
 private:
@@ -63,6 +63,9 @@ private:
 
     //! Calculates weights and groupings for clauses - modifies input parameter
     void prioritizeClauses(vector<WeightedGroupedClause>& clauses);
+
+    //! Retrieves the clause objects from the weighted grouped clauses
+    vector<Clause> getClausesFromWeightedGroupedClauses(const vector<WeightedGroupedClause>& clauses);
 
 public:
     explicit ClausePrioritizer(Query* query) : query(query) {};

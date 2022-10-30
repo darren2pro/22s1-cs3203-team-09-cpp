@@ -18,7 +18,6 @@
 #include "SuchThat/AffectsTRelationEvaluator.h"
 #include "With/WithEvaluator.h"
 
-
 template <class... Ts>
 struct Overload : Ts... {
 	using Ts::operator()...;

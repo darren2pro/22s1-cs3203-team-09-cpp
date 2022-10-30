@@ -1,9 +1,15 @@
 #include <functional>
 #include "ClausePrioritizer.h"
-#include "../QueryProcessingSubsystem/Executor/QueryExecutor.cpp"
 
 using namespace std;
 using namespace placeholders;
+
+template <class... Ts>
+struct Overload : Ts... {
+    using Ts::operator()...;
+};
+
+template<class... Ts> Overload(Ts...) -> Overload<Ts...>;
 
 //! Settings values
 //! Generic penalty/reward numbers

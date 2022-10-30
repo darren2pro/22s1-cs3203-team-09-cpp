@@ -17,13 +17,7 @@
 #include "SuchThat/AffectsRelationEvaluator.h"
 #include "SuchThat/AffectsTRelationEvaluator.h"
 #include "With/WithEvaluator.h"
-
-template <class... Ts>
-struct Overload : Ts... {
-	using Ts::operator()...;
-};
-
-template<class... Ts> Overload(Ts...) -> Overload<Ts...>;
+#include "../ClausePrioritizer.h"
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
     relations = query->relations;
@@ -33,23 +27,21 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	target = query->target;
 	rdb = ResultsDatabase();
 
-	//TODO: For Darren.
-	// Initialize context for strategy pattern
+	// TODO: For Darren.
     std::shared_ptr<WithStrategy> withStrat = std::make_shared<WithStrategy>(declarations, pkb);
     std::shared_ptr<PatternStrategy> patternStrat = std::make_shared<PatternStrategy>(declarations, pkb);
     std::shared_ptr<RelationStrategy> relationStrat = std::make_shared<RelationStrategy>(declarations, pkb);
     ClauseStrategyContext clauseStrategyContext(withStrat);
-	
-    /*
+
     std::vector<Clause> clauses = ClausePrioritizer(query).getClauses();
     for (auto& clause : clauses) {
-        if (clause.isPatternAttr) {
+        if (clause.isPattern()) {
             clauseStrategyContext.setStrategy(patternStrat);
         }
-        else if (clause.isRelationAttr) {
+        else if (clause.isRelation()) {
             clauseStrategyContext.setStrategy(relationStrat);
         }
-        else if (clause.isWithAttr) {
+        else if (clause.isWith()) {
             clauseStrategyContext.setStrategy(withStrat);
         }
         else {
@@ -65,64 +57,18 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
             }
         }
     }
-    */
-
-	
-	// Relations clause
-    bool relClauseResult = true;
-
-	// Instantiate the ClauseStrategyContext with a concrete strategy first
-	clauseStrategyContext.setStrategy(std::make_unique<RelationStrategy>(declarations, pkb));
-    for (Relation& rel : relations) {
-        if (!clauseStrategyContext.execute(rel, rdb)) {
-            relClauseResult = false;
-            break;
-        }
+    
+    //! Insert all other variables that have not been inserted.
+    for (Declaration decl : declarations) {
+        insertSynonymSetIntoRDB(decl, rdb, pkb);
     }
 
-	// Patterns clause
-    bool patClauseResult = true;
-	clauseStrategyContext.setStrategy(std::make_unique<PatternStrategy>(declarations, pkb));
-    for (Pattern& pat : pattern) {
-        if (!clauseStrategyContext.execute(pat, rdb)) {
-            patClauseResult = false;
-            break;
-        }
-    }
+    std::unordered_set<std::string> results = getResultsFromRDB(target, rdb);
 
-	// With clause
-    bool withClauseResult = true;
-    clauseStrategyContext.setStrategy(std::make_unique<WithStrategy>(declarations, pkb));
-    for (With& wit : with) {
-        if (!clauseStrategyContext.execute(wit, rdb)) {
-            withClauseResult = false;
-            break;
-        }
-    }
-
-	// Return empty list if any of them returns False.
-	if (!relClauseResult || !patClauseResult || !withClauseResult) {
-        // TEMPORARY FIX -> MOVING FORWARD, MUST FORCE EVERYONE TO GO THROUGH getResultsFromRDB
-        if (target.isBoolean()) {
-            return std::unordered_set<std::string>{"FALSE"};
-        }
-        else {
-			return {};
-        }
-	}
-
-	// Insert all other variables that have not been inserted.
-	for (Declaration decl : declarations) {
-		insertSynonymSetIntoRDB(decl, rdb, pkb);
-	}
-
-	std::unordered_set<std::string> results = getResultsFromRDB(target, rdb);
-
-    //pkb->clearCache();
+    pkb->clearCache();
 
 	return results;
 }
-
 
 // Relation execute
 bool QueryExecutor::relationExecute(Relation relations, ResultsDatabase& rdb) {

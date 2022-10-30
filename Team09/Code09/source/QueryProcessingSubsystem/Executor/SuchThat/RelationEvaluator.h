@@ -4,7 +4,6 @@
 #include <unordered_set>
 #include "../../Relation.h"
 #include "../../../ProgramKnowledgeBase/PKBStorage.h"
-#include "../../../ProgramKnowledgeBase/PKBStorage.h"
 #include "../ResultsDatabase/ResultsDatabase.h"
 
 using namespace PKB;
@@ -30,14 +29,19 @@ public:
 		rdb(rdb),
 		pkb(pkb) {};
 
+	RelationEvaluator(const RelationEvaluator& relEv) :
+		declarations(relEv.declarations),
+		relations(relEv.relations),
+		leftArg(relEv.relations.LEFT_ARG),
+		rightArg(relEv.relations.RIGHT_ARG),
+		rdb(relEv.rdb),
+		pkb(relEv.pkb) {};
+
     /**
      * Evaluates the relation and stores the results in the ResultsDatabase. Returns false if there are no possible results
      * for this relation evaluation, and returns true if there are at least one possible result.
      */
 	bool evaluate();
-
-    //! Strips the quotation marks from the string. (only if there are quotation marks to strip)
-	std::string stripQuotationMarks(std::string arg);
 
 	// Check if query is invalid for Uses/Modifies. 
 	bool isFirstArgumentUnderscoreValid(enum Relation::Types relType);

@@ -172,6 +172,17 @@ namespace PKB {
         return entity->getSet();
     }
 
+    std::string PKBStorage::getValueFromKey(std::string attrVal, Declaration::DesignEntity type, AttrReference::Attribute attr) {
+        if (attr == AttrReference::ProcName || attr == AttrReference::VarName) {
+            auto entity = getEntityFromEnum(type);
+            return entity->get(attrVal);
+        }
+        else {
+            // If any other attributes (stmt#), just return the original value.
+            return attrVal;
+        }
+    }
+
     bool PKBStorage::relationContainsSet(Relation::Types type, const std::string first, const std::string second) {
         auto relation = getRelationFromEnum(type);
         return relation->containsSet(first, second);

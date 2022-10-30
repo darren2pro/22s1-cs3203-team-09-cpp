@@ -125,19 +125,21 @@ bool AffectsRelationEvaluator::evaluate() {
 }
 
 void AffectsRelationEvaluator::computeFully() {
-	for (const auto& modifiesLine : pkb->getEntitySet(Declaration::Assignment)) {
-		for (const auto& usesLine : pkb->getEntitySet(Declaration::Assignment)) {
-			// variable modified by modifiesLine
-			for (const auto& var : pkb->getRelationSecondFromFirst(Relation::ModifiesS, modifiesLine)) {
-                if (lineUsesVar(usesLine, var) &&
-				    lineReachesline(modifiesLine, usesLine) &&
-				    isNotModified(modifiesLine, usesLine, var)) {
-				    pkb->storeRelations(Relation::Affects, modifiesLine, usesLine);
+	if (!pkb->isCacheFullyComputed(Relation::Affects)) {
+        for (const auto& modifiesLine : pkb->getEntitySet(Declaration::Assignment)) {
+		    for (const auto& usesLine : pkb->getEntitySet(Declaration::Assignment)) {
+			    // variable modified by modifiesLine
+			    for (const auto& var : pkb->getRelationSecondFromFirst(Relation::ModifiesS, modifiesLine)) {
+                    if (lineUsesVar(usesLine, var) &&
+				        lineReachesline(modifiesLine, usesLine) &&
+				        isNotModified(modifiesLine, usesLine, var)) {
+				        pkb->storeRelations(Relation::Affects, modifiesLine, usesLine);
+			        }
 			    }
-			}
-		}
+		    }
+	    }
+	    pkb->setCacheFullyComputed(Relation::Affects);
 	}
-	pkb->setCacheFullyComputed(Relation::Affects);
 }
 
 bool AffectsRelationEvaluator::lineUsesVar(std::string uses, std::string var) {

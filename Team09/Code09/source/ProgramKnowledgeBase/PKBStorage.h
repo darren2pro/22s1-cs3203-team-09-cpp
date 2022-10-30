@@ -14,6 +14,7 @@
 #include "../QueryProcessingSubsystem/Declaration.h"
 #include "../QueryProcessingSubsystem/Relation.h"
 #include "../QueryProcessingSubsystem/Pattern.h"
+#include "../QueryProcessingSubsystem/AttrReference.h"
 
 
 namespace PKB {
@@ -95,6 +96,7 @@ namespace PKB {
         //get entities API
         bool entityContains(Declaration::DesignEntity, const std::string);
         std::unordered_set<std::string> getEntitySet(Declaration::DesignEntity);
+        std::string getValueFromKey(std::string synonymValue, Declaration::DesignEntity type, AttrReference::Attribute attr);
 
         //get relations API
         bool relationContainsSet(Relation::Types, const std::string, const std::string);

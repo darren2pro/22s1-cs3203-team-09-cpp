@@ -20,11 +20,11 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.cpp" />
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsDatabase.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\ClauseStrategyContext.cpp" />
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.h" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryLexer.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp" />
@@ -54,6 +54,7 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\Pattern\PatternEvaluator.h" />
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsDatabase.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ResultsDatabase\ResultsTables.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\QueryExecutor.h" />

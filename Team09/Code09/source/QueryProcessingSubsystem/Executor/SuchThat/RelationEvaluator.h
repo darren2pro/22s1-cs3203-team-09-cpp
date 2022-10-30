@@ -4,7 +4,6 @@
 #include <unordered_set>
 #include "../../Relation.h"
 #include "../../../ProgramKnowledgeBase/PKBStorage.h"
-#include "../../../ProgramKnowledgeBase/PKBStorage.h"
 #include "../ResultsDatabase/ResultsDatabase.h"
 
 using namespace PKB;
@@ -43,9 +42,6 @@ public:
      * for this relation evaluation, and returns true if there are at least one possible result.
      */
 	bool evaluate();
-
-    //! Strips the quotation marks from the string. (only if there are quotation marks to strip)
-	std::string stripQuotationMarks(std::string arg);
 
 	// Check if query is invalid for Uses/Modifies. 
 	bool isFirstArgumentUnderscoreValid(enum Relation::Types relType);

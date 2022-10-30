@@ -292,13 +292,14 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 17 - Which while statement has stmt# of 15 and uses kkk
+                //! Query 17 - Which while statement uses kkk
                 string query17 = "assign a; procedure mpp; variable vv; stmt s; while w;\n"
-                                 "Select w.stmt# such that Uses(w, vv) with vv.varName = \"kkk\" with w.stmt# = 15   \t";
+                                 "Select w.stmt# such that Uses(w, vv) with vv.varName = \"kkk\"  \t";
                 unordered_set<string> queryResults17 = spaManager.query(query17);
-                // Expected results: 15
-                Assert::AreEqual(1, (int) queryResults17.size());
-                Assert::IsTrue(queryResults17.find("15") != queryResults17.end());
+                // Expected results: 12, 13
+                Assert::AreEqual(2, (int) queryResults17.size());
+                Assert::IsTrue(queryResults17.find("12") != queryResults17.end());
+                Assert::IsTrue(queryResults17.find("13") != queryResults17.end());
             }
 
             TEST_METHOD(TestMultipleWithClausePartOne18) {

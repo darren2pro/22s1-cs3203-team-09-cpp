@@ -3,8 +3,6 @@
 #include <variant>
 #include <cassert>
 #include "QueryExecutor.h"
-#include "../Relation.h"
-#include "../Pattern.h"
 #include "../Utils.h"
 #include "Pattern/PatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
@@ -16,6 +14,7 @@
 #include "SuchThat/AffectsRelationEvaluator.h"
 #include "SuchThat/AffectsTRelationEvaluator.h"
 #include "With/WithEvaluator.h"
+#include "ResultsDatabase/ResultsDatabase.h"
 
 
 template <class... Ts>
@@ -32,11 +31,6 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
 	declarations = query->declarations;
 	target = query->target;
 	rdb = ResultsDatabase();
-
-	// Initialize context for strategy pattern
-	// auto clauses = prioritizeClauses(query)
-	// for clause in clauses:
-	// if(!execute(clause)) { return False }
 
 	// Relations clause
     bool relClauseResult = true;
@@ -118,9 +112,10 @@ bool QueryExecutor::patternExecute(Pattern pattern, ResultsDatabase& rdb) {
 
 // With execute
 bool QueryExecutor::withExecute(With with, ResultsDatabase& rdb) {
-    auto t =  WithEvaluator(declarations, with, rdb, pkb);
+    //WithEvaluator t =  WithEvaluator(declarations, with, rdb, pkb);
     //return t.evaluate();
-    return true;
+    return WithEvaluator(declarations, with, rdb, pkb).evaluate();
+    //return true;
 }
 
 std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Result result, ResultsDatabase& rdb) {

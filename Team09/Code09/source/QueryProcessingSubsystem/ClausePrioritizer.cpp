@@ -70,8 +70,8 @@ void ClausePrioritizer::prioritizeClauses(vector<WeightedGroupedClause>& clauses
 }
 
 vector<WeightFunction> ClausePrioritizer::weightUpdaters = {
-    weightBooleanClause, weightAffectsClause, weightAffectsTClause, /*
-    weightNextTClause, weightPartialPatternMatch, weightCompletePatternMatch */
+    weightBooleanClause, weightAffectsClause, weightAffectsTClause,
+    weightNextTClause, weightPartialPatternMatch, weightCompletePatternMatch
 };
 
 vector<Clause> ClausePrioritizer::getClausesFromWeightedGroupedClauses(const vector<WeightedGroupedClause>& clauses) {

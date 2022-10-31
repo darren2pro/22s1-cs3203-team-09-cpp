@@ -4,17 +4,11 @@
 #include <cassert>
 #include "QueryExecutor.h"
 #include "../Utils.h"
-#include "Pattern/PatternEvaluator.h"
 #include "ResultsDatabase/ResultsDatabase.h"
 #include "ClauseStrategy/ClauseStrategyContext.h"
 #include "ClauseStrategy/RelationStrategy.h"
 #include "ClauseStrategy/PatternStrategy.h"
 #include "ClauseStrategy/WithStrategy.h"
-#include "SuchThat/RelationEvaluator.h"
-#include "SuchThat/NextTRelationEvaluator.h"
-#include "SuchThat/AffectsRelationEvaluator.h"
-#include "SuchThat/AffectsTRelationEvaluator.h"
-#include "With/WithEvaluator.h"
 #include "../ClausePrioritizer.h"
 
 std::unordered_set<std::string> QueryExecutor::processQuery(Query* query, bool performOptimized) {
@@ -67,34 +61,6 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query, bool p
     pkb->clearCache();
 
 	return results;
-}
-
-// Relation execute
-bool QueryExecutor::relationExecute(Relation relations, ResultsDatabase& rdb) {
-    Relation::Types type = relations.Type;
-    switch (type) {
-    case Relation::NextT:
-        return NextTRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
-    case Relation::Affects:
-        NextTRelationEvaluator(declarations, relations, rdb, pkb).computeFully();
-        return AffectsRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
-    case Relation::AffectsT:
-        NextTRelationEvaluator(declarations, relations, rdb, pkb).computeFully();
-        AffectsRelationEvaluator(declarations, relations, rdb, pkb).computeFully();
-        return AffectsTRelationEvaluator(declarations, relations, rdb, pkb).evaluate();
-    default:
-        return RelationEvaluator(declarations, relations, rdb, pkb).evaluate();
-    }
-}
-
-// Pattern execute
-bool QueryExecutor::patternExecute(Pattern pattern, ResultsDatabase& rdb) {
-	return PatternEvaluator(declarations, pattern, rdb, pkb).evaluate();
-}
-
-// With execute
-bool QueryExecutor::withExecute(With with, ResultsDatabase& rdb) {
-    return WithEvaluator(declarations, with, rdb, pkb).evaluate();
 }
 
 std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Result result, ResultsDatabase& rdb) {

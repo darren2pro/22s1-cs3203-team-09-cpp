@@ -523,7 +523,7 @@ namespace IntegrationTesting {
 
                 //! Query 22
                 string query22 = "assign a1, a2; stmt ss1, ss2; call cc1, cc2; read rr1, rr2; if ifs1, ifs2; while w1, w2; procedure p; \n"
-                                 "Select a2 such that Next*(a1, 14)";
+                                 "Select a2 such that Next*(a2, 14)";
                 unordered_set<string> queryResults22 = spaManager.query(query22);
                 /*
                  * Expected results:

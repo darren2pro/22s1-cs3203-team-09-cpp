@@ -93,7 +93,28 @@ namespace IntegrationTesting {
                 //! Query 2 - The pattern execution should be shifted to the last clause, because it takes the longest.
                 //! All other clauses should return some results so that we see whether there are benefits of shifting
                 //! The pattern execution to the last clause.
+                string query2 = "assign a, a1, a2; variable v; \n"
+                                "Select a2 pattern a1 (_, \"num1 + num2\") such that Modifies(a, \"beingModified\") pattern a2(v, _\"num2 * 5\"_) such that Uses(a, \"num1\")";
+                auto start = high_resolution_clock::now();
+                unordered_set<string> result2Optimized = spaManager.query(query2);
+                auto stop = high_resolution_clock::now();
+                auto durationOptimized = duration_cast<microseconds>(stop - start);
 
+                start = high_resolution_clock::now();
+                unordered_set<string> result2Unoptimized = spaManager.query(query2, false);
+                stop = high_resolution_clock::now();
+                auto durationUnoptimized = duration_cast<microseconds>(stop - start);
+
+                Logger::WriteMessage("\tTestOptimization_2\n");
+                Logger::WriteMessage(("\tOptimized: " + to_string(durationOptimized.count()) + " microseconds\n").c_str());
+                Logger::WriteMessage(("\tUnoptimized: " + to_string(durationUnoptimized.count()) + " microseconds\n\n").c_str());
+
+                // Expected result: 16
+                Assert::AreEqual(1, (int) result2Optimized.size());
+                Assert::AreEqual(1, (int) result2Unoptimized.size());
+
+                Assert::IsTrue(result2Optimized.find("16") != result2Optimized.end());
+                Assert::IsTrue(result2Unoptimized.find("16") != result2Unoptimized.end());
             }
 
             TEST_METHOD(TestOptimization_3) {
@@ -104,7 +125,30 @@ namespace IntegrationTesting {
                 //! Query 3 - The NextT execution should be shifted to the last clause, because it takes the longest and
                 //! is calculated on-the-fly. All other clauses should return some results so that we see whether
                 //! there are benefits of shifting the Next/T execution to the last clause.
+                string query3 = "assign a, a1, a2; \n"
+                                "Select a2 such that Next*(a2, 14) and Modifies(a, \"beingModified\") and Uses(a1, \"num1\") and Uses(a1, \"num2\")";
+                auto start = high_resolution_clock::now();
+                unordered_set<string> result3Optimized = spaManager.query(query3);
+                auto stop = high_resolution_clock::now();
+                auto durationOptimized = duration_cast<microseconds>(stop - start);
 
+                start = high_resolution_clock::now();
+                unordered_set<string> result3Unoptimized = spaManager.query(query3, false);
+                stop = high_resolution_clock::now();
+                auto durationUnoptimized = duration_cast<microseconds>(stop - start);
+
+                Logger::WriteMessage("\tTestOptimization_3\n");
+                Logger::WriteMessage(("\tOptimized: " + to_string(durationOptimized.count()) + " microseconds\n").c_str());
+                Logger::WriteMessage(("\tUnoptimized: " + to_string(durationUnoptimized.count()) + " microseconds\n\n").c_str());
+
+                // Expected result: 14, 16
+                Assert::AreEqual(2, (int) result3Optimized.size());
+                Assert::AreEqual(2, (int) result3Unoptimized.size());
+
+                Assert::IsTrue(result3Optimized.find("14") != result3Optimized.end());
+                Assert::IsTrue(result3Optimized.find("16") != result3Optimized.end());
+                Assert::IsTrue(result3Unoptimized.find("14") != result3Unoptimized.end());
+                Assert::IsTrue(result3Unoptimized.find("16") != result3Unoptimized.end());
             }
 
             TEST_METHOD(TestOptimization_4) {

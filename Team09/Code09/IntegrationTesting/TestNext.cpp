@@ -515,5 +515,23 @@ namespace IntegrationTesting {
                 Assert::IsTrue(queryResults21.find("18 nested") != queryResults21.end());
                 Assert::IsTrue(queryResults21.find("20 nested") != queryResults21.end());
             }
+
+            TEST_METHOD(TestNext22) {
+                string program = getCurrentProgram(1);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
+
+                //! Query 22
+                string query22 = "assign a1, a2; stmt ss1, ss2; call cc1, cc2; read rr1, rr2; if ifs1, ifs2; while w1, w2; procedure p; \n"
+                                 "Select a2 such that Next*(a1, 14)";
+                unordered_set<string> queryResults22 = spaManager.query(query22);
+                /*
+                 * Expected results:
+                 * 14, 16
+                 */
+                Assert::AreEqual(2, (int) queryResults22.size());
+                Assert::IsTrue(queryResults22.find("14") != queryResults22.end());
+                Assert::IsTrue(queryResults22.find("16") != queryResults22.end());
+            }
     };
 }

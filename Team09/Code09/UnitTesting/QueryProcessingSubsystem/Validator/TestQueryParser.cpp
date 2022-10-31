@@ -2834,6 +2834,168 @@ public:
         Assert::IsTrue(*result1 == expectedResult1);
     }
 
+    TEST_METHOD(TestParserValidBooleanQueries) {
+        const std::string query1 = "assign a; Select BOOLEAN such that Follows (1, 2)";
+        QueryLexer lexer1 = QueryLexer(query1);
+        std::vector<std::string> tokens1 = lexer1.lex();
+        QueryParser parser1 = QueryParser(tokens1);
+
+        Query expectedResult1 = Query();
+
+        expectedResult1.declarations = std::vector<Declaration>();
+        expectedResult1.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
+        expectedResult1.target = Result(Result::Types::Boolean);
+        expectedResult1.relations = std::vector<Relation>({Relation(Relation::Types::Follows, Reference("1"), Reference("2"))});
+        expectedResult1.patterns = std::vector<Pattern>();
+        expectedResult1.withs = std::vector<With>();
+        expectedResult1.results = std::vector<std::string>();
+
+        Query* result1 = parser1.parse();
+
+        Assert::IsTrue(*result1 == expectedResult1);        
+        
+        
+        const std::string query2 = "stmt BOOLEAN; Select BOOLEAN such that Follows (BOOLEAN, _)";
+        QueryLexer lexer2 = QueryLexer(query2);
+        std::vector<std::string> tokens2 = lexer2.lex();
+        QueryParser parser2 = QueryParser(tokens2);
+
+        Query expectedResult2 = Query();
+
+        expectedResult2.declarations = std::vector<Declaration>();
+        expectedResult2.declarations.push_back(Declaration(Declaration::DesignEntity::Statement , "BOOLEAN"));
+        expectedResult2.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ Declaration(Declaration::DesignEntity::Statement, "BOOLEAN") }));
+        expectedResult2.relations = std::vector<Relation>({Relation(Relation::Types::Follows, Reference(Declaration(Declaration::DesignEntity::Statement, "BOOLEAN")), Reference("_"))});
+        expectedResult2.patterns = std::vector<Pattern>();
+        expectedResult2.withs = std::vector<With>();
+        expectedResult2.results = std::vector<std::string>();
+
+        Query* result2 = parser2.parse();
+
+        Assert::IsTrue(*result2 == expectedResult2);
+
+
+    }    
+    
+    TEST_METHOD(TestParserValidTupleQueries) {
+        //1
+        const std::string query1 = "assign a1, a2; Select <a1, a2>";
+        QueryLexer lexer1 = QueryLexer(query1);
+        std::vector<std::string> tokens1 = lexer1.lex();
+        QueryParser parser1 = QueryParser(tokens1);
+
+        Query expectedResult1 = Query();
+
+        expectedResult1.declarations = std::vector<Declaration>();
+        expectedResult1.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a1"));
+        expectedResult1.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a2"));
+        expectedResult1.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({ 
+                                            Declaration(Declaration::DesignEntity::Assignment, "a1"), Declaration(Declaration::DesignEntity::Assignment, "a2") }));
+        expectedResult1.relations = std::vector<Relation>();
+        expectedResult1.patterns = std::vector<Pattern>();
+        expectedResult1.withs = std::vector<With>();
+        expectedResult1.results = std::vector<std::string>();
+
+        Query* result1 = parser1.parse();
+
+        Assert::IsTrue(*result1 == expectedResult1);        
+        
+        //2
+        const std::string query2 = "assign a1, a2; Select <a1, a2> such that Follows (a1, a2)";
+        QueryLexer lexer2 = QueryLexer(query2);
+        std::vector<std::string> tokens2 = lexer2.lex();
+        QueryParser parser2 = QueryParser(tokens2);
+
+        Query expectedResult2 = Query();
+
+        expectedResult2.declarations = std::vector<Declaration>();
+        expectedResult2.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a1"));
+        expectedResult2.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a2"));
+        expectedResult2.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({
+                                            Declaration(Declaration::DesignEntity::Assignment, "a1"), Declaration(Declaration::DesignEntity::Assignment, "a2") }));
+        expectedResult2.relations = std::vector<Relation>({ Relation(Relation::Types::Follows, Reference(Declaration(Declaration::DesignEntity::Assignment, "a1")), Reference(Declaration(Declaration::DesignEntity::Assignment, "a2"))) });
+        expectedResult2.patterns = std::vector<Pattern>();
+        expectedResult2.withs = std::vector<With>();
+        expectedResult2.results = std::vector<std::string>();
+
+        Query* result2 = parser2.parse();
+
+        Assert::IsTrue(*result2 == expectedResult2);        
+        
+        
+        
+        //3
+        const std::string query3 = "assign a, aa, aaa, aaaa; Select <a, aa, aaa, aaaa> such that Follows (a, aa)";
+        QueryLexer lexer3 = QueryLexer(query3);
+        std::vector<std::string> tokens3 = lexer3.lex();
+        QueryParser parser3 = QueryParser(tokens3);
+
+        Query expectedResult3 = Query();
+
+        expectedResult3.declarations = std::vector<Declaration>();
+        expectedResult3.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a"));
+        expectedResult3.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "aa"));
+        expectedResult3.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "aaa"));
+        expectedResult3.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "aaaa"));
+        expectedResult3.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({
+                                            Declaration(Declaration::DesignEntity::Assignment, "a"), Declaration(Declaration::DesignEntity::Assignment, "aa"),
+                                            Declaration(Declaration::DesignEntity::Assignment, "aaa"), Declaration(Declaration::DesignEntity::Assignment, "aaaa") }));
+        expectedResult3.relations = std::vector<Relation>({ Relation(Relation::Types::Follows, Reference(Declaration(Declaration::DesignEntity::Assignment, "a")), Reference(Declaration(Declaration::DesignEntity::Assignment, "aa"))) });
+        expectedResult3.patterns = std::vector<Pattern>();
+        expectedResult3.withs = std::vector<With>();
+        expectedResult3.results = std::vector<std::string>();
+
+        Query* result3 = parser3.parse();
+
+        Assert::IsTrue(*result3 == expectedResult3);
+
+        //4
+        const std::string query4 = "procedure p4, p2; assign a4, a2; Select <p4.procName, p2, a4, a2.stmt#>";
+        QueryLexer lexer4 = QueryLexer(query4);
+        std::vector<std::string> tokens4 = lexer4.lex();
+        QueryParser parser4 = QueryParser(tokens4);
+
+        Query expectedResult4 = Query();
+
+        expectedResult4.declarations = std::vector<Declaration>();
+        expectedResult4.declarations.push_back(Declaration(Declaration::DesignEntity::Procedure, "p4"));
+        expectedResult4.declarations.push_back(Declaration(Declaration::DesignEntity::Procedure, "p2"));        
+        expectedResult4.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a4"));
+        expectedResult4.declarations.push_back(Declaration(Declaration::DesignEntity::Assignment, "a2"));
+        expectedResult4.target = Result(Result::Types::Tuple, std::vector<std::variant<Declaration, AttrReference>>({
+                                           AttrReference(Declaration(Declaration::DesignEntity::Procedure, "p4"), AttrReference::Attribute::ProcName), Declaration(Declaration::DesignEntity::Procedure, "p2"),
+                                            Declaration(Declaration::DesignEntity::Assignment, "a4"), AttrReference(Declaration(Declaration::DesignEntity::Assignment, "a2"), AttrReference::Attribute::StmtNum) }));
+        expectedResult4.relations = std::vector<Relation>();
+        expectedResult4.patterns = std::vector<Pattern>();
+        expectedResult4.withs = std::vector<With>();
+        expectedResult4.results = std::vector<std::string>();
+
+        Query* result4 = parser4.parse();
+
+        Assert::IsTrue(*result4 == expectedResult4);
+    }
+
+    TEST_METHOD(TestParserSelectErrors) {
+        // 1
+        const std::string query = "stmt s; Select BOOLEAN such that Follows (BOOLEAN, _)";
+        QueryLexer lexer = QueryLexer(query);
+        std::vector<std::string> tokens = lexer.lex();
+        QueryParser parser = QueryParser(tokens);
+
+        bool exceptionThrown = false;
+        try
+        {
+            parser.parse();
+        }
+        catch (SemanticError&)
+        {
+            exceptionThrown = true;
+
+        }
+
+        Assert::IsTrue(exceptionThrown);
+    }
+
     TEST_METHOD(TestParserDeclarationSyntaxError) {
         // 1
         const std::string query = "assign a, variable v; Select a such that Modifies(a, \"x\")";

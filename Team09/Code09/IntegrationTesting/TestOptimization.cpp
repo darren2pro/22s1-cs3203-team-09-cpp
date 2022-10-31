@@ -49,9 +49,28 @@ namespace IntegrationTesting {
                                   "        }\n"
                                   "    }\n"
                                   "}\n";
+                string program2 = "procedure Second {\n"
+                                  "                                x = 0;\n" // line 1
+                                  "                                i = 5;\n" // line 2
+                                  "                                while (i!=0) {\n" // line 3
+                                  "                                        x = x + 2*y;\n" // line 4
+                                  "                                        call Third;\n" // line 5
+                                  "                                        i = i - 1; }\n" // line 6
+                                  "                                if (x==1) then {\n" // line 7
+                                  "                                        x = x+1; }\n" // line 8
+                                  "                                else {\n"
+                                  "                                        z = 1; }\n" // line 9
+                                  "                                z = z + x + i;\n" // line 10
+                                  "                                y = z + 2;\n" // line 11
+                                  "                                x = x * y + z; }\n" // line 12
+                                  "procedure Third {\n"
+                                  "        call Fourth;\n" // line 13
+                                  "}\n  ";
                 switch (ref) {
                     case 1:
                         return program1;
+                    case 2:
+                        return program2;
                     default:
                         return "";
                 }
@@ -159,29 +178,61 @@ namespace IntegrationTesting {
                 //! Query 4 - The Next execution should be shifted to the last clause, because it takes the longest and
                 //! is calculated on-the-fly. All other clauses should return some results so that we see whether
                 //! there are benefits of shifting the Next/T execution to the last clause.
+                string query4 = "assign a, a1, a2; \n"
+                                "Select a2 such that Next(a2, 14) and Modifies(a, \"beingModified\") and Uses(a1, \"num1\") and Uses(a1, \"num2\")";
+                auto start = high_resolution_clock::now();
+                unordered_set<string> result4Optimized = spaManager.query(query4);
+                auto stop = high_resolution_clock::now();
+                auto durationOptimized = duration_cast<microseconds>(stop - start);
 
+                start = high_resolution_clock::now();
+                unordered_set<string> result4Unoptimized = spaManager.query(query4, false);
+                stop = high_resolution_clock::now();
+                auto durationUnoptimized = duration_cast<microseconds>(stop - start);
+
+                Logger::WriteMessage("\tTestOptimization_4\n");
+                Logger::WriteMessage(("\tOptimized: " + to_string(durationOptimized.count()) + " microseconds\n").c_str());
+                Logger::WriteMessage(("\tUnoptimized: " + to_string(durationUnoptimized.count()) + " microseconds\n\n").c_str());
+
+                // Expected result: empty
+                Assert::AreEqual(0, (int) result4Optimized.size());
+                Assert::AreEqual(0, (int) result4Unoptimized.size());
             }
 
             TEST_METHOD(TestOptimization_5) {
-                string program = getCurrentProgram(1);
+                string program = getCurrentProgram(2);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 5 - The AffectsT execution should be shifted to the last clause, because it takes the longest and
                 //! is calculated on-the-fly. All other clauses should return some results so that we see whether
                 //! there are benefits of shifting the Affects/T execution to the last clause.
+                string query5 = "assign a, a1, a2; \n"
+                                "Select a2 such that Affects*(a2, 4) and Modifies(a, \"beingModified\") and Uses(a1, \"num1\") and Uses(a1, \"num2\")";
+                auto start = high_resolution_clock::now();
+                unordered_set<string> result5Optimized = spaManager.query(query5);
+                auto stop = high_resolution_clock::now();
+                auto durationOptimized = duration_cast<microseconds>(stop - start);
 
-            }
+                start = high_resolution_clock::now();
+                unordered_set<string> result5Unoptimized = spaManager.query(query5, false);
+                stop = high_resolution_clock::now();
+                auto durationUnoptimized = duration_cast<microseconds>(stop - start);
 
-            TEST_METHOD(TestOptimization_6) {
-                string program = getCurrentProgram(1);
-                SPAManager spaManager;
-                spaManager.loadSimpleSourceFromProgram(program);
+                Logger::WriteMessage("\tTestOptimization_5\n");
+                Logger::WriteMessage(("\tOptimized: " + to_string(durationOptimized.count()) + " microseconds\n").c_str());
+                Logger::WriteMessage(("\tUnoptimized: " + to_string(durationUnoptimized.count()) + " microseconds\n\n").c_str());
 
-                //! Query 6 - The Affects execution should be shifted to the last clause, because it takes the longest and
-                //! is calculated on-the-fly. All other clauses should return some results so that we see whether
-                //! there are benefits of shifting the Affects/T execution to the last clause.
+                /*
+                 * Expected result: 1, 4
+                 */
+                Assert::AreEqual(2, (int) result5Optimized.size());
+                Assert::AreEqual(2, (int) result5Unoptimized.size());
 
+                Assert::IsTrue(result5Optimized.find("1") != result5Optimized.end());
+                Assert::IsTrue(result5Optimized.find("4") != result5Optimized.end());
+                Assert::IsTrue(result5Unoptimized.find("1") != result5Unoptimized.end());
+                Assert::IsTrue(result5Unoptimized.find("4") != result5Unoptimized.end());
             }
 
             TEST_METHOD(TestOptimization_7) {
@@ -190,8 +241,28 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 7 - The With execution should be shifted to the front to be executed. This test case will be
-                //! a positive test case, meaning that we expect the query to return some results.
+                //! a negative test case, meaning that we expect the query to return no results.
+                string query7 = "assign a, a1, a2; \n"
+                                "Select a2 such that Modifies(a, \"beingModified\") and Uses(a1, \"num1\") and Uses(a1, \"num2\") with 2 = 3";
+                auto start = high_resolution_clock::now();
+                unordered_set<string> result7Optimized = spaManager.query(query7);
+                auto stop = high_resolution_clock::now();
+                auto durationOptimized = duration_cast<microseconds>(stop - start);
 
+                start = high_resolution_clock::now();
+                unordered_set<string> result7Unoptimized = spaManager.query(query7, false);
+                stop = high_resolution_clock::now();
+                auto durationUnoptimized = duration_cast<microseconds>(stop - start);
+
+                Logger::WriteMessage("\tTestOptimization_7\n");
+                Logger::WriteMessage(("\tOptimized: " + to_string(durationOptimized.count()) + " microseconds\n").c_str());
+                Logger::WriteMessage(("\tUnoptimized: " + to_string(durationUnoptimized.count()) + " microseconds\n\n").c_str());
+
+                /*
+                 * Expected result: empty
+                 */
+                Assert::AreEqual(0, (int) result7Optimized.size());
+                Assert::AreEqual(0, (int) result7Unoptimized.size());
             }
 
             TEST_METHOD(TestOptimization_8) {
@@ -200,8 +271,36 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 8 - The With execution should be shifted to the front to be executed. This test case will be
-                //! a negative test case, meaning that we expect the query to return no results.
+                //! a positive test case, meaning that we expect the query to return some results.
+                string query8 = "assign a, a1, a2; procedure p; \n"
+                                "Select p such that Modifies(a, \"beingModified\") and Uses(a1, \"num1\") and Uses(a1, \"num2\") with 2 = 2";
+                auto start = high_resolution_clock::now();
+                unordered_set<string> result8Optimized = spaManager.query(query8);
+                auto stop = high_resolution_clock::now();
+                auto durationOptimized = duration_cast<microseconds>(stop - start);
 
+                start = high_resolution_clock::now();
+                unordered_set<string> result8Unoptimized = spaManager.query(query8, false);
+                stop = high_resolution_clock::now();
+                auto durationUnoptimized = duration_cast<microseconds>(stop - start);
+
+                Logger::WriteMessage("\tTestOptimization_8\n");
+                Logger::WriteMessage(("\tOptimized: " + to_string(durationOptimized.count()) + " microseconds\n").c_str());
+                Logger::WriteMessage(("\tUnoptimized: " + to_string(durationUnoptimized.count()) + " microseconds\n\n").c_str());
+
+                /*
+                 * Expected result: procOne, procTwo, nested
+                 */
+                Assert::AreEqual(3, (int) result8Optimized.size());
+                Assert::AreEqual(3, (int) result8Unoptimized.size());
+
+                Assert::IsTrue(result8Optimized.find("procOne") != result8Optimized.end());
+                Assert::IsTrue(result8Optimized.find("procTwo") != result8Optimized.end());
+                Assert::IsTrue(result8Optimized.find("nested") != result8Optimized.end());
+
+                Assert::IsTrue(result8Unoptimized.find("procOne") != result8Unoptimized.end());
+                Assert::IsTrue(result8Unoptimized.find("procTwo") != result8Unoptimized.end());
+                Assert::IsTrue(result8Unoptimized.find("nested") != result8Unoptimized.end());
             }
     };
 }

@@ -76,7 +76,6 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 1
                 string query1 = "assign a; Select a";
                 unordered_set<string> queryResults1 = spaManager.query(query1);
 
@@ -103,11 +102,10 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 1
                 string query1 = "print a; Select a";
                 unordered_set<string> queryResults1 = spaManager.query(query1);
 
-                // Expected results: 
+                // Expected results: 2 4 6 8
                 Assert::AreEqual(4, (int)queryResults1.size());
                 Assert::IsTrue(queryResults1.find("2") != queryResults1.end());
                 Assert::IsTrue(queryResults1.find("4") != queryResults1.end());

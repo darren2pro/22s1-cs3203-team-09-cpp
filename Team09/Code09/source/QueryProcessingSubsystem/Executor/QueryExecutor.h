@@ -39,4 +39,13 @@ public:
 	std::unordered_set<std::string> combineResults(std::vector<std::vector<std::string>> allResults);
 
 	std::string formatString(std::vector<std::string> strings);
+
+	/**
+	 * These methods are to help with the integration testing.
+	*/
+	std::vector<Relation> getRelations() { return relations; }
+	std::vector<Pattern> getPatterns() { return pattern; }
+	std::vector<With> getWiths() { return with; }
+	Result getTarget() { return target; }
+	std::vector<Declaration> getDeclarations() { return declarations; }
 };

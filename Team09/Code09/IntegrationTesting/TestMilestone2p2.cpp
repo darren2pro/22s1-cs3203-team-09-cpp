@@ -56,6 +56,65 @@ namespace IntegrationTesting {
             }
 
             public:
+
+            TEST_METHOD(TestExhaustive0) {
+                string program = "procedure procOne {\n"
+                    "        while (1>= 1%((1)) ) {\n" // line 1
+                    "            print num1;\n" // line 2
+                    "        }\n"
+                    "        while (1>= 1%((0-1)) ) {\n" // line 3
+                    "            print num2;\n" // line 4
+                    "        }\n"
+                    "        while (! ((1==0) && (1==0))) {\n" // line 5
+                    "            print num3;\n" // line 6
+                    "        }\n"
+                    "        while (1+100  - 4 == 1 % 5 + 66) {\n" // line 7
+                    "            print num4;\n" // line 8
+                    "        }\n"
+                    "}\n";
+
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
+
+                //! Query 1
+                string query1 = "assign a; Select a";
+                unordered_set<string> queryResults1 = spaManager.query(query1);
+
+                // Expected results: 
+                Assert::AreEqual(0, (int)queryResults1.size());
+            }
+
+            TEST_METHOD(TestExhaustive00) {
+                string program = "procedure procOne {\n"
+                    "        while (1>= 1%((1)) ) {\n" // line 1
+                    "            print num1;\n" // line 2
+                    "        }\n"
+                    "        while (1>= 1%((0-1)) ) {\n" // line 3
+                    "            print num2;\n" // line 4
+                    "        }\n"
+                    "        while (! ((1==0) && (1==0))) {\n" // line 5
+                    "            print num3;\n" // line 6
+                    "        }\n"
+                    "        while (1+100  - 4 == 1 % 5 + 66) {\n" // line 7
+                    "            print num4;\n" // line 8
+                    "        }\n"
+                    "}\n";
+
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
+
+                //! Query 1
+                string query1 = "print a; Select a";
+                unordered_set<string> queryResults1 = spaManager.query(query1);
+
+                // Expected results: 
+                Assert::AreEqual(4, (int)queryResults1.size());
+                Assert::IsTrue(queryResults1.find("2") != queryResults1.end());
+                Assert::IsTrue(queryResults1.find("4") != queryResults1.end());
+                Assert::IsTrue(queryResults1.find("6") != queryResults1.end());
+                Assert::IsTrue(queryResults1.find("8") != queryResults1.end());
+            }
+
             TEST_METHOD(TestExhaustive1) {
                 string program = getCurrentProgram(1);
                 SPAManager spaManager;

@@ -147,7 +147,7 @@ namespace IntegrationTesting {
 
                 //! Query 6
                 string query6 = "procedure p; variable BOOLEAN; \n    "
-                                "Select BOOLEAN such that Modifies(\"readPoint\", v)";
+                                "Select BOOLEAN such that Modifies(\"readPoint\", BOOLEAN)";
                 unordered_set <string> results6 = spaManager.query(query6);
                 // Expected results: x, y
                 Assert::AreEqual(2, (int) results6.size());
@@ -162,7 +162,7 @@ namespace IntegrationTesting {
 
                 //! Query 7
                 string query7 = "procedure p; variable BOOLEAN; call ccc; \n   "
-                                "Select BOOLEAN such that Modifies(\"printResults\", v)";
+                                "Select BOOLEAN such that Modifies(\"printResults\", BOOLEAN)";
                 unordered_set<string> results7 = spaManager.query(query7);
                 // Expected results: empty
                 Assert::AreEqual(0, (int) results7.size());

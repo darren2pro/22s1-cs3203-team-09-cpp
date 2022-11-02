@@ -1,7 +1,7 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>AutoTester</name><parsing_time_taken>23.000000</parsing_time_taken>
+<name>AutoTester</name><parsing_time_taken>22.000000</parsing_time_taken>
 </info>
 <queries>
 <query>
@@ -15,7 +15,7 @@
 <id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">2</id><querystr><![CDATA[procedure p; Select BOOLEAN      such that Modifies(p, "x")]]></querystr>
 <stuans>TRUE</stuans>
 <correct>TRUE</correct>
-<time_taken>11.000000</time_taken>
+<time_taken>12.000000</time_taken>
 <passed/>
 </query>
 <query>
@@ -29,21 +29,21 @@
 <id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">4</id><querystr><![CDATA[procedure p; variable v; call ccc;  Select BOOLEAN  such that Modifies("printResults", v)]]></querystr>
 <stuans>FALSE</stuans>
 <correct>FALSE</correct>
-<time_taken>17.000000</time_taken>
+<time_taken>16.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">5</id><querystr><![CDATA[procedure p; variable v; call ccc; Select BOOLEAN  such that Modifies("main", "random")]]></querystr>
 <stuans>FALSE</stuans>
 <correct>FALSE</correct>
-<time_taken>15.000000</time_taken>
+<time_taken>19.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id ReturnBoolean="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting boolean">6</id><querystr><![CDATA[procedure p; variable BOOLEAN;  Select BOOLEAN such that Modifies("readPoint", v)]]></querystr>
 <stuans>SemanticError</stuans>
 <correct>x,y</correct>
-<time_taken>20.000000</time_taken>
+<time_taken>18.000000</time_taken>
 <failed>
 <missing>x,y</missing>
 <additional>SemanticError</additional>
@@ -75,21 +75,21 @@
 <id ReturnTuple="1" UnnamedVar="5" Pattern="4" CondNum="10" RelNum="0" comment="Selecting tuple">8</id><querystr><![CDATA[procedure p; while w; variable v; assign a;  Select <w, p> pattern a(v, _) pattern a(_, _"cenY"_) pattern w("y", _) pattern w("x", _)]]></querystr>
 <stuans>15 main,15 readPoint,15 printResults,15 computeCentroid</stuans>
 <correct>15 main,15 readPoint,15 printResults,15 computeCentroid</correct>
-<time_taken>24.000000</time_taken>
+<time_taken>60.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting tuple">9</id><querystr><![CDATA[procedure sppp;  call ccc;   Select <sppp, ccc> such that Modifies(sppp, "cenX")]]></querystr>
 <stuans>main 19,main 2,main 3,main 14,computeCentroid 19,computeCentroid 2,computeCentroid 3,computeCentroid 14</stuans>
 <correct>computeCentroid 2,computeCentroid 3,computeCentroid 14,computeCentroid 19,main 2,main 3,main 14,main 19</correct>
-<time_taken>20.000000</time_taken>
+<time_taken>21.000000</time_taken>
 <passed/>
 </query>
 <query>
 <id ReturnTuple="1" Modifies="1" SuchThat="1" CondNum="3" RelNum="1" comment="Selecting tuple">10</id><querystr><![CDATA[procedure p; variable v;  read rr;  Select <v, p, rr> such that Modifies("readPoint", v)]]></querystr>
 <stuans>x main 4,x main 5,x printResults 5,y main 4,x computeCentroid 5,x readPoint 4,x printResults 4,y main 5,x computeCentroid 4,x readPoint 5,y readPoint 4,y readPoint 5,y computeCentroid 4,y computeCentroid 5,y printResults 4,y printResults 5</stuans>
 <correct>x main 4,x readPoint 4,x printResults 4,x computeCentroid 4,x main 5,x readPoint 5,x printResults 5,x computeCentroid 5,y main 4,y readPoint 4,y printResults 4,y computeCentroid 4,y main 5,y readPoint 5,y printResults 5,y computeCentroid 5</correct>
-<time_taken>29.000000</time_taken>
+<time_taken>42.000000</time_taken>
 <passed/>
 </query>
 </queries>

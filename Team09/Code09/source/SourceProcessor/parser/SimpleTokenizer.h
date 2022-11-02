@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SimpleToken.h"
-#include "Parser.h"
+#include "SimpleParser.h"
 
 using namespace std;
 
@@ -41,5 +41,5 @@ public:
      * @brief Tokenizes the program into a vector of tokens
      * @return The vector of tokens contained in the program
      */
-    Parser::SOURCE_CODE_TOKENS tokenize();
+    SimpleParser::SOURCE_CODE_TOKENS tokenize();
 };

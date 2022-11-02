@@ -1,5 +1,5 @@
 #include "TestWrapper.h"
-#include "SourceProcessor/Parser.h"
+#include "SourceProcessor/parser/SimpleParser.h"
 #include <sstream>
 #include <string>
 #include <fstream>

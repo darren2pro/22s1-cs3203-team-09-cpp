@@ -1,6 +1,6 @@
 #include "SimpleInterface.h"
-#include "Parser.h"
-#include "SimpleTokenizer.h"
+#include "parser/SimpleParser.h"
+#include "parser/SimpleTokenizer.h"
 #include "astBuilder/ArithmeticParser.h"
 
 using namespace std;
@@ -15,7 +15,7 @@ AST SimpleInterface::getAstFromProgram(string program) {
 Expr SimpleInterface::parseExpression(string expression) {
     stringstream ss(expression);
     SimpleTokenizer tokenizer(&ss);
-    Parser::SOURCE_CODE_TOKENS tokens = tokenizer.tokenize();
+    SimpleParser::SOURCE_CODE_TOKENS tokens = tokenizer.tokenize();
     int currentIndex = 0;
     //! No need for any relational operators delimiters because we only parse arithmetic
     unordered_set<string> delimiters;

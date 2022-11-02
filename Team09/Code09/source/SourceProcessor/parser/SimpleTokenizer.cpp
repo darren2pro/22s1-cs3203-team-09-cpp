@@ -7,7 +7,7 @@
 #include <vector>
 #include "SimpleTokenizer.h"
 #include "SimpleToken.h"
-#include "exceptions/SimpleInvalidSyntaxException.h"
+#include "../exceptions/SimpleInvalidSyntaxException.h"
 
 using namespace std;
 
@@ -78,7 +78,7 @@ SimpleTokenizer::SimpleTokenizer(istream* program) {
 SimpleTokenizer::~SimpleTokenizer() {
 }
 
-Parser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenize() {
+SimpleParser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenize() {
     char nextChar;
     while (!program->eof()) {
         nextChar = advanceChar();

@@ -36,7 +36,8 @@ TestWrapper::~TestWrapper() {
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
     try {
-        spaManager->loadSimpleSource(filename);
+        string program = readFileIntoString(filename);
+        spaManager->loadSimpleSourceFromProgram(program);
 	}
 	catch (SimpleInvalidSyntaxException& e) {
         std::cout << e.what() << std::endl;

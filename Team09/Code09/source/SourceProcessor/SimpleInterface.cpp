@@ -5,13 +5,6 @@
 
 using namespace std;
 
-AST SimpleInterface::getAstFromFile(string fileName) {
-    ifstream file(fileName);
-    SimpleParser parser(&file);
-    AST ast = parser.parse();
-    return ast;
-}
-
 AST SimpleInterface::getAstFromProgram(string program) {
     istringstream iss(program);
     SimpleParser parser(&iss);

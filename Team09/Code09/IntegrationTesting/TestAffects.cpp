@@ -216,7 +216,7 @@ namespace IntegrationTesting {
 
                 //! Query 7
                 string query7 = "assign a1, a2; stmt ss1, ss2; if ifs1, ifs2; \n "
-                                "Select <a1.stmt#, a2> such that Affects(ss1, ss2)";
+                                "Select <a1.stmt#, a2> such that Affects(a1, a2)";
                 /*
                  * Expected results: All assignment pairs in this program
                  */
@@ -240,7 +240,7 @@ namespace IntegrationTesting {
 
                 //! Now for Query 8
                 string query8 = "assign a1, a2; stmt ss1, ss2; if ifs1, ifs2; \n "
-                                "Select <ss1, ss2> such that Affects(ss1, ss2)";
+                                "Select <ss1, ss2> such that Affects(ss1x, ss2)";
                 /*
                  * Expected results: Same 15 results as query 6
                  */
@@ -610,7 +610,7 @@ namespace IntegrationTesting {
 
                 //! Query 25
                 string query25 = "assign a1, a2; stmt ss1, ss2; if ifs1, ifs2; procedure p; call cc1, cc2; \n "
-                                 "Select <a1, a2, cc2.stmt#> such that Affects*(9, 12) with 10 = a1.stmt# and 11   = a2.stmt# with 1 = 1";
+                                 "Select <a1, a2, cc2.stmt#> such that Affects*(9, 12) with 10 = a1.stmt# and 11 = a2.stmt# with 1 = 1";
                 /*
                  * Expected results: 10 11 5, 10 11 13
                  */

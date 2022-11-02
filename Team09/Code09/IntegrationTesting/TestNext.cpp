@@ -67,10 +67,10 @@ namespace IntegrationTesting {
                 unordered_set<string> queryResults1 = spaManager.query(query1);
                 /*
                  * Expected results:
-                 * FALSE
+                 * TRUE
                  */
                 Assert::AreEqual(1, (int) queryResults1.size());
-                Assert::IsTrue(queryResults1.find("FALSE") != queryResults1.end());
+                Assert::IsTrue(queryResults1.find("TRUE") != queryResults1.end());
             }
 
             TEST_METHOD(TestNext2) {

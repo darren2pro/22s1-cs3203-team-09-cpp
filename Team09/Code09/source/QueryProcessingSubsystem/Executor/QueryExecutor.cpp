@@ -94,83 +94,75 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
     std::unordered_map<std::string, int> seenMap;
     std::vector<std::vector<std::string>> tempResults;
 
-    for (int i = 0; i < allResults.size(); i++) {
-        tempResults.push_back(std::vector<std::string>());
-    }
-
-	for (int i = 0; i < allSynonyms.size(); i++) {
-        auto syn = allSynonyms[i];
-        std::string synonym;
-        if (auto val = std::get_if<AttrReference>(&syn)) {
-            synonym = val->declaration.name;
-        }
-        else if (auto val = std::get_if<Declaration>(&syn)) {
-            synonym = val->name;
-        }
-        else {
-            // No op
+    // If they are of different size, means there are duplicate synonyms that need to be added.
+    if (uniqueSynonyms.size() != allSynonyms.size()) {
+        for (int i = 0; i < allResults.size(); i++) {
+            tempResults.push_back(std::vector<std::string>());
         }
 
-        if (seenMap.find(synonym) == seenMap.end()) {
-            // Never see before, add synonym to index mapping
-            auto it = std::find(uniqueSynonyms.begin(), uniqueSynonyms.end(), synonym);
-            auto idx = it - uniqueSynonyms.begin();
-            seenMap.insert({synonym, idx});
-            for (int j = 0; j < allResults.size(); j++) {
-                auto val = allResults[j][idx];
-                tempResults[j].push_back(val);
+        for (int i = 0; i < allSynonyms.size(); i++) {
+            auto syn = allSynonyms[i];
+            std::string synonym;
+            if (auto val = std::get_if<AttrReference>(&syn)) {
+                synonym = val->declaration.name;
             }
-            //tempResults[i].push_back(allResults[i]);
-            //tempResults[i] = allResults[i];
-        }
-        else {
-            // Already in seen, therefore this is a duplicate. Use the current index, get the duplicate values, insert straightaway.
-            // Iterate through the column
-            auto index = seenMap.find(synonym)->second;
-            for (int j = 0; j < allResults.size(); j++) {
-                auto currentRow = tempResults[j];
-                auto dupeVal = allResults[j][index];
-                currentRow.push_back(dupeVal);
-                //currentRow.insert(currentRow.begin()+index, dupeVal);
-                tempResults[j] = currentRow;
+            else if (auto val = std::get_if<Declaration>(&syn)) {
+                synonym = val->name;
+            }
+            else {
+                // No op
+            }
+
+            if (seenMap.find(synonym) == seenMap.end()) {
+                // Never see before, add synonym to index mapping
+                auto it = std::find(uniqueSynonyms.begin(), uniqueSynonyms.end(), synonym);
+                auto idx = it - uniqueSynonyms.begin();
+                seenMap.insert({ synonym, idx });
+                for (int j = 0; j < allResults.size(); j++) {
+                    auto val = allResults[j][idx];
+                    tempResults[j].push_back(val);
+                }
+            }
+            else {
+                // Already in seen, therefore this is a duplicate. Use the current index, get the duplicate values, insert straightaway.
+                // Iterate through the column
+                auto index = seenMap.find(synonym)->second;
+                for (int j = 0; j < allResults.size(); j++) {
+                    auto currentRow = tempResults[j];
+                    auto dupeVal = allResults[j][index];
+                    currentRow.push_back(dupeVal);
+                    tempResults[j] = currentRow;
+                }
             }
         }
+        allResults = tempResults;
     }
-    allResults = tempResults;
 
     // Apply attribute values to AttrRef
 	for (int j = 0; j < allSynonyms.size(); j++) {
         auto target = allSynonyms[j];
 		if (auto val = std::get_if<AttrReference>(&target)) {
 
-            if (val->declaration.Type == Declaration::DesignEntity::Procedure || val->declaration.Type == Declaration::DesignEntity::Statement) {
+            if (val->declaration.Type == Declaration::DesignEntity::Procedure ||
+                val->declaration.Type == Declaration::DesignEntity::Statement ) {
                 continue;
             }
 
-			auto results = allResults[j];
             std::vector<std::string> attrResults;
             std::unordered_map<std::string, std::string> seen;
-			for (int i = 0; i < results.size(); i++) {
+			for (int i = 0; i < allResults.size(); i++) {
+                std::string oldValue = allResults[i][j];
                 std::string newValue;
-                if (seen.find(results[i]) == seen.end()) {
-					newValue =  pkb->getValueFromKey(results[i], val->declaration.Type, val->attr);
-                    seen.insert({ results[i], newValue });
+                if (seen.find(oldValue) == seen.end()) {
+					newValue =  pkb->getValueFromKey(oldValue, val->declaration.Type, val->attr);
+                    seen.insert({ oldValue, newValue });
                 }
                 else {
-                    newValue = seen.find(results[i])->second;
+                    newValue = seen.find(oldValue)->second;
                 }
-                attrResults.push_back(newValue);
-
-
-                //auto newValue =  pkb->getValueFromKey(results[i], val->declaration.Type, val->attr);
-                //if (seen.find(newValue) == seen.end()) {
-                //    seen.insert(newValue);
-                //    attrResults.push_back(newValue);
-                //}
+                // Replace the old value with the new attribute value
+                allResults[i][j] = newValue;
             }
-
-            // Replace the old results with new ones.
-            allResults[j] = attrResults;
 		}
 	}
 
@@ -212,6 +204,9 @@ std::vector<std::string> QueryExecutor::getSynonyms(std::vector<std::variant<Dec
 std::vector<std::vector<std::string>> QueryExecutor::combineResults(std::vector<std::vector<std::string>> allResults) {
     // Within the string, the values are separated by comma
     std::vector<std::vector<std::string>> finalResults;
+    if (allResults.size() == 0) {
+        return allResults;
+    }
 
     // Add the first row of results before starting to iterate.
     for (auto& res : allResults[0]) {

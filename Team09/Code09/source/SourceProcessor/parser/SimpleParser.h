@@ -22,6 +22,9 @@ public:
 
     explicit SimpleParser(istream* program);
 
+    //! Destructor for SimpleParser
+    ~SimpleParser();
+
     const SOURCE_CODE_TOKENS& getTokens() const {
         return tokens;
     }

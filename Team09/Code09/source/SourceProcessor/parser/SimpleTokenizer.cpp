@@ -76,6 +76,8 @@ SimpleTokenizer::SimpleTokenizer(istream* program) {
 }
 
 SimpleTokenizer::~SimpleTokenizer() {
+    //! The heap memory for the tokens cannot be deallocated here because we pass it to the parser.
+    //! It is deallocated there.
 }
 
 SimpleParser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenize() {

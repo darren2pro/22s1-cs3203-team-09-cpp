@@ -18,3 +18,8 @@ AST SimpleParser::parse() {
     AST ast = builder.build();
     return ast;
 }
+SimpleParser::~SimpleParser() {
+    for (SimpleToken* token : tokens) {
+        delete token;
+    }
+}

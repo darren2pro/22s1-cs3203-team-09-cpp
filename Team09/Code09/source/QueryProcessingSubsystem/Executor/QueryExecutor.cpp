@@ -73,13 +73,114 @@ std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Result result, 
         }
     }
     else if (result.isTuple()) {
-        std::vector<std::string> allSynonyms = getSynonyms(result.target);
-        std::vector<std::vector<std::string>> allResults = rdb.getMultipleTarget(allSynonyms);
-        return combineResults(allResults);
+        // get unique synonyms -> get unique results -> combine all unique results -> duplicate the columns based on target -> applyAttrVal to results.
+        auto allSynonyms = result.target;
+        std::vector<std::string> uniqueSynonyms = getSynonyms(allSynonyms);
+        std::vector<std::vector<std::string>> allResults = rdb.getMultipleTarget(uniqueSynonyms);
+        std::vector<std::vector<std::string>> combinedUniqueResults = combineResults(allResults);
+
+        return addDuplicateSynonymAndApplyAttrVal(combinedUniqueResults, uniqueSynonyms, allSynonyms);
     }
     else {
         assert("False");
     }
+}
+
+std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVal(std::vector<std::vector<std::string>>& allResults,
+    std::vector<std::string> uniqueSynonyms, 
+    std::vector<std::variant<Declaration, AttrReference>> allSynonyms) {
+
+    // Add the duplicate synonyms
+    std::unordered_map<std::string, int> seenMap;
+    std::vector<std::vector<std::string>> tempResults;
+
+    for (int i = 0; i < allResults.size(); i++) {
+        tempResults.push_back(std::vector<std::string>());
+    }
+
+	for (int i = 0; i < allSynonyms.size(); i++) {
+        auto syn = allSynonyms[i];
+        std::string synonym;
+        if (auto val = std::get_if<AttrReference>(&syn)) {
+            synonym = val->declaration.name;
+        }
+        else if (auto val = std::get_if<Declaration>(&syn)) {
+            synonym = val->name;
+        }
+        else {
+            // No op
+        }
+
+        if (seenMap.find(synonym) == seenMap.end()) {
+            // Never see before, add synonym to index mapping
+            auto it = std::find(uniqueSynonyms.begin(), uniqueSynonyms.end(), synonym);
+            auto idx = it - uniqueSynonyms.begin();
+            seenMap.insert({synonym, idx});
+            for (int j = 0; j < allResults.size(); j++) {
+                auto val = allResults[j][idx];
+                tempResults[j].push_back(val);
+            }
+            //tempResults[i].push_back(allResults[i]);
+            //tempResults[i] = allResults[i];
+        }
+        else {
+            // Already in seen, therefore this is a duplicate. Use the current index, get the duplicate values, insert straightaway.
+            // Iterate through the column
+            auto index = seenMap.find(synonym)->second;
+            for (int j = 0; j < allResults.size(); j++) {
+                auto currentRow = tempResults[j];
+                auto dupeVal = allResults[j][index];
+                currentRow.push_back(dupeVal);
+                //currentRow.insert(currentRow.begin()+index, dupeVal);
+                tempResults[j] = currentRow;
+            }
+        }
+    }
+    allResults = tempResults;
+
+    // Apply attribute values to AttrRef
+	for (int j = 0; j < allSynonyms.size(); j++) {
+        auto target = allSynonyms[j];
+		if (auto val = std::get_if<AttrReference>(&target)) {
+
+            if (val->declaration.Type == Declaration::DesignEntity::Procedure || val->declaration.Type == Declaration::DesignEntity::Statement) {
+                continue;
+            }
+
+			auto results = allResults[j];
+            std::vector<std::string> attrResults;
+            std::unordered_map<std::string, std::string> seen;
+			for (int i = 0; i < results.size(); i++) {
+                std::string newValue;
+                if (seen.find(results[i]) == seen.end()) {
+					newValue =  pkb->getValueFromKey(results[i], val->declaration.Type, val->attr);
+                    seen.insert({ results[i], newValue });
+                }
+                else {
+                    newValue = seen.find(results[i])->second;
+                }
+                attrResults.push_back(newValue);
+
+
+                //auto newValue =  pkb->getValueFromKey(results[i], val->declaration.Type, val->attr);
+                //if (seen.find(newValue) == seen.end()) {
+                //    seen.insert(newValue);
+                //    attrResults.push_back(newValue);
+                //}
+            }
+
+            // Replace the old results with new ones.
+            allResults[j] = attrResults;
+		}
+	}
+
+    // Format and change to unordered_set
+    std::unordered_set<std::string> finalFormattedResults;
+    for (auto& listOfResults : allResults) {
+        finalFormattedResults.insert(formatString(listOfResults));
+    }
+
+    return finalFormattedResults;
 }
 
 void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBStorage* pkb) {
@@ -90,21 +191,27 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 
 std::vector<std::string> QueryExecutor::getSynonyms(std::vector<std::variant<Declaration, AttrReference>>& targets) {
     std::vector<std::string> allSynonyms;
+    std::string synonym;
+    std::unordered_set<std::string> set;
     for ( auto& target : targets) {
         if (auto declPtr = std::get_if<Declaration>(&target)) {
-            allSynonyms.push_back(declPtr->name);
+            synonym = declPtr->name;
         }
         else if (auto attrRefPtr = std::get_if<AttrReference>(&target)) {
-            allSynonyms.push_back(attrRefPtr->declaration.name);
+            synonym = attrRefPtr->declaration.name;
+        }
+
+        if (set.find(synonym) == set.end()) {
+            allSynonyms.push_back(synonym);
+            set.insert(synonym);
         }
     }
     return allSynonyms;
 }
 
-std::unordered_set<std::string> QueryExecutor::combineResults(std::vector<std::vector<std::string>> allResults) {
+std::vector<std::vector<std::string>> QueryExecutor::combineResults(std::vector<std::vector<std::string>> allResults) {
     // Within the string, the values are separated by comma
     std::vector<std::vector<std::string>> finalResults;
-    std::unordered_set<std::string> finalFormattedResults;
 
     // Add the first row of results before starting to iterate.
     for (auto& res : allResults[0]) {
@@ -128,10 +235,7 @@ std::unordered_set<std::string> QueryExecutor::combineResults(std::vector<std::v
         finalResults = newFinalResults;
     }
 
-    for (auto& listOfResults : finalResults) {
-        finalFormattedResults.insert(formatString(listOfResults));
-    }
-    return finalFormattedResults;
+    return finalResults;
 }
 
 std::string QueryExecutor::formatString(std::vector<std::string> strings) {

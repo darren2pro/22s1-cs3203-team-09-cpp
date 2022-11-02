@@ -335,16 +335,16 @@ namespace IntegrationTesting {
                 string query14 = "assign a1, a2; stmt ss1, ss2; if ifs1, ifs2; procedure p;  \n "
                                  "Select <a1.stmt#, a1.stmt#, p, p.procName> such that Affects(2, a1)";
                 /*
-                 * Possible results for a1: 2 and 10
+                 * Possible results for a1: 6 and 10
                  * Possible results for p: Second and Third
                  * Expected results:
-                 * 2 2 Second Second, 10 10 Second Second, 2 2 Third Third, 10 10 Third Third
+                 * 6 6 Second Second, 10 10 Second Second, 6 6 Third Third, 10 10 Third Third
                  */
                 unordered_set<string> result14 = spaManager.query(query14);
                 Assert::AreEqual(4, (int) result14.size());
-                Assert::IsTrue(result14.find("2 2 Second Second") != result14.end());
+                Assert::IsTrue(result14.find("6 6 Second Second") != result14.end());
                 Assert::IsTrue(result14.find("10 10 Second Second") != result14.end());
-                Assert::IsTrue(result14.find("2 2 Third Third") != result14.end());
+                Assert::IsTrue(result14.find("6 6 Third Third") != result14.end());
                 Assert::IsTrue(result14.find("10 10 Third Third") != result14.end());
             }
 

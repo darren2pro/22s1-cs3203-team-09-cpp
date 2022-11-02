@@ -143,7 +143,7 @@ namespace IntegrationTesting {
                                   "                        read y;\n" // line 20
                                   "                    }\n"
                                   "                }\t\t   ";
-                string program5 = "proecedure call {\n"
+                string program5 = "procedure call {\n"
                                   "    if ( num1       > num2) then {\n" // line 1
                                   "        if ( num1   > num3) then {\n" // line 2
                                   "            if ( num2 > num3) then {\n" // line 3

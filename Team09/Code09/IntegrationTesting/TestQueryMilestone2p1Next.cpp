@@ -609,6 +609,8 @@ namespace IntegrationTesting {
                 Assert::IsTrue(queryResults1.find("10") != queryResults1.end(), L"Query 1 fails");
                 Assert::IsTrue(queryResults1.find("7") != queryResults1.end(), L"Query 1 fails");
                 Assert::IsTrue(queryResults1.find("3") != queryResults1.end(), L"Query 1 fails");
+
+                // Should not have 3?
             }
 
             TEST_METHOD(TestNextNextTPartFour2) {

@@ -207,6 +207,8 @@ namespace IntegrationTesting {
                 Assert::IsTrue(result6.find("10 11") != result6.end());
                 Assert::IsTrue(result6.find("10 12") != result6.end());
                 Assert::IsTrue(result6.find("11 12") != result6.end());
+
+                // 1 12, dont have 8 10, 4 12, 4 4
             }
 
             TEST_METHOD(TestAffects7) {
@@ -240,7 +242,7 @@ namespace IntegrationTesting {
 
                 //! Now for Query 8
                 string query8 = "assign a1, a2; stmt ss1, ss2; if ifs1, ifs2; \n "
-                                "Select <ss1, ss2> such that Affects(ss1x, ss2)";
+                                "Select <ss1, ss2> such that Affects(ss1, ss2)";
                 /*
                  * Expected results: Same 15 results as query 6
                  */

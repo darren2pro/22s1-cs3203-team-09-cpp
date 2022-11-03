@@ -143,10 +143,21 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
         auto target = allSynonyms[j];
 		if (auto val = std::get_if<AttrReference>(&target)) {
 
-            if (val->declaration.Type == Declaration::DesignEntity::Procedure ||
-                val->declaration.Type == Declaration::DesignEntity::Statement ) {
+            //if (val->declaration.Type == Declaration::DesignEntity::Procedure ||
+            //    val->declaration.Type == Declaration::DesignEntity::Statement ||
+            //    val->declaration.Type == Declaration::DesignEntity::Variable ) {
+            //    continue;
+            //}
+
+            auto deType = val->declaration.Type;
+            auto attrType = val->attr;
+
+            if (!(deType == Declaration::DesignEntity::Call && attrType == AttrReference::Attribute::ProcName ||
+                deType == Declaration::DesignEntity::Read && attrType == AttrReference::Attribute::VarName ||
+                deType == Declaration::DesignEntity::Print && attrType == AttrReference::Attribute::VarName)) {
                 continue;
             }
+
 
             std::vector<std::string> attrResults;
             std::unordered_map<std::string, std::string> seen;

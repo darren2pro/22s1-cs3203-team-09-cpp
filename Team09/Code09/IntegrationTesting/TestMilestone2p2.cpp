@@ -32,7 +32,7 @@ namespace IntegrationTesting {
                                   "    if (iii >= 500) then {\n" // line 11
                                   "        while (1>= 1%((1) * kkk) ) {\n" // line 12
                                   "            while (!(kkk <= 111)) {\n" // line 13
-                                  "                beingModified = num1 + num2;\n" // line 14
+                                  "                k = num1 + num2;\n" // line 14
                                   "                if (yyy != 0) then {\n" // line 15
                                   "                    beingMod3 = 1 + k * (num1 + num2 * 5);\n" // line 16
                                   "                } else {\n"

@@ -77,7 +77,7 @@ std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Result result, 
         auto allSynonyms = result.target;
         std::vector<std::string> uniqueSynonyms = getSynonyms(allSynonyms);
         std::vector<std::vector<std::string>> allResults = rdb.getMultipleTarget(uniqueSynonyms);
-        std::vector<std::vector<std::string>> combinedUniqueResults = combineResults(allResults);
+        std::vector<std::vector<std::string>> combinedUniqueResults = combineResults(allResults, uniqueSynonyms);
 
         return addDuplicateSynonymAndApplyAttrVal(combinedUniqueResults, uniqueSynonyms, allSynonyms);
     }
@@ -201,31 +201,66 @@ std::vector<std::string> QueryExecutor::getSynonyms(std::vector<std::variant<Dec
     return allSynonyms;
 }
 
-std::vector<std::vector<std::string>> QueryExecutor::combineResults(std::vector<std::vector<std::string>> allResults) {
+std::vector<std::vector<std::string>> QueryExecutor::combineResults(std::vector<std::vector<std::string>> allResults, std::vector<std::string> uniqueSynonyms) {
+    // Idea: whenever a synonym/column hasnt been seen yet, add of its synonyms into respective vector position
+
     // Within the string, the values are separated by comma
     std::vector<std::vector<std::string>> finalResults;
+    
+    // Optimization - If 0 or 1, just return either empty or filtered value.
     if (allResults.size() == 0) {
         return allResults;
     }
 
-    // Add the first row of results before starting to iterate.
-    for (auto& res : allResults[0]) {
-        std::vector<std::string> v;
-        v.push_back(res);
-        finalResults.push_back(v);
+    if (allResults.size() == 1) {
+        std::vector<std::vector<std::string>> finalResults;
+        std::unordered_set<std::string> seen;
+		for (auto val : allResults[0]) {
+            if (seen.find(val) == seen.end()) {
+				finalResults.push_back({ val });
+                seen.insert(val);
+            }
+		}
+        return finalResults;
     }
 
-    for (int i = 1; i < allResults.size(); i++) { // for each synonym
+	// Initialize empty row of max possible size.
+	std::vector<std::string> v(allResults.size());
+	fill(v.begin(), v.end(), "");
+	finalResults.push_back(v);
+
+    // seen Set to keep track of synonyms to prevent repeats
+    std::unordered_set<int> seenSynonym;
+
+
+    for (int i = 0; i < allResults.size(); i++) { // for each synonym
+        // If synonym has been seen before, means it has been already permutated.
+        if (seenSynonym.find(i) != seenSynonym.end()) continue;
+
 		std::vector<std::vector<std::string>> newFinalResults;
 		for (int k = 0; k < finalResults.size(); k++) { // for each final "string"
+            // This is the base string that is being permutated on.
+            auto temp = finalResults[k]; 
 
-            auto temp = finalResults[k]; // This is the pair that is being modified.
+			// For every one of its paired values, 
+			int baseIndex = i;
+			std::vector<int> allIndices = rdb.getAllLinkedIndices(baseIndex, uniqueSynonyms);
 
 			for (int j = 0; j < allResults[i].size(); j++) { // each synonym's values
-                auto constant = temp; // Just a copy
-                constant.push_back(allResults[i][j]);
-                newFinalResults.push_back(constant);
+				auto constant = temp; // Just a copy
+
+                for (auto index : allIndices) {
+                    // Set the correct value at the correct index for variables linked to current Synonym
+                    constant[index] = allResults[index][j];
+                }
+				newFinalResults.push_back(constant);
+			}
+
+            // add every synonym added this iteration into seenSynonym
+            for (auto index : allIndices) {
+                seenSynonym.insert(index);
             }
+
         }
         finalResults = newFinalResults;
     }

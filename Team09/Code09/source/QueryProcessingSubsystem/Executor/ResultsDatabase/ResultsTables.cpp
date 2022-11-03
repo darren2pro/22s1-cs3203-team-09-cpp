@@ -101,31 +101,39 @@ bool ResultsTables::combineTableWith(ResultsTables& otherTable) {
 	return resultsTable.size() > 0;
 }
 
-std::unordered_set<Value> ResultsTables::getResultBySynonym(Variable variable) {
-	std::unordered_set<Value> finalResults;
+// If there is only 1 select / 1 tuple -> return unique values.
+// Otherwise, if more >= 2 synonyms -> return the entire table including non-uniques
+std::vector<Value> ResultsTables::getResultBySynonym(Variable variable) {
+	std::vector<Value> finalResults;
 	int index = varToColIndex[variable];
+
 	for (auto& row : resultsTable) {
-		finalResults.insert(row[index]);
+		finalResults.push_back(row[index]);
 	}
 
 	return finalResults;
 }
 
-std::vector<std::vector<std::string>> ResultsTables::getResultByMultipleSynonym(std::vector<std::string> allSynonyms) {
-	std::vector<std::vector<std::string>> finalResults;
-	for (auto& synonym : allSynonyms) {
+std::vector<std::vector<std::string>> ResultsTables::getResultByMultipleSynonym(
+	std::vector<std::string> allSynonyms,
+	std::vector<std::vector<std::string>>& finalResults) {
+	bool isSingleVar = allSynonyms.size() <= 1;
+	for (int i = 0; i < allSynonyms.size(); i++) {
+		auto synonym = allSynonyms[i];
+
 		// check if synonym in columnName vector
 		if (std::find(columnName.begin(), columnName.end(), synonym) == columnName.end()) continue;
 
 		auto tempResults = getResultBySynonym(synonym);
 		if (tempResults.size() == 0) continue;
 
-		// TEMPORARY FIX: change unordered set into vector
+		// change unordered set into vectors
+		// special operation just for tuples, where order matters.
 		std::vector<std::string> vec;
 		for (auto& s : tempResults) {
 			vec.push_back(s);
 		}
-		finalResults.push_back(vec);
+		finalResults[i] = vec;
 	}
 
 	return finalResults;

@@ -250,15 +250,15 @@ namespace UnitTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                // Query 1
-                string query1 = "assign a;"
-                                "Select a pattern a(_, _\"num1\"_)";
-                unordered_set<string> results1 = spaManager.query(query1);
-                Assert::IsTrue(results1.size() == 3, L"Query 1 fails");
-                // Expected results: 3, 5, 8
-                Assert::IsTrue(results1.find("3") != results1.end());
-                Assert::IsTrue(results1.find("5") != results1.end());
-                Assert::IsTrue(results1.find("8") != results1.end());
+                //// Query 1
+                //string query1 = "assign a;"
+                //                "Select a pattern a(_, _\"num1\"_)";
+                //unordered_set<string> results1 = spaManager.query(query1);
+                //Assert::IsTrue(results1.size() == 3, L"Query 1 fails");
+                //// Expected results: 3, 5, 8
+                //Assert::IsTrue(results1.find("3") != results1.end());
+                //Assert::IsTrue(results1.find("5") != results1.end());
+                //Assert::IsTrue(results1.find("8") != results1.end());
 
                 // Query 2
                 string query2 = "stmt ks; variable sVar;\n"

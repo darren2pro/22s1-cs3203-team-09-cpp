@@ -153,11 +153,13 @@ namespace IntegrationTesting {
                  * 1 3
                  * 3 5
                  * 5 7
+                 * 12 13
                  */
-                Assert::AreEqual(3, (int) queryResults6.size());
+                Assert::AreEqual(4, (int) queryResults6.size());
                 Assert::IsTrue(queryResults6.find("1 3") != queryResults6.end());
                 Assert::IsTrue(queryResults6.find("3 5") != queryResults6.end());
                 Assert::IsTrue(queryResults6.find("5 7") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("12 13") != queryResults6.end());
             }
 
             TEST_METHOD(TestNext7) {

@@ -610,14 +610,14 @@ namespace IntegrationTesting {
 
                 //! Query 25
                 string query25 = "assign a1, a2; stmt ss1, ss2; if ifs1, ifs2; procedure p; call cc1, cc2; \n "
-                                 "Select <a1, a2, cc2.stmt#> such that Affects*(9, 12) with 10 = a1.stmt# and 11 = a2.stmt# with 1 = 1";
+                                 "Select <a2, cc2, a1, cc2.stmt#> such that Affects*(9, 12) with 10 = a1.stmt# and 11 = a2.stmt# with 1 = 1";
                 /*
-                 * Expected results: 10 11 5, 10 11 13
+                 * Expected results: 10 5 11 5, 10 13 11 13
                  */
                 unordered_set<string> result25 = spaManager.query(query25);
                 Assert::AreEqual(2, (int) result25.size());
-                Assert::IsTrue(result25.find("10 11 5") != result25.end());
-                Assert::IsTrue(result25.find("10 11 13") != result25.end());
+                Assert::IsTrue(result25.find("11 5 10 5") != result25.end());
+                Assert::IsTrue(result25.find("11 13 10 13") != result25.end());
             }
 
             TEST_METHOD(TestAffects26) {

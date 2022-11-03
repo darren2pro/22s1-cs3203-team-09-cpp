@@ -50,7 +50,7 @@ public:
 	bool combineTableWith(ResultsTables& otherTable);
 
 	//! Fetching results
-	std::unordered_set<Value> getResultBySynonym(Variable variable);
+	std::vector<Value> getResultBySynonym(Variable variable);
 
-	std::vector<std::vector<std::string>> getResultByMultipleSynonym(std::vector<std::string> allSynonyms);
+	std::vector<std::vector<std::string>> getResultByMultipleSynonym(std::vector<std::string> allSynonyms, std::vector<std::vector<std::string>>& results);
 };

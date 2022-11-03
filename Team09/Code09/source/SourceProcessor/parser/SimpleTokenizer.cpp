@@ -7,7 +7,7 @@
 #include <vector>
 #include "SimpleTokenizer.h"
 #include "SimpleToken.h"
-#include "exceptions/SimpleInvalidSyntaxException.h"
+#include "../exceptions/SimpleInvalidSyntaxException.h"
 
 using namespace std;
 
@@ -76,9 +76,11 @@ SimpleTokenizer::SimpleTokenizer(istream* program) {
 }
 
 SimpleTokenizer::~SimpleTokenizer() {
+    //! The heap memory for the tokens cannot be deallocated here because we pass it to the parser.
+    //! It is deallocated there.
 }
 
-Parser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenize() {
+SimpleParser::SOURCE_CODE_TOKENS SimpleTokenizer::tokenize() {
     char nextChar;
     while (!program->eof()) {
         nextChar = advanceChar();

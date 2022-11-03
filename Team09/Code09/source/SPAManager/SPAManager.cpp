@@ -16,22 +16,6 @@ SPAManager::~SPAManager() {
     delete qm;
 }
 
-void SPAManager::loadSimpleSource(string fileName) {
-    if (pkb != nullptr) {
-        delete pkb;
-    }
-    if (qm != nullptr) {
-        delete qm;
-    }
-    AST ast = SimpleInterface::getAstFromFile(fileName);
-    pkb = new PKBStorage();
-    qm = new QueryExecutor(pkb);
-
-    //! Now populate the pkb with the necessary information we get from the ast
-    DesignExtractor extractor(pkb);
-    extractor.extractDesignAbstractions(ast);
-}
-
 void SPAManager::loadSimpleSourceFromProgram(string program) {
     if (pkb != nullptr) {
         delete pkb;

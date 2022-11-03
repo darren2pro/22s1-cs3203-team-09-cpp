@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include <SourceProcessor/SimpleInterface.h>
-#include <SourceProcessor/Parser.h>
+#include "SourceProcessor/parser/SimpleParser.h"
 #include <SourceProcessor/astBuilder/SimpleAstBuilder.h>
 #include <SourceProcessor/exceptions/SimpleInvalidSyntaxException.h>
 
@@ -20,8 +20,8 @@ namespace UnitTesting {
                                  "}\n\n";
                 std::istringstream iss(program);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
@@ -63,8 +63,8 @@ namespace UnitTesting {
                                  "}\n\n";
                 std::istringstream iss(program);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
@@ -97,8 +97,8 @@ namespace UnitTesting {
                                  "}\n";
                 std::istringstream iss(program);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
@@ -147,8 +147,8 @@ namespace UnitTesting {
                                  "}\n";
                 std::istringstream iss(program);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
@@ -225,8 +225,8 @@ namespace UnitTesting {
                                  "}\n";
                 std::istringstream iss(program);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
@@ -303,8 +303,8 @@ namespace UnitTesting {
                                  "}\t";
                 std::istringstream iss(program);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
@@ -380,8 +380,8 @@ namespace UnitTesting {
                                  "}";
                 std::istringstream iss(program);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
 
@@ -412,8 +412,8 @@ namespace UnitTesting {
 
                 std::istringstream iss(program);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
 
                 // expect an exception
@@ -434,8 +434,8 @@ namespace UnitTesting {
                                "}\n";
                 std::istringstream iss(program);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
             }
@@ -448,8 +448,8 @@ namespace UnitTesting {
                     "}\n";
                 std::istringstream iss(prog1);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 SimpleAstBuilder astBuilder(result);
                 AST programNode = astBuilder.build();
             }

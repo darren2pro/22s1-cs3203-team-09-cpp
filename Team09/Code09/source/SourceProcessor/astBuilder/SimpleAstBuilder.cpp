@@ -1,12 +1,12 @@
 #include "SimpleAstBuilder.h"
 #include "../exceptions/SimpleInvalidSyntaxException.h"
-#include "../SimpleTokenizer.h"
+#include "../parser/SimpleTokenizer.h"
 #include <unordered_set>
 #include <sstream>
 
 using namespace std;
 
-SimpleAstBuilder::SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS _tokens) : tokens(_tokens), currentTokenIndex(0),
+SimpleAstBuilder::SimpleAstBuilder(const SimpleParser::SOURCE_CODE_TOKENS _tokens) : tokens(_tokens), currentTokenIndex(0),
                                                                                arithmeticParser(tokens,
                                                                                                 &currentTokenIndex,
                                                                                                 unordered_set<string>(

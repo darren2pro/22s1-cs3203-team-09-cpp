@@ -109,17 +109,14 @@
     <Filter Include="Source Files\QueryProcessingSubsystem\Executor\ClauseStrategy">
       <UniqueIdentifier>{5b348207-ffed-4386-ba62-bd75a3c63420}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SourceProcessor\parser">
+      <UniqueIdentifier>{d5820568-f630-41e5-b29a-79fcce73a54d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SourceProcessor\parser">
+      <UniqueIdentifier>{72a24b84-88cb-45ce-a6bb-6474f0612478}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\SourceProcessor\SimpleTokenizer.cpp">
-      <Filter>Source Files\SourceProcessor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\SimpleToken.cpp">
-      <Filter>Source Files\SourceProcessor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\SimpleParser.cpp">
-      <Filter>Source Files\SourceProcessor</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp">
       <Filter>Source Files\SourceProcessor\astBuilder</Filter>
     </ClCompile>
@@ -177,9 +174,6 @@
     <ClCompile Include="..\source\ProgramKnowledgeBase\PatternADT.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.h">
-      <Filter>Header Files\QueryProcessingSubsystem\Executor\With</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\EntityADT.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
@@ -201,17 +195,20 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsTRelationEvaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\parser\SimpleParser.cpp">
+      <Filter>Source Files\SourceProcessor\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\parser\SimpleToken.cpp">
+      <Filter>Source Files\SourceProcessor\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\parser\SimpleTokenizer.cpp">
+      <Filter>Source Files\SourceProcessor\parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\SourceProcessor\Parser.h">
-      <Filter>Header Files\SourceProcessor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\SimpleToken.h">
-      <Filter>Header Files\SourceProcessor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\SimpleTokenizer.h">
-      <Filter>Header Files\SourceProcessor</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h">
       <Filter>Header Files\SourceProcessor\astBuilder</Filter>
     </ClInclude>
@@ -320,9 +317,6 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.cpp">
-      <Filter>Source Files\QueryProcessingSubsystem\Executor\With</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\EntityADT.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
@@ -343,6 +337,18 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\WithStrategy.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\ClauseStrategy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\With\WithEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\parser\SimpleParser.h">
+      <Filter>Header Files\SourceProcessor\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\parser\SimpleToken.h">
+      <Filter>Header Files\SourceProcessor\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\parser\SimpleTokenizer.h">
+      <Filter>Header Files\SourceProcessor\parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

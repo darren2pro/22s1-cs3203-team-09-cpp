@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <iostream>
 #include "CppUnitTest.h"
 #include "ProgramKnowledgeBase/PKBStorage.h"
 
@@ -68,14 +69,24 @@ namespace UnitTesting {
             std::unordered_set<std::pair<PKB::LineNum, PKB::Variable>, PKB::pairHash> lineVarSet;
             Assert::IsTrue(pkb->getPatternLineByVar(Pattern::Assign, "x") == lineNo);
             Assert::IsTrue(pkb->getPatternLineByUS(Pattern::Assign) == lineNo);
-            pkb->storePatterns(Pattern::Assign, "x", "1", "v+x*y-z*t");
+            // x = 1 + 2 * 3 - 4 / 5 % 6
+            pkb->storePatterns(Pattern::Assign, "x", "1", "AssignmentNode(VariableNode(x), BinOpNode(-, BinOpNode(+, ConstantNode(1), BinOpNode(*, ConstantNode(2), ConstantNode(3))), BinOpNode(%, BinOpNode(/, ConstantNode(4), ConstantNode(5)), ConstantNode(6))))");
             lineNo.insert("1");
             Assert::IsTrue(pkb->getPatternLineByVar(Pattern::Assign, "x") == lineNo);
-            Assert::IsTrue(pkb->getPatternLineByUS(Pattern::Assign) == lineNo);
-            Assert::IsFalse(pkb->getPatternLineVarSet(Pattern::Assign) == lineVarSet);
-            lineVarSet.insert(std::make_pair("1", "x"));
-            Assert::IsTrue(pkb->getPatternLineVarSet(Pattern::Assign) == lineVarSet);
+            //Assert::IsTrue(pkb->getPatternLineByVarMatchFull(Pattern::Assign, "x", "BinOpNode(-, BinOpNode(+, ConstantNode(1), BinOpNode(*, ConstantNode(2), ConstantNode(3))), BinOpNode(%, BinOpNode(/, ConstantNode(4), ConstantNode(5)), ConstantNode(6)))") == lineNo);
+            //Assert::IsTrue(pkb->getPatternLineByVarMatchPartial(Pattern::Assign, "x", "BinOpNode(*, ConstantNode(2), ConstantNode(3))") == lineNo);
 
+            //Assert::IsFalse(pkb->getPatternLineVarSet(Pattern::Assign) == lineVarSet);
+            //Assert::IsFalse(pkb->getPatternLineVarByMatchFull(Pattern::Assign, "BinOpNode(-, BinOpNode(+, ConstantNode(1), BinOpNode(*, ConstantNode(2), ConstantNode(3))), BinOpNode(%, BinOpNode(/, ConstantNode(4), ConstantNode(5)), ConstantNode(6)))") == lineVarSet);
+            //Assert::IsFalse(pkb->getPatternLineVarByMatchPartial(Pattern::Assign, "BinOpNode(*, ConstantNode(2), ConstantNode(3))") == lineVarSet);
+            lineVarSet.insert(std::make_pair("1", "x"));
+            //Assert::IsTrue(pkb->getPatternLineVarSet(Pattern::Assign) == lineVarSet);
+            //Assert::IsTrue(pkb->getPatternLineVarByMatchFull(Pattern::Assign, "BinOpNode(-, BinOpNode(+, ConstantNode(1), BinOpNode(*, ConstantNode(2), ConstantNode(3))), BinOpNode(%, BinOpNode(/, ConstantNode(4), ConstantNode(5)), ConstantNode(6)))") == lineVarSet);
+            //Assert::IsTrue(pkb->getPatternLineVarByMatchPartial(Pattern::Assign, "BinOpNode(*, ConstantNode(2), ConstantNode(3))") == lineVarSet);
+
+            Assert::IsTrue(pkb->getPatternLineByUS(Pattern::Assign) == lineNo);
+            //Assert::IsTrue(pkb->getPatternLineByUSMatchFull(Pattern::Assign, "BinOpNode(-, BinOpNode(+, ConstantNode(1), BinOpNode(*, ConstantNode(2), ConstantNode(3))), BinOpNode(%, BinOpNode(/, ConstantNode(4), ConstantNode(5)), ConstantNode(6)))") == lineNo);
+            //Assert::IsTrue(pkb->getPatternLineByUSMatchPartial(Pattern::Assign, "BinOpNode(*, ConstantNode(2), ConstantNode(3))") == lineNo);
 
             // cache
             Assert::IsFalse(pkb->isCacheFullyComputed(Relation::Affects));

@@ -4,7 +4,6 @@
 #include <unordered_set>
 #include <variant>
 #include "../Query.h"
-#include "../Relation.h"
 #include "../../ProgramKnowledgeBase/PKBStorage.h"
 #include "ResultsDatabase/ResultsDatabase.h"
 
@@ -32,17 +31,23 @@ public:
 	 * Used to insert all the possible values for this declaration into the ResultsDatabase.
 	 */
 	static void insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBStorage* pkb);
+
 	std::unordered_set<std::string> getResultsFromRDB(Result target, ResultsDatabase& rdb);
-	/**
-	 * If the rdb already contains constraints on this given declaration, then simply return without doing anything.
-	 * If the rdb does not contain any constaints on this given declaration, then retrieve the full set of possible values
-	 * for this declaration and insert them into the rdb.
-	 */
-	 //static void insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& rdb, PKBStorage& pkb); comment out just for reference. Need to be removed.
+
+	std::unordered_set<std::string> addDuplicateSynonymAndApplyAttrVal(std::vector<std::vector<std::string>>& allResults, std::vector<std::string> uniqueSynonyms, std::vector<std::variant<Declaration, AttrReference>> targets);
 
 	std::vector<std::string> getSynonyms(std::vector<std::variant<Declaration, AttrReference>>& targets);
 
-	std::unordered_set<std::string> combineResults(std::vector<std::vector<std::string>> allResults);
+	std::vector<std::vector<std::string>> combineResults(std::vector<std::vector<std::string>> allResults, std::vector<std::string> uniqueSynonyms);
 
 	std::string formatString(std::vector<std::string> strings);
+
+	/**
+	 * These methods are to help with the integration testing.
+	*/
+	std::vector<Relation> getRelations() { return relations; }
+	std::vector<Pattern> getPatterns() { return pattern; }
+	std::vector<With> getWiths() { return with; }
+	Result getTarget() { return target; }
+	std::vector<Declaration> getDeclarations() { return declarations; }
 };

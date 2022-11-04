@@ -175,6 +175,8 @@
     <ClCompile Include="TestFrontEnd.cpp" />
     <ClCompile Include="TestMilestone2p2.cpp" />
     <ClCompile Include="TestNext.cpp" />
+    <ClCompile Include="TestOptimization.cpp" />
+    <ClCompile Include="TestQPSIntegrsaion.cpp" />
     <ClCompile Include="TestQueryMilestone2.cpp" />
     <ClCompile Include="TestQueryMilestone2MultipleClauses.cpp" />
     <ClCompile Include="TestQueryMilestone2p1Next.cpp" />

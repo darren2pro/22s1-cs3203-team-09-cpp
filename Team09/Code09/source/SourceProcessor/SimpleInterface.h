@@ -8,7 +8,6 @@
 using namespace std;
 
 struct SimpleInterface {
-    static AST getAstFromFile(string fileName);
     static AST getAstFromProgram(string program);
     /**
      * @brief Builds an arithmetic AST from a given string, using the Pratt algorithm

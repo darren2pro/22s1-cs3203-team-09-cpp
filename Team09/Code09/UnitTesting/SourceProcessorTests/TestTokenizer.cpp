@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include <vector>
-#include "SourceProcessor/SimpleToken.h"
-#include "SourceProcessor/Parser.h"
+#include "SourceProcessor/parser/SimpleToken.h"
+#include "SourceProcessor/parser/SimpleParser.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -42,8 +42,8 @@ namespace UnitTesting {
 
                 std::istringstream iss(str);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 Assert::AreEqual(expectedResult.size(), result.size());
                 for (int i = 0; i < expectedResult.size(); i++) {
                     Assert::IsTrue(expectedResult[i] == *(result[i]));
@@ -83,8 +83,8 @@ namespace UnitTesting {
 
                 std::istringstream iss(str);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 Assert::AreEqual(expectedResult.size(), result.size());
                 for (int i = 0; i < expectedResult.size(); i++) {
                     Assert::IsTrue(expectedResult[i] == *(result[i]));
@@ -98,8 +98,8 @@ namespace UnitTesting {
 
                 std::istringstream iss(str);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 Assert::AreEqual(expectedResult.size(), result.size());
                 for (int i = 0; i < expectedResult.size(); i++) {
                     Assert::IsTrue(expectedResult[i] == *(result[i]));
@@ -175,8 +175,8 @@ namespace UnitTesting {
 
                 std::istringstream iss(str);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 Assert::AreEqual(expectedResult.size(), result.size());
                 for (int i = 0; i < expectedResult.size(); i++) {
                     Assert::IsTrue(expectedResult[i] == *(result[i]));
@@ -205,8 +205,8 @@ namespace UnitTesting {
 
                 std::istringstream iss(str);
                 SimpleParser simpleParser(&iss);
-                Parser* parser = &simpleParser;
-                Parser::SOURCE_CODE_TOKENS result = parser->getTokens();
+                SimpleParser* parser = &simpleParser;
+                SimpleParser::SOURCE_CODE_TOKENS result = parser->getTokens();
                 Assert::AreEqual(expectedResult.size(), result.size());
                 for (int i = 0; i < expectedResult.size(); i++) {
                     Assert::IsTrue(expectedResult[i] == *(result[i]));

@@ -1,29 +1,28 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "../../../ProgramKnowledgeBase/PKBStorage.h"
 #include "../../With.h"
-#include "../../Declaration.h"
+#include "../../../ProgramKnowledgeBase/PKBStorage.h"
 #include "../ResultsDatabase/ResultsDatabase.h"
 
-typedef std::string LineNum;
-typedef std::string Variable;
+using namespace PKB;
 
 class WithEvaluator {
 public:
-	With with;
-	std::vector<Declaration> declarations;
-	PKBStorage* pkb;
-	ResultsDatabase& rdb;
-
-	AttrReference leftArg;
-	AttrReference rightArg;
 	std::string leftSynonym;
 	std::string rightSynonym;
 
+	ResultsDatabase& rdb;
+	PKBStorage* pkb;
+	std::vector<Declaration> declarations;
+	With with;
+	AttrReference leftArg;
+	AttrReference rightArg;
+
+
 	// With has 3 possible arguments - integer, ident, attrRef -> 9 possible combination
 
-	// Same type -> ==
+	//// Same type -> ==
 	//bool withBothInt();
 	//bool withBothIdent();
 	//bool withBothAttrRef();
@@ -35,7 +34,12 @@ public:
 
 
 	WithEvaluator(std::vector<Declaration> declarations, With with, ResultsDatabase& rdb, PKBStorage* pkb) :
-		declarations(declarations), with(with), rdb(rdb), pkb(pkb), leftArg(with.ref1), rightArg(with.ref2) {};
+		declarations(declarations), 
+		with(with),
+		rdb(rdb),
+		pkb(pkb),
+		leftArg(with.ref1),
+		rightArg(with.ref2) {};
 
 	bool evaluate();
 };

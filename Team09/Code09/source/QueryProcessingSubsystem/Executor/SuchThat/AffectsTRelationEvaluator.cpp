@@ -186,22 +186,24 @@ bool AffectsTRelationEvaluator::evaluate() {
 }
 
 void AffectsTRelationEvaluator::computeFully() {
-	for (const auto& prev : pkb->getRelationAllFirst(Relation::Affects)) {
-		std::unordered_set<std::string> visited;
-		std::vector<std::string> list;
+	if (!pkb->isCacheFullyComputed(Relation::AffectsT)) {
+        for (const auto& prev : pkb->getRelationAllFirst(Relation::Affects)) {
+		    std::unordered_set<std::string> visited;
+		    std::vector<std::string> list;
 
-		list.push_back(prev);
-		while (!list.empty()) {
-			std::string curr = list.back();
-			visited.insert(curr);
-			list.pop_back();
-			for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Affects, curr)) {
-				pkb->storeRelations(Relation::AffectsT, prev, next);
-				if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Affects, next)) {
-					list.push_back(next);
-				}
-			}
-		}
+		    list.push_back(prev);
+		    while (!list.empty()) {
+			    std::string curr = list.back();
+			    visited.insert(curr);
+			    list.pop_back();
+			    for (const auto& next : pkb->getRelationSecondFromFirst(Relation::Affects, curr)) {
+				    pkb->storeRelations(Relation::AffectsT, prev, next);
+				    if (visited.find(next) == visited.end() && pkb->relationContainsFirst(Relation::Affects, next)) {
+					    list.push_back(next);
+				    }
+			    }
+		    }
+	    }
+	    pkb->setCacheFullyComputed(Relation::AffectsT);
 	}
-	pkb->setCacheFullyComputed(Relation::AffectsT);
 }

@@ -6,7 +6,7 @@ namespace PKB {
         PKB::addToSetInMap(exprToLineVarMap, expr, std::pair<LineNum, Variable>(line, var));
         PKB::addToSetInMap(varToLineExprMap, var, std::pair<LineNum, ExprStr>(line, expr));
     }
-    std::unordered_set<LineNum> PatternADT::geLineByVar(const Variable var) {
+    std::unordered_set<LineNum> PatternADT::getLineByVar(const Variable var) {
         std::unordered_set<LineNum> set;
         if (varToLineExprMap.find(var) != varToLineExprMap.end()) {
             for (const auto& elem : varToLineExprMap.at(var)) {

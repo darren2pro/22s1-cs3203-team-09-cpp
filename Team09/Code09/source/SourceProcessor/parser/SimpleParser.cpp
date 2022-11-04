@@ -1,10 +1,10 @@
 #include <string>
 
-#include "Parser.h"
+#include "SimpleParser.h"
 #include "SimpleTokenizer.h"
-#include "astBuilder/SimpleAstBuilder.h"
-#include "designExtractions/DesignExtractor.h"
-#include "exceptions/SimpleInvalidSyntaxException.h"
+#include "../astBuilder/SimpleAstBuilder.h"
+#include "../designExtractions/DesignExtractor.h"
+#include "../exceptions/SimpleInvalidSyntaxException.h"
 
 using namespace std;
 
@@ -17,4 +17,9 @@ AST SimpleParser::parse() {
     SimpleAstBuilder builder(tokens);
     AST ast = builder.build();
     return ast;
+}
+SimpleParser::~SimpleParser() {
+    for (SimpleToken* token : tokens) {
+        delete token;
+    }
 }

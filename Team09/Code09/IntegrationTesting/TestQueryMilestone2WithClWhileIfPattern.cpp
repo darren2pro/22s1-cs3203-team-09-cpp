@@ -172,9 +172,14 @@ namespace IntegrationTesting {
                                 "Select s such that Uses(s, vv) with vv.varName = \"num2\" \t";
                 unordered_set<string> queryResults8 = spaManager.query(query8);
                 // Expected results: 4, 14, 16
-                Assert::AreEqual(3, (int) queryResults8.size());
+                Assert::AreEqual(8, (int) queryResults8.size());
+                Assert::IsTrue(queryResults8.find("3") != queryResults8.end());
                 Assert::IsTrue(queryResults8.find("4") != queryResults8.end());
+                Assert::IsTrue(queryResults8.find("11") != queryResults8.end());
+                Assert::IsTrue(queryResults8.find("12") != queryResults8.end());
+                Assert::IsTrue(queryResults8.find("13") != queryResults8.end());
                 Assert::IsTrue(queryResults8.find("14") != queryResults8.end());
+                Assert::IsTrue(queryResults8.find("15") != queryResults8.end());
                 Assert::IsTrue(queryResults8.find("16") != queryResults8.end());
             }
 
@@ -239,7 +244,7 @@ namespace IntegrationTesting {
 
                 //! Query 13 - Which call statement has stmt# of 17 and calls procTwo
                 string query13 = "assign a; procedure mpp, beingCalled; variable vv; stmt s; call c;\n"
-                                 "Select c.stmt# with c.stmt# = 17 such that Calls(c, beingCalled) with beingCalled.procName = \"procTwo\" \t";
+                                 "Select c.stmt# with c.stmt# = 17 such that Calls(mpp, beingCalled) with beingCalled.procName = \"procTwo\" \t";
                 unordered_set<string> queryResults13 = spaManager.query(query13);
                 // Expected results: 17
                 Assert::AreEqual(1, (int) queryResults13.size());
@@ -253,7 +258,7 @@ namespace IntegrationTesting {
 
                 //! Query 14 - Which call statement has stmt# of 17 and calls procOne
                 string query14 = "assign a; procedure mpp, beingCalled; variable vv; stmt s; call c;\n"
-                                 "Select c.stmt# with c.stmt# = 17 such that Calls(c, \"procTwo\")   \t";
+                                 "Select c.stmt# with c.stmt# = 17 such that Calls(mpp, \"procTwo\")   \t";
                 unordered_set<string> queryResults14 = spaManager.query(query14);
                 // Expected results: 17
                 Assert::AreEqual(1, (int) queryResults14.size());
@@ -292,13 +297,14 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                //! Query 17 - Which while statement has stmt# of 15 and uses kkk
+                //! Query 17 - Which while statement uses kkk
                 string query17 = "assign a; procedure mpp; variable vv; stmt s; while w;\n"
-                                 "Select w.stmt# such that Uses(w, vv) with vv.varName = \"kkk\" with w.stmt# = 15   \t";
+                                 "Select w.stmt# such that Uses(w, vv) with vv.varName = \"kkk\"  \t";
                 unordered_set<string> queryResults17 = spaManager.query(query17);
-                // Expected results: 15
-                Assert::AreEqual(1, (int) queryResults17.size());
-                Assert::IsTrue(queryResults17.find("15") != queryResults17.end());
+                // Expected results: 12, 13
+                Assert::AreEqual(2, (int) queryResults17.size());
+                Assert::IsTrue(queryResults17.find("12") != queryResults17.end());
+                Assert::IsTrue(queryResults17.find("13") != queryResults17.end());
             }
 
             TEST_METHOD(TestMultipleWithClausePartOne18) {
@@ -389,7 +395,7 @@ namespace IntegrationTesting {
 
                 //! Query 24 - Which read statement has stmt# of 20 and modifies num7
                 string query24 = "assign a; procedure mpp; variable vv; stmt s; read r;\n"
-                                 "Select r.stmt# with r.stmt# = 20  with  \"num7\" \t";
+                                 "Select r.stmt# with r.stmt# = 20  with r.varName = \"num7\" \t";
                 unordered_set<string> queryResults24 = spaManager.query(query24);
                 // Expected results: 20
                 Assert::AreEqual(1, (int) queryResults24.size());
@@ -402,8 +408,8 @@ namespace IntegrationTesting {
                 spaManager.loadSimpleSourceFromProgram(program);
 
                 //! Query 25 - Which statement has varName of num1, regardless of type
-                string query25 = "assign a; procedure mpp; variable vv; stmt s; read r; while w; call c;\n"
-                                 "Select s.stmt# with s.varName = \"num1\" \t";
+                string query25 = "assign a; print p; procedure mpp; variable vv; stmt s; read r; while w; call c;\n"
+                                 "Select p.stmt# with p.varName = \"num1\" \t";
                 unordered_set<string> queryResults25 = spaManager.query(query25);
                 // Expected results: 2
                 Assert::AreEqual(1, (int) queryResults25.size());

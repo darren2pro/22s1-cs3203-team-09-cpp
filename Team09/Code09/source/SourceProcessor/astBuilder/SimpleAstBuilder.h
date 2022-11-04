@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Parser.h"
+#include "../parser/SimpleParser.h"
 #include "../../TNode/TNode.h"
 #include "ArithmeticParser.h"
 #include <memory>
@@ -16,7 +16,7 @@ using namespace std;
  */
 class SimpleAstBuilder {
 private:
-    Parser::SOURCE_CODE_TOKENS tokens;
+    SimpleParser::SOURCE_CODE_TOKENS tokens;
 
     ArithmeticParser arithmeticParser;
 
@@ -121,7 +121,7 @@ private:
     Expr parseExpr();
 
 public:
-    explicit SimpleAstBuilder(const Parser::SOURCE_CODE_TOKENS _tokens);
+    explicit SimpleAstBuilder(const SimpleParser::SOURCE_CODE_TOKENS _tokens);
 
     ~SimpleAstBuilder();
 

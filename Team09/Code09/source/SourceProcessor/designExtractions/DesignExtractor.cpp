@@ -1,6 +1,5 @@
 #include "DesignExtractor.h"
 #include "EntityExtraction.h"
-#include "../../ProgramKnowledgeBase/PKBStorage.h"
 
 DesignExtractor::~DesignExtractor() {}
 

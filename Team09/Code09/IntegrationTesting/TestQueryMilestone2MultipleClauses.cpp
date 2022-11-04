@@ -3,17 +3,14 @@
 #include <SPAManager/SPAManager.h>
 #include <QueryProcessingSubsystem/Validator/SemanticException.h>
 #include <SourceProcessor/exceptions/SimpleInvalidSyntaxException.h>
+#include <chrono>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
+using namespace chrono;
 
 namespace IntegrationTesting {
     TEST_CLASS(TestQueryMilestone2MultipleClauses) {
-            ////! Remove or comment out this block to test your code
-            //BEGIN_TEST_CLASS_ATTRIBUTE(TestQueryMilestone2MultipleClauses)
-            //TEST_CLASS_ATTRIBUTE(L"Ignore", L"true")
-            //END_TEST_CLASS_ATTRIBUTE()
-
             string getCurrentProgram(int ref) {
                 string program1 = "procedure procOne {\n"
                                   "        while (1>= 1%((1)) ) {\n" // line 1
@@ -182,7 +179,21 @@ namespace IntegrationTesting {
                 //! Query 6
                 string query6 = "assign a; stmt s; procedure p; \n"
                                 "Select p such that Uses(p, \"num1\") such that Uses(p, \"num2\") such that Uses(p, \"k\")";
+
+                auto start = high_resolution_clock::now();
                 unordered_set<string> queryResults6 = spaManager.query(query6);
+                auto stop = high_resolution_clock::now();
+                auto durationOptimized = duration_cast<microseconds>(stop - start);
+
+                start = high_resolution_clock::now();
+                unordered_set<string> queryResults6Unoptimized = spaManager.query(query6, /* performOptimized */ false);
+                stop = high_resolution_clock::now();
+                auto durationUnoptimized = duration_cast<microseconds>(stop - start);
+
+                Logger::WriteMessage("\tTestMultipleClausesNoAndPartOne6");
+                Logger::WriteMessage(("\tOptimized: " + to_string(durationOptimized.count()) + " microseconds").c_str());
+                Logger::WriteMessage(("\tUnoptimized: " + to_string(durationUnoptimized.count()) + " microseconds\n\n").c_str());
+
                 // Expected results: nested
                 Assert::AreEqual(1, (int) queryResults6.size());
                 Assert::IsTrue(queryResults6.find("nested") != queryResults6.end());

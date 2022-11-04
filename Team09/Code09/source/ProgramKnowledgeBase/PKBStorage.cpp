@@ -40,7 +40,7 @@ namespace PKB {
         case Relation::AffectsT:
             return &affectTRelationCache;
         default:
-            return &RelationADT<std::string, std::string>();
+            return nullptr;
         }
     }
 
@@ -172,6 +172,17 @@ namespace PKB {
         return entity->getSet();
     }
 
+    std::string PKBStorage::getValueFromKey(std::string attrVal, Declaration::DesignEntity type, AttrReference::Attribute attr) {
+        if (attr == AttrReference::ProcName || attr == AttrReference::VarName) {
+            auto entity = getEntityFromEnum(type);
+            return entity->get(attrVal);
+        }
+        else {
+            // If any other attributes (stmt#), just return the original value.
+            return attrVal;
+        }
+    }
+
     bool PKBStorage::relationContainsSet(Relation::Types type, const std::string first, const std::string second) {
         auto relation = getRelationFromEnum(type);
         return relation->containsSet(first, second);
@@ -220,7 +231,7 @@ namespace PKB {
     // Pattern functions
     std::unordered_set<LineNum> PKBStorage::getPatternLineByVar(Pattern::Types type, const Variable var) {
         auto pattern = getPatternFromEnum(type);
-        return pattern->geLineByVar(var);
+        return pattern->getLineByVar(var);
     }
 
     std::unordered_set<LineNum> PKBStorage::getPatternLineByVarMatchFull(Pattern::Types type, const Variable var, const ExprStr expr) {

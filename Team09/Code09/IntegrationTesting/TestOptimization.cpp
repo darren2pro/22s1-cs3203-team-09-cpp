@@ -208,7 +208,7 @@ namespace IntegrationTesting {
                 //! is calculated on-the-fly. All other clauses should return some results so that we see whether
                 //! there are benefits of shifting the Affects/T execution to the last clause.
                 string query5 = "assign a, a1, a2; \n"
-                                "Select a2 such that Affects*(a2, 4) and Modifies(a, \"beingModified\") and Uses(a1, \"num1\") and Uses(a1, \"num2\")";
+                                "Select a2 such that Affects*(a2, 4) and Modifies(a, \"i\") and Uses(a1, \"z\") and Uses(a1, \"x\")";
                 auto start = high_resolution_clock::now();
                 unordered_set<string> result5Optimized = spaManager.query(query5);
                 auto stop = high_resolution_clock::now();

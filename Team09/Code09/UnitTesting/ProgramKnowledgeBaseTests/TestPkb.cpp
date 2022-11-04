@@ -70,10 +70,11 @@ namespace UnitTesting {
             Assert::IsTrue(pkb->getPatternLineByVar(Pattern::Assign, "x") == lineNo);
             Assert::IsTrue(pkb->getPatternLineByUS(Pattern::Assign) == lineNo);
             // x = 1 + 2 * 3 - 4 / 5 % 6
-            pkb->storePatterns(Pattern::Assign, "x", "1", "AssignmentNode(VariableNode(x), BinOpNode(-, BinOpNode(+, ConstantNode(1), BinOpNode(*, ConstantNode(2), ConstantNode(3))), BinOpNode(%, BinOpNode(/, ConstantNode(4), ConstantNode(5)), ConstantNode(6))))");
+            pkb->storePatterns(Pattern::Assign, "x", "1", "BinOpNode(-, BinOpNode(+, ConstantNode(1), BinOpNode(*, ConstantNode(2), ConstantNode(3))), BinOpNode(%, BinOpNode(/, ConstantNode(4), ConstantNode(5)), ConstantNode(6)))");
             lineNo.insert("1");
             Assert::IsTrue(pkb->getPatternLineByVar(Pattern::Assign, "x") == lineNo);
-            //Assert::IsTrue(pkb->getPatternLineByVarMatchFull(Pattern::Assign, "x", "BinOpNode(-, BinOpNode(+, ConstantNode(1), BinOpNode(*, ConstantNode(2), ConstantNode(3))), BinOpNode(%, BinOpNode(/, ConstantNode(4), ConstantNode(5)), ConstantNode(6)))") == lineNo);
+            auto x = pkb->getPatternLineByVarMatchFull(Pattern::Assign, "x", "1 + 2 * 3 - 4 / 5 % 6");
+            Assert::IsTrue(x == lineNo);
             //Assert::IsTrue(pkb->getPatternLineByVarMatchPartial(Pattern::Assign, "x", "BinOpNode(*, ConstantNode(2), ConstantNode(3))") == lineNo);
 
             //Assert::IsFalse(pkb->getPatternLineVarSet(Pattern::Assign) == lineVarSet);

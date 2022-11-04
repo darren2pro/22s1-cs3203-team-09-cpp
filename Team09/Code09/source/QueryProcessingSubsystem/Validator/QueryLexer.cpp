@@ -1,10 +1,7 @@
-#include <cctype>
 #include "QueryLexer.h"
-#include <string>
 #include <vector>
 #include <regex>
 #include "SyntaxException.h"
-#include "SemanticException.h"
 
 namespace lexerre {
     std::regex whitespace("[ \t\n]+");

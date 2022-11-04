@@ -231,7 +231,7 @@ namespace PKB {
     // Pattern functions
     std::unordered_set<LineNum> PKBStorage::getPatternLineByVar(Pattern::Types type, const Variable var) {
         auto pattern = getPatternFromEnum(type);
-        return pattern->geLineByVar(var);
+        return pattern->getLineByVar(var);
     }
 
     std::unordered_set<LineNum> PKBStorage::getPatternLineByVarMatchFull(Pattern::Types type, const Variable var, const ExprStr expr) {

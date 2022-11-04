@@ -32,7 +32,7 @@ void SPAManager::loadSimpleSourceFromProgram(string program) {
     extractor.extractDesignAbstractions(ast);
 }
 
-unordered_set<string> SPAManager::query(string& pqlQuery, bool performOptimized) {
+unordered_set<string> SPAManager::query(string& pqlQuery) {
     QueryBuilder qb;
     Query* queryAdt = qb.buildQuery(pqlQuery);
     unordered_set<string> queryResults = qm->processQuery(queryAdt);

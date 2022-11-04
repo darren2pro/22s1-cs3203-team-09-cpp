@@ -20,6 +20,7 @@
 namespace PKB {
     class PKBStorage {
     private:
+        // TODO: Remove comments move to DE (pending reply)
         int lineNum = 1; //move to DE
         std::unordered_map<std::shared_ptr<TNode>, LineNum> nodeToLineMap; //move to DE
         std::unordered_map<LineNum, Procedure> lineToProcMap; //move to DE
@@ -34,6 +35,7 @@ namespace PKB {
 
         std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet; //move to DE
 
+        // TODO: Remove unused EntityADT (pending reply)
         //entity set
         EntityADT varEntity;
         EntityADT procEntity;

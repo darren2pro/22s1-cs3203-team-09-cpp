@@ -6,7 +6,7 @@
 using namespace std;
 
 bool ResultsDatabase::variableIsPresent(Variable var) {
-    const bool isPresent = find(allVariables.begin(), allVariables.end(), var) != allVariables.end();
+    bool isPresent = find(allVariables.begin(), allVariables.end(), var) != allVariables.end();
     return isPresent;
 }
 
@@ -139,25 +139,19 @@ void ResultsDatabase::removeTable(int index) {
 }
 
 std::unordered_set<std::string> ResultsDatabase::getResults(Declaration& target) {
-	if (validQuery) {
-		int tableIndex = getVariableIndex(target.name);
-		ResultsTables rt = allResultsTables[tableIndex];
-		std::vector<Value> vecResults = rt.getResultBySynonym(target.name);
+	int tableIndex = getVariableIndex(target.name);
+	ResultsTables rt = allResultsTables[tableIndex];
+	std::vector<Value> vecResults = rt.getResultBySynonym(target.name);
 
-		// This is only called by single-var ops. Just return unique values.
-		std::unordered_set<Value> setResults;
-		for (auto val : vecResults) {
-			setResults.insert(val);
-		}
-		return setResults;
+	// This is only called by single-var ops. Just return unique values.
+	std::unordered_set<Value> setResults;
+	for (auto val : vecResults) {
+		setResults.insert(val);
 	}
-	else {
-		return { "Invalid Query" };
-	}
+	return setResults;
 }
 
 std::vector<std::vector<std::string>> ResultsDatabase::getMultipleTarget(std::vector<std::string> allSynonyms) {
-	//ResultsTables curTable;
 	// accept as parameter, an empty vector (1 for each synonym). Place each result vector into the respective slots.
 	std::vector<std::vector<std::string>> finalResults(allSynonyms.size());
 	fill(finalResults.begin(), finalResults.end(), std::vector<std::string>());

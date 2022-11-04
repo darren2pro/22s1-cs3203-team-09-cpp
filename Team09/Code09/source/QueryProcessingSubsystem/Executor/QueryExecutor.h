@@ -36,7 +36,7 @@ public:
 
 	std::unordered_set<std::string> addDuplicateSynonymAndApplyAttrVal(std::vector<std::vector<std::string>>& allResults, std::vector<std::string> uniqueSynonyms, std::vector<std::variant<Declaration, AttrReference>> targets);
 
-	std::vector<std::string> getSynonyms(std::vector<std::variant<Declaration, AttrReference>>& targets);
+	std::vector<std::string> getUniqueSynonyms(std::vector<std::variant<Declaration, AttrReference>>& targets);
 
 	std::vector<std::vector<std::string>> combineResults(std::vector<std::vector<std::string>> allResults, std::vector<std::string> uniqueSynonyms);
 

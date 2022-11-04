@@ -22,7 +22,6 @@ public:
 	std::vector<Variable> allVariables;
 	std::vector<ResultsTables> allResultsTables;
 	std::unordered_map<Variable, int> varToIndexMap;
-	bool validQuery = true; // Default to true. If any clause returns false, final result will be invalid query.
 
 	ResultsDatabase() :
 		allVariables(std::vector<Variable>()),

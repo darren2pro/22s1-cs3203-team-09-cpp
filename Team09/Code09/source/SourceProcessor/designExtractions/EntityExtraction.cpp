@@ -18,7 +18,6 @@ void EntityExtraction::createLineNumbers(const std::shared_ptr<ProcedureNode> pr
 }
 void EntityExtraction::createLineNumbers(const Stmt stmts, const PKB::Procedure procName) {
     const PKB::LineNum lnNum = pkbStorage->storeLine(stmts);
-    //pkbStorage->getNodeFromLine(lnNum); (useless statement)
     pkbStorage->storeLineToProcedure(lnNum, procName);
     std::visit(
             [this, procName](const auto& s) {

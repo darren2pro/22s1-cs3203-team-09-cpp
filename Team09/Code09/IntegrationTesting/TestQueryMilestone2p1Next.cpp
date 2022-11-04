@@ -602,13 +602,12 @@ namespace IntegrationTesting {
                 string query1 = "assign a; stmt s; while w; if i; variable v; print pp;\n"
                                 "Select s such that Next(s, 13)";
                 unordered_set<string> queryResults1 = spaManager.query(query1);
-                // Expected results: 12, 11, 10, 7, 3
-                Assert::AreEqual(5, (int) queryResults1.size(), L"Query 1 fails");
+                // Expected results: 12, 11, 10, 7
+                Assert::AreEqual(4, (int) queryResults1.size(), L"Query 1 fails");
                 Assert::IsTrue(queryResults1.find("12") != queryResults1.end(), L"Query 1 fails");
                 Assert::IsTrue(queryResults1.find("11") != queryResults1.end(), L"Query 1 fails");
                 Assert::IsTrue(queryResults1.find("10") != queryResults1.end(), L"Query 1 fails");
                 Assert::IsTrue(queryResults1.find("7") != queryResults1.end(), L"Query 1 fails");
-                Assert::IsTrue(queryResults1.find("3") != queryResults1.end(), L"Query 1 fails");
 
                 // Should not have 3?
             }
@@ -632,11 +631,6 @@ namespace IntegrationTesting {
                 string program = getCurrentProgram(5);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
-
-                // TODO: https://canvas.nus.edu.sg/courses/24725/discussion_topics/14653 refer to this discussion for the expected result
-                //! Query 3 - Unrelated to Next, but I add this here because I thought of it while writing this test case
-                //! Select all variables that `call` procedure modifies. It will try to see what `num1` and `newProc` modifies, and in
-                //! that case, what does PKB do? Is this a semantic error?
                 string query3 = "assign a; stmt s; while w; if i; variable v; print pp;\n"
                                 "Select v such that Modifies(\"call\", v)";
                 unordered_set<string> queryResults3 = spaManager.query(query3);
@@ -646,8 +640,6 @@ namespace IntegrationTesting {
                 Assert::IsTrue(queryResults3.find("num1") != queryResults3.end(), L"Query 3 fails");
                 Assert::IsTrue(queryResults3.find("num3") != queryResults3.end(), L"Query 3 fails");
                 Assert::IsTrue(queryResults3.find("num2") != queryResults3.end(), L"Query 3 fails");
-                //! remove after confirming
-                Assert::Fail();
             }
 
             TEST_METHOD(TestNextNextTPartFour4) {
@@ -655,26 +647,17 @@ namespace IntegrationTesting {
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 
-                // TODO: https://canvas.nus.edu.sg/courses/24725/discussion_topics/14653 refer to this discussion for the expected result
-                //! Query 4 - No such procedure what happens?
                 string query4 = "assign a; stmt s; while w; if i; variable v; print pp;\n"
                                 "Select v such that Uses(\"newProc\", v)";
                 unordered_set<string> queryResults4 = spaManager.query(query4);
                 // Expected results: empty set
                 Assert::AreEqual(0, (int) queryResults4.size(), L"Query 4 fails");
-                //! remove after confirming
-                Assert::Fail();
             }
 
             TEST_METHOD(TestNextNextTPartFour5) {
                 string program = getCurrentProgram(5);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
-
-                // TODO: https://canvas.nus.edu.sg/courses/24725/discussion_topics/14653 refer to this discussion for the expected result
-                //! Query 5 - Uses("call", v) also unrelated to next but I thought of this suddenly
-                //! Select all variables that `call` procedure uses. It will try to see what `num1` and `newProc` uses, and in
-                //! that case, what does PKB do? Is this a semantic error?
                 string query5 = "assign a; stmt s; while w; if i; variable v; print pp;\n"
                                 "Select v such that Uses(\"call\", v)";
                 unordered_set<string> queryResults5 = spaManager.query(query5);
@@ -685,24 +668,17 @@ namespace IntegrationTesting {
                 Assert::IsTrue(queryResults5.find("num3") != queryResults5.end(), L"Query 5 fails");
                 Assert::IsTrue(queryResults5.find("kkk") != queryResults5.end(), L"Query 5 fails");
                 Assert::IsTrue(queryResults5.find("ll") != queryResults5.end(), L"Query 5 fails");
-                //! remove after confirming
-                Assert::Fail();
             }
 
             TEST_METHOD(TestNextNextTPartFour6) {
                 string program = getCurrentProgram(5);
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
-
-                // TODO: https://canvas.nus.edu.sg/courses/24725/discussion_topics/14653 refer to this discussion for the expected result
-                //! Query 6 - No such procedure what happens?
                 string query6 = "assign a; stmt s; while w; if i; variable v; print pp;\n"
                                 "Select v such that Uses(\"newProccccc\", v)";
                 unordered_set<string> queryResults6 = spaManager.query(query6);
                 // Expected results: empty set
                 Assert::AreEqual(0, (int) queryResults6.size(), L"Query 6 fails");
-                //! remove after confirming
-                Assert::Fail();
             }
 
             TEST_METHOD(TestFollowsParent1) {

@@ -202,64 +202,24 @@ namespace IntegrationTesting {
                                 "Select <a, a1, w, w1> such that Parent(_, _) pattern w(_, _)";
                 unordered_set<string> queryResults6 = spaManager.query(query6);
                 /*
-                 * Possible results for a, a1 are: 14 and 16
-                 * Possible results for w, w1 are: 1, 3, 5, 7, 9, 12, 13, 19
+                 * Possible results for a, a1 are: 14 and 16 -> 4
+                 * Possible results for w are: 12, 13 -> 2
+                 * Possible results for w1 are: 1, 3, 5, 7, 9, 12, 13, 19 -> 8
                  *
-                 * 14 14 1 1, 14 14 3 3, 14 14 5 5, 14 14 7 7, 14 14 9 9, 14 14 12 12, 14 14 13 13, 14 14 19 19,
-                 * 16 16 1 1, 16 16 3 3, 16 16 5 5, 16 16 7 7, 16 16 9 9, 16 16 12 12, 16 16 13 13, 16 16 19 19
-                 * 14 16 1 1, 14 16 3 3, 14 16 5 5, 14 16 7 7, 14 16 9 9, 14 16 12 12, 14 16 13 13, 14 16 19 19,
-                 * 16 14 1 1, 16 14 3 3, 16 14 5 5, 16 14 7 7, 16 14 9 9, 16 14 12 12, 16 14 13 13, 16 14 19 19
-                 *
-                 * 14 14 1 3, 14 14 1 5, 14 14 1 7, 14 14 1 9, 14 14 1 12, 14 14 1 13, 14 14 1 19,
-                 * 14 14 3 1, 14 14 3 5, 14 14 3 7, 14 14 3 9, 14 14 3 12, 14 14 3 13, 14 14 3 19,
-                 * 14 14 5 1, 14 14 5 3, 14 14 5 7, 14 14 5 9, 14 14 5 12, 14 14 5 13, 14 14 5 19,
-                 * 14 14 7 1, 14 14 7 3, 14 14 7 5, 14 14 7 9, 14 14 7 12, 14 14 7 13, 14 14 7 19,
-                 * 14 14 9 1, 14 14 9 3, 14 14 9 5, 14 14 9 7, 14 14 9 12, 14 14 9 13, 14 14 9 19,
-                 * 14 14 12 1, 14 14 12 3, 14 14 12 5, 14 14 12 7, 14 14 12 9, 14 14 12 13, 14 14 12 19,
-                 * 14 14 13 1, 14 14 13 3, 14 14 13 5, 14 14 13 7, 14 14 13 9, 14 14 13 12, 14 14 13 19,
-                 * 14 14 19 1, 14 14 19 3, 14 14 19 5, 14 14 19 7, 14 14 19 9, 14 14 19 12, 14 14 19 13,
-                 *
-                 * 16 16 1 3, 16 16 1 5, 16 16 1 7, 16 16 1 9, 16 16 1 12, 16 16 1 13, 16 16 1 19,
-                 * 16 16 3 1, 16 16 3 5, 16 16 3 7, 16 16 3 9, 16 16 3 12, 16 16 3 13, 16 16 3 19,
-                 * 16 16 5 1, 16 16 5 3, 16 16 5 7, 16 16 5 9, 16 16 5 12, 16 16 5 13, 16 16 5 19,
-                 * 16 16 7 1, 16 16 7 3, 16 16 7 5, 16 16 7 9, 16 16 7 12, 16 16 7 13, 16 16 7 19,
-                 * 16 16 9 1, 16 16 9 3, 16 16 9 5, 16 16 9 7, 16 16 9 12, 16 16 9 13, 16 16 9 19,
-                 * 16 16 12 1, 16 16 12 3, 16 16 12 5, 16 16 12 7, 16 16 12 9, 16 16 12 13, 16 16 12 19,
-                 * 16 16 13 1, 16 16 13 3, 16 16 13 5, 16 16 13 7, 16 16 13 9, 16 16 13 12, 16 16 13 19,
-                 * 16 16 19 1, 16 16 19 3, 16 16 19 5, 16 16 19 7, 16 16 19 9, 16 16 19 12, 16 16 19 13,
-                 *
-                 * 14 16 1 3, 14 16 1 5, 14 16 1 7, 14 16 1 9, 14 16 1 12, 14 16 1 13, 14 16 1 19,
-                 * 14 16 3 1, 14 16 3 5, 14 16 3 7, 14 16 3 9, 14 16 3 12, 14 16 3 13, 14 16 3 19,
-                 * 14 16 5 1, 14 16 5 3, 14 16 5 7, 14 16 5 9, 14 16 5 12, 14 16 5 13, 14 16 5 19,
-                 * 14 16 7 1, 14 16 7 3, 14 16 7 5, 14 16 7 9, 14 16 7 12, 14 16 7 13, 14 16 7 19,
-                 * 14 16 9 1, 14 16 9 3, 14 16 9 5, 14 16 9 7, 14 16 9 12, 14 16 9 13, 14 16 9 19,
-                 * 14 16 12 1, 14 16 12 3, 14 16 12 5, 14 16 12 7, 14 16 12 9, 14 16 12 13, 14 16 12 19,
-                 * 14 16 13 1, 14 16 13 3, 14 16 13 5, 14 16 13 7, 14 16 13 9, 14 16 13 12, 14 16 13 19,
-                 * 14 16 19 1, 14 16 19 3, 14 16 19 5, 14 16 19 7, 14 16 19 9, 14 16 19 12, 14 16 19 13,
-                 *
-                 * 16 14 1 3, 16 14 1 5, 16 14 1 7, 16 14 1 9, 16 14 1 12, 16 14 1 13, 16 14 1 19,
-                 * 16 14 3 1, 16 14 3 5, 16 14 3 7, 16 14 3 9, 16 14 3 12, 16 14 3 13, 16 14 3 19,
-                 * 16 14 5 1, 16 14 5 3, 16 14 5 7, 16 14 5 9, 16 14 5 12, 16 14 5 13, 16 14 5 19,
-                 * 16 14 7 1, 16 14 7 3, 16 14 7 5, 16 14 7 9, 16 14 7 12, 16 14 7 13, 16 14 7 19,
-                 * 16 14 9 1, 16 14 9 3, 16 14 9 5, 16 14 9 7, 16 14 9 12, 16 14 9 13, 16 14 9 19,
-                 * 16 14 12 1, 16 14 12 3, 16 14 12 5, 16 14 12 7, 16 14 12 9, 16 14 12 13, 16 14 12 19,
-                 * 16 14 13 1, 16 14 13 3, 16 14 13 5, 16 14 13 7, 16 14 13 9, 16 14 13 12, 16 14 13 19,
-                 * 16 14 19 1, 16 14 19 3, 16 14 19 5, 16 14 19 7, 16 14 19 9, 16 14 19 12, 16 14 19 13
-                 *
-                 * Total: 192
+                 * Total: 4 x 2 x 8 = 64
                  * unordered_set is guaranteed to have unique elements
                  */
-                Assert::AreEqual(192, (int) queryResults6.size());
+                Assert::AreEqual(64, (int) queryResults6.size());
                 // Test some random results
-                Assert::IsTrue(queryResults6.find("14 14 1 1") != queryResults6.end());
-                Assert::IsTrue(queryResults6.find("14 14 1 3") != queryResults6.end());
-                Assert::IsTrue(queryResults6.find("14 14 1 5") != queryResults6.end());
-                Assert::IsTrue(queryResults6.find("16 14 19 1") != queryResults6.end());
-                Assert::IsTrue(queryResults6.find("16 14 7 12") != queryResults6.end());
-                Assert::IsTrue(queryResults6.find("16 16 9 5") != queryResults6.end());
-                Assert::IsTrue(queryResults6.find("16 16 19 13") != queryResults6.end());
-                Assert::IsTrue(queryResults6.find("14 16 12 19") != queryResults6.end());
-                Assert::IsTrue(queryResults6.find("14 16 19 13") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("14 14 12 1") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("14 14 13 3") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("14 14 12 5") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("16 14 13 1") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("16 14 12 12") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("16 16 13 5") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("16 16 12 13") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("14 16 13 19") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("14 16 12 13") != queryResults6.end());
             }
 
             TEST_METHOD(TestExhaustive7) {
@@ -271,7 +231,14 @@ namespace IntegrationTesting {
                 string query7 = "assign a, a1; stmt ss; call cc, cc1; while w, w1;\n"
                                 "Select <a, a1, w, w1> such that Parent*(_, _)";
                 unordered_set<string> queryResults7 = spaManager.query(query7);
-                Assert::AreEqual(192, (int) queryResults7.size());
+                /*
+                 * Possible results for a, a1 are: 14 and 16 -> 4
+                 * Possible results for w, w1 are: 1, 3, 5, 7, 9, 12, 13, 19 -> 64
+                 *
+                 * Total: 4 x 64 = 256
+                 * unordered_set is guaranteed to have unique elements
+                 */
+                Assert::AreEqual(256, (int) queryResults7.size());
                 // Test some random results
                 Assert::IsTrue(queryResults7.find("14 14 1 1") != queryResults7.end());
                 Assert::IsTrue(queryResults7.find("16 14 9 7") != queryResults7.end());
@@ -286,10 +253,18 @@ namespace IntegrationTesting {
                 string query8 = "assign a, a1; stmt ss; call cc, cc1; while w, w1;\n"
                                 "Select <a, a1, w, w1> such that Parent*(_, _) pattern w(_, _)";
                 unordered_set<string> queryResults8 = spaManager.query(query8);
-                Assert::AreEqual(192, (int) queryResults8.size());
+                /*
+                 * Possible results for a, a1 are: 14 and 16 -> 4
+                 * Possible results for w are: 12, 13 -> 2
+                 * Possible results for w1 are: 1, 3, 5, 7, 9, 12, 13, 19 -> 8
+                 *
+                 * Total: 4 x 2 x 8 = 64
+                 * unordered_set is guaranteed to have unique elements
+                 */
+                Assert::AreEqual(64, (int) queryResults8.size());
                 // Test some random results
-                Assert::IsTrue(queryResults8.find("14 14 1 1") != queryResults8.end());
-                Assert::IsTrue(queryResults8.find("16 14 9 9") != queryResults8.end());
+                Assert::IsTrue(queryResults8.find("14 14 12 1") != queryResults8.end());
+                Assert::IsTrue(queryResults8.find("16 14 13 9") != queryResults8.end());
             }
 
             TEST_METHOD(TestExhaustive9) {
@@ -301,10 +276,18 @@ namespace IntegrationTesting {
                 string query9 = "assign a, a1; stmt ss; call cc, cc1; while w, w1;\n"
                                 "Select <a, a1, w, w1> such that Parent*(_, _) and Parent(_, _) pattern w(_, _)";
                 unordered_set<string> queryResults9 = spaManager.query(query9);
-                Assert::AreEqual(192, (int) queryResults9.size());
+                /*
+                 * Possible results for a, a1 are: 14 and 16 -> 4
+                 * Possible results for w are: 12, 13 -> 2
+                 * Possible results for w1 are: 1, 3, 5, 7, 9, 12, 13, 19 -> 8
+                 *
+                 * Total: 4 x 2 x 8 = 64
+                 * unordered_set is guaranteed to have unique elements
+                 */
+                Assert::AreEqual(64, (int) queryResults9.size());
                 // Test some random results
-                Assert::IsTrue(queryResults9.find("14 16 1 12") != queryResults9.end());
-                Assert::IsTrue(queryResults9.find("16 16 9 9") != queryResults9.end());
+                Assert::IsTrue(queryResults9.find("14 16 12 12") != queryResults9.end());
+                Assert::IsTrue(queryResults9.find("16 16 13 9") != queryResults9.end());
             }
 
             TEST_METHOD(TestExhaustive10) {

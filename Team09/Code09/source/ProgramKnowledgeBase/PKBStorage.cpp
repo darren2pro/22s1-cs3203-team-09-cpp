@@ -67,7 +67,7 @@ namespace PKB {
         case Declaration::Call:
             return &callEntity;
         default:
-            return &EntityADT();
+            return nullptr;
         }
     }
 
@@ -80,7 +80,7 @@ namespace PKB {
         case Pattern::While:
             return &whilePattern;
         default:
-            return &PatternADT();
+            return nullptr;
         }
     }
 
@@ -93,7 +93,7 @@ namespace PKB {
         case Relation::AffectsT:
             return &affectTRelationCache;
         default:
-            return &RelationCacheADT<std::string, std::string>();
+            return nullptr;
         }
     }
 
@@ -116,7 +116,6 @@ namespace PKB {
         incrementCurrLineNumber();
         std::visit(
                 [this, currLineNum](const auto& s) {
-                    //lineToNodeMap[currLineNum] = s;
                     nodeToLineMap[s] = currLineNum;
                 },
                 node);

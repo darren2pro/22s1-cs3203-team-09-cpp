@@ -5,8 +5,7 @@ void ResultsTables::create(Variable variable, std::unordered_set<Value>& list) {
 	varToColIndex.insert({variable, columnIndex});
 	columnIndex++;
 
-	// Insertion of elements into the matrix.
-	for (const auto& value : list) {
+	for (auto& value : list) {
 		resultsTable.push_back({ value });
 	}
 }
@@ -101,8 +100,6 @@ bool ResultsTables::combineTableWith(ResultsTables& otherTable) {
 	return resultsTable.size() > 0;
 }
 
-// If there is only 1 select / 1 tuple -> return unique values.
-// Otherwise, if more >= 2 synonyms -> return the entire table including non-uniques
 std::vector<Value> ResultsTables::getResultBySynonym(Variable variable) {
 	std::vector<Value> finalResults;
 	int index = varToColIndex[variable];

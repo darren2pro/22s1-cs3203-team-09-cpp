@@ -74,7 +74,7 @@ std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Result result, 
     else if (result.isTuple()) {
         // get unique synonyms -> get unique results -> combine all unique results -> duplicate the columns based on target -> applyAttrVal to results.
         auto allSynonyms = result.target;
-        std::vector<std::string> uniqueSynonyms = getSynonyms(allSynonyms);
+        std::vector<std::string> uniqueSynonyms = getUniqueSynonyms(allSynonyms);
         std::vector<std::vector<std::string>> allResults = rdb.getMultipleTarget(uniqueSynonyms);
         std::vector<std::vector<std::string>> combinedUniqueResults = combineResults(allResults, uniqueSynonyms);
 
@@ -113,7 +113,7 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
             }
 
             if (seenMap.find(synonym) == seenMap.end()) {
-                // Never see before, add synonym to index mapping
+                // Add synonym to index mapping
                 auto it = std::find(uniqueSynonyms.begin(), uniqueSynonyms.end(), synonym);
                 auto idx = it - uniqueSynonyms.begin();
                 seenMap.insert({ synonym, idx });
@@ -124,7 +124,6 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
             }
             else {
                 // Already in seen, therefore this is a duplicate. Use the current index, get the duplicate values, insert straightaway.
-                // Iterate through the column
                 auto index = seenMap.find(synonym)->second;
                 for (int j = 0; j < allResults.size(); j++) {
                     auto currentRow = tempResults[j];
@@ -141,13 +140,6 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
 	for (int j = 0; j < allSynonyms.size(); j++) {
         auto target = allSynonyms[j];
 		if (auto val = std::get_if<AttrReference>(&target)) {
-
-            //if (val->declaration.Type == Declaration::DesignEntity::Procedure ||
-            //    val->declaration.Type == Declaration::DesignEntity::Statement ||
-            //    val->declaration.Type == Declaration::DesignEntity::Variable ) {
-            //    continue;
-            //}
-
             auto deType = val->declaration.Type;
             auto attrType = val->attr;
 
@@ -156,7 +148,6 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
                 deType == Declaration::DesignEntity::Print && attrType == AttrReference::Attribute::VarName)) {
                 continue;
             }
-
 
             std::vector<std::string> attrResults;
             std::unordered_map<std::string, std::string> seen;
@@ -170,7 +161,7 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
                 else {
                     newValue = seen.find(oldValue)->second;
                 }
-                // Replace the old value with the new attribute value
+
                 allResults[i][j] = newValue;
             }
 		}
@@ -191,7 +182,7 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 	rdb.insertList(decl.name, resultsFromPKB);
 }
 
-std::vector<std::string> QueryExecutor::getSynonyms(std::vector<std::variant<Declaration, AttrReference>>& targets) {
+std::vector<std::string> QueryExecutor::getUniqueSynonyms(std::vector<std::variant<Declaration, AttrReference>>& targets) {
     std::vector<std::string> allSynonyms;
     std::string synonym;
     std::unordered_set<std::string> set;
@@ -212,12 +203,10 @@ std::vector<std::string> QueryExecutor::getSynonyms(std::vector<std::variant<Dec
 }
 
 std::vector<std::vector<std::string>> QueryExecutor::combineResults(std::vector<std::vector<std::string>> allResults, std::vector<std::string> uniqueSynonyms) {
-    // Idea: whenever a synonym/column hasnt been seen yet, add of its synonyms into respective vector position
-
     // Within the string, the values are separated by comma
     std::vector<std::vector<std::string>> finalResults;
-    
-    // Optimization - If 0 or 1, just return either empty or filtered value.
+
+    // Optimized slightly for 0 and 1 synonyms
     if (allResults.size() == 0) {
         return allResults;
     }
@@ -242,8 +231,7 @@ std::vector<std::vector<std::string>> QueryExecutor::combineResults(std::vector<
     // seen Set to keep track of synonyms to prevent repeats
     std::unordered_set<int> seenSynonym;
 
-
-    for (int i = 0; i < allResults.size(); i++) { // for each synonym
+    for (int i = 0; i < allResults.size(); i++) { 
         // If synonym has been seen before, means it has been already permutated.
         if (seenSynonym.find(i) != seenSynonym.end()) continue;
 

@@ -40,7 +40,7 @@ namespace PKB {
         case Relation::AffectsT:
             return &affectTRelationCache;
         default:
-            return &RelationADT<std::string, std::string>();
+            return nullptr;
         }
     }
 

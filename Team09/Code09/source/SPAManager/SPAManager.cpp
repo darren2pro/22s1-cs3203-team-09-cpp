@@ -35,6 +35,6 @@ void SPAManager::loadSimpleSourceFromProgram(string program) {
 unordered_set<string> SPAManager::query(string& pqlQuery, bool performOptimized) {
     QueryBuilder qb;
     Query* queryAdt = qb.buildQuery(pqlQuery);
-    unordered_set<string> queryResults = qm->processQuery(queryAdt, performOptimized);
+    unordered_set<string> queryResults = qm->processQuery(queryAdt);
     return queryResults;
 }

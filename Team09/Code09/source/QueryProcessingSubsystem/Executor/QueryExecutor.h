@@ -25,7 +25,7 @@ private:
 public:
 	QueryExecutor(PKBStorage* pkb) : pkb(pkb) {}; // Constructor for taking in PKB
 
-	std::unordered_set<std::string> processQuery(Query* query, bool performOptimized);
+	std::unordered_set<std::string> processQuery(Query* query);
 
 	/**
 	 * Used to insert all the possible values for this declaration into the ResultsDatabase.

@@ -11,7 +11,7 @@
 #include "ClauseStrategy/WithStrategy.h"
 #include "../ClausePrioritizer.h"
 
-std::unordered_set<std::string> QueryExecutor::processQuery(Query* query, bool performOptimized) {
+std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
     relations = query->relations;
 	pattern = query->patterns;
     with = query->withs;
@@ -19,13 +19,12 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query, bool p
 	target = query->target;
 	rdb = ResultsDatabase();
 
-	// TODO: For Darren.
     std::shared_ptr<WithStrategy> withStrat = std::make_shared<WithStrategy>(declarations, pkb);
     std::shared_ptr<PatternStrategy> patternStrat = std::make_shared<PatternStrategy>(declarations, pkb);
     std::shared_ptr<RelationStrategy> relationStrat = std::make_shared<RelationStrategy>(declarations, pkb);
     ClauseStrategyContext clauseStrategyContext(withStrat);
 
-    std::vector<Clause> clauses = ClausePrioritizer(query).getClauses(performOptimized);
+    std::vector<Clause> clauses = ClausePrioritizer(query).getClauses();
 
     for (auto& clause : clauses) {
         if (clause.isPattern()) {

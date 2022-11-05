@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include <SPAManager/SPAManager.h>
+#include <QueryProcessingSubsystem/Validator/SemanticException.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -82,6 +83,11 @@ namespace IntegrationTesting {
                                  "        print y;\n"
                                  "}\n"
                                  "\n"
+                                 "procedure B {\n"
+                                 "read y;\n"
+                                 "print x;\n"
+                                 "}\n"
+                                 "\n"
                                  "procedure repeat {\n"
                                  "        read y;\n"
                                  "        print x;\n"
@@ -90,7 +96,7 @@ namespace IntegrationTesting {
                 try {
                     spaManager.loadSimpleSourceFromProgram(program);
                     Assert::Fail(L"Expected exception because of repeated procedure names");
-                } catch (SemanticError &e) {
+                } catch (SemanticError& e) {
                     Logger::WriteMessage("Repeated procedure names throws semantic error correctly.");
                     Logger::WriteMessage(e.what());
                 }
@@ -118,7 +124,7 @@ namespace IntegrationTesting {
                 try {
                     spaManager.loadSimpleSourceFromProgram(program);
                     Assert::Fail(L"Expected exception because of cyclic calls");
-                } catch (SemanticError &e) {
+                } catch (SemanticError& e) {
                     Logger::WriteMessage("Cyclic calls throws semantic error correctly.");
                     Logger::WriteMessage(e.what());
                 }
@@ -134,7 +140,7 @@ namespace IntegrationTesting {
                 try {
                     spaManager.loadSimpleSourceFromProgram(program);
                     Assert::Fail(L"Expected exception because of calling ownself");
-                } catch (SemanticError &e) {
+                } catch (SemanticError& e) {
                     Logger::WriteMessage("Calling ownself throws semantic error correctly.");
                     Logger::WriteMessage(e.what());
                 }
@@ -155,7 +161,7 @@ namespace IntegrationTesting {
                 try {
                     spaManager.loadSimpleSourceFromProgram(program);
                     Assert::Fail(L"Expected exception because of calling non-existent procedure");
-                } catch (SemanticError &e) {
+                } catch (SemanticError& e) {
                     Logger::WriteMessage("Calling non-existent procedure throws semantic error correctly.");
                     Logger::WriteMessage(e.what());
                 }

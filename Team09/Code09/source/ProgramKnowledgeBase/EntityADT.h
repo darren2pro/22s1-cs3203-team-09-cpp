@@ -13,6 +13,7 @@ namespace PKB {
     public:
         void add(const std::string);
         void add(const std::string, const std::string);
+        void addWithEnsureNoRepeatedKey(const std::string key);
         bool contains(const std::string);
         std::unordered_set<std::string> getSet();
         std::string get(const std::string);

@@ -143,7 +143,11 @@ namespace PKB {
 
     void PKBStorage::storeEntity(Declaration::DesignEntity type, const std::string value) {
         auto entity = getEntityFromEnum(type);
-        entity->add(value);
+        if (type == Declaration::Procedure) {
+            entity->addWithEnsureNoRepeatedKey(value);
+        } else {
+            entity->add(value);
+        }
     }
 
     void PKBStorage::storeEntity(Declaration::DesignEntity type, const std::string first, const std::string second) {

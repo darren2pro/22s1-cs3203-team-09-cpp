@@ -1,4 +1,5 @@
 #include "EntityADT.h"
+#include "../QueryProcessingSubsystem/Validator/SemanticException.h"
 
 namespace PKB {
     void EntityADT::add(const std::string key) {
@@ -8,6 +9,13 @@ namespace PKB {
     void EntityADT::add(const std::string key, const std::string value) {
         set.insert(key);
         map[key] = value;
+    }
+
+    void EntityADT::addWithEnsureNoRepeatedKey(const std::string key) {
+        if (set.find(key) != set.end()) {
+            throw SemanticError("Repeated key found in EntityADT");
+        }
+        set.insert(key);
     }
 
     bool EntityADT::contains(const std::string key) {

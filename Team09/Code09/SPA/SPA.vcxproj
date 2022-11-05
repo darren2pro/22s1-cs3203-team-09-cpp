@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\EntityADT.cpp" />
-    <ClCompile Include="..\source\ProgramKnowledgeBase\PatternADT.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\ADT\EntityADT.cpp" />
+    <ClCompile Include="..\source\ProgramKnowledgeBase\ADT\PatternADT.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp" />
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBUtils.cpp" />
     <ClCompile Include="..\source\QueryProcessingSubsystem\ClauseFunctions.cpp" />
@@ -32,23 +32,32 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp" />
-    <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\DesignExtractor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractCallsVisitor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractEntitiesVisitor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractFollowsVisitor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractModifiesVisitor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractNextVisitor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractParentVisitor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractPatternVisitor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractUsesVisitor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\SetLineNumberVisitor.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\Visitor.cpp" />
     <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp" />
     <ClCompile Include="..\source\SourceProcessor\parser\SimpleParser.cpp" />
     <ClCompile Include="..\source\SourceProcessor\parser\SimpleToken.cpp" />
     <ClCompile Include="..\source\SourceProcessor\parser\SimpleTokenizer.cpp" />
     <ClCompile Include="..\source\SourceProcessor\SimpleInterface.cpp" />
+    <ClCompile Include="..\source\SourceProcessor\TNode\TNode.cpp" />
     <ClCompile Include="..\source\SPAManager\SPAManager.cpp" />
-    <ClCompile Include="..\source\TNode\TNode.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\EntityADT.h" />
-    <ClInclude Include="..\source\ProgramKnowledgeBase\PatternADT.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\ADT\EntityADT.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\ADT\PatternADT.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\ADT\RelationADT.h" />
+    <ClInclude Include="..\source\ProgramKnowledgeBase\ADT\RelationCacheADT.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h" />
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBUtils.h" />
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationADT.h" />
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationCacheADT.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\ClausePrioritizer.h" />
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h" />
@@ -81,15 +90,24 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\With.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.h" />
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h" />
-    <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h" />
-    <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\DesignExtractor.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractCallsVisitor.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractEntitiesVisitor.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractFollowsVisitor.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractModifiesVisitor.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractNextVisitor.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractParentVisitor.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractPatternVisitor.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractUsesVisitor.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\SetLineNumberVisitor.h" />
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\Visitor.h" />
     <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h" />
     <ClInclude Include="..\source\SourceProcessor\parser\SimpleParser.h" />
     <ClInclude Include="..\source\SourceProcessor\parser\SimpleToken.h" />
     <ClInclude Include="..\source\SourceProcessor\parser\SimpleTokenizer.h" />
     <ClInclude Include="..\source\SourceProcessor\SimpleInterface.h" />
+    <ClInclude Include="..\source\SourceProcessor\TNode\TNode.h" />
     <ClInclude Include="..\source\SPAManager\SPAManager.h" />
-    <ClInclude Include="..\source\TNode\TNode.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

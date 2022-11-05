@@ -1,6 +1,6 @@
 #include "SimpleAstBuilder.h"
-#include "../exceptions/SimpleInvalidSyntaxException.h"
-#include "../parser/SimpleTokenizer.h"
+#include "../Exceptions/SimpleInvalidSyntaxException.h"
+#include "../Parser/SimpleTokenizer.h"
 #include <unordered_set>
 #include <sstream>
 

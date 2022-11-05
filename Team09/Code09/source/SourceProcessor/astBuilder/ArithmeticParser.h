@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../parser/SimpleParser.h"
-#include "../../TNode/TNode.h"
+#include "../Parser/SimpleParser.h"
+#include "../TNode/TNode.h"
 #include <unordered_set>
 #include <vector>
 

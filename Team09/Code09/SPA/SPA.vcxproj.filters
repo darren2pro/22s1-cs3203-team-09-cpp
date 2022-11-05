@@ -19,24 +19,6 @@
     <Filter Include="Source Files\SourceProcessor">
       <UniqueIdentifier>{abcd15d1-7090-416d-9fae-9f390fab8c3d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\SourceProcessor\astBuilder">
-      <UniqueIdentifier>{c1287658-8656-4be1-b309-d929805c47e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\SourceProcessor\astBuilder">
-      <UniqueIdentifier>{9921dc17-f312-4a5d-b92b-cb332d75be75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\SourceProcessor\exceptions">
-      <UniqueIdentifier>{c73fb767-0011-4650-8663-ba0b152526ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\SourceProcessor\exceptions">
-      <UniqueIdentifier>{b683d50d-6da1-4773-bfc6-2ae1bd9bf7f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\SourceProcessor\designExtractor">
-      <UniqueIdentifier>{9ecf1f1f-907a-4e0d-8dcf-310218b4a530}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\SourceProcessor\designExtractor">
-      <UniqueIdentifier>{288517c8-b0d5-49f3-a43c-3b803116a7a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\ProgramKnowledgeBase">
       <UniqueIdentifier>{15501278-e906-45a9-a12a-b34f34987889}</UniqueIdentifier>
     </Filter>
@@ -60,12 +42,6 @@
     </Filter>
     <Filter Include="Source Files\QueryProcessingSubsystem\Executor">
       <UniqueIdentifier>{25637db5-130d-4f22-9a2a-fd11882f69ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\TNode">
-      <UniqueIdentifier>{7712d99f-6e74-4187-a893-388001bb4963}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\TNode">
-      <UniqueIdentifier>{b3a0e69d-4596-4984-b5f2-09b897e5498d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\QueryProcessingSubsystem\Executor\ResultsDatabase">
       <UniqueIdentifier>{51f8a4fa-9b17-4123-be4f-9e29a161e370}</UniqueIdentifier>
@@ -109,25 +85,55 @@
     <Filter Include="Source Files\QueryProcessingSubsystem\Executor\ClauseStrategy">
       <UniqueIdentifier>{5b348207-ffed-4386-ba62-bd75a3c63420}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\SourceProcessor\parser">
+    <Filter Include="Header Files\SourceProcessor\TNode">
+      <UniqueIdentifier>{b3a0e69d-4596-4984-b5f2-09b897e5498d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SourceProcessor\TNode">
+      <UniqueIdentifier>{7712d99f-6e74-4187-a893-388001bb4963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SourceProcessor\ASTBuilder">
+      <UniqueIdentifier>{c1287658-8656-4be1-b309-d929805c47e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SourceProcessor\DesignExtractor">
+      <UniqueIdentifier>{288517c8-b0d5-49f3-a43c-3b803116a7a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SourceProcessor\Exceptions">
+      <UniqueIdentifier>{b683d50d-6da1-4773-bfc6-2ae1bd9bf7f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SourceProcessor\Parser">
       <UniqueIdentifier>{d5820568-f630-41e5-b29a-79fcce73a54d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\SourceProcessor\parser">
+    <Filter Include="Source Files\SourceProcessor\ASTBuilder">
+      <UniqueIdentifier>{9921dc17-f312-4a5d-b92b-cb332d75be75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SourceProcessor\DesignExtractor">
+      <UniqueIdentifier>{9ecf1f1f-907a-4e0d-8dcf-310218b4a530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SourceProcessor\Exceptions">
+      <UniqueIdentifier>{c73fb767-0011-4650-8663-ba0b152526ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SourceProcessor\Parser">
       <UniqueIdentifier>{72a24b84-88cb-45ce-a6bb-6474f0612478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SourceProcessor\DesignExtractor\Visitor">
+      <UniqueIdentifier>{07210fe7-2d89-4cf7-b66f-c80586016f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SourceProcessor\DesignExtractor\Visitor">
+      <UniqueIdentifier>{93d88103-7e46-4319-8944-3e8358c3633b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ProgramKnowledgeBase\ADT">
+      <UniqueIdentifier>{647744d4-9ddb-48d6-b7a0-a71295dd3c99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ProgramKnowledgeBase\ADT">
+      <UniqueIdentifier>{c0ab2d00-f9fa-4682-849e-010494a66ca7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
+      <Filter>Source Files\SourceProcessor\ASTBuilder</Filter>
     </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.cpp">
-      <Filter>Source Files\SourceProcessor\exceptions</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\designExtractions\DesignExtractor.cpp">
-      <Filter>Source Files\SourceProcessor\designExtractor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\SourceProcessor\designExtractions\EntityExtraction.cpp">
-      <Filter>Source Files\SourceProcessor\designExtractor</Filter>
+      <Filter>Source Files\SourceProcessor\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBStorage.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
@@ -150,11 +156,8 @@
     <ClCompile Include="..\source\QueryProcessingSubsystem\Validator\QueryParser.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Validator</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\TNode\TNode.cpp">
-      <Filter>Source Files\TNode</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.cpp">
-      <Filter>Source Files\SourceProcessor\astBuilder</Filter>
+      <Filter>Source Files\SourceProcessor\ASTBuilder</Filter>
     </ClCompile>
     <ClCompile Include="..\source\ProgramKnowledgeBase\PKBUtils.cpp">
       <Filter>Source Files\ProgramKnowledgeBase</Filter>
@@ -170,12 +173,6 @@
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\RelationEvaluator.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\PatternADT.cpp">
-      <Filter>Source Files\ProgramKnowledgeBase</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\ProgramKnowledgeBase\EntityADT.cpp">
-      <Filter>Source Files\ProgramKnowledgeBase</Filter>
     </ClCompile>
     <ClCompile Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\ClauseStrategyContext.cpp">
       <Filter>Source Files\QueryProcessingSubsystem\Executor\ClauseStrategy</Filter>
@@ -199,27 +196,63 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\parser\SimpleParser.cpp">
-      <Filter>Source Files\SourceProcessor\parser</Filter>
+      <Filter>Source Files\SourceProcessor\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\parser\SimpleToken.cpp">
-      <Filter>Source Files\SourceProcessor\parser</Filter>
+      <Filter>Source Files\SourceProcessor\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\source\SourceProcessor\parser\SimpleTokenizer.cpp">
-      <Filter>Source Files\SourceProcessor\parser</Filter>
+      <Filter>Source Files\SourceProcessor\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\TNode\TNode.cpp">
+      <Filter>Source Files\SourceProcessor\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\Visitor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\SetLineNumberVisitor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\DesignExtractor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ProgramKnowledgeBase\ADT\EntityADT.cpp">
+      <Filter>Source Files\ProgramKnowledgeBase\ADT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ProgramKnowledgeBase\ADT\PatternADT.cpp">
+      <Filter>Source Files\ProgramKnowledgeBase\ADT</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractNextVisitor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractEntitiesVisitor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractCallsVisitor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractModifiesVisitor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractUsesVisitor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractFollowsVisitor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractParentVisitor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractPatternVisitor.cpp">
+      <Filter>Source Files\SourceProcessor\DesignExtractor\Visitor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\SourceProcessor\astBuilder\SimpleAstBuilder.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
+      <Filter>Header Files\SourceProcessor\ASTBuilder</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\exceptions\SimpleInvalidSyntaxException.h">
-      <Filter>Header Files\SourceProcessor\exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\designExtractions\DesignExtractor.h">
-      <Filter>Header Files\SourceProcessor\designExtractor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\SourceProcessor\designExtractions\EntityExtraction.h">
-      <Filter>Header Files\SourceProcessor\designExtractor</Filter>
+      <Filter>Header Files\SourceProcessor\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="..\source\ProgramKnowledgeBase\PKBStorage.h">
       <Filter>Header Files\ProgramKnowledgeBase</Filter>
@@ -248,11 +281,8 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Validator\QueryBuilder.h">
       <Filter>Header Files\QueryProcessingSubsystem\Validator</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\TNode\TNode.h">
-      <Filter>Header Files\TNode</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\astBuilder\ArithmeticParser.h">
-      <Filter>Header Files\SourceProcessor\astBuilder</Filter>
+      <Filter>Header Files\SourceProcessor\ASTBuilder</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Declaration.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
@@ -287,17 +317,11 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Reference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationADT.h">
-      <Filter>Header Files\ProgramKnowledgeBase</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\AttrReference.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\With.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\PatternADT.h">
-      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\ClauseStrategy\ClauseStrategyContext.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\ClauseStrategy</Filter>
@@ -317,9 +341,6 @@
     <ClInclude Include="..\source\QueryProcessingSubsystem\Result.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\EntityADT.h">
-      <Filter>Header Files\ProgramKnowledgeBase</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\AffectsRelationEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
     </ClInclude>
@@ -328,9 +349,6 @@
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\Executor\SuchThat\NextTRelationEvaluator.h">
       <Filter>Header Files\QueryProcessingSubsystem\Executor\SuchThat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ProgramKnowledgeBase\RelationCacheADT.h">
-      <Filter>Header Files\ProgramKnowledgeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryProcessingSubsystem\ClausePrioritizer.h">
       <Filter>Header Files\QueryProcessingSubsystem</Filter>
@@ -342,13 +360,61 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\parser\SimpleParser.h">
-      <Filter>Header Files\SourceProcessor\parser</Filter>
+      <Filter>Header Files\SourceProcessor\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\parser\SimpleToken.h">
-      <Filter>Header Files\SourceProcessor\parser</Filter>
+      <Filter>Header Files\SourceProcessor\Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\source\SourceProcessor\parser\SimpleTokenizer.h">
-      <Filter>Header Files\SourceProcessor\parser</Filter>
+      <Filter>Header Files\SourceProcessor\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\TNode\TNode.h">
+      <Filter>Header Files\SourceProcessor\TNode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\Visitor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\SetLineNumberVisitor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\DesignExtractor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\ADT\EntityADT.h">
+      <Filter>Header Files\ProgramKnowledgeBase\ADT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\ADT\PatternADT.h">
+      <Filter>Header Files\ProgramKnowledgeBase\ADT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\ADT\RelationADT.h">
+      <Filter>Header Files\ProgramKnowledgeBase\ADT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProgramKnowledgeBase\ADT\RelationCacheADT.h">
+      <Filter>Header Files\ProgramKnowledgeBase\ADT</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractNextVisitor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractEntitiesVisitor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractCallsVisitor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractModifiesVisitor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractUsesVisitor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractFollowsVisitor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractParentVisitor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\SourceProcessor\DesignExtractor\Visitor\ExtractPatternVisitor.h">
+      <Filter>Header Files\SourceProcessor\DesignExtractor\Visitor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

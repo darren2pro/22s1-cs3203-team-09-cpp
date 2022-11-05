@@ -7,7 +7,7 @@
 #include <vector>
 #include "SimpleTokenizer.h"
 #include "SimpleToken.h"
-#include "../exceptions/SimpleInvalidSyntaxException.h"
+#include "../Exceptions/SimpleInvalidSyntaxException.h"
 
 using namespace std;
 

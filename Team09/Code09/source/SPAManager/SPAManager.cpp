@@ -1,7 +1,7 @@
 #include "SPAManager.h"
-#include "../TNode/TNode.h"
+#include "../SourceProcessor/TNode/TNode.h"
 #include "../QueryProcessingSubsystem/Validator/QueryBuilder.h"
-#include "../SourceProcessor/designExtractions/DesignExtractor.h"
+#include "../SourceProcessor/DesignExtractor/DesignExtractor.h"
 #include "../SourceProcessor/SimpleInterface.h"
 
 using namespace std;

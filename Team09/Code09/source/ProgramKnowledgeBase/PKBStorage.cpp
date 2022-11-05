@@ -1,14 +1,6 @@
 #include "PKBStorage.h"
 
 namespace PKB {
-    LineNum PKBStorage::getCurrLineNumber() {
-        return std::to_string(lineNum);
-    }
-
-    void PKBStorage::incrementCurrLineNumber() {
-        lineNum += 1;
-    }
-
     RelationADT<std::string, std::string>* PKBStorage::getRelationFromEnum(Relation::Types type) {
         switch (type) {
         case Relation::ModifiesS:
@@ -100,47 +92,6 @@ namespace PKB {
     PKBStorage::PKBStorage() {}
 
     PKBStorage::~PKBStorage() {}
-
-    void PKBStorage::storeLineCallsProc(LineNum lineNum, Procedure proc) {
-        std::pair<LineNum, Procedure> pair = std::make_pair(lineNum, proc);
-        lineCallsProcSet.insert(pair);
-    }
-
-    std::unordered_set<std::pair<LineNum, Procedure>, pairHash> PKBStorage::getLineCallsProc() {
-        return lineCallsProcSet;
-    }
-
-    LineNum PKBStorage::storeLine(const Stmt node) {
-        const LineNum currLineNum = getCurrLineNumber();
-        storeEntity(Declaration::Statement, currLineNum);
-        incrementCurrLineNumber();
-        std::visit(
-                [this, currLineNum](const auto& s) {
-                    //lineToNodeMap[currLineNum] = s;
-                    nodeToLineMap[s] = currLineNum;
-                },
-                node);
-
-        return currLineNum;
-    }
-
-    LineNum PKBStorage::getLineFromNode(const Stmt node) {
-        return std::visit(
-                [this](const auto& s) {
-                    if (nodeToLineMap.find(s) != nodeToLineMap.end()) {
-                        return nodeToLineMap.at(s);
-                    }
-                },
-                node);
-    }
-
-    void PKBStorage::storeLineToProcedure(const LineNum lineNum, const Procedure proc) {
-        lineToProcMap[lineNum] = proc;
-    }
-
-    Procedure PKBStorage::getProcedureFromLine(const LineNum lineNum) {
-        return lineToProcMap.at(lineNum);
-    }
 
     void PKBStorage::storeEntity(Declaration::DesignEntity type, const std::string value) {
         auto entity = getEntityFromEnum(type);

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include <vector>
-#include "SourceProcessor/parser/SimpleToken.h"
-#include "SourceProcessor/parser/SimpleParser.h"
+#include "SourceProcessor/Parser/SimpleToken.h"
+#include "SourceProcessor/Parser/SimpleParser.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

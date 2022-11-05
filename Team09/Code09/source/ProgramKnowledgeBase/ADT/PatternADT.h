@@ -2,8 +2,8 @@
 
 #include <unordered_map>
 #include <unordered_set>
-#include "PKBUtils.h"
-#include "../SourceProcessor/SimpleInterface.h"
+#include "../PKBUtils.h"
+#include "../../SourceProcessor/SimpleInterface.h"
 
 namespace PKB {
 	class PatternADT {

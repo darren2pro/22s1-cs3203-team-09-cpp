@@ -6,11 +6,11 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "PKBUtils.h"
-#include "PatternADT.h"
-#include "RelationADT.h"
-#include "RelationCacheADT.h"
-#include "EntityADT.h"
-#include "../TNode/TNode.h"
+#include "ADT/PatternADT.h"
+#include "ADT/RelationADT.h"
+#include "ADT/RelationCacheADT.h"
+#include "ADT/EntityADT.h"
+#include "../SourceProcessor/TNode/TNode.h"
 #include "../QueryProcessingSubsystem/Declaration.h"
 #include "../QueryProcessingSubsystem/Relation.h"
 #include "../QueryProcessingSubsystem/Pattern.h"
@@ -20,19 +20,10 @@
 namespace PKB {
     class PKBStorage {
     private:
-        int lineNum = 1; //move to DE
-        std::unordered_map<std::shared_ptr<TNode>, LineNum> nodeToLineMap; //move to DE
-        std::unordered_map<LineNum, Procedure> lineToProcMap; //move to DE
-
-        LineNum getCurrLineNumber(); //move to DE
-        void incrementCurrLineNumber(); //move to DE
-
         RelationADT<std::string, std::string>* getRelationFromEnum(Relation::Types);
         EntityADT* getEntityFromEnum(Declaration::DesignEntity);
         PatternADT* getPatternFromEnum(Pattern::Types);
         RelationCacheADT<std::string, std::string>* getCacheFromEnum(Relation::Types);
-
-        std::unordered_set<std::pair<LineNum, Procedure>, pairHash> lineCallsProcSet; //move to DE
 
         //entity set
         EntityADT varEntity;
@@ -73,15 +64,6 @@ namespace PKB {
 
         PKBStorage();
         ~PKBStorage();
-
-        void storeLineCallsProc(LineNum lineNum, Procedure proc); //move to DE
-        std::unordered_set<std::pair<LineNum, Procedure>, pairHash> getLineCallsProc(); //move to DE
-
-        //line number API
-        LineNum storeLine(const Stmt node); //move to DE
-        LineNum getLineFromNode(const Stmt node); //move to DE
-        void storeLineToProcedure(const LineNum lineNum, const Procedure proc); //move to DE
-        Procedure getProcedureFromLine(const LineNum lineNum); //move to DE
 
         //store entities API
         void storeEntity(Declaration::DesignEntity entity, const std::string value);

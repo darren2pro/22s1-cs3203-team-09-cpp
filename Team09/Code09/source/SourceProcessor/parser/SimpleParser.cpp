@@ -2,9 +2,8 @@
 
 #include "SimpleParser.h"
 #include "SimpleTokenizer.h"
-#include "../astBuilder/SimpleAstBuilder.h"
-#include "../designExtractions/DesignExtractor.h"
-#include "../exceptions/SimpleInvalidSyntaxException.h"
+#include "../ASTBuilder/SimpleAstBuilder.h"
+#include "../Exceptions/SimpleInvalidSyntaxException.h"
 
 using namespace std;
 

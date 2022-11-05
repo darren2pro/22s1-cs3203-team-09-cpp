@@ -1,5 +1,5 @@
 #include "ArithmeticParser.h"
-#include "../exceptions/SimpleInvalidSyntaxException.h"
+#include "../Exceptions/SimpleInvalidSyntaxException.h"
 #include <string>
 
 SimpleToken* ArithmeticParser::advance() {

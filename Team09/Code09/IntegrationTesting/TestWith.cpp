@@ -76,10 +76,89 @@ namespace IntegrationTesting {
             }
 
             public:
-            TEST_METHOD(TestWith1) {
-                string program = getCurrentProgram(1);
+            TEST_METHOD(TestRepeatedProcedureNames) {
+                string program = "procedure repeat {\n"
+                                 "        read x;\n"
+                                 "        print y;\n"
+                                 "}\n"
+                                 "\n"
+                                 "procedure repeat {\n"
+                                 "        read y;\n"
+                                 "        print x;\n"
+                                 "}\n";
                 SPAManager spaManager;
-                spaManager.loadSimpleSourceFromProgram(program);
+                try {
+                    spaManager.loadSimpleSourceFromProgram(program);
+                    Assert::Fail(L"Expected exception because of repeated procedure names");
+                } catch (SemanticError &e) {
+                    Logger::WriteMessage("Repeated procedure names throws semantic error correctly.");
+                    Logger::WriteMessage(e.what());
+                }
+            }
+
+            TEST_METHOD(TestCyclicCalls) {
+                string program = "procedure A {\n"
+                                 "        read x;\n"
+                                 "        print y;\n"
+                                 "        call B;\n"
+                                 "}\n"
+                                 "\n"
+                                 "procedure B {\n"
+                                 "        read y;\n"
+                                 "        print x;\n"
+                                 "        call C;\n"
+                                 "}\n"
+                                 "\n"
+                                 "procedure C {\n"
+                                 "        read z;\n"
+                                 "        print z;\n"
+                                 "        call A;\n"
+                                 "}\n";
+                SPAManager spaManager;
+                try {
+                    spaManager.loadSimpleSourceFromProgram(program);
+                    Assert::Fail(L"Expected exception because of cyclic calls");
+                } catch (SemanticError &e) {
+                    Logger::WriteMessage("Cyclic calls throws semantic error correctly.");
+                    Logger::WriteMessage(e.what());
+                }
+            }
+
+            TEST_METHOD(TestCallingOwnself) {
+                string program = "procedure A {\n"
+                                 "        read x;\n"
+                                 "        print y;\n"
+                                 "        call A;\n"
+                                 "}\n";
+                SPAManager spaManager;
+                try {
+                    spaManager.loadSimpleSourceFromProgram(program);
+                    Assert::Fail(L"Expected exception because of calling ownself");
+                } catch (SemanticError &e) {
+                    Logger::WriteMessage("Calling ownself throws semantic error correctly.");
+                    Logger::WriteMessage(e.what());
+                }
+            }
+
+            TEST_METHOD(TestsCallingNonExistentProcedure) {
+                string program = "procedure A {\n"
+                                 "        read x;\n"
+                                 "        print y;\n"
+                                 "        call D;\n"
+                                 "}\n"
+                                 "\n"
+                                 "procedure B {\n"
+                                 "        read y;\n"
+                                 "        print x;\n"
+                                 "}\n";
+                SPAManager spaManager;
+                try {
+                    spaManager.loadSimpleSourceFromProgram(program);
+                    Assert::Fail(L"Expected exception because of calling non-existent procedure");
+                } catch (SemanticError &e) {
+                    Logger::WriteMessage("Calling non-existent procedure throws semantic error correctly.");
+                    Logger::WriteMessage(e.what());
+                }
             }
     };
 }

@@ -65,7 +65,10 @@ namespace IntegrationTesting {
                                   "                                x = x * y + z; }\n" // line 12
                                   "procedure Third {\n"
                                   "        call Fourth;\n" // line 13
-                                  "}\n  ";
+                                  "}\n"
+                                  "procedure Fourth {\n"
+                                  "        print mod4;\n"
+                                  "}\n";
                 switch (ref) {
                     case 1:
                         return program1;

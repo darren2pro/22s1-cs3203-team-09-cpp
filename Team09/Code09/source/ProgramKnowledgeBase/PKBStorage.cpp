@@ -1,4 +1,5 @@
 #include "PKBStorage.h"
+#include "../QueryProcessingSubsystem/Validator/SemanticException.h"
 
 namespace PKB {
     LineNum PKBStorage::getCurrLineNumber() {
@@ -157,7 +158,16 @@ namespace PKB {
 
     void PKBStorage::storeRelations(Relation::Types type, std::string first, std::string second) {
         auto relation = getRelationFromEnum(type);
-        relation->add(first, second);
+        if (type == Relation::Calls) {
+            //! Ensure that we are calling an existent procedure. If not throw error.
+            if (procEntity.contains(second)) {
+                relation->add(first, second);
+            } else {
+                throw SemanticError("Calling a non-existent procedure.");
+            }
+        } else {
+            relation->add(first, second);
+        }
     }
 
     void PKBStorage::storePatterns(Pattern::Types type, const Variable var, const LineNum line, const ExprStr expr) {

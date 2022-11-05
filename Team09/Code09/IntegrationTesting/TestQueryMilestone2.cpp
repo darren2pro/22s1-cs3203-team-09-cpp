@@ -59,7 +59,10 @@ namespace IntegrationTesting {
                                   "    mod3 = var1 + 1 * 100 - var2;\n" // line 5
                                   "    call read1;\n" // line 6
                                   "    mod4 = var1 + 1 * 100 - var2;\n" // line 7
-                                  "}";
+                                  "}\n"
+                                  "procedure read1 {\n"
+                                  "        print mod4;\n"
+                                  "}\n";
                 // You can add more program strings here and add more switch cases here
                 switch (ref) {
                     case 1:
@@ -950,10 +953,11 @@ namespace IntegrationTesting {
                 string query12 = "variable v, v1; stmt s; assign aa; if ii; while www, w1; procedure ppp;\n"
                                  "Select ppp  such that    Modifies(2, \"var2\")   pattern aa(\"var2\", _)";
                 unordered_set<string> results12 = spaManager.query(query12);
-                // Expected results: read, call
-                Assert::AreEqual(2, (int) results12.size(), L"Query 12 fails");
+                // Expected results: read, call, read1
+                Assert::AreEqual(3, (int) results12.size(), L"Query 12 fails");
                 Assert::IsTrue(results12.find("read") != results12.end());
                 Assert::IsTrue(results12.find("call") != results12.end());
+				Assert::IsTrue(results12.find("read1") != results12.end());
             }
 
             TEST_METHOD(TestPatternMatchPartial) {
@@ -970,7 +974,10 @@ namespace IntegrationTesting {
                                  "    call read1;\n" // line 6
                                  "    mod4 = var1 + 1 * 100 - var2;\n" // line 7
                                  "    mod4 = 1;\n" // line 8
-                                 "}";
+                                 "}\n"
+                                 "procedure read1 {\n"
+                                 "        print mod4;\n"
+                                 "}\n";
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);
 

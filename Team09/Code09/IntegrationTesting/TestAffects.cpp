@@ -63,8 +63,8 @@ namespace IntegrationTesting {
                                   "                                y = z + 2;\n" // line 11
                                   "                                x = x * y + z; }\n" // line 12
                                   "procedure Third {\n"
-                                  "        call Fourth;\n" // line 13
-                                  "}\n  ";
+                                  "        print x;\n" // line 13
+                                  "}\n";
 
                 switch (ref) {
                     case 1:
@@ -615,12 +615,11 @@ namespace IntegrationTesting {
                 string query25 = "assign a1, a2; stmt ss1, ss2; if ifs1, ifs2; procedure p; call cc1, cc2; \n "
                                  "Select <a2, cc2, a1, cc2.stmt#> such that Affects*(9, 12) with 10 = a1.stmt# and 11 = a2.stmt# with 1 = 1";
                 /*
-                 * Expected results: 10 5 11 5, 10 13 11 13
+                 * Expected results: 10 5 11 5
                  */
                 unordered_set<string> result25 = spaManager.query(query25);
-                Assert::AreEqual(2, (int) result25.size());
+                Assert::AreEqual(1, (int) result25.size());
                 Assert::IsTrue(result25.find("11 5 10 5") != result25.end());
-                Assert::IsTrue(result25.find("11 13 10 13") != result25.end());
             }
 
             TEST_METHOD(TestAffects26) {
@@ -632,12 +631,11 @@ namespace IntegrationTesting {
                 string query26 = "assign a1, a2; stmt ss1, ss2; if ifs1, ifs2; procedure p; call cc1, cc2; \n "
                                  "Select <a1, a2, cc2.procName> such that Affects*(9, 12) with 10 = a1.stmt# and 11   = a2.stmt# with 1 = 1";
                 /*
-                 * Expected results: 10 11 Third, 10 11 Fourth
+                 * Expected results: 10 11 Third
                  */
                 unordered_set<string> result26 = spaManager.query(query26);
-                Assert::AreEqual(2, (int) result26.size());
+                Assert::AreEqual(1, (int) result26.size());
                 Assert::IsTrue(result26.find("10 11 Third") != result26.end());
-                Assert::IsTrue(result26.find("10 11 Fourth") != result26.end());
             }
 
             TEST_METHOD(TestAffects27) {

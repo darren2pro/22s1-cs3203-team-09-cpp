@@ -246,6 +246,9 @@ namespace UnitTesting {
                                  "                }\n"
                                  "            }\n"
                                  "        }\n"
+                                 "}\n"
+                                 "procedure AnotherProc {\n"
+                                 "        print z;\n"
                                  "}\n";
                 SPAManager spaManager;
                 spaManager.loadSimpleSourceFromProgram(program);

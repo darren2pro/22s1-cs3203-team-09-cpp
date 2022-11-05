@@ -169,6 +169,12 @@ namespace IntegrationTesting {
                                   "        print num2;\n" // line 14
                                   "    }\n"
                                   "    call newProc;\n" // line 15
+                                  "}\n"
+                                  "procedure num1 {\n"
+                                  "        print ll;\n"
+                                  "}\n"
+                                  "procedure newProc {\n"
+                                  "        print ll;\n"
                                   "}\n";
                 switch (ref) {
                     case 1:
@@ -650,8 +656,9 @@ namespace IntegrationTesting {
                 string query4 = "assign a; stmt s; while w; if i; variable v; print pp;\n"
                                 "Select v such that Uses(\"newProc\", v)";
                 unordered_set<string> queryResults4 = spaManager.query(query4);
-                // Expected results: empty set
-                Assert::AreEqual(0, (int) queryResults4.size(), L"Query 4 fails");
+                // Expected results: ll
+                Assert::AreEqual(1, (int) queryResults4.size(), L"Query 4 fails");
+				Assert::IsTrue(queryResults4.find("ll") != queryResults4.end(), L"Query 4 fails");
             }
 
             TEST_METHOD(TestNextNextTPartFour5) {

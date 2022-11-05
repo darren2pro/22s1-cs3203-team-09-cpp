@@ -13,6 +13,7 @@
 DesignExtractor::~DesignExtractor() {}
 
 void DesignExtractor::extractDesignAbstractions(const std::shared_ptr<ProgramNode> astRoot) {
+    Visitor* visitor = new Visitor(pkbFacade);
     SetLineNumberVisitor* setLineNumberVisitor = new SetLineNumberVisitor(pkbFacade);
     ExtractNextVisitor* extractNextVisitor = new ExtractNextVisitor(pkbFacade);
     ExtractEntitiesVisitor* extractEntitiesVisitor = new ExtractEntitiesVisitor(pkbFacade);
@@ -33,6 +34,8 @@ void DesignExtractor::extractDesignAbstractions(const std::shared_ptr<ProgramNod
     astRoot->accept(extractUsesVisitor);
     astRoot->accept(extractPatternVisitor);
 
+    visitor->reset();
+
     delete setLineNumberVisitor;
     delete extractNextVisitor;
     delete extractEntitiesVisitor;
@@ -42,4 +45,5 @@ void DesignExtractor::extractDesignAbstractions(const std::shared_ptr<ProgramNod
     delete extractModifiesVisitor;
     delete extractUsesVisitor;
     delete extractPatternVisitor;
+    delete visitor;
 }

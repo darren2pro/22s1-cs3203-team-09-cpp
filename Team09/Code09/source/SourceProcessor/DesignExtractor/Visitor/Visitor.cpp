@@ -2,6 +2,11 @@
 
 Visitor::Visitor(PKB::PKBStorage* pkb) : pkbStorage(pkb) {};
 Visitor::~Visitor() {}
+void Visitor::reset() {
+    nodeToLineMap.clear();
+    lineToProcMap.clear();
+    lineCallsProcSet.clear();
+}
 
 std::unordered_map<std::shared_ptr<TNode>, PKB::LineNum> Visitor::nodeToLineMap;
 std::unordered_map<PKB::LineNum, PKB::Procedure> Visitor::lineToProcMap;

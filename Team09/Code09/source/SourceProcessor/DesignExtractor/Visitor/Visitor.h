@@ -20,6 +20,7 @@ public:
 
     Visitor(PKB::PKBStorage* pkb);
     ~Visitor();
+    void reset();
 
     virtual void visitProgramNode(std::shared_ptr<ProgramNode>);
     virtual void visitProcedureNode(std::shared_ptr<ProcedureNode>);

@@ -1,7 +1,7 @@
 #include "SimpleInterface.h"
-#include "parser/SimpleParser.h"
-#include "parser/SimpleTokenizer.h"
-#include "astBuilder/ArithmeticParser.h"
+#include "Parser/SimpleParser.h"
+#include "Parser/SimpleTokenizer.h"
+#include "ASTBuilder/ArithmeticParser.h"
 
 using namespace std;
 

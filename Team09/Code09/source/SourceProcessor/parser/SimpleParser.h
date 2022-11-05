@@ -6,7 +6,7 @@
 #include <cctype>
 
 #include "SimpleToken.h"
-#include "../../TNode/TNode.h"
+#include "../TNode/TNode.h"
 
 using namespace std;
 

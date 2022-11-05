@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include <SourceProcessor/SimpleInterface.h>
-#include "SourceProcessor/parser/SimpleParser.h"
-#include <SourceProcessor/astBuilder/SimpleAstBuilder.h>
-#include <SourceProcessor/exceptions/SimpleInvalidSyntaxException.h>
+#include "SourceProcessor/Parser/SimpleParser.h"
+#include <SourceProcessor/ASTBuilder/SimpleAstBuilder.h>
+#include <SourceProcessor/Exceptions/SimpleInvalidSyntaxException.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;

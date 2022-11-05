@@ -1,5 +1,5 @@
 #include "TestWrapper.h"
-#include "SourceProcessor/parser/SimpleParser.h"
+#include "SourceProcessor/Parser/SimpleParser.h"
 #include <sstream>
 #include <string>
 #include <fstream>
@@ -9,7 +9,7 @@
 #include "../source/QueryProcessingSubsystem/Validator/QueryBuilder.h"
 #include "../source/QueryProcessingSubsystem/Validator/SyntaxException.h"
 #include "../source/QueryProcessingSubsystem/Validator/SemanticException.h"
-#include "SourceProcessor/exceptions/SimpleInvalidSyntaxException.h"
+#include "SourceProcessor/Exceptions/SimpleInvalidSyntaxException.h"
 
 // implementation code of WrapperFactory - do NOT modify the next 5 lines
 AbstractWrapper* WrapperFactory::wrapper = 0;

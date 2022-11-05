@@ -5,6 +5,7 @@
 #include <variant>
 #include <vector>
 
+class Visitor;
 class TNode;
 class ProgramNode;
 class ProcedureNode;
@@ -55,75 +56,84 @@ public:
     virtual ~TNode() = default;
     virtual bool operator==(const TNode& other) const = 0;
     virtual std::string toString() const = 0;
+    virtual void accept(Visitor* v) = 0;
 };
 
-class ProgramNode : public TNode {
+class ProgramNode : public TNode, public std::enable_shared_from_this<ProgramNode> {
 public:
     std::vector<ProcedureNodePtr> procList;
     explicit ProgramNode(std::vector<ProcedureNodePtr> procList);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class ProcedureNode : public TNode {
+class ProcedureNode : public TNode, public std::enable_shared_from_this<ProcedureNode> {
 public:
     std::string procName;
     StmtLst stmtList;
     explicit ProcedureNode(const std::string procName, StmtLst stmtList);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class ConstantNode : public TNode {
+class ConstantNode : public TNode, public std::enable_shared_from_this<ConstantNode> {
 public:
     std::string value;
     explicit ConstantNode(const std::string value);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class VariableNode : public TNode {
+class VariableNode : public TNode, public std::enable_shared_from_this<VariableNode> {
 public:
     std::string varName;
     explicit VariableNode(const std::string varName);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class AssignmentNode : public TNode {
+class AssignmentNode : public TNode, public std::enable_shared_from_this<AssignmentNode> {
 public:
     VariableNodePtr var;
     Expr expr;
     explicit AssignmentNode(VariableNodePtr var, Expr expr);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class CallNode : public TNode {
+class CallNode : public TNode, public std::enable_shared_from_this<CallNode> {
 public:
     ProcedureNodePtr proc;
     explicit CallNode(ProcedureNodePtr proc);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class PrintNode : public TNode {
+class PrintNode : public TNode, public std::enable_shared_from_this<PrintNode> {
 public:
     VariableNodePtr var;
     explicit PrintNode(VariableNodePtr var);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class ReadNode : public TNode {
+class ReadNode : public TNode, public std::enable_shared_from_this<ReadNode> {
 public:
     VariableNodePtr var;
     explicit ReadNode(VariableNodePtr var);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class IfNode : public TNode {
+class IfNode : public TNode, public std::enable_shared_from_this<IfNode> {
 public:
     CondExprNodePtr condExpr;
     StmtLst thenStmtList;
@@ -132,18 +142,20 @@ public:
                     StmtLst thenStmtList, StmtLst elseStmtList);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class WhileNode : public TNode {
+class WhileNode : public TNode, public std::enable_shared_from_this<WhileNode> {
 public:
     CondExprNodePtr condExpr;
     StmtLst stmtList;
     explicit WhileNode(CondExprNodePtr condExpr, StmtLst stmtList);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class BinOpNode : public TNode {
+class BinOpNode : public TNode, public std::enable_shared_from_this<BinOpNode> {
 public:
     std::string op;
     Expr leftExpr;
@@ -151,9 +163,10 @@ public:
     explicit BinOpNode(std::string op, Expr leftExpr, Expr rightExpr);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class CondExprNode : public TNode {
+class CondExprNode : public TNode, public std::enable_shared_from_this<CondExprNode> {
 public:
     //! Simple relational expr e.g. (1 >= 6 % 4)
     RelExprNodePtr relExpr = nullptr;
@@ -175,9 +188,10 @@ public:
 
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };
 
-class RelExprNode : public TNode {
+class RelExprNode : public TNode, public std::enable_shared_from_this<RelExprNode> {
 public:
     std::string op;
     Expr leftRel;
@@ -185,4 +199,5 @@ public:
     explicit RelExprNode(std::string op, Expr leftRel, Expr rightRel);
     bool operator==(const TNode& other) const override;
     std::string toString() const override;
+    void accept(Visitor* v) override;
 };

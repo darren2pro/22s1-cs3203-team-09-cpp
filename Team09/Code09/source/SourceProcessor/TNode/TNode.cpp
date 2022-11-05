@@ -1,4 +1,5 @@
 #include "TNode.h"
+#include "../DesignExtractor/Visitor/Visitor.h"
 
 ProgramNode::ProgramNode(std::vector<ProcedureNodePtr> procList) :
         procList(std::move(procList)) {}
@@ -23,6 +24,11 @@ std::string ProgramNode::toString() const {
     result += ")";
     return result;
 };
+
+void ProgramNode::accept(Visitor* v) {
+    std::shared_ptr<ProgramNode> node{shared_from_this()};
+    v->visitProgramNode(node);
+}
 
 ProcedureNode::ProcedureNode(const std::string procName, StmtLst stmtList) :
         procName(procName), stmtList(std::move(stmtList)) {}
@@ -51,6 +57,11 @@ std::string ProcedureNode::toString() const {
     return result;
 };
 
+void ProcedureNode::accept(Visitor* v) {
+    std::shared_ptr<ProcedureNode> node{ shared_from_this() };
+    v->visitProcedureNode(node);
+}
+
 ConstantNode::ConstantNode(const std::string value) : value(value) {}
 
 bool ConstantNode::operator==(const TNode& other) const {
@@ -65,6 +76,11 @@ std::string ConstantNode::toString() const {
     return "ConstantNode(" + value + ")";
 };
 
+void ConstantNode::accept(Visitor* v) {
+    std::shared_ptr<ConstantNode> node{ shared_from_this() };
+    v->visitConstantNode(node);
+}
+
 VariableNode::VariableNode(const std::string varName) : varName(varName) {}
 
 bool VariableNode::operator==(const TNode& other) const {
@@ -78,6 +94,11 @@ bool VariableNode::operator==(const TNode& other) const {
 std::string VariableNode::toString() const {
     return "VariableNode(" + varName + ")";
 };
+
+void VariableNode::accept(Visitor* v) {
+    std::shared_ptr<VariableNode> node{ shared_from_this() };
+    v->visitVariableNode(node);
+}
 
 AssignmentNode::AssignmentNode(VariableNodePtr var, Expr expr) :
         var(std::move(var)), expr(std::move(expr)) {}
@@ -100,6 +121,11 @@ std::string AssignmentNode::toString() const {
     return result;
 };
 
+void AssignmentNode::accept(Visitor* v) {
+    std::shared_ptr<AssignmentNode> node{ shared_from_this() };
+    v->visitAssignmentNode(node);
+}
+
 CallNode::CallNode(ProcedureNodePtr proc) : proc(std::move(proc)) {}
 
 bool CallNode::operator==(const TNode& other) const {
@@ -117,6 +143,11 @@ std::string CallNode::toString() const {
     return "CallNode(procNode:" + proc->procName + ")";
 };
 
+void CallNode::accept(Visitor* v) {
+    std::shared_ptr<CallNode> node{ shared_from_this() };
+    v->visitCallNode(node);
+}
+
 PrintNode::PrintNode(VariableNodePtr var) : var(std::move(var)) {}
 
 bool PrintNode::operator==(const TNode& other) const {
@@ -131,6 +162,11 @@ std::string PrintNode::toString() const {
     return "PrintNode(" + var->toString() + ")";
 };
 
+void PrintNode::accept(Visitor* v) {
+    std::shared_ptr<PrintNode> node{ shared_from_this() };
+    v->visitPrintNode(node);
+}
+
 ReadNode::ReadNode(VariableNodePtr var) : var(std::move(var)) {}
 
 bool ReadNode::operator==(const TNode& other) const {
@@ -144,6 +180,11 @@ bool ReadNode::operator==(const TNode& other) const {
 std::string ReadNode::toString() const {
     return "ReadNode(" + var->toString() + ")";
 };
+
+void ReadNode::accept(Visitor* v) {
+    std::shared_ptr<ReadNode> node{ shared_from_this() };
+    v->visitReadNode(node);
+}
 
 IfNode::IfNode(CondExprNodePtr condExpr, StmtLst thenStmtList,
                StmtLst elseStmtList) : condExpr(std::move(condExpr)),
@@ -186,6 +227,11 @@ std::string IfNode::toString() const {
     return result;
 };
 
+void IfNode::accept(Visitor* v) {
+    std::shared_ptr<IfNode> node{ shared_from_this() };
+    v->visitIfNode(node);
+}
+
 WhileNode::WhileNode(CondExprNodePtr condExpr, StmtLst stmtList) :
         condExpr(std::move(condExpr)), stmtList(std::move(stmtList)) {}
 
@@ -213,6 +259,11 @@ std::string WhileNode::toString() const {
     return result;
 };
 
+void WhileNode::accept(Visitor* v) {
+    std::shared_ptr<WhileNode> node{ shared_from_this() };
+    v->visitWhileNode(node);
+}
+
 BinOpNode::BinOpNode(std::string op, Expr leftExpr, Expr rightExpr) :
         op(op), leftExpr(std::move(leftExpr)), rightExpr(std::move(rightExpr)) {}
 
@@ -236,6 +287,11 @@ std::string BinOpNode::toString() const {
     result += std::visit([](const auto& e) { return e->toString(); }, rightExpr) + ")";
     return result;
 };
+
+void BinOpNode::accept(Visitor* v) {
+    std::shared_ptr<BinOpNode> node{ shared_from_this() };
+    v->visitBinOpNode(node);
+}
 
 CondExprNode::CondExprNode(RelExprNodePtr relExpr) : relExpr(std::move(relExpr)) {};
 
@@ -276,6 +332,11 @@ std::string CondExprNode::toString() const {
     return result;
 };
 
+void CondExprNode::accept(Visitor* v) {
+    std::shared_ptr<CondExprNode> node{ shared_from_this() };
+    v->visitCondExprNode(node);
+}
+
 RelExprNode::RelExprNode(std::string op, Expr leftRel, Expr rightRel) :
         op(op), leftRel(std::move(leftRel)), rightRel(std::move(rightRel)) {}
 
@@ -299,3 +360,8 @@ std::string RelExprNode::toString() const {
     result += std::visit([](const auto& e) { return e->toString(); }, rightRel) + ")";
     return result;
 };
+
+void RelExprNode::accept(Visitor* v) {
+    std::shared_ptr<RelExprNode> node{ shared_from_this() };
+    v->visitRelExprNode(node);
+}

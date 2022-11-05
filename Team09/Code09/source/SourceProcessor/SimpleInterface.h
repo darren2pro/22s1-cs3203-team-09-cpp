@@ -3,7 +3,7 @@
 #include <sstream>
 #include <string>
 #include <fstream>
-#include "../TNode/TNode.h"
+#include "../SourceProcessor/TNode/TNode.h"
 
 using namespace std;
 

@@ -91,7 +91,7 @@ namespace IntegrationTesting {
                 auto durationOptimized = duration_cast<microseconds>(stop - start);
 
                 start = high_resolution_clock::now();
-                unordered_set<string> result1Unoptimized = spaManager.query(query1, false);
+                unordered_set<string> result1Unoptimized = spaManager.query(query1);
                 stop = high_resolution_clock::now();
                 auto durationUnoptimized = duration_cast<microseconds>(stop - start);
 
@@ -120,7 +120,7 @@ namespace IntegrationTesting {
                 auto durationOptimized = duration_cast<microseconds>(stop - start);
 
                 start = high_resolution_clock::now();
-                unordered_set<string> result2Unoptimized = spaManager.query(query2, false);
+                unordered_set<string> result2Unoptimized = spaManager.query(query2);
                 stop = high_resolution_clock::now();
                 auto durationUnoptimized = duration_cast<microseconds>(stop - start);
 
@@ -152,7 +152,7 @@ namespace IntegrationTesting {
                 auto durationOptimized = duration_cast<microseconds>(stop - start);
 
                 start = high_resolution_clock::now();
-                unordered_set<string> result3Unoptimized = spaManager.query(query3, false);
+                unordered_set<string> result3Unoptimized = spaManager.query(query3);
                 stop = high_resolution_clock::now();
                 auto durationUnoptimized = duration_cast<microseconds>(stop - start);
 
@@ -186,7 +186,7 @@ namespace IntegrationTesting {
                 auto durationOptimized = duration_cast<microseconds>(stop - start);
 
                 start = high_resolution_clock::now();
-                unordered_set<string> result4Unoptimized = spaManager.query(query4, false);
+                unordered_set<string> result4Unoptimized = spaManager.query(query4);
                 stop = high_resolution_clock::now();
                 auto durationUnoptimized = duration_cast<microseconds>(stop - start);
 
@@ -208,14 +208,14 @@ namespace IntegrationTesting {
                 //! is calculated on-the-fly. All other clauses should return some results so that we see whether
                 //! there are benefits of shifting the Affects/T execution to the last clause.
                 string query5 = "assign a, a1, a2; \n"
-                                "Select a2 such that Affects*(a2, 4) and Modifies(a, \"beingModified\") and Uses(a1, \"num1\") and Uses(a1, \"num2\")";
+                                "Select a2 such that Affects*(a2, 4) and Modifies(a, \"i\") and Uses(a1, \"z\") and Uses(a1, \"x\")";
                 auto start = high_resolution_clock::now();
                 unordered_set<string> result5Optimized = spaManager.query(query5);
                 auto stop = high_resolution_clock::now();
                 auto durationOptimized = duration_cast<microseconds>(stop - start);
 
                 start = high_resolution_clock::now();
-                unordered_set<string> result5Unoptimized = spaManager.query(query5, false);
+                unordered_set<string> result5Unoptimized = spaManager.query(query5);
                 stop = high_resolution_clock::now();
                 auto durationUnoptimized = duration_cast<microseconds>(stop - start);
 
@@ -250,7 +250,7 @@ namespace IntegrationTesting {
                 auto durationOptimized = duration_cast<microseconds>(stop - start);
 
                 start = high_resolution_clock::now();
-                unordered_set<string> result7Unoptimized = spaManager.query(query7, false);
+                unordered_set<string> result7Unoptimized = spaManager.query(query7);
                 stop = high_resolution_clock::now();
                 auto durationUnoptimized = duration_cast<microseconds>(stop - start);
 
@@ -280,7 +280,7 @@ namespace IntegrationTesting {
                 auto durationOptimized = duration_cast<microseconds>(stop - start);
 
                 start = high_resolution_clock::now();
-                unordered_set<string> result8Unoptimized = spaManager.query(query8, false);
+                unordered_set<string> result8Unoptimized = spaManager.query(query8);
                 stop = high_resolution_clock::now();
                 auto durationUnoptimized = duration_cast<microseconds>(stop - start);
 

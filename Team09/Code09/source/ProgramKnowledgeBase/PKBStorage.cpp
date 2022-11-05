@@ -32,7 +32,7 @@ namespace PKB {
         case Relation::AffectsT:
             return &affectTRelationCache;
         default:
-            return &RelationADT<std::string, std::string>();
+            return nullptr;
         }
     }
 
@@ -59,7 +59,7 @@ namespace PKB {
         case Declaration::Call:
             return &callEntity;
         default:
-            return &EntityADT();
+            return nullptr;
         }
     }
 
@@ -72,7 +72,7 @@ namespace PKB {
         case Pattern::While:
             return &whilePattern;
         default:
-            return &PatternADT();
+            return nullptr;
         }
     }
 
@@ -85,7 +85,7 @@ namespace PKB {
         case Relation::AffectsT:
             return &affectTRelationCache;
         default:
-            return &RelationCacheADT<std::string, std::string>();
+            return nullptr;
         }
     }
 
@@ -182,7 +182,7 @@ namespace PKB {
     // Pattern functions
     std::unordered_set<LineNum> PKBStorage::getPatternLineByVar(Pattern::Types type, const Variable var) {
         auto pattern = getPatternFromEnum(type);
-        return pattern->geLineByVar(var);
+        return pattern->getLineByVar(var);
     }
 
     std::unordered_set<LineNum> PKBStorage::getPatternLineByVarMatchFull(Pattern::Types type, const Variable var, const ExprStr expr) {

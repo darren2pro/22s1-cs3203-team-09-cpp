@@ -11,7 +11,7 @@
 #include "ClauseStrategy/WithStrategy.h"
 #include "../ClausePrioritizer.h"
 
-std::unordered_set<std::string> QueryExecutor::processQuery(Query* query, bool performOptimized) {
+std::unordered_set<std::string> QueryExecutor::processQuery(Query* query) {
     relations = query->relations;
 	pattern = query->patterns;
     with = query->withs;
@@ -19,13 +19,12 @@ std::unordered_set<std::string> QueryExecutor::processQuery(Query* query, bool p
 	target = query->target;
 	rdb = ResultsDatabase();
 
-	// TODO: For Darren.
     std::shared_ptr<WithStrategy> withStrat = std::make_shared<WithStrategy>(declarations, pkb);
     std::shared_ptr<PatternStrategy> patternStrat = std::make_shared<PatternStrategy>(declarations, pkb);
     std::shared_ptr<RelationStrategy> relationStrat = std::make_shared<RelationStrategy>(declarations, pkb);
     ClauseStrategyContext clauseStrategyContext(withStrat);
 
-    std::vector<Clause> clauses = ClausePrioritizer(query).getClauses(performOptimized);
+    std::vector<Clause> clauses = ClausePrioritizer(query).getClauses();
 
     for (auto& clause : clauses) {
         if (clause.isPattern()) {
@@ -75,9 +74,9 @@ std::unordered_set<std::string> QueryExecutor::getResultsFromRDB(Result result, 
     else if (result.isTuple()) {
         // get unique synonyms -> get unique results -> combine all unique results -> duplicate the columns based on target -> applyAttrVal to results.
         auto allSynonyms = result.target;
-        std::vector<std::string> uniqueSynonyms = getSynonyms(allSynonyms);
+        std::vector<std::string> uniqueSynonyms = getUniqueSynonyms(allSynonyms);
         std::vector<std::vector<std::string>> allResults = rdb.getMultipleTarget(uniqueSynonyms);
-        std::vector<std::vector<std::string>> combinedUniqueResults = combineResults(allResults);
+        std::vector<std::vector<std::string>> combinedUniqueResults = combineResults(allResults, uniqueSynonyms);
 
         return addDuplicateSynonymAndApplyAttrVal(combinedUniqueResults, uniqueSynonyms, allSynonyms);
     }
@@ -114,7 +113,7 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
             }
 
             if (seenMap.find(synonym) == seenMap.end()) {
-                // Never see before, add synonym to index mapping
+                // Add synonym to index mapping
                 auto it = std::find(uniqueSynonyms.begin(), uniqueSynonyms.end(), synonym);
                 auto idx = it - uniqueSynonyms.begin();
                 seenMap.insert({ synonym, idx });
@@ -125,7 +124,6 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
             }
             else {
                 // Already in seen, therefore this is a duplicate. Use the current index, get the duplicate values, insert straightaway.
-                // Iterate through the column
                 auto index = seenMap.find(synonym)->second;
                 for (int j = 0; j < allResults.size(); j++) {
                     auto currentRow = tempResults[j];
@@ -142,9 +140,12 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
 	for (int j = 0; j < allSynonyms.size(); j++) {
         auto target = allSynonyms[j];
 		if (auto val = std::get_if<AttrReference>(&target)) {
+            auto deType = val->declaration.Type;
+            auto attrType = val->attr;
 
-            if (val->declaration.Type == Declaration::DesignEntity::Procedure ||
-                val->declaration.Type == Declaration::DesignEntity::Statement ) {
+            if (!(deType == Declaration::DesignEntity::Call && attrType == AttrReference::Attribute::ProcName ||
+                deType == Declaration::DesignEntity::Read && attrType == AttrReference::Attribute::VarName ||
+                deType == Declaration::DesignEntity::Print && attrType == AttrReference::Attribute::VarName)) {
                 continue;
             }
 
@@ -160,7 +161,7 @@ std::unordered_set<std::string> QueryExecutor::addDuplicateSynonymAndApplyAttrVa
                 else {
                     newValue = seen.find(oldValue)->second;
                 }
-                // Replace the old value with the new attribute value
+
                 allResults[i][j] = newValue;
             }
 		}
@@ -181,7 +182,7 @@ void QueryExecutor::insertSynonymSetIntoRDB(Declaration decl, ResultsDatabase& r
 	rdb.insertList(decl.name, resultsFromPKB);
 }
 
-std::vector<std::string> QueryExecutor::getSynonyms(std::vector<std::variant<Declaration, AttrReference>>& targets) {
+std::vector<std::string> QueryExecutor::getUniqueSynonyms(std::vector<std::variant<Declaration, AttrReference>>& targets) {
     std::vector<std::string> allSynonyms;
     std::string synonym;
     std::unordered_set<std::string> set;
@@ -201,31 +202,63 @@ std::vector<std::string> QueryExecutor::getSynonyms(std::vector<std::variant<Dec
     return allSynonyms;
 }
 
-std::vector<std::vector<std::string>> QueryExecutor::combineResults(std::vector<std::vector<std::string>> allResults) {
+std::vector<std::vector<std::string>> QueryExecutor::combineResults(std::vector<std::vector<std::string>> allResults, std::vector<std::string> uniqueSynonyms) {
     // Within the string, the values are separated by comma
     std::vector<std::vector<std::string>> finalResults;
+
+    // Optimized slightly for 0 and 1 synonyms
     if (allResults.size() == 0) {
         return allResults;
     }
 
-    // Add the first row of results before starting to iterate.
-    for (auto& res : allResults[0]) {
-        std::vector<std::string> v;
-        v.push_back(res);
-        finalResults.push_back(v);
+    if (allResults.size() == 1) {
+        std::vector<std::vector<std::string>> finalResults;
+        std::unordered_set<std::string> seen;
+		for (auto val : allResults[0]) {
+            if (seen.find(val) == seen.end()) {
+				finalResults.push_back({ val });
+                seen.insert(val);
+            }
+		}
+        return finalResults;
     }
 
-    for (int i = 1; i < allResults.size(); i++) { // for each synonym
+	// Initialize empty row of max possible size.
+	std::vector<std::string> v(allResults.size());
+	fill(v.begin(), v.end(), "");
+	finalResults.push_back(v);
+
+    // seen Set to keep track of synonyms to prevent repeats
+    std::unordered_set<int> seenSynonym;
+
+    for (int i = 0; i < allResults.size(); i++) { 
+        // If synonym has been seen before, means it has been already permutated.
+        if (seenSynonym.find(i) != seenSynonym.end()) continue;
+
 		std::vector<std::vector<std::string>> newFinalResults;
 		for (int k = 0; k < finalResults.size(); k++) { // for each final "string"
+            // This is the base string that is being permutated on.
+            auto temp = finalResults[k]; 
 
-            auto temp = finalResults[k]; // This is the pair that is being modified.
+			// For every one of its paired values, 
+			int baseIndex = i;
+			std::vector<int> allIndices = rdb.getAllLinkedIndices(baseIndex, uniqueSynonyms);
 
 			for (int j = 0; j < allResults[i].size(); j++) { // each synonym's values
-                auto constant = temp; // Just a copy
-                constant.push_back(allResults[i][j]);
-                newFinalResults.push_back(constant);
+				auto constant = temp; // Just a copy
+
+                for (auto index : allIndices) {
+                    // Set the correct value at the correct index for variables linked to current Synonym
+                    constant[index] = allResults[index][j];
+                }
+				newFinalResults.push_back(constant);
+			}
+
+            // add every synonym added this iteration into seenSynonym
+            for (auto index : allIndices) {
+                seenSynonym.insert(index);
             }
+
         }
         finalResults = newFinalResults;
     }

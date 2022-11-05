@@ -15,5 +15,5 @@ public:
     SPAManager();
     ~SPAManager();
     void loadSimpleSourceFromProgram(string program);
-    unordered_set<string> query(string& pqlQuery, bool performOptimized = true);
+    unordered_set<string> query(string& pqlQuery);
 };

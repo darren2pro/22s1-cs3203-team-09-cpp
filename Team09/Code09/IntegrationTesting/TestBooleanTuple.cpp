@@ -57,6 +57,13 @@ namespace IntegrationTesting {
                                   "    call read1;\n" // line 6
                                   "    mod4 = var1 + 1 * 100 - var2;\n" // line 7
                                   "}";
+                string program3 = "procedure main {\n" 
+									"    x = 5;\n" // line 1
+									"    x = 5;\n" // line 2
+									"    x = 5;\n" // line 3
+									"    x = 5;\n" // line 4
+									"}"; // line 5
+                                 
                 // You can add more program strings here and add more switch cases here
                 switch (ref) {
                     case 1:
@@ -64,6 +71,8 @@ namespace IntegrationTesting {
                     case 2:
                         //! TestPatternMatchFull
                         return program2;
+                    case 3:
+                        return program3;
                     default:
                         return "";
                 }
@@ -239,6 +248,21 @@ namespace IntegrationTesting {
                 Assert::IsTrue(results3.find("y readPoint 5") != results3.end());
                 Assert::IsTrue(results3.find("y printResults 5") != results3.end());
                 Assert::IsTrue(results3.find("y computeCentroid 5") != results3.end());
+            }
+
+            TEST_METHOD(TestSelectTuple4) {
+                string program = getCurrentProgram(3);
+                SPAManager spaManager;
+                spaManager.loadSimpleSourceFromProgram(program);
+
+                //! Query 3
+                string query4 = "stmt x, y; procedure p; \n"
+                                "Select <x, p, y> such that Follows(x, y) with p.procName = \"main\"  ";
+                unordered_set <string> results4 = spaManager.query(query4);
+                Assert::AreEqual(3, (int) results4.size());
+                Assert::IsTrue(results4.find("1 main 2") != results4.end());
+                Assert::IsTrue(results4.find("2 main 3") != results4.end());
+                Assert::IsTrue(results4.find("3 main 4") != results4.end());
             }
     };
 }

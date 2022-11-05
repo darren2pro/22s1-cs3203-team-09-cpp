@@ -22,7 +22,6 @@ public:
 	std::vector<Variable> allVariables;
 	std::vector<ResultsTables> allResultsTables;
 	std::unordered_map<Variable, int> varToIndexMap;
-	bool validQuery = true; // Default to true. If any clause returns false, final result will be invalid query.
 
 	ResultsDatabase() :
 		allVariables(std::vector<Variable>()),
@@ -70,6 +69,9 @@ public:
 
     //! Conbines the two tables into a single table. At the end of this method, only the table for firstIndex will remain.
 	bool combineTables(int firstIndex, int secondIndex);
+
+	//! Get all other synonymIndex that are in same table as given index.
+	std::vector<int> getAllLinkedIndices(int index, std::vector<std::string> uniqueSynonyms);
 
 	//! Removes the resultTable at this index, and re-computes the mapping for all the variables, so that
 	//! they continue to point to the correct table.

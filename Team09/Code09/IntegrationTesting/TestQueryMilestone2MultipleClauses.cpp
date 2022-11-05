@@ -186,7 +186,7 @@ namespace IntegrationTesting {
                 auto durationOptimized = duration_cast<microseconds>(stop - start);
 
                 start = high_resolution_clock::now();
-                unordered_set<string> queryResults6Unoptimized = spaManager.query(query6, /* performOptimized */ false);
+                unordered_set<string> queryResults6Unoptimized = spaManager.query(query6);
                 stop = high_resolution_clock::now();
                 auto durationUnoptimized = duration_cast<microseconds>(stop - start);
 

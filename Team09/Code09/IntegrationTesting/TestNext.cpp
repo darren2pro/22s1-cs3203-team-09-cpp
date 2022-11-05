@@ -153,11 +153,13 @@ namespace IntegrationTesting {
                  * 1 3
                  * 3 5
                  * 5 7
+                 * 12 13
                  */
-                Assert::AreEqual(3, (int) queryResults6.size());
+                Assert::AreEqual(4, (int) queryResults6.size());
                 Assert::IsTrue(queryResults6.find("1 3") != queryResults6.end());
                 Assert::IsTrue(queryResults6.find("3 5") != queryResults6.end());
                 Assert::IsTrue(queryResults6.find("5 7") != queryResults6.end());
+                Assert::IsTrue(queryResults6.find("12 13") != queryResults6.end());
             }
 
             TEST_METHOD(TestNext7) {
@@ -174,11 +176,13 @@ namespace IntegrationTesting {
                  * 3 1
                  * 5 3
                  * 7 5
+                 * 13 12
                  */
-                Assert::AreEqual(3, (int) queryResults7.size());
+                Assert::AreEqual(4, (int) queryResults7.size());
                 Assert::IsTrue(queryResults7.find("3 1") != queryResults7.end());
                 Assert::IsTrue(queryResults7.find("5 3") != queryResults7.end());
                 Assert::IsTrue(queryResults7.find("7 5") != queryResults7.end());
+                Assert::IsTrue(queryResults7.find("13 12") != queryResults7.end());
             }
 
             TEST_METHOD(TestNext8and9) {
@@ -281,14 +285,23 @@ namespace IntegrationTesting {
                  * Expected results:
                  * 1 3, 1 5, 1 7, 3 5, 3 7, 5 7, 12 13
                  */
-                Assert::AreEqual(7, (int) queryResults10.size());
+                Assert::AreEqual(16, (int) queryResults10.size());
+                Assert::IsTrue(queryResults10.find("1 1") != queryResults10.end());
                 Assert::IsTrue(queryResults10.find("1 3") != queryResults10.end());
                 Assert::IsTrue(queryResults10.find("1 5") != queryResults10.end());
                 Assert::IsTrue(queryResults10.find("1 7") != queryResults10.end());
+                Assert::IsTrue(queryResults10.find("3 3") != queryResults10.end());
                 Assert::IsTrue(queryResults10.find("3 5") != queryResults10.end());
                 Assert::IsTrue(queryResults10.find("3 7") != queryResults10.end());
+                Assert::IsTrue(queryResults10.find("5 5") != queryResults10.end());
                 Assert::IsTrue(queryResults10.find("5 7") != queryResults10.end());
+                Assert::IsTrue(queryResults10.find("7 7") != queryResults10.end());
+                Assert::IsTrue(queryResults10.find("9 9") != queryResults10.end());
+                Assert::IsTrue(queryResults10.find("12 12") != queryResults10.end());
                 Assert::IsTrue(queryResults10.find("12 13") != queryResults10.end());
+                Assert::IsTrue(queryResults10.find("13 12") != queryResults10.end());
+                Assert::IsTrue(queryResults10.find("13 13") != queryResults10.end());
+                Assert::IsTrue(queryResults10.find("19 19") != queryResults10.end());
             }
 
             TEST_METHOD(TestNext11) {
@@ -321,11 +334,15 @@ namespace IntegrationTesting {
                  * Expected results:
                  * 3, 5, 7, 13
                  */
-                Assert::AreEqual(4, (int) queryResults12.size());
+                Assert::AreEqual(8, (int) queryResults12.size());
+                Assert::IsTrue(queryResults12.find("1") != queryResults12.end());
                 Assert::IsTrue(queryResults12.find("3") != queryResults12.end());
                 Assert::IsTrue(queryResults12.find("5") != queryResults12.end());
                 Assert::IsTrue(queryResults12.find("7") != queryResults12.end());
+                Assert::IsTrue(queryResults12.find("9") != queryResults12.end());
+                Assert::IsTrue(queryResults12.find("12") != queryResults12.end());
                 Assert::IsTrue(queryResults12.find("13") != queryResults12.end());
+                Assert::IsTrue(queryResults12.find("19") != queryResults12.end());
             }
 
             TEST_METHOD(TestNext13) {
@@ -339,13 +356,17 @@ namespace IntegrationTesting {
                 unordered_set<string> queryResults13 = spaManager.query(query13);
                 /*
                  * Expected results:
-                 * 1, 3, 5, 12
+                 * 1, 3, 5, 7, 12
                  */
-                Assert::AreEqual(4, (int) queryResults13.size());
+                Assert::AreEqual(8, (int) queryResults13.size());
                 Assert::IsTrue(queryResults13.find("1") != queryResults13.end());
                 Assert::IsTrue(queryResults13.find("3") != queryResults13.end());
                 Assert::IsTrue(queryResults13.find("5") != queryResults13.end());
+                Assert::IsTrue(queryResults13.find("7") != queryResults13.end());
+                Assert::IsTrue(queryResults13.find("9") != queryResults13.end());
                 Assert::IsTrue(queryResults13.find("12") != queryResults13.end());
+                Assert::IsTrue(queryResults13.find("13") != queryResults13.end());
+                Assert::IsTrue(queryResults13.find("19") != queryResults13.end());
             }
 
             TEST_METHOD(TestNext14) {
@@ -358,9 +379,9 @@ namespace IntegrationTesting {
                                  "Select BOOLEAN such that Next*(BOOLEAN, BOOLEAN)   ";
                 unordered_set<string> queryResults14 = spaManager.query(query14);
                 /*
-                 * Expected results: 13
+                 * Expected results: 1, 3, 5, 7, 9, 12, 13, 19
                  */
-                Assert::AreEqual(1, (int) queryResults14.size());
+                Assert::AreEqual(8, (int) queryResults14.size());
                 Assert::IsTrue(queryResults14.find("13") != queryResults14.end());
             }
 

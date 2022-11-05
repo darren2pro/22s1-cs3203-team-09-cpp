@@ -24,7 +24,7 @@ namespace IntegrationTesting {
         TEST_METHOD(TestBasicQuery) {
             std::string query = "print a; Select a";
             Query* queryAdt = qb.buildQuery(query);
-            qm->processQuery(queryAdt, false);
+            qm->processQuery(queryAdt);
 
             std::vector<Relation> relations = std::vector<Relation>();
             std::vector<Pattern> patterns = std::vector<Pattern>();
@@ -42,7 +42,7 @@ namespace IntegrationTesting {
         TEST_METHOD(TestQueryOneSuchThatClause) {
             std::string query = "assign a; Select a such that Follows (_,_)";
             Query* queryAdt = qb.buildQuery(query);
-            std::unordered_set<std::string> results = qm->processQuery(queryAdt, false);
+            std::unordered_set<std::string> results = qm->processQuery(queryAdt);
 
             std::vector<Relation> relations = std::vector<Relation>({ Relation(Relation::Types::Follows, Reference("_"), Reference("_")) });
             std::vector<Pattern> patterns = std::vector<Pattern>();
@@ -60,7 +60,7 @@ namespace IntegrationTesting {
         TEST_METHOD(TestQueryOnePatternClause) {
             std::string query = "assign a; Select a pattern a (_,_)";
             Query* queryAdt = qb.buildQuery(query);
-            std::unordered_set<std::string> results = qm->processQuery(queryAdt, false);
+            std::unordered_set<std::string> results = qm->processQuery(queryAdt);
 
             std::vector<Relation> relations = std::vector<Relation>();
             std::vector<Pattern> patterns = std::vector<Pattern>({Pattern(Pattern::Types::Assign, Declaration(Declaration::DesignEntity::Assignment, "a"),
@@ -79,7 +79,7 @@ namespace IntegrationTesting {
         TEST_METHOD(TestQueryOneWithClause) {
             std::string query = "assign a; Select a with 1 = 1";
             Query* queryAdt = qb.buildQuery(query);
-            std::unordered_set<std::string> results = qm->processQuery(queryAdt, false);
+            std::unordered_set<std::string> results = qm->processQuery(queryAdt);
 
             std::vector<Relation> relations = std::vector<Relation>();
             std::vector<Pattern> patterns = std::vector<Pattern>();
@@ -97,7 +97,7 @@ namespace IntegrationTesting {
         TEST_METHOD(TestQueryMultipleClauses) {
             std::string query = "assign a; if ifs; Select a such that Follows(_, _) and Next(_, _) pattern a(_,_) and ifs(_,_,_) with  a.stmt# = 5 and ifs.stmt# = 8";
             Query* queryAdt = qb.buildQuery(query);
-            std::unordered_set<std::string> results = qm->processQuery(queryAdt, false);
+            std::unordered_set<std::string> results = qm->processQuery(queryAdt);
 
             std::vector<Relation> relations = std::vector<Relation>({ Relation(Relation::Types::Follows, Reference("_"), Reference("_")) ,
                                                                       Relation(Relation::Types::Next, Reference("_"), Reference("_")) });
@@ -118,7 +118,7 @@ namespace IntegrationTesting {
         TEST_METHOD(TestBooleanQuery) {
             std::string query = "assign a; Select BOOLEAN";
             Query* queryAdt = qb.buildQuery(query);
-            qm->processQuery(queryAdt, false);
+            qm->processQuery(queryAdt);
 
             std::vector<Relation> relations = std::vector<Relation>();
             std::vector<Pattern> patterns = std::vector<Pattern>();
@@ -136,7 +136,7 @@ namespace IntegrationTesting {
         TEST_METHOD(TestTupleQuery) {
             std::string query = "print a1, a2; Select <a1, a2>";
             Query* queryAdt = qb.buildQuery(query);
-            qm->processQuery(queryAdt, false);
+            qm->processQuery(queryAdt);
 
             std::vector<Relation> relations = std::vector<Relation>();
             std::vector<Pattern> patterns = std::vector<Pattern>();

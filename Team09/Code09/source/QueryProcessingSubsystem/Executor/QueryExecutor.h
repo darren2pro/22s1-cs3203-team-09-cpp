@@ -25,7 +25,7 @@ private:
 public:
 	QueryExecutor(PKBStorage* pkb) : pkb(pkb) {}; // Constructor for taking in PKB
 
-	std::unordered_set<std::string> processQuery(Query* query, bool performOptimized);
+	std::unordered_set<std::string> processQuery(Query* query);
 
 	/**
 	 * Used to insert all the possible values for this declaration into the ResultsDatabase.
@@ -36,9 +36,9 @@ public:
 
 	std::unordered_set<std::string> addDuplicateSynonymAndApplyAttrVal(std::vector<std::vector<std::string>>& allResults, std::vector<std::string> uniqueSynonyms, std::vector<std::variant<Declaration, AttrReference>> targets);
 
-	std::vector<std::string> getSynonyms(std::vector<std::variant<Declaration, AttrReference>>& targets);
+	std::vector<std::string> getUniqueSynonyms(std::vector<std::variant<Declaration, AttrReference>>& targets);
 
-	std::vector<std::vector<std::string>> combineResults(std::vector<std::vector<std::string>> allResults);
+	std::vector<std::vector<std::string>> combineResults(std::vector<std::vector<std::string>> allResults, std::vector<std::string> uniqueSynonyms);
 
 	std::string formatString(std::vector<std::string> strings);
 

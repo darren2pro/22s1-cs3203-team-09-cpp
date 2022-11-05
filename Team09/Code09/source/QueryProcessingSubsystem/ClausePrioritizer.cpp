@@ -1,8 +1,8 @@
 #include "ClausePrioritizer.h"
 #include "ClauseFunctions.cpp"
 
-vector<Clause> ClausePrioritizer::getClauses(bool performOptimized) {
-    if (!performOptimized || tooFewClauses()) return getClausesFromQuery();
+vector<Clause> ClausePrioritizer::getClauses() {
+    if (tooFewClauses()) return getClausesFromQuery();
     //! Initialize all clauses to a default starting score and group
     vector<WeightedGroupedClause> weightedGroupedClauses = getInitialWeightedGroupedClauses();
     //! Now we prioritize the clauses and sort them into a certain specific order. Earlier in the vector means that they

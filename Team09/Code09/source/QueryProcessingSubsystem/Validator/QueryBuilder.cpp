@@ -1,7 +1,6 @@
 #include "QueryLexer.h"
 #include "QueryParser.h"
 #include "QueryBuilder.h"
-#include "../Query.h"
 #include <string>
 
 Query* QueryBuilder::buildQuery(std::string query_string) {

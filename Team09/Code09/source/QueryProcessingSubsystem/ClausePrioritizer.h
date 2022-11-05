@@ -70,5 +70,5 @@ private:
 public:
     explicit ClausePrioritizer(Query* query) : query(query) {};
 
-    vector<Clause> getClauses(bool performOptimized);
+    vector<Clause> getClauses();
 };

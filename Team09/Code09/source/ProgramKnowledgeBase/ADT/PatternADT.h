@@ -14,7 +14,7 @@ namespace PKB {
 
 	public:
 		void add(const Variable, const LineNum, const ExprStr);
-		std::unordered_set<LineNum> geLineByVar(const Variable);
+		std::unordered_set<LineNum> getLineByVar(const Variable);
 		std::unordered_set<LineNum> getLineByVarMatchFull(const Variable, const ExprStr);
 		std::unordered_set<LineNum> getLineByVarMatchPartial(const Variable, const ExprStr);
 		std::unordered_set<std::pair<LineNum, Variable>, pairHash> getLineVarSet();

@@ -6,7 +6,7 @@
 using namespace std;
 
 bool ResultsDatabase::variableIsPresent(Variable var) {
-    const bool isPresent = find(allVariables.begin(), allVariables.end(), var) != allVariables.end();
+    bool isPresent = find(allVariables.begin(), allVariables.end(), var) != allVariables.end();
     return isPresent;
 }
 
@@ -105,6 +105,26 @@ bool ResultsDatabase::combineTables(int firstIndex, int secondIndex) {
 	return result;
 }
 
+std::vector<int> ResultsDatabase::getAllLinkedIndices(int index, std::vector<std::string> uniqueSynonyms) {
+	std::string synonym = uniqueSynonyms[index];
+	int tableIndex = varToIndexMap.find(synonym)->second;
+
+	// create a variable to int map
+	std::unordered_map<std::string, int> map;
+	for (int i = 0; i < uniqueSynonyms.size(); i++) {
+		map.insert({ uniqueSynonyms[i], i });
+	}
+
+	std:vector<int> indices;
+	for (const auto pair : varToIndexMap) {
+		if (pair.second == tableIndex && map.find(pair.first) != map.end()) {
+			int foundInt = map.find(pair.first)->second;
+			indices.push_back(foundInt);
+		}
+	}
+	return indices;
+}
+
 void ResultsDatabase::removeTable(int index) {
 	// Remove the table from allResultsTable
 	auto iterator = allResultsTables.begin();
@@ -119,29 +139,32 @@ void ResultsDatabase::removeTable(int index) {
 }
 
 std::unordered_set<std::string> ResultsDatabase::getResults(Declaration& target) {
-	if (validQuery) {
-		int tableIndex = getVariableIndex(target.name);
-		ResultsTables rt = allResultsTables[tableIndex];
-		auto results = rt.getResultBySynonym(target.name);
-		return results;
+	int tableIndex = getVariableIndex(target.name);
+	ResultsTables rt = allResultsTables[tableIndex];
+	std::vector<Value> vecResults = rt.getResultBySynonym(target.name);
+
+	// This is only called by single-var ops. Just return unique values.
+	std::unordered_set<Value> setResults;
+	for (auto val : vecResults) {
+		setResults.insert(val);
 	}
-	else {
-		return { "Invalid Query" };
-	}
+	return setResults;
 }
 
 std::vector<std::vector<std::string>> ResultsDatabase::getMultipleTarget(std::vector<std::string> allSynonyms) {
-	//ResultsTables curTable;
-	std::vector<std::vector<std::string>> finalResults;
+	// accept as parameter, an empty vector (1 for each synonym). Place each result vector into the respective slots.
+	std::vector<std::vector<std::string>> finalResults(allSynonyms.size());
+	fill(finalResults.begin(), finalResults.end(), std::vector<std::string>());
+
+
 	for (auto& table : allResultsTables) {
-		std::vector<std::vector<std::string>> tempResults = table.getResultByMultipleSynonym(allSynonyms);
-		if (tempResults.size() == 0) continue;
-		// Concat the vectors if there are relevant results
-		finalResults.insert(finalResults.end(), tempResults.begin(), tempResults.end());
+		// finalResults is edited inside.
+		std::vector<std::vector<std::string>> tempResults = table.getResultByMultipleSynonym(allSynonyms, finalResults);
 	}
 
 	return finalResults;
 }
+
 void ResultsDatabase::addNewTableToMap(Variable variable, int tableIndex) {
 	varToIndexMap[variable] = tableIndex;
 }

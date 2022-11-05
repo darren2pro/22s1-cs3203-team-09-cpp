@@ -159,7 +159,6 @@ namespace PKB {
     void PKBStorage::storeRelations(Relation::Types type, std::string first, std::string second) {
         auto relation = getRelationFromEnum(type);
         if (type == Relation::Calls) {
-            //! Ensure that we are calling an existent procedure. If not throw error.
             if (procEntity.contains(second)) {
                 relation->add(first, second);
             } else {

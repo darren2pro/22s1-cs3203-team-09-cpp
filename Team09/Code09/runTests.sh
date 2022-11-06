@@ -16,3 +16,9 @@ $autoTester $testFolder/InvalidSimple2_source.txt $testFolder/Sample_queries.txt
 
 # Week 8 Demo
 $autoTester $testFolder/Week8Demo_source.txt $testFolder/Week8Demo_queries.txt $outputDir/Week8Demo_output.xml > $outputDir/Week8Demo_output.txt
+
+# Checking for repeated procedure names, cyclic calls, recursive calls, non-existent procedures
+$autoTester $testFolder/repeatedProcNames.txt $testFolder/Sample_queries.txt $outputDir/repeatedProcNames.xml > $outputDir/repeatedProcNames.txt
+$autoTester $testFolder/cyclicCalls.txt $testFolder/Sample_queries.txt $outputDir/cyclicCalls.xml > $outputDir/cyclicCalls.txt
+$autoTester $testFolder/recursiveCalls.txt $testFolder/Sample_queries.txt $outputDir/recursiveCalls.xml > $outputDir/recursiveCalls.txt
+$autoTester $testFolder/callNonExistentProc.txt $testFolder/Sample_queries.txt $outputDir/nonExistentProc.xml > $outputDir/nonExistentProc.txt

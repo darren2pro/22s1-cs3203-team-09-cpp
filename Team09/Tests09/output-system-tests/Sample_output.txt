@@ -121,12 +121,8 @@ Select a such that Affects(a, 9)
 Evaluating query 11 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Affects="1" SuchThat="1" CondNum="3" RelNum="1" 
-Unexpected token
-Invalid syntax. Please input another query.
-Your answer: SyntaxError 
+Your answer: 2 3 5 7 11 
 Correct answer: 2 3 5 7 11 
-Missing: 11 2 3 5 7 
-Additional: SyntaxError 
 12 - comment
 assign a;
 Select a such that Affects*(11, a)
@@ -135,12 +131,8 @@ Select a such that Affects*(11, a)
 Evaluating query 12 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Affectsstar="1" SuchThat="1" CondNum="3" RelNum="1" 
-Unexpected token
-Invalid syntax. Please input another query.
-Your answer: SyntaxError 
+Your answer: 9 11 
 Correct answer: 9 11 
-Missing: 11 9 
-Additional: SyntaxError 
 13 - comment
 assign a;
 Select a pattern a("z", _"x+i")
@@ -188,13 +180,8 @@ Select w such that Modifies(w, v) with v.varName = "x"
 Evaluating query 16 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Modifies="1" SuchThat="1" With="1" CondNum="4" RelNum="1" 
-Unexpected character (.) while tokenizing
-
-Invalid syntax. Please input another query.
-Your answer: SyntaxError 
+Your answer: 4 14 
 Correct answer: 4 14 
-Missing: 14 4 
-Additional: SyntaxError 
 17 - comment
 if ifs; variable v;
 Select v such that Uses(ifs, v) with ifs.stmt# = 22
@@ -203,13 +190,8 @@ x, z
 Evaluating query 17 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Uses="1" SuchThat="1" With="1" CondNum="4" RelNum="1" 
-Unexpected character (.) while tokenizing
-
-Invalid syntax. Please input another query.
-Your answer: SyntaxError 
+Your answer: x z 
 Correct answer: x z 
-Missing: x z 
-Additional: SyntaxError 
 18 - comment
 procedure p, q;
 Select BOOLEAN such that Calls(p, q) with q.procName = "p" and p.procName = "Example"
@@ -217,13 +199,8 @@ TRUE
 5000
 Evaluating query 18 - comment
 The final tag string is ReturnBoolean="1" Calls="1" SuchThat="1" With="1" CondNum="4" RelNum="1" 
-Unexpected character (.) while tokenizing
-
-Invalid syntax. Please input another query.
-Your answer: SyntaxError 
+Your answer: TRUE 
 Correct answer: TRUE 
-Missing: TRUE 
-Additional: SyntaxError 
 19 - comment
 if ifs; assign a1, a2; variable v1, v2;
 Select ifs such that Follows*(a1, ifs) and Follows*(ifs, a2) and Modifies(ifs, v1) and Uses(ifs, v2) with v1.varName = v2.varName
@@ -233,13 +210,8 @@ Evaluating query 19 - comment
 The happen is 2
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Followsstar="2" Modifies="1" Uses="1" SuchThat="1" With="1" CondNum="7" RelNum="4" 
-Unexpected character (.) while tokenizing
-
-Invalid syntax. Please input another query.
-Your answer: SyntaxError 
+Your answer: 6 
 Correct answer: 6 
-Missing: 6 
-Additional: SyntaxError 
 20 - comment
 prog_line n; stmt s;
 Select s such that Next*(16, n) and Parent*(s, n)
@@ -278,13 +250,8 @@ Example p i, Example p x, Example p y, Example p z, Example q i, Example q x, Ex
 Evaluating query 22 - comment
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Calls="1" Modifies="1" SuchThat="1" CondNum="4" RelNum="2" 
-Unexpected character (<) while tokenizing
-
-Invalid syntax. Please input another query.
-Your answer: SyntaxError 
+Your answer: Example q y Example q i Example p x Example p y Example p i Example q x Example p z Example q z p q x p q z p q i 
 Correct answer: Example p i Example p x Example p y Example p z Example q i Example q x Example q y Example q z p q i p q x p q z 
-Missing: Example p i Example p x Example p y Example p z Example q i Example q x Example q y Example q z p q i p q x p q z 
-Additional: SyntaxError 
 23 - comment
 call c; assign a1, a2;
 Select BOOLEAN such that Follows*(_, c) and Affects(a1, a2) and Uses(a2, _)
@@ -294,12 +261,8 @@ Evaluating query 23 - comment
 _, is an Unnamedvar 
 _ is an Unnamedvar 
 The final tag string is Affects="1" ReturnBoolean="1" Followsstar="1" UnnamedVar="2" Uses="1" SuchThat="1" CondNum="7" RelNum="3" 
-Synonym not declared
-Semantic error. Please input another query.
-Your answer: SemanticError 
+Your answer: TRUE 
 Correct answer: TRUE 
-Missing: TRUE 
-Additional: SemanticError 
 24 - comment
 assign a1, a2; variable v;
 Select v pattern a1(v, _) such that Affects*(a1, a2) and Uses(a2, v)
@@ -309,12 +272,8 @@ Evaluating query 24 - comment
 _ is an Unnamedvar 
 No ReturnBoolean, ReturnTuple=1 
 The final tag string is ReturnTuple="1" Affectsstar="1" UnnamedVar="1" Uses="1" Pattern="1" SuchThat="1" CondNum="6" RelNum="2" 
-Unexpected token
-Invalid syntax. Please input another query.
-Your answer: SyntaxError 
+Your answer: x z i 
 Correct answer: i x z 
-Missing: i x z 
-Additional: SyntaxError 
 25 - comment
 prog_line n1, n2; variable v; call c;
 Select c such that Next*(n1, n2) and Modifies(n1, v) and Uses(n2, v) and Modifies(c, v)

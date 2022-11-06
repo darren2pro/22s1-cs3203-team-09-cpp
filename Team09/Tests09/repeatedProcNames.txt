@@ -1,0 +1,12 @@
+procedure repeat {
+    read x;
+}
+procedure notRepeat {
+    read y;
+}
+procedure repeat {
+    read x;
+}
+procedure main {
+    call notRepeat;
+}

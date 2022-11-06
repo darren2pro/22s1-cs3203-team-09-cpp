@@ -43,7 +43,11 @@ void TestWrapper::parse(std::string filename) {
         std::cout << e.what() << std::endl;
         std::cout << "Invalid syntax. Please input another file." << std::endl;
         exit(1);
-	}   
+	} catch (SemanticError& semanticException) {
+        std::cout << semanticException.what() << std::endl;
+        std::cout << "Input program is semantically invalid. Please input another file." << std::endl;
+        exit(1);
+    }
 }
 
 // method to evaluating a query

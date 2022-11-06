@@ -1,0 +1,4 @@
+Parameters : ../Tests09/recursiveCalls.txt ../Tests09/Sample_queries.txt ../Tests09/output-system-tests/recursiveCalls.xml
+Beginning to parse Simple Program.
+Calling itself
+Input program is semantically invalid. Please input another file.

@@ -1,0 +1,4 @@
+Parameters : ../Tests09/cyclicCalls.txt ../Tests09/Sample_queries.txt ../Tests09/output-system-tests/cyclicCalls.xml
+Beginning to parse Simple Program.
+Cyclic call detected.
+Input program is semantically invalid. Please input another file.

@@ -1,0 +1,4 @@
+Parameters : ../Tests09/callNonExistentProc.txt ../Tests09/Sample_queries.txt ../Tests09/output-system-tests/nonExistentProc.xml
+Beginning to parse Simple Program.
+Calling a non-existent procedure.
+Input program is semantically invalid. Please input another file.

@@ -4,13 +4,13 @@
 void ExtractCallsVisitor::extractCallsT() {
     for (const auto& calls : pkbStorage->getRelationSet(Relation::Calls)) {
         PKB::CallerProc caller = calls.first;
-        // TODO: Detect cyclic calls here
         std::vector<PKB::CalleeProc> list;
         list.push_back(caller);
         while (!list.empty()) {
             PKB::CalleeProc currCallee = list.back();
             list.pop_back();
             for (const auto& callee : pkbStorage->getRelationSecondFromFirst(Relation::Calls, currCallee)) {
+                if (caller == callee) throw SemanticError("Cyclic call detected.");
                 pkbStorage->storeRelations(Relation::CallsT, caller, callee);
                 if (pkbStorage->relationContainsFirst(Relation::Calls, callee)) {
                     list.push_back(callee);

@@ -1,0 +1,4 @@
+Parameters : ../Tests09/repeatedProcNames.txt ../Tests09/Sample_queries.txt ../Tests09/output-system-tests/repeatedProcNames.xml
+Beginning to parse Simple Program.
+Repeated key found in EntityADT
+Input program is semantically invalid. Please input another file.

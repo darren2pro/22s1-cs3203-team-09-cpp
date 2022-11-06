@@ -1,0 +1,16 @@
+procedure A {
+    read x;
+    call B;
+}
+procedure B {
+    read x;
+    call C;
+}
+procedure C {
+    read x;
+    call D;
+}
+procedure D {
+    read x;
+    call E;
+}

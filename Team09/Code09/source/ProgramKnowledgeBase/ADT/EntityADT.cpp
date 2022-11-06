@@ -1,5 +1,5 @@
 #include "EntityADT.h"
-#include "../QueryProcessingSubsystem/Validator/SemanticException.h"
+#include "../../QueryProcessingSubsystem/Validator/SemanticException.h"
 
 namespace PKB {
     void EntityADT::add(const std::string key) {

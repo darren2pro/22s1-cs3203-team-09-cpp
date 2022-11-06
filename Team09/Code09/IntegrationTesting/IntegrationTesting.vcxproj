@@ -181,6 +181,7 @@
     <ClCompile Include="TestQueryMilestone2MultipleClauses.cpp" />
     <ClCompile Include="TestQueryMilestone2p1Next.cpp" />
     <ClCompile Include="TestQueryMilestone2WithClWhileIfPattern.cpp" />
+    <ClCompile Include="TestSPA.cpp" />
     <ClCompile Include="TestWith.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -147,33 +147,33 @@ public:
 
         //relations: Next and NextT
 
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "2", "3"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "3", "4"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "3", "7"));
         Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "5", "6"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "7", "9"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "8", "10"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "6", "7"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "6", "10"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "8", "9"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "10", "12"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Next, "11", "13"));
 
-        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "1", "2"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "1", "3"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "2", "5"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "4", "3"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "5", "5"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "4", "5"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "4", "6"));
         Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "5", "8"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "5", "12"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "7", "6"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "8", "8"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "8", "11"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::NextT, "8", "15"));
 
         //relations: Affects
        
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "2", "6"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "4", "8"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "4", "10"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "6", "6"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "1", "4"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "1", "8"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "1", "10"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "1", "12"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "2", "10"));
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "9", "10"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "5", "9"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "7", "11"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "7", "13"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "9", "9"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "4", "7"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "4", "11"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "4", "13"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "4", "15"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "5", "13"));
+        Assert::IsTrue(pkb->relationContainsSet(Relation::Affects, "12", "13"));
     }
 
     };

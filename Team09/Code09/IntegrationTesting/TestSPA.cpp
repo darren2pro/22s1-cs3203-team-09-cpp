@@ -19,7 +19,7 @@ private:
             "procedure secondProc{\n"
             "        x = 0;\n" // line 4
             "        i = 5;\n" // line 5
-            "        while ((i != 0) {\n" // line 6
+            "        while (i != 0) {\n" // line 6
             "            x = x + 2 * y;\n" // line 7
             "            call thirdProc;\n" // line 8
             "            i = i - 1;\n" // line 9
@@ -39,6 +39,7 @@ private:
             "        print v;\n" // line 18
             "}";
 
+        return program1;
     }
 public:
     TEST_METHOD(IntegrationSPA1) {
@@ -80,7 +81,6 @@ public:
 
 
         //relations: follows
-
         Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "1", "2"));
         Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "1"));
         Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "2"));
@@ -89,18 +89,9 @@ public:
         Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "2"));
         Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "3"));
 
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "3", "4"));
-        Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "3"));
-        Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "4"));
-
         Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "5", "6"));
         Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "5"));
         Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "6"));
-
-
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "6", "7"));
-        Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "6"));
-        Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "7"));
 
         Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "7", "8"));
         Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "7"));
@@ -110,22 +101,6 @@ public:
         Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "8"));
         Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "9"));
 
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "9", "10"));
-        Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "9"));
-        Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "10"));
-
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "10", "11"));
-        Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "10"));
-        Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "11"));
-
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "11", "12"));
-        Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "11"));
-        Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "12"));
-
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "12", "13"));
-        Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "12"));
-        Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "13"));
-
         Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "13", "14"));
         Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "13"));
         Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "14"));
@@ -133,10 +108,6 @@ public:
         Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "14", "15"));
         Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "14"));
         Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "15"));
-
-        Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "15", "16"));
-        Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "15"));
-        Assert::IsTrue(pkb->relationContainsSecond(Relation::Follows, "16"));
 
         Assert::IsTrue(pkb->relationContainsSet(Relation::Follows, "16", "17"));
         Assert::IsTrue(pkb->relationContainsFirst(Relation::Follows, "16"));

@@ -39,7 +39,7 @@ using WithMatcher = function<bool(With)>;
 
 class ClausePrioritizer {
 private:
-    static const int MIN_NUM_OF_CLAUSES_TO_SORT = 5;
+    static const int MIN_NUM_OF_CLAUSES_TO_SORT = 2;
     static const int STARTING_WEIGHT = 100;
     static const int DEFAULT_GROUP = 0;
 
